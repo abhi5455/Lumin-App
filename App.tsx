@@ -1,14 +1,18 @@
-import './global.css';
-import React from 'react';
-import {Text, View} from 'react-native';
-import SplashScreen from "./src/screens/OnboardingScreens/SplashScreen.tsx";
+import "./global.css"
+import {SafeAreaView} from "react-native";
+import {NavigationContainer} from "@react-navigation/native";
+import {StackNavigator} from "./src/navigation/StackNavigator";
+import {GestureHandlerRootView} from "react-native-gesture-handler";
 
-function App() {
+export default function App() {
+
     return (
-        <View className="flex-1">
-            <SplashScreen/>
-        </View>
+        <GestureHandlerRootView style={{flex: 1}}>
+            <SafeAreaView className="flex-1">
+                <NavigationContainer>
+                    <StackNavigator/>
+                </NavigationContainer>
+            </SafeAreaView>
+        </GestureHandlerRootView>
     );
 }
-
-export default App;
