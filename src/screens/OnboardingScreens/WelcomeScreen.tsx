@@ -21,12 +21,12 @@ const WelcomeScreen = () => {
                     </View>
 
                     <View className="items-center mb-12">
-                        <Text className="text-3xl font-bold text-black mb-6">
+                        <Text className="text-2xl font-poppins-semibold text-black mb-6">
                             {counter === 1 && 'Welcome to'}
                             {counter === 2 && 'Smart Call Automation'}
                             {counter === 3 && 'Personalized Solutions'}
                         </Text>
-                        <Text className="text-base text-gray-500 text-center leading-6 px-4">
+                        <Text className="text-base font-poppins-light text-gray-500 text-center leading-6 px-4">
                             {counter === 1 && 'Experience seamless customer interactions\nwith our AI-driven voice agents.'}
                             {counter === 2 && 'Effortlessly handle queries, schedule \nmeetings, and provide 24/7 support.'}
                             {counter === 3 && 'Customize workflows, optimize performance,\nand enhance your business growth.'}

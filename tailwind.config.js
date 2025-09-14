@@ -6,7 +6,14 @@ module.exports = {
     extend: {
       colors: {
         primary: '#178671',
-      }
+      },
+      fontFamily: {
+        'poppins': ['Poppins-Regular'],
+        'poppins-medium': ['Poppins-Medium'],
+        'poppins-semibold': ['Poppins-SemiBold'],
+        'poppins-bold': ['Poppins-Bold'],
+        'poppins-light': ['Poppins-Light'],
+      },
     },
   },
   plugins: [],
