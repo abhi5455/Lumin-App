@@ -3,6 +3,7 @@ import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import SplashScreen from "../../screens/OnboardingScreens/SplashScreen.tsx";
 import WelcomeScreen from "../../screens/OnboardingScreens/WelcomeScreen.tsx";
 import SectionNavigator from "../SectionNavigator";
+import {AuthenticationStack} from "./AuthenticationStack.tsx";
 
 export const StackNavigator = () => {
     const Stack = createNativeStackNavigator()
@@ -23,24 +24,29 @@ export const StackNavigator = () => {
                 component={SplashScreen}
             />
             <Stack.Screen
-                name="WelcomeScreen"
+                name="SectionNavigator"
                 options={{headerShown: false, gestureEnabled: false}}
-                component={WelcomeScreen}
+                component={SectionNavigator}
+            />
+            <Stack.Screen
+                name="AuthenticationStack"
+                options={{headerShown: false, gestureEnabled: false}}
+                component={AuthenticationStack}
             />
             {/*{isSignedIn*/}
             {/*    ?*/}
-            <Fragment>
+            {/*<Fragment>*/}
                 {/*<Stack.Screen*/}
                 {/*    name="TabNavigator"*/}
                 {/*    options={{headerShown: false, gestureEnabled: false}}*/}
                 {/*    component={TabNavigator}*/}
                 {/*/>*/}
-                <Stack.Screen
-                    name="SectionNavigator"
-                    options={{headerShown: false, gestureEnabled: false}}
-                    component={SectionNavigator}
-                />
-            </Fragment>
+            {/*    <Stack.Screen*/}
+            {/*        name="SectionNavigator"*/}
+            {/*        options={{headerShown: false, gestureEnabled: false}}*/}
+            {/*        component={SectionNavigator}*/}
+            {/*    />*/}
+            {/*</Fragment>*/}
             {/*/!*:*!/*/}
             {/*<Stack.Screen*/}
             {/*    name="AuthenticationStack"*/}

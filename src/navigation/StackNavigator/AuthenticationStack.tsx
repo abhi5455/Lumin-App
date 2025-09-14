@@ -1,14 +1,14 @@
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
-import LoginScreen from "../../screens/OnboardingScreens/LoginScreen.tsx";
+import AuthScreen from "../../screens/OnboardingScreens/AuthScreen.tsx";
 
 export const AuthenticationStack = () => {
     const Stack = createNativeStackNavigator()
     return (
         <Stack.Navigator>
             <Stack.Screen
-                name="LoginScreen"
+                name="AuthScreen"
                 options={{headerShown: false, gestureEnabled: false}}
-                component={LoginScreen}
+                component={AuthScreen}
             />
             {/*<Stack.Screen*/}
             {/*    name="OTPScreen"*/}

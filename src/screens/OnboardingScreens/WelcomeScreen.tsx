@@ -7,8 +7,10 @@ import {
 } from 'react-native';
 import {ArrowRight} from "lucide-react-native";
 import Earth from '../../assets/svg/Earth.svg';
+import {useAppNavigation} from "../../common/navigationHelper.ts";
 
 const WelcomeScreen = () => {
+    const navigation = useAppNavigation()
     const [counter, setCounter] = useState(1);
 
     return (
@@ -48,7 +50,9 @@ const WelcomeScreen = () => {
                             setCounter(prev=> prev + 1);
                         }
                         else{
-                            // Navigate to main app screen or login screen
+                            navigation.navigate("AuthenticationStack", {
+                                screen: "AuthScreen",
+                            });
                         }
                         console.log(counter);
                     }}>
