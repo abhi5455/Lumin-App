@@ -18,7 +18,7 @@ interface ValidationRule {
 const AuthScreen: React.FC = () => {
     const [isSignUp, setIsSignUp] = useState(true);
     const [name, setName] = useState('');
-    const [email, setEmail] = useState('alan6@gmail.com');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [agreeToTerms, setAgreeToTerms] = useState(false);
@@ -63,7 +63,7 @@ const AuthScreen: React.FC = () => {
                     {isSignUp ? 'Sign Up' : 'Sign In'}
                 </Text>
 
-                <Text className="text-base font-poppinsMedium text-gray-500 text-center mb-8 leading-6">
+                <Text className="text-base font-poppinsMedium text-gray-400 text-center mb-8 leading-6">
                     Customize workflows, optimize performance,{'\n'}and enhance your business growth.
                 </Text>
 
