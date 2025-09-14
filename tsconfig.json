@@ -3,7 +3,8 @@
   "include": [
     "**/*.ts",
     "**/*.tsx",
-    "nativewind-env.d.ts"
+    "nativewind-env.d.ts",
+    "src/types/declarations.d.ts"
   ],
   "exclude": [
     "**/node_modules",

@@ -1,14 +1,14 @@
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
-import AllocationDetails from "../../screens/AllocationDetails";
+import WelcomeScreen from "../../screens/OnboardingScreens/WelcomeScreen.tsx";
 
 export default function SectionNavigator(){
     const Stack = createNativeStackNavigator()
     return(
         <Stack.Navigator>
             <Stack.Screen
-                name="AllocationDetails"
+                name="WelcomeScreen"
                 options={{headerShown: false, gestureEnabled: false}}
-                component={AllocationDetails}
+                component={WelcomeScreen}
             />
         </Stack.Navigator>
     )
