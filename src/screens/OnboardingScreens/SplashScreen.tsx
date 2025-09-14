@@ -7,8 +7,6 @@ export default function SplashScreen() {
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            // Replace 'WelcomeScreen' with the actual name of your welcome screen
-            // navigation.goBack()
             navigation.navigate("WelcomeScreen");
         }, 2000);
 
