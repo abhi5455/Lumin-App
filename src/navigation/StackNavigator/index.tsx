@@ -1,7 +1,6 @@
 import {Fragment, useState} from "react";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import SplashScreen from "../../screens/OnboardingScreens/SplashScreen.tsx";
-import WelcomeScreen from "../../screens/OnboardingScreens/WelcomeScreen.tsx";
 import SectionNavigator from "../SectionNavigator";
 import {AuthenticationStack} from "./AuthenticationStack.tsx";
 

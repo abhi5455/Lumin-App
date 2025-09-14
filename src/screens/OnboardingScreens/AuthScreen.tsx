@@ -9,6 +9,7 @@ import {
 import GoogleIcon from '../../assets/svg/Google.svg'
 import AppleIcon from '../../assets/svg/apple.svg'
 import {Eye, EyeOff} from "lucide-react-native";
+import {useAppNavigation} from "../../common/navigationHelper.ts";
 
 interface ValidationRule {
     text: string;
@@ -16,6 +17,7 @@ interface ValidationRule {
 }
 
 const AuthScreen: React.FC = () => {
+    const navigation = useAppNavigation()
     const [isSignUp, setIsSignUp] = useState(true);
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -190,7 +192,12 @@ const AuthScreen: React.FC = () => {
                 )}
 
                 {/* Submit Button */}
-                <TouchableOpacity className="bg-primary rounded-xl py-4 mb-6">
+                <TouchableOpacity className="bg-primary rounded-xl py-4 mb-6"
+                                  onPress={() => {
+                                      navigation.navigate("SectionNavigator", {
+                                          screen: "RegisterScreen",
+                                      });
+                                  }}>
                     <Text className="text-lg font-poppinsSemiBold text-white text-center">
                         {isSignUp ? 'Create Account' : 'Sign in'}
                     </Text>

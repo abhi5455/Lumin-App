@@ -10,11 +10,6 @@ export const AuthenticationStack = () => {
                 options={{headerShown: false, gestureEnabled: false}}
                 component={AuthScreen}
             />
-            {/*<Stack.Screen*/}
-            {/*    name="OTPScreen"*/}
-            {/*    options={{headerShown: false, gestureEnabled: false}}*/}
-            {/*    component={OTPScreen}*/}
-            {/*/>*/}
         </Stack.Navigator>
     )
 }

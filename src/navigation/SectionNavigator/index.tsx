@@ -1,6 +1,6 @@
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import WelcomeScreen from "../../screens/OnboardingScreens/WelcomeScreen.tsx";
-import AuthScreen from "../../screens/OnboardingScreens/AuthScreen.tsx";
+import RegisterScreen from "../../screens/OnboardingScreens/RegisterScreen.tsx";
 
 export default function SectionNavigator(){
     const Stack = createNativeStackNavigator()
@@ -12,9 +12,9 @@ export default function SectionNavigator(){
                 component={WelcomeScreen}
             />
             <Stack.Screen
-                name="AuthScreen"
+                name="RegisterScreen"
                 options={{headerShown: false, gestureEnabled: false}}
-                component={AuthScreen}
+                component={RegisterScreen}
             />
         </Stack.Navigator>
     )
