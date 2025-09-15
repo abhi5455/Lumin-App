@@ -1,20 +1,14 @@
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {Dimensions, StyleSheet, View} from "react-native";
 import AnimIcon from "../../common/AnimIcon.tsx";
-import HomeScreen from "../../screens/HomeScreen";
-import HomeIcon from '../../assets/svg/HomeIcon.svg'
-import HomeIconFocused from '../../assets/svg/HomeIconFocused.svg'
-import SavedIcon from '../../assets/svg/SavedIcon.svg'
-import SavedIconFocused from '../../assets/svg/SavedIconFocused.svg'
-import TransactionIcon from '../../assets/svg/TransactionIcon.svg'
-import TransactionIconFocused from '../../assets/svg/TranscationIconFocused.svg'
-import ProfileIcon from '../../assets/svg/ProfileIcon.svg'
-import ProfileIconFocused from '../../assets/svg/ProfileIconFocused.svg'
+import DashboardIcon from '../../assets/svg/DashboardIcon.svg'
+import ConversationIcon from '../../assets/svg/ConversationIcon.svg'
+import LeadsIcon from '../../assets/svg/LeadsIcon.svg'
+import AgentIcon from '../../assets/svg/AgentIcon.svg'
+import NumbersIcon from '../../assets/svg/NumbersIcon.svg'
 import {useEffect, useState} from "react";
 import {getFocusedRouteNameFromRoute} from "@react-navigation/native";
-import AllTransactionScreen from "../../screens/AllTransactionScreen";
-import ProfileScreen from "../../screens/ProfileScreen";
-import SavedAllocationsScreen from "../../screens/SavedAllocationsScreen";
+import DashboardScreen from "../../screens/DashboardScreen/page.tsx";
 
 export default function TabNavigator() {
     const Tab = createBottomTabNavigator()
@@ -37,7 +31,7 @@ export default function TabNavigator() {
         );
 
         return () => {
-            subscription?.remove();
+            // subscription?.remove();
         };
     }, []);
     const isTabBarVisible = (route: any) => {
@@ -59,8 +53,8 @@ export default function TabNavigator() {
             }}
         >
             <Tab.Screen
-                name="HomeScreen"
-                component={HomeScreen}
+                name="DashboardScreen"
+                component={DashboardScreen}
                 options={({route}) => ({
                     tabBarLabel: () => null,
                     tabBarIcon: ({focused, color}) => {
@@ -68,10 +62,10 @@ export default function TabNavigator() {
                             <AnimIcon focused={focused} color={color}>
                                 {focused ? (
                                     <View>
-                                        <HomeIconFocused/>
+                                        <DashboardIcon/>
                                     </View>
                                 ) : (
-                                    <HomeIcon/>
+                                    <DashboardIcon/>
                                 )}
                             </AnimIcon>
                         );
@@ -83,8 +77,8 @@ export default function TabNavigator() {
                 })}
             />
             <Tab.Screen
-                name="SavedAllocationsScreen"
-                component={SavedAllocationsScreen}
+                name="ConversationScreen"
+                component={DashboardScreen}
                 options={({route}) => ({
                     tabBarLabel: () => null,
                     tabBarIcon: ({focused, color}) => {
@@ -92,10 +86,10 @@ export default function TabNavigator() {
                             <AnimIcon focused={focused} color={color}>
                                 {focused ? (
                                     <View>
-                                        <SavedIconFocused/>
+                                        <ConversationIcon/>
                                     </View>
                                 ) : (
-                                    <SavedIcon/>
+                                    <ConversationIcon/>
                                 )}
                             </AnimIcon>
                         );
@@ -107,8 +101,8 @@ export default function TabNavigator() {
                 })}
             />
             <Tab.Screen
-                name="TranscationScreen"
-                component={AllTransactionScreen}
+                name="LeadsScreen"
+                component={DashboardScreen}
                 options={({route}) => ({
                     tabBarLabel: () => null,
                     tabBarIcon: ({focused, color}) => {
@@ -116,10 +110,10 @@ export default function TabNavigator() {
                             <AnimIcon focused={focused} color={color}>
                                 {focused ? (
                                     <View>
-                                        <TransactionIconFocused/>
+                                        <LeadsIcon/>
                                     </View>
                                 ) : (
-                                    <TransactionIcon/>
+                                    <LeadsIcon/>
                                 )}
                             </AnimIcon>
                         );
@@ -131,8 +125,8 @@ export default function TabNavigator() {
                 })}
             />
             <Tab.Screen
-                name="ProfileScreen"
-                component={ProfileScreen}
+                name="AgentScreen"
+                component={DashboardScreen}
                 options={({route}) => ({
                     tabBarLabel: () => null,
                     tabBarIcon: ({focused, color}) => {
@@ -140,10 +134,34 @@ export default function TabNavigator() {
                             <AnimIcon focused={focused} color={color}>
                                 {focused ? (
                                     <View>
-                                        <ProfileIconFocused/>
+                                        <AgentIcon/>
                                     </View>
                                 ) : (
-                                    <ProfileIcon/>
+                                    <AgentIcon/>
+                                )}
+                            </AnimIcon>
+                        );
+                    },
+                    tabBarStyle: {
+                        ...styles.tabBar,
+                        display: isTabBarVisible(route),
+                    },
+                })}
+            />
+            <Tab.Screen
+                name="NumbersScreen"
+                component={DashboardScreen}
+                options={({route}) => ({
+                    tabBarLabel: () => null,
+                    tabBarIcon: ({focused, color}) => {
+                        return (
+                            <AnimIcon focused={focused} color={color}>
+                                {focused ? (
+                                    <View>
+                                        <NumbersIcon/>
+                                    </View>
+                                ) : (
+                                    <NumbersIcon/>
                                 )}
                             </AnimIcon>
                         );
@@ -160,13 +178,14 @@ export default function TabNavigator() {
 
 const styles = StyleSheet.create({
     tabBar: {
-        backgroundColor: '#2e2e2e',
+        backgroundColor: '#FFFFFF',
         borderTopWidth: 1,
-        borderTopColor: '#363d3a',
+        borderTopColor: '#FFFFFF',
         alignItems: "center",
         justifyContent: "center",
         alignSelf: "center",
         paddingTop: 12,
+        paddingHorizontal: 10,
         height: 65,
         position: "absolute",
     },
