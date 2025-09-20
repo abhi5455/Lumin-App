@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
     View,
     Text,
@@ -8,9 +8,11 @@ import {
 import PencilIcon from '../../assets/svg/PencilIcon.svg'
 import BackIcon from "../../assets/svg/BackIconBlack.svg";
 import {useAppNavigation} from "../../common/navigationHelper.ts";
+import ChangePasswordModal from "./ChangePasswordModal.tsx";
 
 export default function AccountInfoScreen() {
     const navigation = useAppNavigation();
+    const [isChangePasswordModalVisible, setIsChangePasswordModalVisible] = useState(false);
 
     return (
         <View className="flex-1 bg-white">
@@ -155,9 +157,12 @@ export default function AccountInfoScreen() {
             </ScrollView>
 
             {/* Change Password Button */}
-            <TouchableOpacity className="bg-primary mx-6 mb-8 mt-1 py-4 rounded-xl">
+            <TouchableOpacity className="bg-primary mx-6 mb-8 mt-1 py-4 rounded-xl"
+            onPress={() => setIsChangePasswordModalVisible(true)}>
                 <Text className="text-white text-center text-lg font-poppinsSemiBold">Change Password</Text>
             </TouchableOpacity>
+
+            <ChangePasswordModal isModalVisible={isChangePasswordModalVisible} onClose={ ()=> setIsChangePasswordModalVisible(false)}/>
         </View>
     );
 };
