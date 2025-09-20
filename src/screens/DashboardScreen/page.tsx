@@ -21,6 +21,9 @@ import {
     Phone,
 } from 'lucide-react-native';
 import MenuIcon from "../../assets/svg/MenuIcon.svg";
+import TickIcon from "../../assets/svg/TickIcon.svg";
+import AlertIcon from "../../assets/svg/AlertIcon.svg";
+import CrossIcon from "../../assets/svg/CrossIcon.svg";
 
 export default function DashboardScreen() {
     return (
@@ -39,7 +42,7 @@ export default function DashboardScreen() {
             </View>
 
                 {/* Enterprise Plan Card */}
-            <ScrollView className="flex-1 px-2">
+            <ScrollView className="flex-1 bg-[#f6f7f9]">
                 <View className="mx-4 mt-6 bg-primary rounded-2xl p-6 relative overflow-hidden">
                     {/* Decorative leaf pattern - using simple View elements */}
                     <View className="absolute top-4 right-4 w-20 h-20 opacity-20">
@@ -104,32 +107,32 @@ export default function DashboardScreen() {
 
                 {/* Statistics Cards */}
                 <View className="flex-row justify-between px-6 mt-6">
-                    <View className="flex-1 bg-white rounded-xl p-4 mr-2 items-center">
-                        <CheckCircle size={24} color="#10b981"/>
-                        <Text className="text-black text-2xl font-poppinsSemiBold mt-2">
+                    <View className="flex-1 bg-white rounded-xl p-4 mr-2 items-start">
+                        <TickIcon/>
+                        <Text className="text-black text-xl font-poppinsSemiBold mt-2">
                             70%
                         </Text>
-                        <Text className="text-gray-500 text-xs font-poppinsMedium text-center">
+                        <Text className="text-gray-400 text-xs font-poppinsMedium text-center">
                             Success rate
                         </Text>
                     </View>
 
-                    <View className="flex-1 bg-white rounded-xl p-4 mx-1 items-center">
-                        <AlertTriangle size={24} color="#f59e0b"/>
-                        <Text className="text-black text-2xl font-poppinsSemiBold mt-2">
+                    <View className="flex-1 bg-white rounded-xl p-4 mx-1 items-start">
+                        <AlertIcon/>
+                        <Text className="text-black text-xl font-poppinsSemiBold mt-2">
                             22%
                         </Text>
-                        <Text className="text-gray-500 text-xs font-poppinsMedium text-center">
+                        <Text className="text-gray-400 text-xs font-poppinsMedium">
                             Follow-up required
                         </Text>
                     </View>
 
-                    <View className="flex-1 bg-white rounded-xl p-4 ml-2 items-center">
-                        <XCircle size={24} color="#ef4444"/>
-                        <Text className="text-black text-2xl font-poppinsSemiBold mt-2">
+                    <View className="flex-1 bg-white rounded-xl p-4 ml-2 items-start">
+                        <CrossIcon/>
+                        <Text className="text-black text-xl font-poppinsSemiBold mt-2">
                             8%
                         </Text>
-                        <Text className="text-gray-500 text-xs font-poppinsMedium text-center">
+                        <Text className="text-gray-400 text-xs font-poppinsMedium text-center">
                             Rejection rate
                         </Text>
                     </View>
