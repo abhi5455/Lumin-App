@@ -48,7 +48,7 @@ export default function LeadsScreen() {
                             </View>
                             <View className="">
                                 <Text className="text-black text-base font-poppinsMedium">Adam</Text>
-                                <Text className="text-gray-500 text-sm font-poppinsMedium">+912545788</Text>
+                                <Text className="text-slate-400 text-sm font-poppinsMedium">+912545788</Text>
                             </View>
                             <View className="flex justify-center items-center mx-2 ml-3">
                                 <PhoneTickIcon/>

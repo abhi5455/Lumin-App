@@ -1,5 +1,5 @@
-import {SafeAreaView, ScrollView, Text, TouchableOpacity, View} from "react-native";
-import {EllipsisVertical, PlusCircle, Settings} from "lucide-react-native";
+import {SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {EllipsisVertical, PlusCircle, Search, Settings} from "lucide-react-native";
 import MenuIcon from '../../assets/svg/MenuIcon.svg'
 import FilterIcon from '../../assets/svg/FilterIcon.svg'
 import PhoneTickIcon from '../../assets/svg/PhoneTickIcon.svg'
@@ -26,6 +26,15 @@ export default function AgentScreen() {
                 <TouchableOpacity>
                     <Settings size={24} color="#374151"/>
                 </TouchableOpacity>
+            </View>
+
+            <View className="flex-row items-center bg-white rounded-xl justify-between px-4 py-1 mt-4 mx-4 border-[1px] border-gray-100">
+                <Search color={'#889baf'} size={20}/>
+                <TextInput
+                    placeholder="Search Agents"
+                    placeholderTextColor={"#9ca3af"}
+                    className="flex-1 px-3 py-2 pt-3 text-black ml-3 text-md font-poppinsMedium"
+                />
             </View>
 
             {/* Recent Conversation Header */}
@@ -55,7 +64,7 @@ export default function AgentScreen() {
                             </View>
                             <View className="">
                                 <Text className="text-black text-base font-poppinsMedium">Adam</Text>
-                                <Text className="text-gray-500 text-sm font-poppinsMedium">+912545788</Text>
+                                <Text className="text-slate-400 text-sm font-poppinsMedium">+912545788</Text>
                             </View>
                         </View>
 
@@ -83,7 +92,7 @@ export default function AgentScreen() {
                          viewAction={() => {
                              setActionModalVisible(false)
                              navigation.navigate("SectionNavigator", {
-                                 screen: "OutboundCallsScreen",
+                                 screen: "AgentDetailsScreen",
                              });
                          }}/>
 

@@ -4,6 +4,7 @@ import RegisterScreen from "../../screens/OnboardingScreens/RegisterScreen.tsx";
 import LeadInfoScreen from "../../screens/ConversationScreen/components/LeadInfoScreen.tsx";
 import ChatScreen from "../../screens/ConversationScreen/components/ChatScreen.tsx";
 import OutboundCallsScreen from "../../screens/LeadsScreen/components/OutboundCallsScreen.tsx";
+import AgentDetailsScreen from "../../screens/AgentScreen/components/AgentDetailsScreen.tsx";
 
 export default function SectionNavigator(){
     const Stack = createNativeStackNavigator()
@@ -36,6 +37,12 @@ export default function SectionNavigator(){
                 name="OutboundCallsScreen"
                 options={{headerShown: false, gestureEnabled: false}}
                 component={OutboundCallsScreen}
+            />
+
+            <Stack.Screen
+                name="AgentDetailsScreen"
+                options={{headerShown: false, gestureEnabled: false}}
+                component={AgentDetailsScreen}
             />
         </Stack.Navigator>
     )
