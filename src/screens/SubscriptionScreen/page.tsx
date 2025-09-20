@@ -9,7 +9,7 @@ export default function SubscriptionScreen() {
 
     return (
         <SafeAreaView className="flex-1 bg-white">
-            <ScrollView className="flex-1 px-6 pt-4">
+            <ScrollView className="flex-1 px-5 pt-4">
                 {/* Header */}
                 <View className="flex-row items-center justify-between mb-6">
                     <TouchableOpacity className="flex items-center justify-center p-1 border border-[#889baf] rounded-xl"
@@ -74,7 +74,7 @@ export default function SubscriptionScreen() {
                 </View>
 
                 {/* Features Section */}
-                <View className="mb-8">
+                <View className="mb-8 px-1">
                     <Text className="text-black text-2xl font-poppinsSemiBold mb-6 leading-8">
                         Boost your productivity with upto 50% off
                     </Text>
