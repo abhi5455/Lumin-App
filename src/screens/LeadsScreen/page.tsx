@@ -6,10 +6,12 @@ import PhoneTickIcon from '../../assets/svg/PhoneTickIcon.svg'
 import React from "react";
 import FilterModal from "../ConversationScreen/components/FilterModal.tsx";
 import {useAppNavigation} from "../../common/navigationHelper.ts";
+import ActionModal from "./components/ActionModal.tsx";
 
 export default function LeadsScreen() {
     const navigation = useAppNavigation()
     const [filterModalVisible, setFilterModalVisible] = React.useState(false);
+    const [actionModalVisible, setActionModalVisible] = React.useState(false);
 
     return (
         <SafeAreaView className="flex-1 bg-gray-50 px-1">
@@ -37,15 +39,9 @@ export default function LeadsScreen() {
             {/* Conversation List */}
             <ScrollView className="flex-1 flex px-4 bg-[#f6f7f9] pt-1">
                 {Array.from({length: 10}).map((_, index) => (
-                    <TouchableOpacity
+                    <View
                         key={index}
-                        className="flex-row items-center justify-between py-4 px-3 mb-4 rounded-lg border-b bg-white border-gray-100"
-                        onPress={() => {
-                            navigation.navigate("SectionNavigator", {
-                                screen: "OutboundCallsScreen",
-                            });
-                        }}
-                    >
+                        className="flex-row items-center justify-between py-4 px-3 mb-4 rounded-lg border-b bg-white border-gray-100">
                         <View className="flex flex-row">
                             <View className="w-12 h-12 bg-teal-600 rounded-full items-center justify-center mr-4">
                                 <Text className="text-white text-lg font-poppinsSemiBold">A</Text>
@@ -62,10 +58,10 @@ export default function LeadsScreen() {
                             <Text className="text-[#4caf50] text-xs font-poppinsMedium">Scheduled</Text>
                         </View>
 
-                        <View className="mr-1">
+                        <TouchableOpacity className="mr-1" onPress={() => setActionModalVisible(!actionModalVisible)}>
                             <EllipsisVertical size={20}/>
-                        </View>
-                    </TouchableOpacity>
+                        </TouchableOpacity>
+                    </View>
                 ))}
                 <View className="min-h-[150px] bg-transparent min-w-1"/>
             </ScrollView>
@@ -75,6 +71,12 @@ export default function LeadsScreen() {
                 setFilterModalVisible(false)
             }} onApply={() => {
                 setFilterModalVisible(false)
+            }}/>
+            {/* Action Modal */}
+            <ActionModal visible={actionModalVisible} onClose={() => {
+                setActionModalVisible(false)
+            }} onApply={() => {
+                setActionModalVisible(false)
             }}/>
         </SafeAreaView>
     )
