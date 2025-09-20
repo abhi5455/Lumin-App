@@ -22,10 +22,12 @@ import AlertIcon from "../../assets/svg/AlertIcon.svg";
 import CrossIcon from "../../assets/svg/CrossIcon.svg";
 import Flower from "../../assets/svg/Flower.svg";
 import { LineChart } from 'react-native-chart-kit';
+import {useAppNavigation} from "../../common/navigationHelper.ts";
 
 const screenWidth = Dimensions.get('window').width;
 
 export default function DashboardScreen() {
+    const navigation = useAppNavigation();
     const chartData = {
         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
         datasets: [
@@ -68,7 +70,12 @@ export default function DashboardScreen() {
                 <Text className="text-primary text-xl font-poppinsSemiBold">
                     Convogents
                 </Text>
-                <TouchableOpacity>
+                <TouchableOpacity
+                onPress={()=>{
+                    navigation.navigate("SectionNavigator", {
+                        screen: "AccountSettingsScreen",
+                    });
+                }}>
                     <Settings size={24} color="#374151"/>
                 </TouchableOpacity>
             </View>
