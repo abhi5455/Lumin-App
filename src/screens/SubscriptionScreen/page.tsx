@@ -28,7 +28,7 @@ export default function SubscriptionScreen() {
                         </TouchableOpacity>
                         <TouchableOpacity
                             className={`px-6 py-2 rounded-md ${selectedPlan === 'yearly' ? 'bg-white shadow-sm' : ''}`}
-                            onPress={() => setSelectedPlan('yearly')}
+                            // onPress={() => setSelectedPlan('yearly')}
                         >
                             <Text className={`font-poppinsMedium ${selectedPlan === 'yearly' ? 'text-black' : 'text-gray-600'}`}>
                                 Yearly
