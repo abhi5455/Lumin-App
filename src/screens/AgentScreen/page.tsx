@@ -1,14 +1,14 @@
 import {SafeAreaView, ScrollView, Text, TouchableOpacity, View} from "react-native";
-import {EllipsisVertical, Settings} from "lucide-react-native";
+import {EllipsisVertical, PlusCircle, Settings} from "lucide-react-native";
 import MenuIcon from '../../assets/svg/MenuIcon.svg'
 import FilterIcon from '../../assets/svg/FilterIcon.svg'
 import PhoneTickIcon from '../../assets/svg/PhoneTickIcon.svg'
 import React from "react";
 import FilterModal from "../ConversationScreen/components/FilterModal.tsx";
 import {useAppNavigation} from "../../common/navigationHelper.ts";
-import ActionModal from "./components/ActionModal.tsx";
+import ActionModal from "../LeadsScreen/components/ActionModal.tsx";
 
-export default function LeadsScreen() {
+export default function AgentScreen() {
     const navigation = useAppNavigation()
     const [filterModalVisible, setFilterModalVisible] = React.useState(false);
     const [actionModalVisible, setActionModalVisible] = React.useState(false);
@@ -30,10 +30,17 @@ export default function LeadsScreen() {
 
             {/* Recent Conversation Header */}
             <View className="flex-row items-center bg-[#f6f7f9] justify-between px-4 py-3">
-                <Text className="text-black text-lg font-poppinsMedium">Existing Leads</Text>
-                <TouchableOpacity className="bg-white" onPress={() => setFilterModalVisible(!filterModalVisible)}>
-                    <FilterIcon/>
-                </TouchableOpacity>
+                <Text className="text-slate-400 text-sm font-poppinsMedium">2 out of 5 agents created</Text>
+                <View className="flex flex-row items-center gap-4">
+                    <TouchableOpacity
+                        className="flex flex-row justify-center items-center gap-2 px-3 py-2 h-full bg-primary/80 rounded-lg">
+                        <PlusCircle color={'#FFF'} size={15}/>
+                        <Text className="text-sm font-poppinsMedium text-white">Add Agent</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity className="bg-white" onPress={() => setFilterModalVisible(!filterModalVisible)}>
+                        <FilterIcon/>
+                    </TouchableOpacity>
+                </View>
             </View>
 
             {/* Conversation List */}
@@ -50,12 +57,6 @@ export default function LeadsScreen() {
                                 <Text className="text-black text-base font-poppinsMedium">Adam</Text>
                                 <Text className="text-gray-500 text-sm font-poppinsMedium">+912545788</Text>
                             </View>
-                            <View className="flex justify-center items-center mx-2 ml-3">
-                                <PhoneTickIcon/>
-                            </View>
-                        </View>
-                        <View className="px-2 py-1 border-[#4caf50] border-[1px] rounded-full">
-                            <Text className="text-[#4caf50] text-xs font-poppinsMedium">Scheduled</Text>
                         </View>
 
                         <TouchableOpacity className="mr-1" onPress={() => setActionModalVisible(!actionModalVisible)}>
@@ -79,12 +80,13 @@ export default function LeadsScreen() {
             }} onApply={() => {
                 setActionModalVisible(false)
             }}
-            viewAction={() => {
-                setActionModalVisible(false)
-                navigation.navigate("SectionNavigator", {
-                    screen: "OutboundCallsScreen",
-                });
-            }}/>
+                         viewAction={() => {
+                             setActionModalVisible(false)
+                             navigation.navigate("SectionNavigator", {
+                                 screen: "OutboundCallsScreen",
+                             });
+                         }}/>
+
         </SafeAreaView>
     )
 }

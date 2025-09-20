@@ -13,9 +13,10 @@ interface FilterModalProps {
     visible: boolean;
     onClose: () => void;
     onApply: () => void;
+    viewAction: () => void;
 }
 
-export default function ActionModal({ visible, onClose, onApply }: FilterModalProps) {
+export default function ActionModal({ visible, onClose, onApply, viewAction }: FilterModalProps) {
     const navigation = useAppNavigation();
     const [filterStates, setFilterStates] = useState({
         all: false,
@@ -57,12 +58,7 @@ export default function ActionModal({ visible, onClose, onApply }: FilterModalPr
                                 <View className="mt-8">
                                     <TouchableOpacity
                                         className="bg-teal-600 py-4 rounded-lg"
-                                        onPress={() => {
-                                            onClose()
-                                            navigation.navigate("SectionNavigator", {
-                                                screen: "OutboundCallsScreen",
-                                            });
-                                        }}
+                                        onPress={viewAction}
                                     >
                                         <Text className="text-white text-center text-lg font-poppinsSemiBold">View or Edit</Text>
                                     </TouchableOpacity>

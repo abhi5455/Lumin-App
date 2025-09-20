@@ -11,6 +11,7 @@ import {getFocusedRouteNameFromRoute} from "@react-navigation/native";
 import DashboardScreen from "../../screens/DashboardScreen/page.tsx";
 import ConversationScreen from "../../screens/ConversationScreen/page.tsx";
 import LeadsScreen from "../../screens/LeadsScreen/page.tsx";
+import AgentScreen from "../../screens/AgentScreen/page.tsx";
 
 export default function TabNavigator() {
     const Tab = createBottomTabNavigator()
@@ -128,7 +129,7 @@ export default function TabNavigator() {
             />
             <Tab.Screen
                 name="AgentScreen"
-                component={DashboardScreen}
+                component={AgentScreen}
                 options={({route}) => ({
                     tabBarLabel: () => null,
                     tabBarIcon: ({focused, color}) => {
