@@ -14,7 +14,7 @@ interface IChangePasswordModalProps {
 }
 
 export default function ChangePasswordModal({isModalVisible, onClose}: IChangePasswordModalProps) {
-    const [currentPassword, setCurrentPassword] = useState('Asjdhashfsdogsdg123');
+    const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
 
     const handleSavePassword = () => {
