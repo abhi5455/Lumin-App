@@ -7,12 +7,8 @@ import {
     SafeAreaView, Dimensions,
 } from 'react-native';
 import {
-    Menu,
     Settings,
     Rocket,
-    CheckCircle,
-    AlertTriangle,
-    XCircle,
     ChevronDown,
     Home,
     MessageCircle,
@@ -24,6 +20,7 @@ import MenuIcon from "../../assets/svg/MenuIcon.svg";
 import TickIcon from "../../assets/svg/TickIcon.svg";
 import AlertIcon from "../../assets/svg/AlertIcon.svg";
 import CrossIcon from "../../assets/svg/CrossIcon.svg";
+import Flower from "../../assets/svg/Flower.svg";
 import { LineChart } from 'react-native-chart-kit';
 
 const screenWidth = Dimensions.get('window').width;
@@ -79,13 +76,10 @@ export default function DashboardScreen() {
             {/* Enterprise Plan Card */}
             <ScrollView className="flex-1 bg-[#f6f7f9]">
                 <View className="mx-4 mt-6 bg-primary rounded-2xl p-6 relative overflow-hidden">
-                    {/* Decorative leaf pattern - using simple View elements */}
-                    <View className="absolute top-4 right-4 w-20 h-20 opacity-20">
-                        <View className="w-full h-full border border-white rounded-full"/>
-                        <View className="absolute top-2 left-2 w-16 h-16 border border-white rounded-full"/>
-                        <View className="absolute top-4 left-4 w-12 h-12 border border-white rounded-full"/>
+                    {/* Decorative Flower pattern */}
+                    <View className="absolute top-0 right-4 w-20 h-20 opacity-80">
+                        <Flower/>
                     </View>
-
                     <Text className="text-white text-xl font-poppinsBold mb-4">
                         Enterprise Plan
                     </Text>
@@ -100,8 +94,8 @@ export default function DashboardScreen() {
                                 3000 out of 100000 minutes remaining
                             </Text>
                         </View>
-                        <View className="w-full h-2 bg-white/20 rounded-full">
-                            <View className="w-1/3 h-full bg-white rounded-full"/>
+                        <View className="w-full h-2 bg-white rounded-full">
+                            <View className="w-2/5 h-full bg-[#57a697] rounded-full"/>
                         </View>
                     </View>
 
@@ -115,8 +109,8 @@ export default function DashboardScreen() {
                                 2 out of 5 agents used
                             </Text>
                         </View>
-                        <View className="w-full h-2 bg-white/20 rounded-full">
-                            <View className="w-2/5 h-full bg-white rounded-full"/>
+                        <View className="w-full h-2 bg-white rounded-full">
+                            <View className="w-3/5 h-full bg-[#57a697] rounded-full"/>
                         </View>
                     </View>
 
@@ -133,7 +127,7 @@ export default function DashboardScreen() {
 
                     {/* Upgrade Button */}
                     <TouchableOpacity className="bg-white rounded-xl py-3 px-4 flex-row items-center justify-center">
-                        <Rocket size={20} color="#0d9488"/>
+                        <Rocket size={21} color="#0d9488"/>
                         <Text className="text-primary text-sm font-poppinsSemiBold ml-2">
                             Upgrade Subscription
                         </Text>
@@ -214,15 +208,9 @@ export default function DashboardScreen() {
                             />
                         </View>
 
-                        {/* Chart Label */}
-                        <View className="flex-row items-center mb-4">
-                            <View className="w-2 h-2 bg-green-300 rounded-full mr-2" />
-                            <Text className="text-gray-400 text-xs font-poppinsMedium">200 hr</Text>
-                        </View>
-
                         {/* Trending Information */}
                         <View className="flex-row items-center mb-2">
-                            <TrendingUp size={14} color="#10b981" />
+                            <TrendingUp size={14} />
                             <Text className="text-black text-sm font-poppinsMedium ml-1">
                                 Trending up by 5.2% this month
                             </Text>
