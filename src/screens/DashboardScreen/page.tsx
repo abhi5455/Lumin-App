@@ -20,22 +20,23 @@ import {
     User,
     Phone,
 } from 'lucide-react-native';
+import MenuIcon from "../../assets/svg/MenuIcon.svg";
 
 export default function DashboardScreen() {
     return (
-        <SafeAreaView className="flex-1 bg-gray-50">
-                {/* Header */}
-                <View className="flex-row items-center justify-between px-6 py-4 pt-6 bg-white">
-                    <TouchableOpacity>
-                        <Menu size={24} color="#374151"/>
-                    </TouchableOpacity>
-                    <Text className="text-primary text-lg font-poppinsBold">
-                        Convogents
-                    </Text>
-                    <TouchableOpacity>
-                        <Settings size={24} color="#374151"/>
-                    </TouchableOpacity>
-                </View>
+        <SafeAreaView className="flex-1 bg-gray-50 px-1">
+            {/* Header */}
+            <View className="flex-row items-center justify-between px-4 py-4 pt-6 bg-white">
+                <TouchableOpacity>
+                    <MenuIcon/>
+                </TouchableOpacity>
+                <Text className="text-primary text-xl font-poppinsSemiBold">
+                    Convogents
+                </Text>
+                <TouchableOpacity>
+                    <Settings size={24} color="#374151"/>
+                </TouchableOpacity>
+            </View>
 
                 {/* Enterprise Plan Card */}
             <ScrollView className="flex-1 px-2">

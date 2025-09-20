@@ -1,7 +1,8 @@
-import {SafeAreaView, ScrollView, StatusBar, Text, TouchableOpacity, View} from "react-native";
-import {ChevronLeft, Phone} from "lucide-react-native";
+import {SafeAreaView, ScrollView, Text, TouchableOpacity, View} from "react-native";
+import {Phone, PhoneIncoming} from "lucide-react-native";
 import React from "react";
 import {useAppNavigation} from "../../../common/navigationHelper.ts";
+import BackIcon from '../../../assets/svg/BackIcon.svg'
 
 export default function LeadInfoScreen() {
     const navigation = useAppNavigation()
@@ -11,35 +12,37 @@ export default function LeadInfoScreen() {
         <SafeAreaView className="flex-1 bg-white">
 
             {/* Header */}
-            <View className="bg-primary px-4 py-4">
+            <View className="bg-primary px-6 py-5">
                 <View className="flex-row items-center">
                     <TouchableOpacity
                         className="mr-4"
                         onPress={() => navigation.goBack()}
                     >
-                        <ChevronLeft size={24} color="white" />
+                        <BackIcon/>
                     </TouchableOpacity>
                     <Text className="text-white text-lg font-poppinsSemiBold">Lead Information</Text>
                 </View>
             </View>
 
-            <ScrollView className="flex-1 px-4 py-6">
+            <ScrollView className="flex-1 px-6 py-6">
                 {/* Profile Section */}
-                <View className="flex-row items-center mb-6">
-                    <View className="w-12 h-12 bg-teal-600 rounded-full items-center justify-center mr-4">
-                        <Text className="text-white text-lg font-poppinsSemiBold">A</Text>
+                <View className="flex flex-row justify-between items-center mb-4 border-b-[1px] border-gray-200 pb-4">
+                    <View className="flex flex-row">
+                        <View className="w-12 h-12 bg-teal-600 rounded-full items-center justify-center mr-4">
+                            <Text className="text-white text-lg font-poppinsSemiBold">A</Text>
+                        </View>
+                        <View className="">
+                            <Text className="text-black text-base font-poppinsSemiBold">Adam</Text>
+                            <Text className="text-gray-500 text-sm font-poppinsMedium">+912545788</Text>
+                        </View>
                     </View>
-                    <View className="flex-1">
-                        <Text className="text-black text-xl font-poppinsSemiBold">Adam</Text>
-                        <Text className="text-gray-500 text-sm font-poppinsMedium">+912545788</Text>
-                    </View>
-                    <View className="bg-green-100 px-3 py-1 rounded-full">
-                        <Text className="text-green-600 text-xs font-poppinsMedium">Resolved</Text>
+                    <View className="px-2 py-1 border-[#4caf50] border-[1px] rounded-full">
+                        <Text className="text-[#4caf50] text-xs font-poppinsMedium">Resolved</Text>
                     </View>
                 </View>
 
                 {/* Info Sections */}
-                <View className="space-y-6">
+                <View className="flex gap-5">
                     <View>
                         <Text className="text-gray-400 text-xs font-poppinsMedium uppercase tracking-wide mb-2">EMAIL</Text>
                         <Text className="text-black text-base font-poppinsMedium">enos.bogisich@orland.tv</Text>
@@ -67,8 +70,8 @@ export default function LeadInfoScreen() {
 
                     <View>
                         <Text className="text-gray-400 text-xs font-poppinsMedium uppercase tracking-wide mb-2">CALL TYPE</Text>
-                        <View className="flex-row items-center">
-                            <Phone size={16} color="green" className="mr-2" />
+                        <View className="flex flex-row items-center gap-2">
+                            <PhoneIncoming size={20} color="#4caf50"/>
                             <Text className="text-black text-base font-poppinsMedium">Inbound Calls</Text>
                         </View>
                     </View>

@@ -9,6 +9,8 @@ import NumbersIcon from '../../assets/svg/NumbersIcon.svg'
 import {useEffect, useState} from "react";
 import {getFocusedRouteNameFromRoute} from "@react-navigation/native";
 import DashboardScreen from "../../screens/DashboardScreen/page.tsx";
+import ConversationScreen from "../../screens/ConversationScreen/page.tsx";
+import LeadsScreen from "../../screens/LeadsScreen/page.tsx";
 
 export default function TabNavigator() {
     const Tab = createBottomTabNavigator()
@@ -78,7 +80,7 @@ export default function TabNavigator() {
             />
             <Tab.Screen
                 name="ConversationScreen"
-                component={DashboardScreen}
+                component={ConversationScreen}
                 options={({route}) => ({
                     tabBarLabel: () => null,
                     tabBarIcon: ({focused, color}) => {
@@ -102,7 +104,7 @@ export default function TabNavigator() {
             />
             <Tab.Screen
                 name="LeadsScreen"
-                component={DashboardScreen}
+                component={LeadsScreen}
                 options={({route}) => ({
                     tabBarLabel: () => null,
                     tabBarIcon: ({focused, color}) => {

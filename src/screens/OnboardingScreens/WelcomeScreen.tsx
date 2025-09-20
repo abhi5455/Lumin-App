@@ -23,7 +23,7 @@ const WelcomeScreen = () => {
                     </View>
 
                     <View className="items-center mb-12">
-                        <Text className="text-2xl font-poppinsSemibold text-black mb-6">
+                        <Text className="text-2xl font-poppinsSemiBold text-black mb-6">
                             {counter === 1 && 'Welcome to'}
                             {counter === 2 && 'Smart Call Automation'}
                             {counter === 3 && 'Personalized Solutions'}
@@ -56,7 +56,7 @@ const WelcomeScreen = () => {
                         }
                         console.log(counter);
                     }}>
-                        <Text className="text-white text-lg font-poppinsSemibold mr-2">
+                        <Text className="text-white text-lg font-poppinsSemiBold mr-2">
                             Next
                         </Text>
                         <ArrowRight size={20} color={'#FFF'}/>

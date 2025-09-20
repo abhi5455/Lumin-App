@@ -4,8 +4,11 @@ import MenuIcon from '../../assets/svg/MenuIcon.svg'
 import FilterIcon from '../../assets/svg/FilterIcon.svg'
 import PhoneTickIcon from '../../assets/svg/PhoneTickIcon.svg'
 import React from "react";
+import FilterModal from "../ConversationScreen/Components/FilterModal.tsx";
 
 export default function LeadsScreen() {
+    const [filterModalVisible, setFilterModalVisible] = React.useState(false);
+
     return (
         <SafeAreaView className="flex-1 bg-gray-50 px-1">
 
@@ -22,10 +25,10 @@ export default function LeadsScreen() {
                 </TouchableOpacity>
             </View>
 
-            {/* Existing Leads Header */}
+            {/* Recent Conversation Header */}
             <View className="flex-row items-center bg-[#f6f7f9] justify-between px-4 py-3">
                 <Text className="text-black text-lg font-poppinsMedium">Existing Leads</Text>
-                <TouchableOpacity className="bg-white">
+                <TouchableOpacity className="bg-white" onPress={() => setFilterModalVisible(!filterModalVisible)}>
                     <FilterIcon/>
                 </TouchableOpacity>
             </View>
@@ -59,7 +62,15 @@ export default function LeadsScreen() {
                         </View>
                     </TouchableOpacity>
                 ))}
+                <View className="min-h-[150px] bg-transparent min-w-1"/>
             </ScrollView>
+
+            {/* Filter Modal */}
+            <FilterModal visible={filterModalVisible} onClose={() => {
+                setFilterModalVisible(false)
+            }} onApply={() => {
+                setFilterModalVisible(false)
+            }}/>
         </SafeAreaView>
     )
 }

@@ -1,20 +1,22 @@
 import {SafeAreaView, ScrollView, StatusBar, Text, TouchableOpacity, View} from "react-native";
-import {ChevronLeft} from "lucide-react-native";
 import React from "react";
+import BackIcon from '../../../assets/svg/BackIcon.svg'
+import {useAppNavigation} from "../../common/navigationHelper.ts";
 
 export default function ChatScreen(){
+    const navigation = useAppNavigation()
+
     return (
         <SafeAreaView className="flex-1 bg-gray-50">
             <StatusBar barStyle="light-content" backgroundColor="teal" />
-
             {/* Header */}
-            <View className="bg-teal-600 px-4 py-4">
+            <View className="bg-primary px-6 py-5">
                 <View className="flex-row items-center">
                     <TouchableOpacity
                         className="mr-4"
-                        // onPress={() => setCurrentScreen('leadInfo')}
+                        onPress={() => navigation.goBack()}
                     >
-                        <ChevronLeft size={24} color="white" />
+                        <BackIcon/>
                     </TouchableOpacity>
                     <Text className="text-white text-lg font-poppinsSemiBold">Conversation chat</Text>
                 </View>
