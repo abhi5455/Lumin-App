@@ -12,7 +12,7 @@ export default function SubscriptionScreen() {
             <ScrollView className="flex-1 px-6 pt-4">
                 {/* Header */}
                 <View className="flex-row items-center justify-between mb-6">
-                    <TouchableOpacity className="flex items-center justify-center w-10 h-10 border border-[#889baf] rounded-xl"
+                    <TouchableOpacity className="flex items-center justify-center p-1 border border-[#889baf] rounded-xl"
                     onPress={() => navigation.goBack()}>
                         <ChevronLeft size={22} color="#889baf" />
                     </TouchableOpacity>
@@ -38,7 +38,7 @@ export default function SubscriptionScreen() {
                 </View>
 
                 {/* Pricing Cards */}
-                <View className="flex gap-4 mb-8">
+                <View className="flex gap-5 mb-8">
                     {/* Starter Plan */}
                     <View className="border-[1.25px] border-primary rounded-xl p-4 bg-white">
                         <View className="flex-row justify-between items-center">
