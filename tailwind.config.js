@@ -10,7 +10,7 @@ module.exports = {
       fontFamily: {
         'poppins': ['Poppins-Regular'],
         'poppinsMedium': ['Poppins-Medium'],
-        'poppinsSemibold': ['Poppins-SemiBold'],
+        'poppinsSemiBold': ['Poppins-SemiBold'],
         'poppinsBold': ['Poppins-Bold'],
         'poppinsLight': ['Poppins-Light'],
       },
