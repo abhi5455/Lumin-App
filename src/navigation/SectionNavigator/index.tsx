@@ -1,8 +1,9 @@
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import WelcomeScreen from "../../screens/OnboardingScreens/WelcomeScreen.tsx";
 import RegisterScreen from "../../screens/OnboardingScreens/RegisterScreen.tsx";
-import LeadInfoScreen from "../../screens/ConversationScreen/Components/LeadInfoScreen.tsx";
-import ChatScreen from "../../screens/ConversationScreen/Components/ChatScreen.tsx";
+import LeadInfoScreen from "../../screens/ConversationScreen/components/LeadInfoScreen.tsx";
+import ChatScreen from "../../screens/ConversationScreen/components/ChatScreen.tsx";
+import OutboundCallsScreen from "../../screens/LeadsScreen/components/OutboundCallsScreen.tsx";
 
 export default function SectionNavigator(){
     const Stack = createNativeStackNavigator()
@@ -28,6 +29,13 @@ export default function SectionNavigator(){
                 name="ChatScreen"
                 options={{headerShown: false, gestureEnabled: false}}
                 component={ChatScreen}
+            />
+
+
+            <Stack.Screen
+                name="OutboundCallsScreen"
+                options={{headerShown: false, gestureEnabled: false}}
+                component={OutboundCallsScreen}
             />
         </Stack.Navigator>
     )

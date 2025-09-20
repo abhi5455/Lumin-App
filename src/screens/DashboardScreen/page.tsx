@@ -4,7 +4,7 @@ import {
     Text,
     ScrollView,
     TouchableOpacity,
-    SafeAreaView,
+    SafeAreaView, Dimensions,
 } from 'react-native';
 import {
     Menu,
@@ -18,14 +18,49 @@ import {
     MessageCircle,
     Users,
     User,
-    Phone,
+    Phone, TrendingUp,
 } from 'lucide-react-native';
 import MenuIcon from "../../assets/svg/MenuIcon.svg";
 import TickIcon from "../../assets/svg/TickIcon.svg";
 import AlertIcon from "../../assets/svg/AlertIcon.svg";
 import CrossIcon from "../../assets/svg/CrossIcon.svg";
+import { LineChart } from 'react-native-chart-kit';
+
+const screenWidth = Dimensions.get('window').width;
 
 export default function DashboardScreen() {
+    const chartData = {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+        datasets: [
+            {
+                data: [15000, 20000, 15000, 15000, 14000, 18000],
+                color: (opacity = 1) => `rgba(134, 239, 172, ${opacity})`, // teal-300 equivalent
+                strokeWidth: 2,
+            },
+        ],
+    };
+
+    const chartConfig = {
+        backgroundColor: 'transparent',
+        backgroundGradientFrom: '#ffffff',
+        backgroundGradientTo: '#ffffff',
+        decimalPlaces: 0,
+        color: (opacity = 1) => `#aad8d3`,
+        labelColor: (opacity = 1) => `rgba(156, 163, 175, ${opacity})`, // gray-400
+        style: {
+            borderRadius: 16,
+        },
+        propsForDots: {
+            r: '0',
+        },
+        propsForBackgroundLines: {
+            strokeDasharray: '3,3',
+            stroke: '#aad8d3',
+        },
+        fillShadowGradient: '#aad8d3',
+        fillShadowGradientOpacity: 1,
+    };
+
     return (
         <SafeAreaView className="flex-1 bg-gray-50 px-1">
             {/* Header */}
@@ -41,7 +76,7 @@ export default function DashboardScreen() {
                 </TouchableOpacity>
             </View>
 
-                {/* Enterprise Plan Card */}
+            {/* Enterprise Plan Card */}
             <ScrollView className="flex-1 bg-[#f6f7f9]">
                 <View className="mx-4 mt-6 bg-primary rounded-2xl p-6 relative overflow-hidden">
                     {/* Decorative leaf pattern - using simple View elements */}
@@ -139,55 +174,63 @@ export default function DashboardScreen() {
                 </View>
 
                 {/* Chart Section */}
-                <View className="mx-4 mt-6 bg-white rounded-xl p-4">
-                    <View className="flex-row items-center justify-between mb-4">
-                        <Text className="text-black text-2xl font-poppinsSemiBold">
-                            20000
-                        </Text>
-                        <TouchableOpacity className="flex-row items-center">
-                            <Text className="text-gray-500 text-sm font-poppinsMedium mr-1">
-                                Last 6 month
+                <View className="flex-1 bg-gray-50">
+                    <View className="mx-4 mt-6 bg-white rounded-xl p-4">
+                        <View className="flex-row items-center justify-between mb-4">
+                            <Text className="text-black text-2xl font-poppinsSemiBold">
+                                20000
                             </Text>
-                            <ChevronDown size={16} color="#6b7280"/>
-                        </TouchableOpacity>
-                    </View>
+                            <TouchableOpacity className="flex-row items-center">
+                                <Text className="text-gray-500 text-sm font-poppinsMedium mr-1">
+                                    Last 6 month
+                                </Text>
+                                <ChevronDown size={16} color="#6b7280" />
+                            </TouchableOpacity>
+                        </View>
 
-                    <Text className="text-gray-400 text-sm font-poppinsMedium mb-4">
-                        The last 6 months
-                    </Text>
+                        <Text className="text-gray-400 text-sm font-poppinsMedium mb-4">
+                            The last 6 months
+                        </Text>
 
-                    {/* Simple Chart Representation */}
-                    <View className="h-32 flex-row items-end justify-between mb-4">
-                        <View className="flex-1 items-center">
-                            <View className="w-full h-20 bg-teal-300 rounded-t-lg mb-2"/>
-                            <Text className="text-gray-400 text-xs font-poppinsMedium">Jan</Text>
+                        {/* Area Chart using react-native-chart-kit */}
+                        <View className="mb-4">
+                            <LineChart
+                                data={chartData}
+                                width={screenWidth - 40} // Account for margins and padding
+                                height={160}
+                                chartConfig={chartConfig}
+                                bezier
+                                style={{
+                                    marginVertical: 8,
+                                    borderRadius: 16,
+                                }}
+                                withDots={false}
+                                withInnerLines={false}
+                                withOuterLines={false}
+                                withVerticalLines={false}
+                                withHorizontalLines={false}
+                                fromZero={false}
+                                segments={4}
+                            />
                         </View>
-                        <View className="flex-1 items-center mx-1">
-                            <View className="w-full h-24 bg-teal-300 rounded-t-lg mb-2"/>
-                            <Text className="text-gray-400 text-xs font-poppinsMedium">Feb</Text>
-                        </View>
-                        <View className="flex-1 items-center mx-1">
-                            <View className="w-full h-16 bg-teal-300 rounded-t-lg mb-2"/>
-                            <Text className="text-gray-400 text-xs font-poppinsMedium">Mar</Text>
-                        </View>
-                        <View className="flex-1 items-center mx-1">
-                            <View className="w-full h-12 bg-teal-300 rounded-t-lg mb-2"/>
-                            <Text className="text-gray-400 text-xs font-poppinsMedium">Apr</Text>
-                        </View>
-                        <View className="flex-1 items-center mx-1">
-                            <View className="w-full h-18 bg-teal-300 rounded-t-lg mb-2"/>
-                            <Text className="text-gray-400 text-xs font-poppinsMedium">May</Text>
-                        </View>
-                        <View className="flex-1 items-center">
-                            <View className="w-full h-28 bg-teal-300 rounded-t-lg mb-2"/>
-                            <Text className="text-gray-400 text-xs font-poppinsMedium">Jun</Text>
-                        </View>
-                    </View>
 
-                    {/* Chart Label */}
-                    <View className="flex-row items-center">
-                        <View className="w-2 h-2 bg-teal-300 rounded-full mr-2"/>
-                        <Text className="text-gray-400 text-xs font-poppinsMedium">200 hr</Text>
+                        {/* Chart Label */}
+                        <View className="flex-row items-center mb-4">
+                            <View className="w-2 h-2 bg-green-300 rounded-full mr-2" />
+                            <Text className="text-gray-400 text-xs font-poppinsMedium">200 hr</Text>
+                        </View>
+
+                        {/* Trending Information */}
+                        <View className="flex-row items-center mb-2">
+                            <TrendingUp size={14} color="#10b981" />
+                            <Text className="text-black text-sm font-poppinsMedium ml-1">
+                                Trending up by 5.2% this month
+                            </Text>
+                        </View>
+
+                        <Text className="text-gray-400 text-sm font-poppinsMedium">
+                            January - June 2024
+                        </Text>
                     </View>
                 </View>
 

@@ -10,7 +10,6 @@ export default function LeadInfoScreen() {
     return (
 
         <SafeAreaView className="flex-1 bg-white">
-
             {/* Header */}
             <View className="bg-primary px-6 py-5">
                 <View className="flex-row items-center">

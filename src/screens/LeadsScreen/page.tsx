@@ -4,14 +4,15 @@ import MenuIcon from '../../assets/svg/MenuIcon.svg'
 import FilterIcon from '../../assets/svg/FilterIcon.svg'
 import PhoneTickIcon from '../../assets/svg/PhoneTickIcon.svg'
 import React from "react";
-import FilterModal from "../ConversationScreen/Components/FilterModal.tsx";
+import FilterModal from "../ConversationScreen/components/FilterModal.tsx";
+import {useAppNavigation} from "../../common/navigationHelper.ts";
 
 export default function LeadsScreen() {
+    const navigation = useAppNavigation()
     const [filterModalVisible, setFilterModalVisible] = React.useState(false);
 
     return (
         <SafeAreaView className="flex-1 bg-gray-50 px-1">
-
             {/* Header */}
             <View className="flex-row items-center justify-between px-4 py-4 pt-6 bg-white">
                 <TouchableOpacity>
@@ -39,7 +40,11 @@ export default function LeadsScreen() {
                     <TouchableOpacity
                         key={index}
                         className="flex-row items-center justify-between py-4 px-3 mb-4 rounded-lg border-b bg-white border-gray-100"
-                        // onPress={() => setCurrentScreen('leadInfo')}
+                        onPress={() => {
+                            navigation.navigate("SectionNavigator", {
+                                screen: "OutboundCallsScreen",
+                            });
+                        }}
                     >
                         <View className="flex flex-row">
                             <View className="w-12 h-12 bg-teal-600 rounded-full items-center justify-center mr-4">

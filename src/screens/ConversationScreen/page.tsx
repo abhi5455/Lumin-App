@@ -4,7 +4,7 @@ import MenuIcon from '../../assets/svg/MenuIcon.svg'
 import FilterIcon from '../../assets/svg/FilterIcon.svg'
 import React from "react";
 import {useAppNavigation} from "../../common/navigationHelper.ts";
-import FilterModal from "./Components/FilterModal.tsx";
+import FilterModal from "./components/FilterModal.tsx";
 
 export default function ConversationScreen() {
     const navigation = useAppNavigation()
