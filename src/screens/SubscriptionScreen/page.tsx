@@ -12,9 +12,9 @@ export default function SubscriptionScreen() {
             <ScrollView className="flex-1 px-6 pt-4">
                 {/* Header */}
                 <View className="flex-row items-center justify-between mb-6">
-                    <TouchableOpacity className="w-10 h-10 border border-gray-300 rounded-xl items-center justify-center"
+                    <TouchableOpacity className="flex items-center justify-center w-10 h-10 border border-[#889baf] rounded-xl"
                     onPress={() => navigation.goBack()}>
-                        <ChevronLeft size={22} color="#4B5563" />
+                        <ChevronLeft size={22} color="#889baf" />
                     </TouchableOpacity>
 
                     <View className="flex-row bg-gray-100 rounded-lg p-1">
@@ -49,7 +49,7 @@ export default function SubscriptionScreen() {
 
                     {/* Professional Plan */}
                     <View className="bg-primary rounded-xl p-4 relative">
-                        <View className="absolute top-3 right-3 bg-black rounded-full px-3 py-1">
+                        <View className="absolute top-3 right-3 bg-[#182a42] rounded-md px-3 py-1">
                             <Text className="text-white text-xs font-poppinsMedium">50% off</Text>
                         </View>
                         <View className="flex-row justify-between items-center">
@@ -60,7 +60,7 @@ export default function SubscriptionScreen() {
                                     <Text className="text-white text-sm font-poppinsMedium">$8.98</Text>
                                 </View>
                             </View>
-                            <Text className="text-white text-base font-poppinsMedium">$9.98 per month</Text>
+                            <Text className="text-white text-base font-poppinsMedium mt-7">$9.98 per month</Text>
                         </View>
                     </View>
 
