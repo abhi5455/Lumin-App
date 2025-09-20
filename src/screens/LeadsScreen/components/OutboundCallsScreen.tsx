@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
     View,
     Text,
@@ -42,7 +42,8 @@ const OutboundCallsScreen = () => {
                     Outbound Calls - Leads
                 </Text>
                 <Text className="text-gray-600 text-sm font-poppinsMedium mb-6 leading-5">
-                    Add the lead details here for the AI to process. These entries will guide the AI in making informed and personalized interactions during calls.
+                    Add the lead details here for the AI to process. These entries will guide the AI in making informed
+                    and personalized interactions during calls.
                 </Text>
 
                 {/* Full Name */}
@@ -122,13 +123,14 @@ const OutboundCallsScreen = () => {
                         <Text className="text-white text-xs font-poppinsSemiBold">i</Text>
                     </View>
                     <Text className="text-gray-500 text-sm font-poppinsMedium flex-1 leading-5">
-                        This section allows you to guide the AI on how to interact during calls. Define goals, targets, conversation topics, tone of voice, and behavior to ensure effective communication.
+                        This section allows you to guide the AI on how to interact during calls. Define goals, targets,
+                        conversation topics, tone of voice, and behavior to ensure effective communication.
                     </Text>
                 </View>
 
                 {/* Scheduling Section */}
                 <View className="flex-row items-center mb-4">
-                    <Text className="text-gray-800 text-lg font-poppinsSemiBold mr-2">
+                    <Text className="text-gray-800 text-base font-poppinsSemiBold mr-2">
                         Scheduling
                     </Text>
                     <Text className="text-gray-400 text-sm font-poppinsMedium">
@@ -140,7 +142,8 @@ const OutboundCallsScreen = () => {
                 <Text className="text-gray-800 text-base font-poppinsSemiBold mb-2">
                     Date range
                 </Text>
-                <View className="bg-white border border-gray-200 rounded-lg px-4 py-3 flex-row items-center justify-between mb-4">
+                <View
+                    className="bg-white border border-gray-200 rounded-lg px-4 py-2 flex-row items-center justify-between mb-4">
                     <TextInput
                         className="text-gray-800 font-poppinsMedium flex-1"
                         placeholder="dd-mm-yy"
@@ -148,14 +151,15 @@ const OutboundCallsScreen = () => {
                         value={dateRange}
                         onChangeText={setDateRange}
                     />
-                        <CalendarFold color={'#889baf'} size={22}/>
+                    <CalendarFold color={'#889baf'} size={22}/>
                 </View>
 
                 {/* Time Range */}
                 <Text className="text-gray-800 text-base font-poppinsSemiBold mb-2">
                     Time range
                 </Text>
-                <View className="bg-white border border-gray-200 rounded-lg px-4 py-3 flex-row items-center justify-between mb-8">
+                <View
+                    className="bg-white border border-gray-200 rounded-lg px-4 py-2 flex-row items-center justify-between mb-8">
                     <TextInput
                         className="text-gray-800 font-poppinsMedium flex-1"
                         placeholder="07:30 Am to 08:30 Am"
@@ -165,6 +169,7 @@ const OutboundCallsScreen = () => {
                     />
                     <CalendarFold color={'#889baf'} size={22}/>
                 </View>
+                <View className="min-h-[100px] bg-transparent min-w-1"/>
             </ScrollView>
 
             {/* Submit Button */}

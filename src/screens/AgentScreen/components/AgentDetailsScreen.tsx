@@ -174,10 +174,10 @@ export default function AgentDetailsScreen() {
 
                 {/* Scheduling Section */}
                 <View className="flex-row items-center mb-4">
-                    <Text className="text-gray-800 text-lg font-poppinsSemiBold mr-2">
+                    <Text className="text-gray-800 text-base font-poppinsSemiBold mr-2">
                         Scheduling
                     </Text>
-                    <Text className="text-gray-400 text-base font-poppinsMedium">
+                    <Text className="text-gray-400 text-sm font-poppinsMedium">
                         (Optional)
                     </Text>
                 </View>
@@ -187,7 +187,7 @@ export default function AgentDetailsScreen() {
                     Date range
                 </Text>
                 <View
-                    className="bg-white border border-gray-200 rounded-lg px-4 py-3 flex-row items-center justify-between mb-4">
+                    className="bg-white border border-gray-200 rounded-lg px-4 py-2 flex-row items-center justify-between mb-4">
                     <TextInput
                         className="text-gray-800 font-poppinsMedium flex-1"
                         placeholder="dd-mm-yy"
@@ -203,7 +203,7 @@ export default function AgentDetailsScreen() {
                     Time range
                 </Text>
                 <View
-                    className="bg-white border border-gray-200 rounded-lg px-4 py-3 flex-row items-center justify-between mb-8">
+                    className="bg-white border border-gray-200 rounded-lg px-4 py-2 flex-row items-center justify-between mb-8">
                     <TextInput
                         className="text-gray-800 font-poppinsMedium flex-1"
                         placeholder="07:30 Am to 08:30 Am"
@@ -213,6 +213,7 @@ export default function AgentDetailsScreen() {
                     />
                     <CalendarFold color={'#889baf'} size={22}/>
                 </View>
+                <View className="min-h-[100px] bg-transparent min-w-1"/>
             </ScrollView>
 
             {/* Submit Button */}
