@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
+import {Check, ChevronLeft} from "lucide-react-native";
+import {useAppNavigation} from "../../common/navigationHelper.ts";
 
 export default function SubscriptionScreen() {
+    const navigation = useAppNavigation()
     const [selectedPlan, setSelectedPlan] = useState<'monthly' | 'yearly'>('monthly');
 
     return (
         <SafeAreaView className="flex-1 bg-white">
-            <ScrollView className="flex-1 px-4 pt-4">
+            <ScrollView className="flex-1 px-6 pt-4">
                 {/* Header */}
                 <View className="flex-row items-center justify-between mb-6">
-                    <TouchableOpacity className="w-10 h-10 border border-gray-300 rounded-lg items-center justify-center">
-                        <Text className="text-gray-600 text-lg font-poppinsMedium">←</Text>
+                    <TouchableOpacity className="w-10 h-10 border border-gray-300 rounded-xl items-center justify-center"
+                    onPress={() => navigation.goBack()}>
+                        <ChevronLeft size={22} color="#4B5563" />
                     </TouchableOpacity>
 
                     <View className="flex-row bg-gray-100 rounded-lg p-1">
@@ -34,9 +38,9 @@ export default function SubscriptionScreen() {
                 </View>
 
                 {/* Pricing Cards */}
-                <View className="space-y-4 mb-8">
+                <View className="flex gap-4 mb-8">
                     {/* Starter Plan */}
-                    <View className="border-2 border-teal-500 rounded-xl p-4 bg-white">
+                    <View className="border-[1.25px] border-primary rounded-xl p-4 bg-white">
                         <View className="flex-row justify-between items-center">
                             <Text className="text-black text-lg font-poppinsSemiBold">Starter</Text>
                             <Text className="text-gray-400 text-base font-poppinsMedium">$9.98 per month</Text>
@@ -44,7 +48,7 @@ export default function SubscriptionScreen() {
                     </View>
 
                     {/* Professional Plan */}
-                    <View className="bg-teal-600 rounded-xl p-4 relative">
+                    <View className="bg-primary rounded-xl p-4 relative">
                         <View className="absolute top-3 right-3 bg-black rounded-full px-3 py-1">
                             <Text className="text-white text-xs font-poppinsMedium">50% off</Text>
                         </View>
@@ -61,7 +65,7 @@ export default function SubscriptionScreen() {
                     </View>
 
                     {/* Enterprise Plan */}
-                    <View className="border-2 border-teal-500 rounded-xl p-4 bg-white">
+                    <View className="border-[1.25px] border-primary rounded-xl p-4 bg-white">
                         <View className="flex-row justify-between items-center">
                             <Text className="text-black text-lg font-poppinsSemiBold">Enterprise</Text>
                             <Text className="text-gray-400 text-base font-poppinsMedium">$9.98 per month</Text>
@@ -75,11 +79,11 @@ export default function SubscriptionScreen() {
                         Boost your productivity with upto 50% off
                     </Text>
 
-                    <View className="space-y-4">
+                    <View className="flex flex-col gap-3">
                         {/* Feature 1 */}
                         <View className="flex-row items-start">
-                            <View className="w-6 h-6 bg-teal-200 rounded-full items-center justify-center mr-3 mt-0.5">
-                                <Text className="text-teal-600 text-sm font-poppinsSemiBold">✓</Text>
+                            <View className="p-1 bg-[#b6d7d2] rounded-md items-center justify-center mr-3 mt-0.5">
+                                <Check color={'#178671'} size={20}/>
                             </View>
                             <Text className="text-gray-700 text-base font-poppinsMedium flex-1 leading-6">
                                 Scale your outreach with seamless AI-driven conversations.
@@ -88,8 +92,8 @@ export default function SubscriptionScreen() {
 
                         {/* Feature 2 */}
                         <View className="flex-row items-start">
-                            <View className="w-6 h-6 bg-teal-200 rounded-full items-center justify-center mr-3 mt-0.5">
-                                <Text className="text-teal-600 text-sm font-poppinsSemiBold">✓</Text>
+                            <View className="p-1 bg-[#b6d7d2] rounded-md items-center justify-center mr-3 mt-0.5">
+                                <Check color={'#178671'} size={20}/>
                             </View>
                             <Text className="text-gray-700 text-base font-poppinsMedium flex-1 leading-6">
                                 Unused minutes roll over to the next month.
@@ -98,8 +102,8 @@ export default function SubscriptionScreen() {
 
                         {/* Feature 3 */}
                         <View className="flex-row items-start">
-                            <View className="w-6 h-6 bg-teal-200 rounded-full items-center justify-center mr-3 mt-0.5">
-                                <Text className="text-teal-600 text-sm font-poppinsSemiBold">✓</Text>
+                            <View className="p-1 bg-[#b6d7d2] rounded-md items-center justify-center mr-3 mt-0.5">
+                                <Check color={'#178671'} size={20}/>
                             </View>
                             <Text className="text-gray-700 text-base font-poppinsMedium flex-1 leading-6">
                                 Get 24/7 assistance and faster response time.
@@ -108,8 +112,8 @@ export default function SubscriptionScreen() {
 
                         {/* Feature 4 */}
                         <View className="flex-row items-start">
-                            <View className="w-6 h-6 bg-teal-200 rounded-full items-center justify-center mr-3 mt-0.5">
-                                <Text className="text-teal-600 text-sm font-poppinsSemiBold">✓</Text>
+                            <View className="p-1 bg-[#b6d7d2] rounded-md items-center justify-center mr-3 mt-0.5">
+                                <Check color={'#178671'} size={20}/>
                             </View>
                             <Text className="text-gray-700 text-base font-poppinsMedium flex-1 leading-6">
                                 Gain deep insights into call performance and customer interactions.
@@ -118,8 +122,8 @@ export default function SubscriptionScreen() {
 
                         {/* Feature 5 */}
                         <View className="flex-row items-start">
-                            <View className="w-6 h-6 bg-teal-200 rounded-full items-center justify-center mr-3 mt-0.5">
-                                <Text className="text-teal-600 text-sm font-poppinsSemiBold">✓</Text>
+                            <View className="p-1 bg-[#b6d7d2] rounded-md items-center justify-center mr-3 mt-0.5">
+                                <Check color={'#178671'} size={20}/>
                             </View>
                             <Text className="text-gray-700 text-base font-poppinsMedium flex-1 leading-6">
                                 Unlock additional agents to handle calls efficiently.
@@ -129,7 +133,7 @@ export default function SubscriptionScreen() {
                 </View>
 
                 {/* Subscribe Button */}
-                <TouchableOpacity className="bg-teal-600 rounded-xl py-4 items-center mb-8">
+                <TouchableOpacity className="bg-primary rounded-xl py-4 items-center mb-8">
                     <Text className="text-white text-lg font-poppinsSemiBold">Subscribe</Text>
                 </TouchableOpacity>
             </ScrollView>
