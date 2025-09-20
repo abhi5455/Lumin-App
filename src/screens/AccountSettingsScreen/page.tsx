@@ -20,7 +20,7 @@ import {ArrowRight} from "lucide-react-native";
 export default function AccountSettingsScreen(){
     const navigation = useAppNavigation();
     const menuItems = [
-        { id: 1, title: 'My Account', icon: <PersonIcon/> },
+        { id: 1, title: 'My Account', icon: <PersonIcon/> , action: () => navigation.navigate('SectionNavigator', {screen: 'AccountInfoScreen'})},
         { id: 2, title: 'Transaction history', icon: <TransactionIcon/> },
         { id: 3, title: 'Subscription', icon: <SubscriptionIcon/>},
         { id: 4, title: 'Terms of service', icon: <TOSIcon/> },
@@ -68,6 +68,7 @@ export default function AccountSettingsScreen(){
                         <TouchableOpacity
                             key={item.id}
                             className="flex-row items-center justify-between py-4 border-b border-gray-50"
+                            onPress={item?.action}
                         >
                             <View className="flex-row items-center">
                                 <View className="flex items-center justify-center h-10 mr-4">

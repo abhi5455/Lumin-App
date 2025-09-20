@@ -6,6 +6,7 @@ import ChatScreen from "../../screens/ConversationScreen/components/ChatScreen.t
 import OutboundCallsScreen from "../../screens/LeadsScreen/components/OutboundCallsScreen.tsx";
 import AgentDetailsScreen from "../../screens/AgentScreen/components/AgentDetailsScreen.tsx";
 import AccountSettingsScreen from "../../screens/AccountSettingsScreen/page.tsx";
+import AccountInfoScreen from "../../screens/AccountSettingsScreen/AccountInfoScreen.tsx";
 
 export default function SectionNavigator(){
     const Stack = createNativeStackNavigator()
@@ -50,6 +51,11 @@ export default function SectionNavigator(){
                 name="AccountSettingsScreen"
                 options={{headerShown: false, gestureEnabled: false}}
                 component={AccountSettingsScreen}
+            />
+            <Stack.Screen
+                name="AccountInfoScreen"
+                options={{headerShown: false, gestureEnabled: false}}
+                component={AccountInfoScreen}
             />
         </Stack.Navigator>
     )
