@@ -7,10 +7,11 @@ import OutboundCallsScreen from "../../screens/LeadsScreen/components/OutboundCa
 import AgentDetailsScreen from "../../screens/AgentScreen/components/AgentDetailsScreen.tsx";
 import AccountSettingsScreen from "../../screens/AccountSettingsScreen/page.tsx";
 import AccountInfoScreen from "../../screens/AccountSettingsScreen/AccountInfoScreen.tsx";
+import SubscriptionScreen from "../../screens/SubscriptionScreen/page.tsx";
 
-export default function SectionNavigator(){
+export default function SectionNavigator() {
     const Stack = createNativeStackNavigator()
-    return(
+    return (
         <Stack.Navigator>
             <Stack.Screen
                 name="WelcomeScreen"
@@ -62,6 +63,12 @@ export default function SectionNavigator(){
                 name="NumbersScreen"
                 options={{headerShown: false, gestureEnabled: false}}
                 component={AccountInfoScreen}
+            />
+
+            <Stack.Screen
+                name="SubscriptionScreen"
+                options={{headerShown: false, gestureEnabled: false}}
+                component={SubscriptionScreen}
             />
         </Stack.Navigator>
     )

@@ -21,7 +21,7 @@ import TickIcon from "../../assets/svg/TickIcon.svg";
 import AlertIcon from "../../assets/svg/AlertIcon.svg";
 import CrossIcon from "../../assets/svg/CrossIcon.svg";
 import Flower from "../../assets/svg/Flower.svg";
-import { LineChart } from 'react-native-chart-kit';
+import {LineChart} from 'react-native-chart-kit';
 import {useAppNavigation} from "../../common/navigationHelper.ts";
 
 const screenWidth = Dimensions.get('window').width;
@@ -71,11 +71,11 @@ export default function DashboardScreen() {
                     Convogents
                 </Text>
                 <TouchableOpacity
-                onPress={()=>{
-                    navigation.navigate("SectionNavigator", {
-                        screen: "AccountSettingsScreen",
-                    });
-                }}>
+                    onPress={() => {
+                        navigation.navigate("SectionNavigator", {
+                            screen: "AccountSettingsScreen",
+                        });
+                    }}>
                     <Settings size={24} color="#374151"/>
                 </TouchableOpacity>
             </View>
@@ -133,7 +133,12 @@ export default function DashboardScreen() {
                     </View>
 
                     {/* Upgrade Button */}
-                    <TouchableOpacity className="bg-white rounded-xl py-3 px-4 flex-row items-center justify-center">
+                    <TouchableOpacity className="bg-white rounded-xl py-3 px-4 flex-row items-center justify-center"
+                                      onPress={() => {
+                                          navigation.navigate("SectionNavigator", {
+                                              screen: "SubscriptionScreen",
+                                          });
+                                      }}>
                         <Rocket size={21} color="#0d9488"/>
                         <Text className="text-primary text-sm font-poppinsSemiBold ml-2">
                             Upgrade Subscription
@@ -185,7 +190,7 @@ export default function DashboardScreen() {
                                 <Text className="text-gray-500 text-sm font-poppinsMedium mr-1">
                                     Last 6 month
                                 </Text>
-                                <ChevronDown size={16} color="#6b7280" />
+                                <ChevronDown size={16} color="#6b7280"/>
                             </TouchableOpacity>
                         </View>
 
@@ -217,7 +222,7 @@ export default function DashboardScreen() {
 
                         {/* Trending Information */}
                         <View className="flex-row items-center mb-2">
-                            <TrendingUp size={14} />
+                            <TrendingUp size={14}/>
                             <Text className="text-black text-sm font-poppinsMedium ml-1">
                                 Trending up by 5.2% this month
                             </Text>
