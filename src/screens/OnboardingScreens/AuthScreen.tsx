@@ -10,10 +10,43 @@ import GoogleIcon from '../../assets/svg/Google.svg'
 import AppleIcon from '../../assets/svg/apple.svg'
 import {Eye, EyeOff} from "lucide-react-native";
 import {useAppNavigation} from "../../common/navigationHelper.ts";
+import Toast from "react-native-toast-message";
+import axios from "axios";
+// import Config from "react-native-config";
 
 interface ValidationRule {
     text: string;
     isValid: boolean;
+}
+
+function handleLogin(email: string, password: string) {
+    if(!email || !password) {
+        Toast.show({
+            type: 'error',
+            text1: 'Invalid Credentials!',
+            text2: 'Fill required details'
+        });
+        return;
+    }
+    // console.log("Logging", Config.BASE_URL);
+    axios.post(`http://api-staging.convogents.com/login`)
+        .then( res => {
+            console.log(res.data);
+            Toast.show({
+                type: 'success',
+                text1: 'Login Successful!',
+                text2: 'Welcome back!'
+            });
+        })
+
+        .catch( err => {
+            console.log(err);
+            Toast.show({
+                type: 'error',
+                text1: 'Login Failed!',
+                text2: 'Please check your credentials and try again.'
+            });
+        })
 }
 
 const AuthScreen: React.FC = () => {
@@ -194,9 +227,18 @@ const AuthScreen: React.FC = () => {
                 {/* Submit Button */}
                 <TouchableOpacity className="bg-primary rounded-xl py-4 mb-6"
                                   onPress={() => {
-                                      navigation.navigate("SectionNavigator", {
-                                          screen: "RegisterScreen",
-                                      });
+                                        if (isSignUp && !agreeToTerms) {
+                                            Toast.show({
+                                                type: 'error',
+                                                text1: 'Terms Not Accepted!',
+                                                text2: 'You must agree to the terms and conditions to proceed.'
+                                            });
+                                            return;
+                                        }
+                                      handleLogin(email, password);
+                                      // navigation.navigate("SectionNavigator", {
+                                      //     screen: "RegisterScreen",
+                                      // });
                                   }}>
                     <Text className="text-lg font-poppinsSemiBold text-white text-center">
                         {isSignUp ? 'Create Account' : 'Sign in'}
@@ -208,7 +250,9 @@ const AuthScreen: React.FC = () => {
                     <Text className="text-base font-poppinsMedium text-gray-600">
                         Do you have account?{' '}
                     </Text>
-                    <TouchableOpacity onPress={() => setIsSignUp(!isSignUp)}>
+                    <TouchableOpacity onPress={() => {
+                        setIsSignUp(!isSignUp)
+                    }}>
                         <Text className="text-base font-poppinsMedium text-primary">
                             {isSignUp ? 'Sign In' : 'Sign Up'}
                         </Text>
