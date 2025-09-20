@@ -21,7 +21,12 @@ export default function ConversationScreen() {
                 <Text className="text-primary text-xl font-poppinsSemiBold">
                     Convogents
                 </Text>
-                <TouchableOpacity>
+                <TouchableOpacity
+                    onPress={()=>{
+                        navigation.navigate("SectionNavigator", {
+                            screen: "AccountSettingsScreen",
+                        });
+                    }}>
                     <Settings size={24} color="#374151"/>
                 </TouchableOpacity>
             </View>

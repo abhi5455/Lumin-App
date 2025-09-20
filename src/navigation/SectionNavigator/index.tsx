@@ -57,6 +57,12 @@ export default function SectionNavigator(){
                 options={{headerShown: false, gestureEnabled: false}}
                 component={AccountInfoScreen}
             />
+
+            <Stack.Screen
+                name="NumbersScreen"
+                options={{headerShown: false, gestureEnabled: false}}
+                component={AccountInfoScreen}
+            />
         </Stack.Navigator>
     )
 }
