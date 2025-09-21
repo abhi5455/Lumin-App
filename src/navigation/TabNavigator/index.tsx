@@ -1,11 +1,16 @@
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
-import {Dimensions, StyleSheet, View} from "react-native";
+import {Dimensions, StyleSheet, View, Text} from "react-native";
 import AnimIcon from "../../common/AnimIcon.tsx";
 import DashboardIcon from '../../assets/svg/DashboardIcon.svg'
+import DashboardIconActive from '../../assets/svg/DashboardIconActive.svg'
 import ConversationIcon from '../../assets/svg/ConversationIcon.svg'
+import ConversationIconActive from '../../assets/svg/ConversationIconActive.svg'
 import LeadsIcon from '../../assets/svg/LeadsIcon.svg'
+import LeadsIconActive from '../../assets/svg/LeadsIconActive.svg'
 import AgentIcon from '../../assets/svg/AgentIcon.svg'
+import AgentIconActive from '../../assets/svg/AgentIconActive.svg'
 import NumbersIcon from '../../assets/svg/NumbersIcon.svg'
+import NumbersIconActive from '../../assets/svg/NumbersIconActive.svg'
 import {useEffect, useState} from "react";
 import {getFocusedRouteNameFromRoute} from "@react-navigation/native";
 import DashboardScreen from "../../screens/DashboardScreen/page.tsx";
@@ -60,14 +65,36 @@ export default function TabNavigator() {
                 name="DashboardScreen"
                 component={DashboardScreen}
                 options={({route}) => ({
-                    tabBarLabel: () => null,
+                    tabBarLabel: ({focused}) => (
+                        <Text
+                            style={
+                                focused
+                                    ? [
+                                        styles.activeLabel,
+                                        {
+                                            top: orientation == "landscape" ? 28 : 1,
+                                            right: orientation == "landscape" ? 16 : 0,
+                                            color: "#178671",
+                                        },
+                                    ]
+                                    : [
+                                        styles.inActiveLabel,
+                                        {
+                                            top: orientation == "landscape" ? 28 : 1,
+                                            right: orientation == "landscape" ? 16 : 0,
+                                            color: "#889baf",
+                                        },
+                                    ]
+                            }
+                        >
+                            Dashboard
+                        </Text>
+                    ),
                     tabBarIcon: ({focused, color}) => {
                         return (
                             <AnimIcon focused={focused} color={color}>
                                 {focused ? (
-                                    <View>
-                                        <DashboardIcon/>
-                                    </View>
+                                    <DashboardIconActive/>
                                 ) : (
                                     <DashboardIcon/>
                                 )}
@@ -84,13 +111,41 @@ export default function TabNavigator() {
                 name="ConversationScreen"
                 component={ConversationScreen}
                 options={({route}) => ({
-                    tabBarLabel: () => null,
+                    tabBarLabel: ({focused}) => (
+                        <Text
+                            style={
+                                focused
+                                    ? [
+                                        styles.activeLabel,
+                                        {
+                                            top: orientation == "landscape" ? 28 : 1,
+                                            right: orientation == "landscape" ? 16 : 0,
+                                            color: "#178671",
+                                            width: 85,
+                                            textAlign: "center",
+                                        },
+                                    ]
+                                    : [
+                                        styles.inActiveLabel,
+                                        {
+                                            top: orientation == "landscape" ? 28 : 1,
+                                            right: orientation == "landscape" ? 16 : 0,
+                                            color: "#889baf",
+                                            width: 85,
+                                            textAlign: "center",
+                                        },
+                                    ]
+                            }
+                        >
+                            Conversation
+                        </Text>
+                    ),
                     tabBarIcon: ({focused, color}) => {
                         return (
                             <AnimIcon focused={focused} color={color}>
                                 {focused ? (
                                     <View>
-                                        <ConversationIcon/>
+                                        <ConversationIconActive/>
                                     </View>
                                 ) : (
                                     <ConversationIcon/>
@@ -108,13 +163,37 @@ export default function TabNavigator() {
                 name="LeadsScreen"
                 component={LeadsScreen}
                 options={({route}) => ({
-                    tabBarLabel: () => null,
+                    tabBarLabel: ({focused}) => (
+                        <Text
+                            style={
+                                focused
+                                    ? [
+                                        styles.activeLabel,
+                                        {
+                                            top: orientation == "landscape" ? 28 : 1,
+                                            right: orientation == "landscape" ? 16 : 0,
+                                            color: "#178671",
+                                        },
+                                    ]
+                                    : [
+                                        styles.inActiveLabel,
+                                        {
+                                            top: orientation == "landscape" ? 28 : 1,
+                                            right: orientation == "landscape" ? 16 : 0,
+                                            color: "#889baf",
+                                        },
+                                    ]
+                            }
+                        >
+                            Leads
+                        </Text>
+                    ),
                     tabBarIcon: ({focused, color}) => {
                         return (
                             <AnimIcon focused={focused} color={color}>
                                 {focused ? (
                                     <View>
-                                        <LeadsIcon/>
+                                        <LeadsIconActive/>
                                     </View>
                                 ) : (
                                     <LeadsIcon/>
@@ -132,13 +211,37 @@ export default function TabNavigator() {
                 name="AgentScreen"
                 component={AgentScreen}
                 options={({route}) => ({
-                    tabBarLabel: () => null,
+                    tabBarLabel: ({focused}) => (
+                        <Text
+                            style={
+                                focused
+                                    ? [
+                                        styles.activeLabel,
+                                        {
+                                            top: orientation == "landscape" ? 28 : 1,
+                                            right: orientation == "landscape" ? 16 : 0,
+                                            color: "#178671",
+                                        },
+                                    ]
+                                    : [
+                                        styles.inActiveLabel,
+                                        {
+                                            top: orientation == "landscape" ? 28 : 1,
+                                            right: orientation == "landscape" ? 16 : 0,
+                                            color: "#889baf",
+                                        },
+                                    ]
+                            }
+                        >
+                            Agent
+                        </Text>
+                    ),
                     tabBarIcon: ({focused, color}) => {
                         return (
                             <AnimIcon focused={focused} color={color}>
                                 {focused ? (
                                     <View>
-                                        <AgentIcon/>
+                                        <AgentIconActive/>
                                     </View>
                                 ) : (
                                     <AgentIcon/>
@@ -156,13 +259,37 @@ export default function TabNavigator() {
                 name="NumbersScreen"
                 component={NumbersScreen}
                 options={({route}) => ({
-                    tabBarLabel: () => null,
+                    tabBarLabel: ({focused}) => (
+                        <Text
+                            style={
+                                focused
+                                    ? [
+                                        styles.activeLabel,
+                                        {
+                                            top: orientation == "landscape" ? 28 : 1,
+                                            right: orientation == "landscape" ? 16 : 0,
+                                            color: "#178671",
+                                        },
+                                    ]
+                                    : [
+                                        styles.inActiveLabel,
+                                        {
+                                            top: orientation == "landscape" ? 28 : 1,
+                                            right: orientation == "landscape" ? 16 : 0,
+                                            color: "#889baf",
+                                        },
+                                    ]
+                            }
+                        >
+                            Numbers
+                        </Text>
+                    ),
                     tabBarIcon: ({focused, color}) => {
                         return (
                             <AnimIcon focused={focused} color={color}>
                                 {focused ? (
                                     <View>
-                                        <NumbersIcon/>
+                                        <NumbersIconActive/>
                                     </View>
                                 ) : (
                                     <NumbersIcon/>
@@ -188,7 +315,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         alignSelf: "center",
-        paddingTop: 12,
+        paddingTop: 5,
         paddingHorizontal: 10,
         height: 65,
         position: "absolute",
