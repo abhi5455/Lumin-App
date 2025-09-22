@@ -299,7 +299,6 @@ const AuthScreen: React.FC = () => {
                                           handleLogin(email, password, setIsLoading, navigation);
                                       }
                                   }}>
-
                     {!isLoading ?
                         <Text className="text-lg font-poppinsSemiBold text-white text-center">
                             {isSignUp ? 'Create Account' : 'Sign in'}

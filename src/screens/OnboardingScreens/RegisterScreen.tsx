@@ -4,7 +4,7 @@ import {
     Text,
     TextInput,
     TouchableOpacity,
-    ScrollView,
+    ScrollView, ActivityIndicator,
 } from 'react-native';
 import {ChevronDown, Info} from "lucide-react-native";
 import Toast from "react-native-toast-message";
@@ -56,6 +56,7 @@ type NestedField =
 const RegisterScreen: React.FC = () => {
     const navigation = useAppNavigation()
     const [currentStep, setCurrentStep] = useState(1);
+    const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState<IFormData>({
         company: {
             name: '',
@@ -153,6 +154,7 @@ const RegisterScreen: React.FC = () => {
             setCurrentStep(currentStep + 1);
         }
         else{
+            setIsLoading(true);
             axios.post(`${BASE_URL}/users/onboarding`, formData)
                 .then(response => {
                     console.log('Registration successful:', response.data);
@@ -172,6 +174,9 @@ const RegisterScreen: React.FC = () => {
                         text2: 'Please try again later.',
                         position: "top"
                     });
+                })
+                .finally(() => {
+                    setIsLoading(false);
                 });
         }
     };
@@ -442,9 +447,13 @@ const RegisterScreen: React.FC = () => {
                     onPress={handleNext}
                     className="bg-primary rounded-xl py-4"
                 >
-                    <Text className="text-lg font-poppinsSemiBold text-white text-center">
+                    {!isLoading ?
+                        <Text className="text-lg font-poppinsSemiBold text-white text-center">
                         Submit
                     </Text>
+                    :
+                    <ActivityIndicator color={'#FFF'} size={25} className={''}/>
+                    }
                 </TouchableOpacity>
             </View>
         </ScrollView>
