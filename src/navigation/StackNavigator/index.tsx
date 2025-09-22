@@ -4,7 +4,6 @@ import SectionNavigator from "../SectionNavigator";
 import {AuthenticationStack} from "./AuthenticationStack.tsx";
 import TabNavigator from "../TabNavigator";
 import {useMMKVBoolean} from "react-native-mmkv";
-import RegisterScreen from "../../screens/OnboardingScreens/RegisterScreen.tsx";
 
 export const StackNavigator = () => {
     const Stack = createNativeStackNavigator()
