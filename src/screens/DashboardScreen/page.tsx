@@ -4,7 +4,7 @@ import {
     Text,
     ScrollView,
     TouchableOpacity,
-    SafeAreaView, Dimensions,
+    SafeAreaView, Dimensions, StatusBar,
 } from 'react-native';
 import {
     Settings,
@@ -62,6 +62,7 @@ export default function DashboardScreen() {
 
     return (
         <SafeAreaView className="flex-1 bg-gray-50 px-1">
+            <StatusBar barStyle={"light-content"} backgroundColor="#000"/>
             {/* Header */}
             <View className="flex-row items-center justify-between px-4 py-4 pt-6 bg-white">
                 <TouchableOpacity>

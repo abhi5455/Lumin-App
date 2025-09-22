@@ -4,7 +4,7 @@ import {
     Text,
     TextInput,
     TouchableOpacity,
-    ScrollView, ActivityIndicator,
+    ScrollView, ActivityIndicator, StatusBar,
 } from 'react-native';
 import GoogleIcon from '../../assets/svg/Google.svg'
 import AppleIcon from '../../assets/svg/apple.svg'
@@ -105,6 +105,7 @@ const AuthScreen: React.FC = () => {
 
     return (
         <ScrollView className="flex-1 bg-white">
+            <StatusBar barStyle={"dark-content"} backgroundColor="#FFF"/>
             <View className="px-6 pt-16 pb-8">
                 {/* Header */}
                 <Text className="text-3xl font-poppinsBold text-gray-900 text-center mb-4">
