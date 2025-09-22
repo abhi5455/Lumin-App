@@ -60,6 +60,48 @@ function handleLogin(email: string, password: string, setIsLoading: (loading: bo
         });
 }
 
+function handleSignUp(name: string, email: string, password: string, setIsLoading: (loading: boolean) => void, navigation?: any) {
+    if (!name || !email || !password) {
+        Toast.show({
+            type: 'error',
+            text1: 'Invalid Credentials!',
+            text2: 'Fill required details',
+            position: "top"
+        });
+        return;
+    }
+    // console.log("Logging", Config.BASE_URL);
+    setIsLoading(true)
+    axios.post(`${BASE_URL}/register`, {name: name, email: email, password: password})
+        .then(res => {
+            Toast.show({
+                type: 'success',
+                text1: 'Signup Successful!',
+                text2: 'User registered!',
+                position: "top"
+            });
+            storage.set('authToken', res.data.data);
+            navigation.goBack();
+            navigation.goBack();
+            // navigation.navigate("TabNavigator");
+
+            navigation.navigate("SectionNavigator", {
+                screen: "RegisterScreen",
+            });
+        })
+        .catch(err => {
+            Toast.show({
+                type: 'error',
+                text1: 'Signup Failed!',
+                text2: err.response?.data?.message || 'An error occurred during login.',
+                position: "top"
+            });
+        })
+        .finally(() => {
+            setIsLoading(false);
+        });
+}
+
 const AuthScreen: React.FC = () => {
     const navigation = useAppNavigation()
     const [isSignUp, setIsSignUp] = useState(true);
@@ -250,10 +292,12 @@ const AuthScreen: React.FC = () => {
                                           });
                                           return;
                                       }
-                                      handleLogin(email, password, setIsLoading, navigation);
-                                      // navigation.navigate("SectionNavigator", {
-                                      //     screen: "RegisterScreen",
-                                      // });
+                                      else if (isSignUp) {
+                                          handleSignUp(name, email, password, setIsLoading, navigation);
+                                      }
+                                      else {
+                                          handleLogin(email, password, setIsLoading, navigation);
+                                      }
                                   }}>
 
                     {!isLoading ?
