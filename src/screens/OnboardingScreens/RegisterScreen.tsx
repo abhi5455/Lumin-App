@@ -8,46 +8,97 @@ import {
 } from 'react-native';
 import {ChevronDown, Info} from "lucide-react-native";
 
-interface FormData {
-    companyName: string;
-    companyAddress: string;
-    state: string;
-    country: string;
-    pinCode: string;
-    registrationNumber: string;
-    businessCode: string;
-    aboutCompany: string;
-}
+interface IFormData{
+    company: {
+        name: string;
+        address: string;
+        state: string;
+        country: string;
+        zipCode: string;
+        registrationNumber: string;
+        businessCode: string;
+        aboutCompany: string;
+    };
+    card: {
+        name: string;
+        number: string;
+        exp_month: string;
+        exp_year: string;
+        cvv: string;
+    };
+    user: {
+        name: string;
+        designation: string;
+    };
+};
+
+type NestedField =
+    | 'company.name'
+    | 'company.address'
+    | 'company.state'
+    | 'company.country'
+    | 'company.zipCode'
+    | 'company.registrationNumber'
+    | 'company.businessCode'
+    | 'company.aboutCompany'
+    | 'card.name'
+    | 'card.number'
+    | 'card.exp_month'
+    | 'card.exp_year'
+    | 'card.cvv'
+    | 'user.name'
+    | 'user.designation';
 
 const RegisterScreen: React.FC = () => {
     const [currentStep, setCurrentStep] = useState(1);
-    const [formData, setFormData] = useState<FormData>({
-        companyName: '',
-        companyAddress: '',
-        state: '',
-        country: '',
-        pinCode: '',
-        registrationNumber: '',
-        businessCode: '',
-        aboutCompany: '',
+    const [formData, setFormData] = useState<IFormData>({
+        company: {
+            name: '',
+            address: '',
+            state: '',
+            country: '',
+            zipCode: '',
+            registrationNumber: '',
+            businessCode: '',
+            aboutCompany: '',
+        },
+        card: {
+            name: '',
+            number: '',
+            exp_month: '',
+            exp_year: '',
+            cvv: '',
+        },
+        user: {
+            name: '',
+            designation: '',
+        },
     });
 
-    const updateFormData = (field: keyof FormData, value: string) => {
-        setFormData(prev => ({...prev, [field]: value}));
+    const updateFormData = (field: NestedField, value: string) => {
+        const [section, key] = field.split('.') as [keyof FormData, string];
+
+        setFormData(prev => ({
+            ...prev,
+            [section]: {
+                ...prev[section],
+                [key]: value,
+            },
+        }));
     };
 
     const handleNext = () => {
-        if (currentStep < 3) {
+        if (currentStep < 5) {
             setCurrentStep(currentStep + 1);
         }
     };
 
     const renderProgressBar = () => (
         <View className="flex-row gap-2 mb-8">
-            {[1, 2, 3].map((step) => (
+            {[1, 2, 3, 4, 5].map((step) => (
                 <View
                     key={step}
-                    className={`h-1 flex-1 rounded-full max-w-[50px] ${
+                    className={`h-1 flex-1 rounded-full max-w-[35px] ${
                         step <= currentStep ? 'bg-primary' : 'bg-gray-300'
                     }`}
                 />
@@ -59,11 +110,39 @@ const RegisterScreen: React.FC = () => {
         <View>
             <View className="mb-4">
                 <Text className="text-base font-poppinsMedium text-primary mb-2">
+                    Name
+                </Text>
+                <TextInput
+                    value={formData.user.name}
+                    onChangeText={(value) => updateFormData('user.name', value)}
+                    className="border border-gray-200 rounded-xl px-4 py-4 text-base font-poppinsMedium text-black bg-white"
+                    placeholder=""
+                />
+            </View>
+
+            <View className="mb-4">
+                <Text className="text-base font-poppinsMedium text-primary mb-2">
+                    Designation
+                </Text>
+                <TextInput
+                    value={formData.user.designation}
+                    onChangeText={(value) => updateFormData('user.designation', value)}
+                    className="border border-gray-200 rounded-xl px-4 py-4 text-base font-poppinsMedium text-black bg-white"
+                    placeholder=""
+                />
+            </View>
+        </View>
+    );
+
+    const renderStep2 = () => (
+        <View>
+            <View className="mb-4">
+                <Text className="text-base font-poppinsMedium text-primary mb-2">
                     Company name
                 </Text>
                 <TextInput
-                    value={formData.companyName}
-                    onChangeText={(value) => updateFormData('companyName', value)}
+                    value={formData.company.name}
+                    onChangeText={(value) => updateFormData('company.name', value)}
                     className="border border-gray-200 rounded-xl px-4 py-4 text-base font-poppinsMedium text-black bg-white"
                     placeholder=""
                 />
@@ -74,8 +153,8 @@ const RegisterScreen: React.FC = () => {
                     Company Address
                 </Text>
                 <TextInput
-                    value={formData.companyAddress}
-                    onChangeText={(value) => updateFormData('companyAddress', value)}
+                    value={formData.company.address}
+                    onChangeText={(value) => updateFormData('company.address', value)}
                     className="border border-gray-200 rounded-xl px-4 py-4 text-base font-poppinsMedium text-black bg-white"
                     placeholder=""
                 />
@@ -86,8 +165,8 @@ const RegisterScreen: React.FC = () => {
                     State
                 </Text>
                 <TextInput
-                    value={formData.state}
-                    onChangeText={(value) => updateFormData('state', value)}
+                    value={formData.company.state}
+                    onChangeText={(value) => updateFormData('company.state', value)}
                     className="border border-gray-200 rounded-xl px-4 py-4 text-base font-poppinsMedium text-black bg-white"
                     placeholder=""
                 />
@@ -99,8 +178,8 @@ const RegisterScreen: React.FC = () => {
                 </Text>
                 <View className="relative">
                     <TextInput
-                        value={formData.country}
-                        onChangeText={(value) => updateFormData('country', value)}
+                        value={formData.company.country}
+                        onChangeText={(value) => updateFormData('company.country', value)}
                         className="border border-gray-200 rounded-xl px-4 py-4 pr-12 text-base font-poppinsMedium text-black bg-white"
                         placeholder=""
                     />
@@ -115,8 +194,8 @@ const RegisterScreen: React.FC = () => {
                     Pin or Zip code
                 </Text>
                 <TextInput
-                    value={formData.pinCode}
-                    onChangeText={(value) => updateFormData('pinCode', value)}
+                    value={formData.company.zipCode}
+                    onChangeText={(value) => updateFormData('company.zipCode', value)}
                     className="border border-gray-200 rounded-xl px-4 py-4 text-base font-poppinsMedium text-black bg-white"
                     placeholder=""
                     keyboardType="numeric"
@@ -125,15 +204,15 @@ const RegisterScreen: React.FC = () => {
         </View>
     );
 
-    const renderStep2 = () => (
+    const renderStep3 = () => (
         <View>
             <View className="mb-4">
                 <Text className="text-base font-poppinsMedium text-primary mb-2">
                     Registration Number
                 </Text>
                 <TextInput
-                    value={formData.registrationNumber}
-                    onChangeText={(value) => updateFormData('registrationNumber', value)}
+                    value={formData.company.registrationNumber}
+                    onChangeText={(value) => updateFormData('company.registrationNumber', value)}
                     className="border border-gray-200 rounded-xl px-4 py-4 text-base font-poppinsMedium text-black bg-white"
                     placeholder=""
                 />
@@ -144,8 +223,8 @@ const RegisterScreen: React.FC = () => {
                     Business code
                 </Text>
                 <TextInput
-                    value={formData.businessCode}
-                    onChangeText={(value) => updateFormData('businessCode', value)}
+                    value={formData.company.businessCode}
+                    onChangeText={(value) => updateFormData('company.businessCode', value)}
                     className="border border-gray-200 rounded-xl px-4 py-4 text-base font-poppinsMedium text-black bg-white"
                     placeholder=""
                 />
@@ -153,15 +232,15 @@ const RegisterScreen: React.FC = () => {
         </View>
     );
 
-    const renderStep3 = () => (
+    const renderStep4 = () => (
         <View>
             <View className="mb-4">
                 <Text className="text-base font-poppinsMedium text-primary mb-2">
                     About Company
                 </Text>
                 <TextInput
-                    value={formData.aboutCompany}
-                    onChangeText={(value) => updateFormData('aboutCompany', value)}
+                    value={formData.company.aboutCompany}
+                    onChangeText={(value) => updateFormData('company.aboutCompany', value)}
                     className="border border-gray-200 rounded-xl px-4 py-4 text-base font-poppinsMedium text-black bg-white h-80"
                     placeholder=""
                     multiline
@@ -170,6 +249,88 @@ const RegisterScreen: React.FC = () => {
             </View>
         </View>
     );
+
+    const renderStep5 = () => (
+        <View>
+            <View className="mb-4">
+                <Text className="text-base font-poppinsMedium text-primary mb-2">
+                    Cardholder name
+                </Text>
+                <TextInput
+                    value={formData.card.name}
+                    onChangeText={(value) => updateFormData('card.name', value)}
+                    className="border border-gray-200 rounded-xl px-4 py-4 text-base font-poppinsMedium text-black bg-white"
+                    placeholder=""
+                />
+            </View>
+
+            <View className="mb-4">
+                <Text className="text-base font-poppinsMedium text-primary mb-2">
+                    Cardholder Number
+                </Text>
+                <TextInput
+                    value={formData.card.number}
+                    onChangeText={(value) => updateFormData('card.number', value)}
+                    className="border border-gray-200 rounded-xl px-4 py-4 text-base font-poppinsMedium text-black bg-white"
+                    placeholder=""
+                />
+            </View>
+
+            <View className="mb-4">
+                <Text className="text-base font-poppinsMedium text-primary mb-2">
+                    State
+                </Text>
+                <TextInput
+                    value={formData.company.state}
+                    onChangeText={(value) => updateFormData('state', value)}
+                    className="border border-gray-200 rounded-xl px-4 py-4 text-base font-poppinsMedium text-black bg-white"
+                    placeholder=""
+                />
+            </View>
+
+            <View className={'flex flex-row justify-between gap-4'}>
+            <View className="w-[45%] mb-4">
+                <Text className="text-base font-poppinsMedium text-primary mb-2">
+                    Exp Month
+                </Text>
+                <TextInput
+                    value={formData.card.exp_month}
+                    onChangeText={(value) => updateFormData('card.exp_month', value)}
+                    className="border border-gray-200 rounded-xl px-4 py-4 text-base font-poppinsMedium text-black bg-white"
+                    placeholder=""
+                    keyboardType="numeric"
+                />
+            </View>
+
+            <View className="w-[45%] mb-4">
+                <Text className="text-base font-poppinsMedium text-primary mb-2">
+                    Exp Year
+                </Text>
+                <TextInput
+                    value={formData.card.exp_year}
+                    onChangeText={(value) => updateFormData('card.exp_year', value)}
+                    className="border border-gray-200 rounded-xl px-4 py-4 text-base font-poppinsMedium text-black bg-white"
+                    placeholder=""
+                    keyboardType="numeric"
+                />
+            </View>
+            </View>
+
+            <View className="mb-4">
+                <Text className="text-base font-poppinsMedium text-primary mb-2">
+                    Cvv Number
+                </Text>
+                <TextInput
+                    value={formData.card.cvv}
+                    onChangeText={(value) => updateFormData('card.cvv', value)}
+                    className="border border-gray-200 rounded-xl px-4 py-4 text-base font-poppinsMedium text-black bg-white"
+                    placeholder=""
+                    keyboardType="numeric"
+                />
+            </View>
+        </View>
+    );
+
 
     return (
         <ScrollView className="flex-1 bg-white">
@@ -180,7 +341,7 @@ const RegisterScreen: React.FC = () => {
                         Let's get started
                     </Text>
                     <Text className="text-base font-poppinsMedium text-gray-400">
-                        Step {currentStep}/3
+                        Step {currentStep}/5
                     </Text>
                 </View>
 
@@ -192,6 +353,8 @@ const RegisterScreen: React.FC = () => {
                     {currentStep === 1 && renderStep1()}
                     {currentStep === 2 && renderStep2()}
                     {currentStep === 3 && renderStep3()}
+                    {currentStep === 4 && renderStep4()}
+                    {currentStep === 5 && renderStep5()}
                 </View>
 
                 {/* Info Text */}
