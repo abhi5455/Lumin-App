@@ -172,7 +172,6 @@ const RegisterScreen: React.FC = () => {
                         text2: 'Please try again later.',
                         position: "top"
                     });
-                    // Handle registration error (e.g., show error message)
                 });
         }
     };
