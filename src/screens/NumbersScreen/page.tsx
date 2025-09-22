@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
     View,
     Text,
@@ -35,7 +35,7 @@ export default function NumbersScreen() {
                     Convogents
                 </Text>
                 <TouchableOpacity
-                    onPress={()=>{
+                    onPress={() => {
                         navigation.navigate("SectionNavigator", {
                             screen: "AccountSettingsScreen",
                         });
@@ -67,11 +67,12 @@ export default function NumbersScreen() {
                     <Text className="text-lg font-poppinsSemiBold text-black mb-3">
                         Search country
                     </Text>
-                    <TouchableOpacity className="flex-row items-center justify-between bg-white rounded-lg px-4 py-4 border border-gray-200">
+                    <TouchableOpacity
+                        className="flex-row items-center justify-between bg-white rounded-lg px-4 py-4 border border-gray-200">
                         <Text className="font-poppinsMedium text-gray-400">
                             {selectedCountry}
                         </Text>
-                        <ChevronDown />
+                        <ChevronDown/>
                     </TouchableOpacity>
                 </View>
 
@@ -89,8 +90,9 @@ export default function NumbersScreen() {
                     </Text>
 
                     {phoneNumbers.map((number, index) => (
-                        <View key={index} className="flex-row items-center justify-between py-5 border-[1px] border-gray-100 px-3 mb-4 rounded-lg bg-white">
-                        <View className="flex-row items-center">
+                        <View key={index}
+                              className="flex-row items-center justify-between py-5 border-[1px] border-gray-100 px-3 mb-4 rounded-lg bg-white">
+                            <View className="flex flex-row items-center gap-2">
                                 {/* Canadian Flag Icon */}
                                 <CanadaSymbol/>
                                 <Text className="font-poppinsMedium text-black text-base">
