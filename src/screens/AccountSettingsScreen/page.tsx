@@ -16,6 +16,7 @@ import RefundIcon from '../../assets/svg/RefundIcon.svg'
 import LogoutIcon from '../../assets/svg/LogoutIcon.svg'
 import EnterpriseIcon from '../../assets/svg/EnterpriseIcon.svg'
 import {ArrowRight} from "lucide-react-native";
+import {storage} from "../../lib/storage.ts";
 
 export default function AccountSettingsScreen(){
     const navigation = useAppNavigation();
@@ -26,7 +27,13 @@ export default function AccountSettingsScreen(){
         { id: 4, title: 'Terms of service', icon: <TOSIcon/> },
         { id: 5, title: 'Privacy Policy', icon: <PrivacyIcon/> },
         { id: 6, title: 'Refund Policy', icon: <RefundIcon/> },
-        { id: 7, title: 'Log Out', icon: <LogoutIcon/> },
+        { id: 7, title: 'Log Out', icon: <LogoutIcon/>, action: () => {
+                // Clear auth token and navigate to Auth screen
+                storage.set('authToken', '');
+                navigation.goBack()
+                navigation.goBack()
+                navigation.navigate('AuthenticationStack', {screen: 'AuthScreen'});
+            }},
     ];
 
     return (
