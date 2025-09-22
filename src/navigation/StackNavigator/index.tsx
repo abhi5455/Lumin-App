@@ -19,14 +19,14 @@ export const StackNavigator = () => {
     return (
         <Stack.Navigator>
             <Stack.Screen
-                name="TabNavigator"
-                options={{headerShown: false, gestureEnabled: false}}
-                component={TabNavigator}
-            />
-            <Stack.Screen
                 name="SplashScreen"
                 options={{headerShown: false, gestureEnabled: false}}
                 component={SplashScreen}
+            />
+            <Stack.Screen
+                name="TabNavigator"
+                options={{headerShown: false, gestureEnabled: false}}
+                component={TabNavigator}
             />
             <Stack.Screen
                 name="SectionNavigator"

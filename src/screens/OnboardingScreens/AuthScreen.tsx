@@ -4,7 +4,7 @@ import {
     Text,
     TextInput,
     TouchableOpacity,
-    ScrollView,
+    ScrollView, ActivityIndicator,
 } from 'react-native';
 import GoogleIcon from '../../assets/svg/Google.svg'
 import AppleIcon from '../../assets/svg/apple.svg'
@@ -12,6 +12,9 @@ import {Eye, EyeOff} from "lucide-react-native";
 import {useAppNavigation} from "../../common/navigationHelper.ts";
 import Toast from "react-native-toast-message";
 import axios from "axios";
+import {storage} from "../../lib/storage.ts";
+import {BASE_URL} from "../../../test";
+
 // import Config from "react-native-config";
 
 interface ValidationRule {
@@ -19,8 +22,8 @@ interface ValidationRule {
     isValid: boolean;
 }
 
-function handleLogin(email: string, password: string) {
-    if(!email || !password) {
+function handleLogin(email: string, password: string, setIsLoading: (loading: boolean) => void, navigation?: any) {
+    if (!email || !password) {
         Toast.show({
             type: 'error',
             text1: 'Invalid Credentials!',
@@ -29,24 +32,28 @@ function handleLogin(email: string, password: string) {
         return;
     }
     // console.log("Logging", Config.BASE_URL);
-    axios.post(`http://api-staging.convogents.com/login`)
-        .then( res => {
-            console.log(res.data);
+    axios.post(`${BASE_URL}/login`, {email: email, password: password})
+        .then(res => {
             Toast.show({
                 type: 'success',
                 text1: 'Login Successful!',
                 text2: 'Welcome back!'
             });
+            storage.set('authToken', res.data.data);
+            navigation.goBack();
+            navigation.goBack();
+            navigation.navigate("TabNavigator");
         })
-
-        .catch( err => {
-            console.log(err);
+        .catch(err => {
             Toast.show({
                 type: 'error',
                 text1: 'Login Failed!',
-                text2: 'Please check your credentials and try again.'
+                text2: err.response?.data?.message || 'An error occurred during login.'
             });
         })
+        .finally(() => {
+            setIsLoading(false);
+        });
 }
 
 const AuthScreen: React.FC = () => {
@@ -58,6 +65,8 @@ const AuthScreen: React.FC = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [agreeToTerms, setAgreeToTerms] = useState(false);
     const [showValidation, setShowValidation] = useState(false);
+
+    const [isLoading, setIsLoading] = useState(false);
 
     const validatePassword = (password: string): ValidationRule[] => {
         return [
@@ -227,22 +236,28 @@ const AuthScreen: React.FC = () => {
                 {/* Submit Button */}
                 <TouchableOpacity className="bg-primary rounded-xl py-4 mb-6"
                                   onPress={() => {
-                                        if (isSignUp && !agreeToTerms) {
-                                            Toast.show({
-                                                type: 'error',
-                                                text1: 'Terms Not Accepted!',
-                                                text2: 'You must agree to the terms and conditions to proceed.'
-                                            });
-                                            return;
-                                        }
-                                      handleLogin(email, password);
+                                      if (isSignUp && !agreeToTerms) {
+                                          Toast.show({
+                                              type: 'error',
+                                              text1: 'Terms Not Accepted!',
+                                              text2: 'You must agree to the terms and conditions to proceed.'
+                                          });
+                                          return;
+                                      }
+                                      setIsLoading(true)
+                                      handleLogin(email, password, setIsLoading, navigation);
                                       // navigation.navigate("SectionNavigator", {
                                       //     screen: "RegisterScreen",
                                       // });
                                   }}>
-                    <Text className="text-lg font-poppinsSemiBold text-white text-center">
-                        {isSignUp ? 'Create Account' : 'Sign in'}
-                    </Text>
+
+                    {!isLoading ?
+                        <Text className="text-lg font-poppinsSemiBold text-white text-center">
+                            {isSignUp ? 'Create Account' : 'Sign in'}
+                        </Text>
+                        :
+                        <ActivityIndicator color={'#FFF'} size={25} className={''}/>
+                    }
                 </TouchableOpacity>
 
                 {/* Switch Auth Mode */}
