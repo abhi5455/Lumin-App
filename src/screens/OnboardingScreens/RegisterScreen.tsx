@@ -7,6 +7,10 @@ import {
     ScrollView,
 } from 'react-native';
 import {ChevronDown, Info} from "lucide-react-native";
+import Toast from "react-native-toast-message";
+import axios from "axios";
+import {BASE_URL} from "../../../test";
+import {useAppNavigation} from "../../common/navigationHelper.ts";
 
 interface IFormData{
     company: {
@@ -50,6 +54,7 @@ type NestedField =
     | 'user.designation';
 
 const RegisterScreen: React.FC = () => {
+    const navigation = useAppNavigation()
     const [currentStep, setCurrentStep] = useState(1);
     const [formData, setFormData] = useState<IFormData>({
         company: {
@@ -88,8 +93,87 @@ const RegisterScreen: React.FC = () => {
     };
 
     const handleNext = () => {
+        if(currentStep === 1){
+            if (!formData.user.name || !formData.user.designation) {
+                Toast.show({
+                    type: 'error',
+                    text1: 'Invalid Data!',
+                    text2: 'Fill required details',
+                    position: "top"
+                });
+                return;
+            }
+        }
+        else if (currentStep === 2) {
+            if (!formData.company.name || !formData.company.address || !formData.company.state || !formData.company.country || !formData.company.zipCode) {
+                Toast.show({
+                    type: 'error',
+                    text1: 'Invalid Data!',
+                    text2: 'Fill required details',
+                    position: "top"
+                });
+                return;
+            }
+        }
+        else if (currentStep === 3) {
+            if (!formData.company.registrationNumber || !formData.company.businessCode) {
+                Toast.show({
+                    type: 'error',
+                    text1: 'Invalid Data!',
+                    text2: 'Fill required details',
+                    position: "top"
+                });
+                return;
+            }
+        }
+        else if (currentStep === 4) {
+            if (!formData.company.aboutCompany) {
+                Toast.show({
+                    type: 'error',
+                    text1: 'Invalid Data!',
+                    text2: 'Fill required details',
+                    position: "top"
+                });
+                return;
+            }
+        }
+        else if (currentStep === 5) {
+            if (!formData.card.name || !formData.card.number || !formData.card.exp_month || !formData.card.exp_year || !formData.card.cvv) {
+                Toast.show({
+                    type: 'error',
+                    text1: 'Invalid Data!',
+                    text2: 'Fill required details',
+                    position: "top"
+                });
+                return;
+            }
+        }
+
         if (currentStep < 5) {
             setCurrentStep(currentStep + 1);
+        }
+        else{
+            axios.post(`${BASE_URL}/users/onboarding`, formData)
+                .then(response => {
+                    console.log('Registration successful:', response.data);
+                    Toast.show({
+                        type: 'success',
+                        text1: 'Registration Successful!',
+                        position: "top"
+                    });
+                    navigation.goBack()
+                    navigation.navigate("TabNavigator");
+                })
+                .catch(error => {
+                    console.error('Registration error:', error);
+                    Toast.show({
+                        type: 'error',
+                        text1: 'Registration Failed!',
+                        text2: 'Please try again later.',
+                        position: "top"
+                    });
+                    // Handle registration error (e.g., show error message)
+                });
         }
     };
 
@@ -271,18 +355,6 @@ const RegisterScreen: React.FC = () => {
                 <TextInput
                     value={formData.card.number}
                     onChangeText={(value) => updateFormData('card.number', value)}
-                    className="border border-gray-200 rounded-xl px-4 py-4 text-base font-poppinsMedium text-black bg-white"
-                    placeholder=""
-                />
-            </View>
-
-            <View className="mb-4">
-                <Text className="text-base font-poppinsMedium text-primary mb-2">
-                    State
-                </Text>
-                <TextInput
-                    value={formData.company.state}
-                    onChangeText={(value) => updateFormData('state', value)}
                     className="border border-gray-200 rounded-xl px-4 py-4 text-base font-poppinsMedium text-black bg-white"
                     placeholder=""
                 />
