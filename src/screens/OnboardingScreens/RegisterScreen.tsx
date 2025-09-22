@@ -11,6 +11,7 @@ import Toast from "react-native-toast-message";
 import axios from "axios";
 import {BASE_URL} from "../../../test";
 import {useAppNavigation} from "../../common/navigationHelper.ts";
+import {fetchUserProfile} from "../../lib/userStorage.ts";
 
 interface IFormData{
     company: {
@@ -163,6 +164,7 @@ const RegisterScreen: React.FC = () => {
                         text1: 'Registration Successful!',
                         position: "top"
                     });
+                    fetchUserProfile()
                     navigation.goBack()
                     navigation.navigate("TabNavigator");
                 })

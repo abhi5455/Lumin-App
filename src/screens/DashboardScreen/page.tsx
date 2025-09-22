@@ -71,16 +71,19 @@ export default function DashboardScreen() {
         })
     }, []);
 
-    useFocusEffect(
-        useCallback(() => {
-            if (userProfile && !userProfile.profile_completed) {
-                console.log("Profile incomplete, navigating to RegisterScreen", userProfile);
-                navigation.navigate("SectionNavigator", {
-                    screen: "RegisterScreen",
-                });
-            }
-        }, [userProfile])
-    );
+    // useFocusEffect(
+    //     useCallback(() => {
+    //         getUserProfile().then(user => {
+    //             console.log("Checking profile completion status:", user);
+    //             if (user && !user.profile_completed) {
+    //                 console.log("Profile incomplete, navigating to RegisterScreen", user);
+    //                 navigation.navigate("SectionNavigator", {
+    //                     screen: "RegisterScreen",
+    //                 });
+    //             }
+    //         })
+    //     }, [])
+    // );
 
     return (
         <SafeAreaView className="flex-1 bg-gray-50 px-1">

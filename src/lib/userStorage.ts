@@ -22,7 +22,6 @@ export const setUserProfile = (userProfile: IUserProfile) => {
 
 export const getUserProfile = async () => {
     const userProfile = await storage.getString('userProfile');
-    console.log("Retrieved user profile from storage:", userProfile);
     return userProfile ? JSON.parse(userProfile) : null;
 }
 
