@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
     View,
     Text,
@@ -23,10 +23,14 @@ import CrossIcon from "../../assets/svg/CrossIcon.svg";
 import Flower from "../../assets/svg/Flower.svg";
 import {LineChart} from 'react-native-chart-kit';
 import {useAppNavigation} from "../../common/navigationHelper.ts";
+import {fetchUserProfile, getUserProfile} from "../../lib/userStorage.ts";
+import {IUserProfile} from "../../types/profile.ts";
+import {useFocusEffect} from "@react-navigation/native";
 
 const screenWidth = Dimensions.get('window').width;
 
 export default function DashboardScreen() {
+    const [userProfile, setUserProfile] = useState<IUserProfile>(getUserProfile() as IUserProfile);
     const navigation = useAppNavigation();
     const chartData = {
         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
@@ -45,7 +49,7 @@ export default function DashboardScreen() {
         backgroundGradientTo: '#ffffff',
         decimalPlaces: 0,
         color: (opacity = 1) => `#aad8d3`,
-        labelColor: (opacity = 1) => `rgba(156, 163, 175, ${opacity})`, // gray-400
+        labelColor: (opacity = 1) => `rgba(156, 163, 175, ${opacity})`,
         style: {
             borderRadius: 16,
         },
@@ -59,6 +63,24 @@ export default function DashboardScreen() {
         fillShadowGradient: '#aad8d3',
         fillShadowGradientOpacity: 1,
     };
+
+    useEffect(() => {
+        fetchUserProfile()
+        getUserProfile().then(user => {
+            setUserProfile(user as IUserProfile);
+        })
+    }, []);
+
+    useFocusEffect(
+        useCallback(() => {
+            if (userProfile && !userProfile.profile_completed) {
+                console.log("Profile incomplete, navigating to RegisterScreen", userProfile);
+                navigation.navigate("SectionNavigator", {
+                    screen: "RegisterScreen",
+                });
+            }
+        }, [userProfile])
+    );
 
     return (
         <SafeAreaView className="flex-1 bg-gray-50 px-1">
