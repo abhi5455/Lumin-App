@@ -27,17 +27,20 @@ function handleLogin(email: string, password: string, setIsLoading: (loading: bo
         Toast.show({
             type: 'error',
             text1: 'Invalid Credentials!',
-            text2: 'Fill required details'
+            text2: 'Fill required details',
+            position: "top"
         });
         return;
     }
     // console.log("Logging", Config.BASE_URL);
+    setIsLoading(true)
     axios.post(`${BASE_URL}/login`, {email: email, password: password})
         .then(res => {
             Toast.show({
                 type: 'success',
                 text1: 'Login Successful!',
-                text2: 'Welcome back!'
+                text2: 'Welcome back!',
+                position: "top"
             });
             storage.set('authToken', res.data.data);
             navigation.goBack();
@@ -48,7 +51,8 @@ function handleLogin(email: string, password: string, setIsLoading: (loading: bo
             Toast.show({
                 type: 'error',
                 text1: 'Login Failed!',
-                text2: err.response?.data?.message || 'An error occurred during login.'
+                text2: err.response?.data?.message || 'An error occurred during login.',
+                position: "top"
             });
         })
         .finally(() => {
@@ -240,11 +244,11 @@ const AuthScreen: React.FC = () => {
                                           Toast.show({
                                               type: 'error',
                                               text1: 'Terms Not Accepted!',
-                                              text2: 'You must agree to the terms and conditions to proceed.'
+                                              text2: 'You must agree to the terms and conditions to proceed.',
+                                              position: "top"
                                           });
                                           return;
                                       }
-                                      setIsLoading(true)
                                       handleLogin(email, password, setIsLoading, navigation);
                                       // navigation.navigate("SectionNavigator", {
                                       //     screen: "RegisterScreen",
