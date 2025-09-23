@@ -173,7 +173,7 @@ const RegisterScreen: React.FC = () => {
                     Toast.show({
                         type: 'error',
                         text1: 'Registration Failed!',
-                        text2: 'Please try again later.',
+                        text2: error.message,
                         position: "top"
                     });
                 })
