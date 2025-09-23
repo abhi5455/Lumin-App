@@ -8,6 +8,7 @@ import AgentDetailsScreen from "../../screens/AgentScreen/components/AgentDetail
 import AccountSettingsScreen from "../../screens/AccountSettingsScreen/page.tsx";
 import AccountInfoScreen from "../../screens/AccountSettingsScreen/AccountInfoScreen.tsx";
 import SubscriptionScreen from "../../screens/SubscriptionScreen/page.tsx";
+import SuccessScreen from "../../screens/StatusScreen/SuccessScreen.tsx";
 
 export default function SectionNavigator() {
     const Stack = createNativeStackNavigator()
@@ -69,6 +70,13 @@ export default function SectionNavigator() {
                 name="SubscriptionScreen"
                 options={{headerShown: false, gestureEnabled: false}}
                 component={SubscriptionScreen}
+            />
+
+
+            <Stack.Screen
+                name="SuccessScreen"
+                options={{headerShown: false, gestureEnabled: false}}
+                component={SuccessScreen}
             />
         </Stack.Navigator>
     )

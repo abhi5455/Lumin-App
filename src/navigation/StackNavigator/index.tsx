@@ -13,11 +13,6 @@ export const StackNavigator = () => {
     return (
         <Stack.Navigator>
             <Stack.Screen
-                name="SuccessScreen"
-                options={{headerShown: false, gestureEnabled: false}}
-                component={SuccessScreen}
-            />
-            <Stack.Screen
                 name="SplashScreen"
                 options={{headerShown: false, gestureEnabled: false}}
                 component={SplashScreen}

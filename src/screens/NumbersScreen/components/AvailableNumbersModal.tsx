@@ -2,6 +2,7 @@ import type React from "react"
 import { useState } from "react"
 import { View, Text, TouchableOpacity, Modal, StatusBar, TouchableWithoutFeedback, Dimensions } from "react-native"
 import {X} from "lucide-react-native";
+import {useAppNavigation} from "../../../common/navigationHelper.ts";
 
 interface IAvailableNumbersModalProps {
     visible: boolean
@@ -11,6 +12,7 @@ interface IAvailableNumbersModalProps {
 const { height: screenHeight } = Dimensions.get("window")
 
 export default function AvailableNumbersModal({ visible, onClose }: IAvailableNumbersModalProps) {
+    const navigation = useAppNavigation()
     const [selectedNumber, setSelectedNumber] = useState<string>()
 
     const numbers = [
@@ -20,6 +22,9 @@ export default function AvailableNumbersModal({ visible, onClose }: IAvailableNu
 
     const handlePayNow = () => {
         onClose()
+        navigation.navigate("SectionNavigator", {
+            screen: "SuccessScreen",
+        });
     }
 
     return (

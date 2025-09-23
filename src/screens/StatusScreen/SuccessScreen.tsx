@@ -2,8 +2,10 @@ import {Text, TouchableOpacity, View} from "react-native";
 import SuccessSymbol from '../../assets/svg/SuccessSymbol.svg'
 import {Info} from "lucide-react-native";
 import React from "react";
+import {useAppNavigation} from "../../common/navigationHelper.ts";
 
 export default function SuccessScreen() {
+    const navigation = useAppNavigation()
     return (
         <View className={'flex-1 bg-[#f6f7f9]'}>
             <View className={'flex-1 flex-col gap-2 justify-center items-center'}>
@@ -21,11 +23,15 @@ export default function SuccessScreen() {
                     </Text>
                 </View>
             </View>
-            <TouchableOpacity className="flex justify-center items-center bg-primary w-full h-20">
-                <Text className="text-white font-poppinsSemiBold text-lg">
-                    Close
-                </Text>
-            </TouchableOpacity>
+            <View className="">
+                <TouchableOpacity
+                    className="bg-primary py-5"
+                    onPress={() => {
+                        navigation.goBack()
+                    }}>
+                    <Text className="text-white text-center text-lg font-poppinsSemiBold">Close</Text>
+                </TouchableOpacity>
+            </View>
         </View>
     )
 }
