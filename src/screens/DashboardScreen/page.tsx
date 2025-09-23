@@ -66,22 +66,19 @@ export default function DashboardScreen() {
 
     useEffect(() => {
         fetchUserProfile()
-        getUserProfile().then(user => {
-            setUserProfile(user as IUserProfile);
-        })
+        setUserProfile(getUserProfile());
     }, []);
 
     // useFocusEffect(
     //     useCallback(() => {
-    //         getUserProfile().then(user => {
-    //             console.log("Checking profile completion status:", user);
-    //             if (user && !user.profile_completed) {
-    //                 console.log("Profile incomplete, navigating to RegisterScreen", user);
-    //                 navigation.navigate("SectionNavigator", {
-    //                     screen: "RegisterScreen",
-    //                 });
-    //             }
-    //         })
+    //         const user = getUserProfile();
+    //         console.log("Checking profile completion status:", user);
+    //         if (user && !user.profile_completed) {
+    //             console.log("Profile incomplete, navigating to RegisterScreen", user);
+    //             navigation.navigate("SectionNavigator", {
+    //                 screen: "RegisterScreen",
+    //             });
+    //         }
     //     }, [])
     // );
 

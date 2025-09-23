@@ -20,8 +20,8 @@ export const setUserProfile = (userProfile: IUserProfile) => {
     storage.set('userProfile', JSON.stringify(userProfile));
 }
 
-export const getUserProfile = async () => {
-    const userProfile = await storage.getString('userProfile');
+export const getUserProfile = () => {
+    const userProfile = storage.getString('userProfile');
     return userProfile ? JSON.parse(userProfile) : null;
 }
 

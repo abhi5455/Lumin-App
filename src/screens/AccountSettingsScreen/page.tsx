@@ -17,9 +17,13 @@ import LogoutIcon from '../../assets/svg/LogoutIcon.svg'
 import EnterpriseIcon from '../../assets/svg/EnterpriseIcon.svg'
 import {ArrowRight} from "lucide-react-native";
 import {storage} from "../../lib/storage.ts";
+import {getUserProfile} from "../../lib/userStorage.ts";
+import {IUserProfile} from "../../types/profile.ts";
 
 export default function AccountSettingsScreen(){
     const navigation = useAppNavigation();
+    const userProfile: (IUserProfile | undefined) = getUserProfile();
+    console.log("userProfile in AccountSettingsScreen:", userProfile);
     const menuItems = [
         { id: 1, title: 'My Account', icon: <PersonIcon/> , action: () => navigation.navigate('SectionNavigator', {screen: 'AccountInfoScreen'})},
         { id: 2, title: 'Transaction history', icon: <TransactionIcon/> },
@@ -56,10 +60,10 @@ export default function AccountSettingsScreen(){
                 <View className="flex-row items-center justify-between py-5 border-y border-gray-100">
                     <View className="flex-row items-center">
                         <View className="w-12 h-12 bg-teal-600 rounded-full items-center justify-center mr-4">
-                            <Text className="text-white text-lg font-poppinsSemiBold">A</Text>
+                            <Text className="text-white text-lg font-poppinsSemiBold">{userProfile?.name.slice(0,1).toUpperCase()}</Text>
                         </View>
                         <View>
-                            <Text className="text-black text-lg font-poppinsSemiBold">Adam Smith</Text>
+                            <Text className="text-black text-lg font-poppinsSemiBold">{userProfile?.name}</Text>
                             <Text className="text-gray-500 text-sm font-poppinsLight">Sony Pictures</Text>
                         </View>
                     </View>
