@@ -11,15 +11,15 @@ export default function ErrorScreen() {
             <View className={'flex-1 flex-col gap-2 justify-center items-center'}>
                 <ErrorSymbol/>
                 <Text className="text-black font-poppinsSemiBold text-[24px] mt-2">
-                    Success!!!
+                    Oops!!!
                 </Text>
                 <Text className="text-gray-400 font-poppinsMedium text-md">
-                    Your Action is Complete
+                    We encountered an issue.
                 </Text>
                 <View className="absolute bottom-14 flex flex-row items-center justify-start gap-2 ">
                     <Info color={'#9CA3AF'} size={20}/>
                     <Text className="text-gray-400 font-poppinsMedium text-xs text-start">
-                        Your request has been processed successfully.{'\n'}You can now proceed with the next step.
+                        Please try again later or contact support if the {'\n'}problem persists.
                     </Text>
                 </View>
             </View>

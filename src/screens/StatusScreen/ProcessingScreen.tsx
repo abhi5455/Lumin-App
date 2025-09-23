@@ -11,15 +11,15 @@ export default function ProcessingScreen() {
             <View className={'flex-1 flex-col gap-2 justify-center items-center'}>
                 <ProcessingSymbol/>
                 <Text className="text-black font-poppinsSemiBold text-[24px] mt-2">
-                    Success!!!
+                    Processing...
                 </Text>
                 <Text className="text-gray-400 font-poppinsMedium text-md">
-                    Your Action is Complete
+                    Your request is being handled
                 </Text>
-                <View className="absolute bottom-14 flex flex-row items-center justify-start gap-2 ">
+                <View className="absolute bottom-14 flex flex-row items-center justify-start gap-2 px-4">
                     <Info color={'#9CA3AF'} size={20}/>
                     <Text className="text-gray-400 font-poppinsMedium text-xs text-start">
-                        Your request has been processed successfully.{'\n'}You can now proceed with the next step.
+                        This may take a few moments. You’ll be notified {'\n'}once it’s complete.
                     </Text>
                 </View>
             </View>
