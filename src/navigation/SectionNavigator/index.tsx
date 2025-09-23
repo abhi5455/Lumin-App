@@ -9,6 +9,8 @@ import AccountSettingsScreen from "../../screens/AccountSettingsScreen/page.tsx"
 import AccountInfoScreen from "../../screens/AccountSettingsScreen/AccountInfoScreen.tsx";
 import SubscriptionScreen from "../../screens/SubscriptionScreen/page.tsx";
 import SuccessScreen from "../../screens/StatusScreen/SuccessScreen.tsx";
+import ProcessingScreen from "../../screens/StatusScreen/ProcessingScreen.tsx";
+import ErrorScreen from "../../screens/StatusScreen/ErrorScreen.tsx";
 
 export default function SectionNavigator() {
     const Stack = createNativeStackNavigator()
@@ -77,6 +79,16 @@ export default function SectionNavigator() {
                 name="SuccessScreen"
                 options={{headerShown: false, gestureEnabled: false}}
                 component={SuccessScreen}
+            />
+            <Stack.Screen
+                name="ProcessingScreen"
+                options={{headerShown: false, gestureEnabled: false}}
+                component={ProcessingScreen}
+            />
+            <Stack.Screen
+                name="ErrorScreen"
+                options={{headerShown: false, gestureEnabled: false}}
+                component={ErrorScreen}
             />
         </Stack.Navigator>
     )
