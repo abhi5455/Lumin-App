@@ -16,7 +16,7 @@ export default function ErrorScreen() {
                 <Text className="text-gray-400 font-poppinsMedium text-md">
                     We encountered an issue.
                 </Text>
-                <View className="absolute bottom-14 flex flex-row items-center justify-start gap-2 ">
+                <View className="absolute bottom-14 flex flex-row items-center justify-start gap-2 px-4">
                     <Info color={'#9CA3AF'} size={20}/>
                     <Text className="text-gray-400 font-poppinsMedium text-xs text-start">
                         Please try again later or contact support if the {'\n'}problem persists.

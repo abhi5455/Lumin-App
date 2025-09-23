@@ -16,7 +16,7 @@ export default function SuccessScreen() {
                 <Text className="text-gray-400 font-poppinsMedium text-md">
                     Your Action is Complete
                 </Text>
-                <View className="absolute bottom-14 flex flex-row items-center justify-start gap-2 ">
+                <View className="absolute bottom-14 flex flex-row items-center justify-start gap-2 px-4">
                     <Info color={'#9CA3AF'} size={20}/>
                     <Text className="text-gray-400 font-poppinsMedium text-xs text-start">
                         Your request has been processed successfully.{'\n'}You can now proceed with the next step.
