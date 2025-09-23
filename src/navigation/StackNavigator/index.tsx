@@ -4,6 +4,7 @@ import SectionNavigator from "../SectionNavigator";
 import {AuthenticationStack} from "./AuthenticationStack.tsx";
 import TabNavigator from "../TabNavigator";
 import {useMMKVBoolean} from "react-native-mmkv";
+import SuccessScreen from "../../screens/StatusScreen/SuccessScreen.tsx";
 
 export const StackNavigator = () => {
     const Stack = createNativeStackNavigator()
@@ -11,6 +12,11 @@ export const StackNavigator = () => {
 
     return (
         <Stack.Navigator>
+            <Stack.Screen
+                name="SuccessScreen"
+                options={{headerShown: false, gestureEnabled: false}}
+                component={SuccessScreen}
+            />
             <Stack.Screen
                 name="SplashScreen"
                 options={{headerShown: false, gestureEnabled: false}}
