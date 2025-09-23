@@ -11,11 +11,17 @@ import MenuIcon from "../../assets/svg/MenuIcon.svg";
 import {ChevronDown, Search, Settings} from "lucide-react-native";
 import {useAppNavigation} from "../../common/navigationHelper.ts";
 import CanadaSymbol from "../../assets/svg/CanadaSymbol.svg";
+import ViewDetailsModal from "./components/ViewDetailsModal.tsx";
+import AvailableNumbersModal from "./components/AvailableNumbersModal.tsx";
+import CheckAvailabilityModal from "./components/CheckAvailabilityModal.tsx";
 
 export default function NumbersScreen() {
     const navigation = useAppNavigation();
     const [searchNumber, setSearchNumber] = useState('');
     const [selectedCountry, setSelectedCountry] = useState('United Kingdom');
+    const [viewDetailsModalVisible, setViewDetailsModalVisible] = useState(false);
+    const [checkAvailabilityModalVisible, setCheckAvailabilityModalVisible] = useState(false);
+    const [availableNumbersModalVisible, setAvailableNumbersModalVisible] = useState(false);
 
     const phoneNumbers = [
         '+912545788',
@@ -77,7 +83,9 @@ export default function NumbersScreen() {
                 </View>
 
                 {/* Purchase Button */}
-                <TouchableOpacity className="bg-primary rounded-lg py-4 mb-6">
+                <TouchableOpacity className="bg-primary rounded-lg py-4 mb-6" onPress={()=>{
+                    setCheckAvailabilityModalVisible(true)
+                }}>
                     <Text className="text-center text-white font-poppinsSemiBold text-lg">
                         Purchase a number
                     </Text>
@@ -99,7 +107,10 @@ export default function NumbersScreen() {
                                     {number}
                                 </Text>
                             </View>
-                            <TouchableOpacity className="px-3 py-2.5 border-gray-200 border-[1px] rounded-md">
+                            <TouchableOpacity className="px-3 py-2.5 border-gray-200 border-[1px] rounded-md"
+                                              onPress={() => {
+                                                  setViewDetailsModalVisible(true)
+                                              }}>
                                 <Text className="font-poppinsMedium text-teal-600 text-sm">
                                     View Details
                                 </Text>
@@ -109,6 +120,19 @@ export default function NumbersScreen() {
                 </View>
                 <View className="min-h-[150px] bg-transparent min-w-1"/>
             </ScrollView>
+
+            {/*View Details Modal*/}
+            <ViewDetailsModal visible={viewDetailsModalVisible} onClose={() => {
+                setViewDetailsModalVisible(false)
+            }} onApply={() => {
+                setViewDetailsModalVisible(false)
+            }}/>
+
+            {/*Check Availability Modal*/}
+            <CheckAvailabilityModal visible={checkAvailabilityModalVisible} onClose={()=>{setCheckAvailabilityModalVisible(false)}} setAvailableNumbersModalVisible={setAvailableNumbersModalVisible}/>
+
+            {/*Available Numbers Modal*/}
+            <AvailableNumbersModal visible={availableNumbersModalVisible} onClose={()=>{setAvailableNumbersModalVisible(false)}}/>
         </SafeAreaView>
     );
 };
