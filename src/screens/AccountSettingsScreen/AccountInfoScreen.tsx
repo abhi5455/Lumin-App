@@ -37,7 +37,8 @@ export default function AccountInfoScreen() {
                 {/* Profile Section */}
                 <View className="flex items-center justify-center pb-6 border-b border-gray-100">
                     <View className="w-24 h-24 bg-teal-600 rounded-full items-center justify-center">
-                        <Text className="text-white text-4xl font-poppinsSemiBold">{userProfile?.name.slice(0,1).toUpperCase()}</Text>
+                        <Text
+                            className="text-white text-4xl font-poppinsSemiBold">{userProfile?.name.slice(0, 1).toUpperCase()}</Text>
                     </View>
                     <Text className="text-black text-xl font-poppinsSemiBold mt-2">{userProfile?.name}</Text>
                     <Text className="text-gray-400 text-sm font-poppinsMedium">{userProfile?.company?.name}</Text>
@@ -86,7 +87,8 @@ export default function AccountInfoScreen() {
                         <Text
                             className="text-gray-400 text-xs font-poppinsMedium uppercase tracking-wide mb-2">DATE</Text>
                         <View className="flex-row items-center justify-between">
-                            <Text className="text-black text-base font-poppinsMedium">{format(new Date(userProfile?.createdAt || ''), "dd-MM-yyyy")}</Text>
+                            <Text
+                                className="text-black text-base font-poppinsMedium">{format(new Date(userProfile?.createdAt || ''), "dd-MM-yyyy")}</Text>
                             <TouchableOpacity>
                                 <PencilIcon/>
                             </TouchableOpacity>
@@ -115,7 +117,8 @@ export default function AccountInfoScreen() {
                         <Text className="text-gray-400 text-xs font-poppinsMedium uppercase tracking-wide mb-2">ADDRESS
                             LINE 1</Text>
                         <View className="flex-row items-center justify-between">
-                            <Text className="text-black text-base font-poppinsMedium">{userProfile?.company?.address}</Text>
+                            <Text
+                                className="text-black text-base font-poppinsMedium">{userProfile?.company?.address}</Text>
                             <TouchableOpacity>
                                 <PencilIcon/>
                             </TouchableOpacity>
@@ -139,7 +142,8 @@ export default function AccountInfoScreen() {
                         <Text className="text-gray-400 text-xs font-poppinsMedium uppercase tracking-wide mb-2">PIN
                             CODE/ZIP CODE</Text>
                         <View className="flex-row items-center justify-between">
-                            <Text className="text-black text-base font-poppinsMedium">{userProfile?.company?.zipCode}</Text>
+                            <Text
+                                className="text-black text-base font-poppinsMedium">{userProfile?.company?.zipCode}</Text>
                             <TouchableOpacity>
                                 <PencilIcon/>
                             </TouchableOpacity>
@@ -151,7 +155,8 @@ export default function AccountInfoScreen() {
                         <Text
                             className="text-gray-400 text-xs font-poppinsMedium uppercase tracking-wide mb-2">STATE</Text>
                         <View className="flex-row items-center justify-between">
-                            <Text className="text-black text-base font-poppinsMedium">{userProfile?.company?.state}</Text>
+                            <Text
+                                className="text-black text-base font-poppinsMedium">{userProfile?.company?.state}</Text>
                             <TouchableOpacity>
                                 <PencilIcon/>
                             </TouchableOpacity>
@@ -162,11 +167,12 @@ export default function AccountInfoScreen() {
 
             {/* Change Password Button */}
             <TouchableOpacity className="bg-primary mx-6 mb-8 mt-1 py-4 rounded-xl"
-            onPress={() => setIsChangePasswordModalVisible(true)}>
+                              onPress={() => setIsChangePasswordModalVisible(true)}>
                 <Text className="text-white text-center text-lg font-poppinsSemiBold">Change Password</Text>
             </TouchableOpacity>
 
-            <ChangePasswordModal isModalVisible={isChangePasswordModalVisible} onClose={ ()=> setIsChangePasswordModalVisible(false)}/>
+            <ChangePasswordModal isModalVisible={isChangePasswordModalVisible}
+                                 onClose={() => setIsChangePasswordModalVisible(false)}/>
         </View>
     );
 };
