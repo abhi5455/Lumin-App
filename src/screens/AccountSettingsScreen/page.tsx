@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
     View,
     Text,
@@ -22,7 +22,7 @@ import {IUserProfile} from "../../types/profile.ts";
 
 export default function AccountSettingsScreen(){
     const navigation = useAppNavigation();
-    const userProfile: (IUserProfile | undefined) = getUserProfile();
+    const [userProfile, setUserProfile] = useState<IUserProfile | undefined>(getUserProfile());
     console.log("userProfile in AccountSettingsScreen:", userProfile);
     const menuItems = [
         { id: 1, title: 'My Account', icon: <PersonIcon/> , action: () => navigation.navigate('SectionNavigator', {screen: 'AccountInfoScreen'})},
@@ -64,7 +64,7 @@ export default function AccountSettingsScreen(){
                         </View>
                         <View>
                             <Text className="text-black text-lg font-poppinsSemiBold">{userProfile?.name}</Text>
-                            <Text className="text-gray-500 text-sm font-poppinsLight">Sony Pictures</Text>
+                            <Text className="text-gray-500 text-sm font-poppinsLight">{userProfile?.company?.name}</Text>
                         </View>
                     </View>
                     <View className="flex flex-row justify-center items-center gap-2 bg-gray-800 rounded-lg px-3 py-2">

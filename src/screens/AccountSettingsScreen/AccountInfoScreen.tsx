@@ -9,9 +9,13 @@ import PencilIcon from '../../assets/svg/PencilIcon.svg'
 import BackIcon from "../../assets/svg/BackIconBlack.svg";
 import {useAppNavigation} from "../../common/navigationHelper.ts";
 import ChangePasswordModal from "./ChangePasswordModal.tsx";
+import {IUserProfile} from "../../types/profile.ts";
+import {getUserProfile} from "../../lib/userStorage.ts";
+import {format} from "date-fns";
 
 export default function AccountInfoScreen() {
     const navigation = useAppNavigation();
+    const [userProfile, setUserProfile] = useState<IUserProfile | undefined>(getUserProfile());
     const [isChangePasswordModalVisible, setIsChangePasswordModalVisible] = useState(false);
 
     return (
@@ -33,10 +37,10 @@ export default function AccountInfoScreen() {
                 {/* Profile Section */}
                 <View className="flex items-center justify-center pb-6 border-b border-gray-100">
                     <View className="w-24 h-24 bg-teal-600 rounded-full items-center justify-center">
-                        <Text className="text-white text-4xl font-poppinsSemiBold">A</Text>
+                        <Text className="text-white text-4xl font-poppinsSemiBold">{userProfile?.name.slice(0,1).toUpperCase()}</Text>
                     </View>
-                    <Text className="text-black text-xl font-poppinsSemiBold mt-2">Adam</Text>
-                    <Text className="text-gray-400 text-sm font-poppinsMedium">Sony</Text>
+                    <Text className="text-black text-xl font-poppinsSemiBold mt-2">{userProfile?.name}</Text>
+                    <Text className="text-gray-400 text-sm font-poppinsMedium">{userProfile?.company?.name}</Text>
                 </View>
 
                 {/* Personal Information */}
@@ -46,7 +50,7 @@ export default function AccountInfoScreen() {
                         <Text
                             className="text-gray-400 text-xs font-poppinsMedium uppercase tracking-wide mb-2">EMAIL</Text>
                         <View className="flex-row items-center justify-between">
-                            <Text className="text-black text-base font-poppinsMedium">enos.bogisich@orland.tv</Text>
+                            <Text className="text-black text-base font-poppinsMedium">{userProfile?.email}</Text>
                             <TouchableOpacity>
                                 <PencilIcon/>
                             </TouchableOpacity>
@@ -70,7 +74,7 @@ export default function AccountInfoScreen() {
                         <Text
                             className="text-gray-400 text-xs font-poppinsMedium uppercase tracking-wide mb-2">DESIGNATION</Text>
                         <View className="flex-row items-center justify-between">
-                            <Text className="text-black text-base font-poppinsMedium">Support Team</Text>
+                            <Text className="text-black text-base font-poppinsMedium">{userProfile?.designation}</Text>
                             <TouchableOpacity>
                                 <PencilIcon/>
                             </TouchableOpacity>
@@ -82,7 +86,7 @@ export default function AccountInfoScreen() {
                         <Text
                             className="text-gray-400 text-xs font-poppinsMedium uppercase tracking-wide mb-2">DATE</Text>
                         <View className="flex-row items-center justify-between">
-                            <Text className="text-black text-base font-poppinsMedium">16-10-2024</Text>
+                            <Text className="text-black text-base font-poppinsMedium">{format(new Date(userProfile?.createdAt || ''), "dd-MM-yyyy")}</Text>
                             <TouchableOpacity>
                                 <PencilIcon/>
                             </TouchableOpacity>
@@ -99,7 +103,7 @@ export default function AccountInfoScreen() {
                         <Text className="text-gray-400 text-xs font-poppinsMedium uppercase tracking-wide mb-2">RECIPIENT
                             NAME</Text>
                         <View className="flex-row items-center justify-between">
-                            <Text className="text-black text-base font-poppinsMedium">Adam</Text>
+                            <Text className="text-black text-base font-poppinsMedium">{userProfile?.name}</Text>
                             <TouchableOpacity>
                                 <PencilIcon/>
                             </TouchableOpacity>
@@ -111,7 +115,7 @@ export default function AccountInfoScreen() {
                         <Text className="text-gray-400 text-xs font-poppinsMedium uppercase tracking-wide mb-2">ADDRESS
                             LINE 1</Text>
                         <View className="flex-row items-center justify-between">
-                            <Text className="text-black text-base font-poppinsMedium">123 Elm Street</Text>
+                            <Text className="text-black text-base font-poppinsMedium">{userProfile?.company?.address}</Text>
                             <TouchableOpacity>
                                 <PencilIcon/>
                             </TouchableOpacity>
@@ -135,7 +139,7 @@ export default function AccountInfoScreen() {
                         <Text className="text-gray-400 text-xs font-poppinsMedium uppercase tracking-wide mb-2">PIN
                             CODE/ZIP CODE</Text>
                         <View className="flex-row items-center justify-between">
-                            <Text className="text-black text-base font-poppinsMedium">162704</Text>
+                            <Text className="text-black text-base font-poppinsMedium">{userProfile?.company?.zipCode}</Text>
                             <TouchableOpacity>
                                 <PencilIcon/>
                             </TouchableOpacity>
@@ -147,7 +151,7 @@ export default function AccountInfoScreen() {
                         <Text
                             className="text-gray-400 text-xs font-poppinsMedium uppercase tracking-wide mb-2">STATE</Text>
                         <View className="flex-row items-center justify-between">
-                            <Text className="text-black text-base font-poppinsMedium">Illinois</Text>
+                            <Text className="text-black text-base font-poppinsMedium">{userProfile?.company?.state}</Text>
                             <TouchableOpacity>
                                 <PencilIcon/>
                             </TouchableOpacity>
