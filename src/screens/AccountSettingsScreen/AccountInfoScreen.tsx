@@ -114,8 +114,9 @@ export default function AccountInfoScreen() {
 
                     {/* Address Line 1 */}
                     <View className="mb-6">
-                        <Text className="text-gray-400 text-xs font-poppinsMedium uppercase tracking-wide mb-2">ADDRESS
-                            LINE 1</Text>
+                        <Text className="text-gray-400 text-xs font-poppinsMedium uppercase tracking-wide mb-2">
+                            ADDRESS
+                        </Text>
                         <View className="flex-row items-center justify-between">
                             <Text
                                 className="text-black text-base font-poppinsMedium">{userProfile?.company?.address}</Text>
@@ -126,16 +127,16 @@ export default function AccountInfoScreen() {
                     </View>
 
                     {/* Address Line 2 */}
-                    <View className="mb-6">
-                        <Text className="text-gray-400 text-xs font-poppinsMedium uppercase tracking-wide mb-2">ADDRESS
-                            LINE 2</Text>
-                        <View className="flex-row items-center justify-between">
-                            <Text className="text-black text-base font-poppinsMedium">Apt 4B</Text>
-                            <TouchableOpacity>
-                                <PencilIcon/>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
+                    {/*<View className="mb-6">*/}
+                    {/*    <Text className="text-gray-400 text-xs font-poppinsMedium uppercase tracking-wide mb-2">ADDRESS*/}
+                    {/*        LINE 2</Text>*/}
+                    {/*    <View className="flex-row items-center justify-between">*/}
+                    {/*        <Text className="text-black text-base font-poppinsMedium">Apt 4B</Text>*/}
+                    {/*        <TouchableOpacity>*/}
+                    {/*            <PencilIcon/>*/}
+                    {/*        </TouchableOpacity>*/}
+                    {/*    </View>*/}
+                    {/*</View>*/}
 
                     {/* Pin Code */}
                     <View className="mb-6">
