@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     View,
     Text,
@@ -14,6 +14,7 @@ import Toast from "react-native-toast-message";
 import axios from "axios";
 import {storage} from "../../lib/storage.ts";
 import {BASE_URL} from "../../../test";
+import {fetchUserProfile} from "../../lib/userStorage.ts";
 
 // import Config from "react-native-config";
 
@@ -35,7 +36,7 @@ function handleLogin(email: string, password: string, setIsLoading: (loading: bo
     // console.log("Logging", Config.BASE_URL);
     setIsLoading(true)
     axios.post(`${BASE_URL}/login`, {email: email, password: password})
-        .then(res => {
+        .then(async res => {
             Toast.show({
                 type: 'success',
                 text1: 'Login Successful!',
@@ -43,6 +44,7 @@ function handleLogin(email: string, password: string, setIsLoading: (loading: bo
                 position: "top"
             });
             storage.set('authToken', res.data.data);
+            await fetchUserProfile()
             navigation.goBack();
             navigation.goBack();
             navigation.navigate("TabNavigator");
@@ -73,7 +75,7 @@ function handleSignUp(name: string, email: string, password: string, setIsLoadin
     // console.log("Logging", Config.BASE_URL);
     setIsLoading(true)
     axios.post(`${BASE_URL}/register`, {name: name, email: email, password: password})
-        .then(res => {
+        .then(async res => {
             Toast.show({
                 type: 'success',
                 text1: 'Signup Successful!',
@@ -81,6 +83,7 @@ function handleSignUp(name: string, email: string, password: string, setIsLoadin
                 position: "top"
             });
             storage.set('authToken', res.data.data);
+            await fetchUserProfile()
             navigation.goBack();
             navigation.goBack();
             // navigation.navigate("TabNavigator");
