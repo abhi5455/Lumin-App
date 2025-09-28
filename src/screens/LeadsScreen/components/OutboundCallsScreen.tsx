@@ -1,17 +1,29 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     View,
     Text,
     TextInput,
     TouchableOpacity,
     ScrollView,
-    SafeAreaView,
+    SafeAreaView, ActivityIndicator,
 } from 'react-native';
 import BackIcon from "../../../assets/svg/BackIcon.svg";
 import {useAppNavigation} from "../../../common/navigationHelper.ts";
 import {CalendarFold} from "lucide-react-native";
+import {useRoute} from "@react-navigation/core";
+import {ILead} from "../../../types/leads.ts";
+import axios from "axios";
+import {BASE_URL} from "../../../../test";
+import Toast from "react-native-toast-message";
+
+interface IOutboundCallsScreenParams{
+    lead: ILead
+}
 
 const OutboundCallsScreen = () => {
+    const route = useRoute<IOutboundCallsScreenParams>();
+    const { lead } = route?.params;
+    console.log("Lead Info ", lead)
     const navigation = useAppNavigation();
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
@@ -20,6 +32,15 @@ const OutboundCallsScreen = () => {
     const [instruction, setInstruction] = useState('');
     const [dateRange, setDateRange] = useState('');
     const [timeRange, setTimeRange] = useState('');
+    const [isLoading, setIsLoading] = useState(false)
+
+    useEffect(() => {
+        setFullName(lead?.fullName)
+        setEmail(lead.email)
+        setPhoneNumber(lead?.phone)
+        setCompanyName(lead?.company)
+        setInstruction(lead?.instruction)
+    }, [lead]);
 
     return (
         <SafeAreaView className="flex-1 bg-white">
@@ -176,8 +197,53 @@ const OutboundCallsScreen = () => {
             <View className="">
                 <TouchableOpacity
                     className="bg-teal-600 py-5"
+                    onPress={() => {
+                        setIsLoading(true)
+                        let leadData = {
+                            fullName: fullName,
+                            email: email,
+                            phone: phoneNumber,
+                            company: companyName,
+                            instruction: instruction,
+                            schedule: {
+                                date: "2024-07-01T00:00:00.000Z",
+                                startTime: "17:00",
+                                endTime: "18:00"
+                            },
+                            status: "new"
+                        }
+                        axios.put(`${BASE_URL}/leads/${lead?._id}`, leadData)
+                            .then((res) => {
+                                Toast.show({
+                                    type: 'success',
+                                    text1: `Lead data has been updated`,
+                                    text2: `Updated lead - ${lead?.fullName}`,
+                                    position: "top"
+                                });
+                                navigation.goBack()
+                                // if (setTriggerFetch) {
+                                //     setTriggerFetch(prev => prev+1)
+                                // }
+                            })
+                            .catch((err) => {
+                                Toast.show({
+                                    type: 'error',
+                                    text1: 'Failed to update lead!',
+                                    text2: err.message || '',
+                                    position: "top"
+                                });
+                            })
+                            .finally(() => {
+                                setIsLoading(false)
+                            })
+                            .finally(()=>{
+                            })
+                    }}
                 >
+                    {!isLoading ?
                     <Text className="text-white text-center text-lg font-poppinsSemiBold">Submit</Text>
+                    : <ActivityIndicator color={'#FFF'} size={25} className={''}/>
+                    }
                 </TouchableOpacity>
             </View>
         </SafeAreaView>

@@ -3,7 +3,7 @@ import {EllipsisVertical, Settings} from "lucide-react-native";
 import MenuIcon from '../../assets/svg/MenuIcon.svg'
 import FilterIcon from '../../assets/svg/FilterIcon.svg'
 import PhoneTickIcon from '../../assets/svg/PhoneTickIcon.svg'
-import React, {Fragment, useCallback, useEffect, useState} from "react";
+import React, {Fragment, useCallback, useEffect, useRef, useState} from "react";
 import FilterModal from "../ConversationScreen/components/FilterModal.tsx";
 import {useAppNavigation} from "../../common/navigationHelper.ts";
 import ActionModal from "./components/ActionModal.tsx";
@@ -22,10 +22,14 @@ export default function LeadsScreen() {
     const [triggerFetch, setTriggerFetch] = useState<number>(0)
     const [selectedLead, setSelectedLead] = useState<ILead>()
     const [isLoading, setIsLoading] = useState(true)
+    const isFirstLoad = useRef(true);
 
     useFocusEffect(
         useCallback(() => {
-            setIsLoading(true)
+            if (isFirstLoad.current) {
+                setIsLoading(true)
+                isFirstLoad.current = false;
+            }
             axios.get(`${BASE_URL}/leads`)
                 .then((res) => {
                     setLeads(res.data.data.leads)
@@ -132,10 +136,13 @@ export default function LeadsScreen() {
                              setActionModalVisible(false)
                              navigation.navigate("SectionNavigator", {
                                  screen: "OutboundCallsScreen",
+                                 params: {
+                                     lead: selectedLead
+                                 }
                              });
                          }}
                          lead={selectedLead}
-            setTriggerFetch={setTriggerFetch}/>
+                         setTriggerFetch={setTriggerFetch}/>
         </SafeAreaView>
     )
 }
