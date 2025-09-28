@@ -58,7 +58,7 @@ export default function ChangeDetailsModal({isModalVisible, onClose, changeData,
                             value={currentValue}
                             onChangeText={setCurrentValue}
                             className="bg-gray-50 border border-gray-200 rounded-lg px-4 py-4 text-black font-poppinsMedium text-base"
-                            placeholder="Enter current value"
+                            placeholder="Enter value"
                             placeholderTextColor="#9CA3AF"
                             secureTextEntry={false}
                         />
