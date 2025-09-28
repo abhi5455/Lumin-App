@@ -12,11 +12,15 @@ import ChangePasswordModal from "./ChangePasswordModal.tsx";
 import {IUserProfile} from "../../types/profile.ts";
 import {getUserProfile} from "../../lib/userStorage.ts";
 import {format} from "date-fns";
+import ChangeDetailsModal from "./ChangeDetailsModal.tsx";
 
 export default function AccountInfoScreen() {
     const navigation = useAppNavigation();
     const [userProfile, setUserProfile] = useState<IUserProfile | undefined>(getUserProfile());
     const [isChangePasswordModalVisible, setIsChangePasswordModalVisible] = useState(false);
+    const [isChangeDetailsModalVisible, setIsChangeDetailsModalVisible] = useState(false);
+    const [changeData, setChangeData] = useState('');
+    const [changeDataLabel, setChangeDataLabel] = useState('');
 
     return (
         <View className="flex-1 bg-white">
@@ -52,9 +56,6 @@ export default function AccountInfoScreen() {
                             className="text-gray-400 text-xs font-poppinsMedium uppercase tracking-wide mb-2">EMAIL</Text>
                         <View className="flex-row items-center justify-between">
                             <Text className="text-black text-base font-poppinsMedium">{userProfile?.email}</Text>
-                            <TouchableOpacity>
-                                <PencilIcon/>
-                            </TouchableOpacity>
                         </View>
                     </View>
 
@@ -76,7 +77,11 @@ export default function AccountInfoScreen() {
                             className="text-gray-400 text-xs font-poppinsMedium uppercase tracking-wide mb-2">DESIGNATION</Text>
                         <View className="flex-row items-center justify-between">
                             <Text className="text-black text-base font-poppinsMedium">{userProfile?.designation}</Text>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={()=>{
+                                setChangeData(userProfile?.designation || '');
+                                setChangeDataLabel('userProfile?.designation');
+                                setIsChangeDetailsModalVisible(true);
+                            }}>
                                 <PencilIcon/>
                             </TouchableOpacity>
                         </View>
@@ -89,9 +94,6 @@ export default function AccountInfoScreen() {
                         <View className="flex-row items-center justify-between">
                             <Text
                                 className="text-black text-base font-poppinsMedium">{format(new Date(userProfile?.createdAt || ''), "dd-MM-yyyy")}</Text>
-                            <TouchableOpacity>
-                                <PencilIcon/>
-                            </TouchableOpacity>
                         </View>
                     </View>
                 </View>
@@ -106,7 +108,11 @@ export default function AccountInfoScreen() {
                             NAME</Text>
                         <View className="flex-row items-center justify-between">
                             <Text className="text-black text-base font-poppinsMedium">{userProfile?.name}</Text>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={()=>{
+                                setChangeData(userProfile?.name || '');
+                                setChangeDataLabel('userProfile?.name');
+                                setIsChangeDetailsModalVisible(true);
+                            }}>
                                 <PencilIcon/>
                             </TouchableOpacity>
                         </View>
@@ -120,7 +126,11 @@ export default function AccountInfoScreen() {
                         <View className="flex-row items-center justify-between">
                             <Text
                                 className="text-black text-base font-poppinsMedium">{userProfile?.company?.address}</Text>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={()=>{
+                                setChangeData(userProfile?.company?.address || '');
+                                setChangeDataLabel('userProfile?.company?.address');
+                                setIsChangeDetailsModalVisible(true);
+                            }}>
                                 <PencilIcon/>
                             </TouchableOpacity>
                         </View>
@@ -145,7 +155,11 @@ export default function AccountInfoScreen() {
                         <View className="flex-row items-center justify-between">
                             <Text
                                 className="text-black text-base font-poppinsMedium">{userProfile?.company?.zipCode}</Text>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={()=>{
+                                setChangeData(userProfile?.company?.zipCode || '');
+                                setChangeDataLabel('userProfile?.company?.zipCode');
+                                setIsChangeDetailsModalVisible(true);
+                            }}>
                                 <PencilIcon/>
                             </TouchableOpacity>
                         </View>
@@ -158,7 +172,11 @@ export default function AccountInfoScreen() {
                         <View className="flex-row items-center justify-between">
                             <Text
                                 className="text-black text-base font-poppinsMedium">{userProfile?.company?.state}</Text>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={()=>{
+                                setChangeData(userProfile?.company?.state || '');
+                                setChangeDataLabel('userProfile?.company?.state');
+                                setIsChangeDetailsModalVisible(true);
+                            }}>
                                 <PencilIcon/>
                             </TouchableOpacity>
                         </View>
@@ -171,7 +189,11 @@ export default function AccountInfoScreen() {
                         <View className="flex-row items-center justify-between">
                             <Text
                                 className="text-black text-base font-poppinsMedium">{userProfile?.company?.country}</Text>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={()=>{
+                                setChangeData(userProfile?.company?.country || '');
+                                setChangeDataLabel('userProfile?.company?.country');
+                                setIsChangeDetailsModalVisible(true);
+                            }}>
                                 <PencilIcon/>
                             </TouchableOpacity>
                         </View>
@@ -188,7 +210,11 @@ export default function AccountInfoScreen() {
                             NAME</Text>
                         <View className="flex-row items-center justify-between">
                             <Text className="text-black text-base font-poppinsMedium">{userProfile?.company?.name}</Text>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={()=>{
+                                setChangeData(userProfile?.company?.name || '');
+                                setChangeDataLabel('userProfile?.company?.name');
+                                setIsChangeDetailsModalVisible(true);
+                            }}>
                                 <PencilIcon/>
                             </TouchableOpacity>
                         </View>
@@ -202,7 +228,11 @@ export default function AccountInfoScreen() {
                         <View className="flex-row items-center justify-between">
                             <Text
                                 className="text-black text-base font-poppinsMedium">{userProfile?.company?.address}</Text>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={()=>{
+                                setChangeData(userProfile?.company?.address || '');
+                                setChangeDataLabel('userProfile?.company?.address');
+                                setIsChangeDetailsModalVisible(true);
+                            }}>
                                 <PencilIcon/>
                             </TouchableOpacity>
                         </View>
@@ -215,7 +245,11 @@ export default function AccountInfoScreen() {
                         <View className="flex-row items-center justify-between">
                             <Text
                                 className="text-black text-base font-poppinsMedium">{userProfile?.company?.registrationNumber}</Text>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={()=>{
+                                setChangeData(userProfile?.company?.registrationNumber || '');
+                                setChangeDataLabel('userProfile?.company?.registrationNumber');
+                                setIsChangeDetailsModalVisible(true);
+                            }}>
                                 <PencilIcon/>
                             </TouchableOpacity>
                         </View>
@@ -228,7 +262,11 @@ export default function AccountInfoScreen() {
                         <View className="flex-row items-center justify-between">
                             <Text
                                 className="text-black text-base font-poppinsMedium">{userProfile?.company?.businessCode}</Text>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={()=>{
+                                setChangeData(userProfile?.company?.businessCode || '');
+                                setChangeDataLabel('userProfile?.company?.businessCode');
+                                setIsChangeDetailsModalVisible(true);
+                            }}>
                                 <PencilIcon/>
                             </TouchableOpacity>
                         </View>
@@ -241,7 +279,11 @@ export default function AccountInfoScreen() {
                         <View className="flex-row items-center justify-between">
                             <Text
                                 className="text-black text-base font-poppinsMedium">{userProfile?.company?.state}</Text>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={()=>{
+                                setChangeData(userProfile?.company?.state || '');
+                                setChangeDataLabel('userProfile?.company?.state');
+                                setIsChangeDetailsModalVisible(true);
+                            }}>
                                 <PencilIcon/>
                             </TouchableOpacity>
                         </View>
@@ -254,7 +296,11 @@ export default function AccountInfoScreen() {
                         <View className="flex-row items-center justify-between">
                             <Text
                                 className="text-black text-base font-poppinsMedium">{userProfile?.company?.country}</Text>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={()=>{
+                                setChangeData(userProfile?.company?.country || '');
+                                setChangeDataLabel('userProfile?.company?.country');
+                                setIsChangeDetailsModalVisible(true);
+                            }}>
                                 <PencilIcon/>
                             </TouchableOpacity>
                         </View>
@@ -269,7 +315,11 @@ export default function AccountInfoScreen() {
                         <View className="flex-row items-center justify-between">
                             <Text
                                 className="flex flex-wrap max-w-[85%] text-black text-base font-poppinsMedium">{userProfile?.company?.aboutCompany}</Text>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={()=>{
+                                setChangeData(userProfile?.company?.aboutCompany || '');
+                                setChangeDataLabel('userProfile?.company?.aboutCompany');
+                                setIsChangeDetailsModalVisible(true);
+                            }}>
                                 <PencilIcon/>
                             </TouchableOpacity>
                         </View>
@@ -285,6 +335,9 @@ export default function AccountInfoScreen() {
 
             <ChangePasswordModal isModalVisible={isChangePasswordModalVisible}
                                  onClose={() => setIsChangePasswordModalVisible(false)}/>
+
+            <ChangeDetailsModal isModalVisible={isChangeDetailsModalVisible}
+                                 onClose={() => setIsChangeDetailsModalVisible(false)} changeData={changeData} changeDataLabel={changeDataLabel}/>
         </View>
     );
 };
