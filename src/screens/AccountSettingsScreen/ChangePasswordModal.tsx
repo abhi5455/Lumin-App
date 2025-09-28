@@ -5,8 +5,11 @@ import {
     TextInput,
     TouchableOpacity,
     Modal,
-    Pressable,
+    Pressable, ActivityIndicator,
 } from 'react-native';
+import Toast from "react-native-toast-message";
+import {BASE_URL} from "../../../test";
+import axios from "axios";
 
 interface IChangePasswordModalProps {
     isModalVisible: boolean;
@@ -16,12 +19,7 @@ interface IChangePasswordModalProps {
 export default function ChangePasswordModal({isModalVisible, onClose}: IChangePasswordModalProps) {
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
-
-    const handleSavePassword = () => {
-        // Handle password save logic here
-        console.log('Password saved');
-        onClose();
-    };
+    const [isLoading, setIsLoading] = useState(false);
 
     return (
         <Modal
@@ -72,9 +70,47 @@ export default function ChangePasswordModal({isModalVisible, onClose}: IChangePa
                     {/* Save Button */}
                     <TouchableOpacity
                         className="bg-primary rounded-lg py-4 mb-4"
-                        onPress={handleSavePassword}
+                        onPress={() => {
+                            if (!currentPassword || !newPassword) {
+                                Toast.show({
+                                    type: 'error',
+                                    text1: 'Error',
+                                    text2: 'Please fill in all fields',
+                                });
+                                return;
+                            }
+                            setIsLoading(true);
+                            axios.post(`${BASE_URL}/users/change-password`, {
+                                new_password: newPassword,
+                                old_password: currentPassword
+                            })
+                                .then((res) => {
+                                    Toast.show({
+                                        type: 'success',
+                                        text1: 'Success',
+                                        text2: 'Password changed successfully',
+                                    });
+                                    setCurrentPassword('');
+                                    setNewPassword('');
+                                    onClose();
+                                }).catch((err) => {
+                                Toast.show({
+                                    type: 'error',
+                                    text1: 'Error',
+                                    text2: err.response?.data?.message || 'Something went wrong',
+                                })
+                            })
+                                .finally(() => {
+                                    setIsLoading(false);
+                                    onClose()
+                                })
+                        }}
                     >
-                        <Text className="text-white text-center text-lg font-poppinsSemiBold">Save Password</Text>
+                        {!isLoading ?
+                            <Text className="text-white text-center text-lg font-poppinsSemiBold">Save Password</Text>
+                            :
+                            <ActivityIndicator color={'#FFF'} size={25} className={''}/>
+                        }
                     </TouchableOpacity>
                 </Pressable>
             </Pressable>
