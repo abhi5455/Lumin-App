@@ -26,6 +26,8 @@ import {useAppNavigation} from "../../common/navigationHelper.ts";
 import {fetchUserProfile, getUserProfile} from "../../lib/userStorage.ts";
 import {IUserProfile} from "../../types/profile.ts";
 import {useFocusEffect} from "@react-navigation/native";
+import axios from "axios";
+import {BASE_URL} from "../../../test";
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -81,6 +83,19 @@ export default function DashboardScreen() {
     //         }
     //     }, [])
     // );
+
+    useFocusEffect(
+        useCallback(() => {
+            console.log('Fetching...')
+            axios.get(`${BASE_URL}/dashboard`)
+                .then(res=>{
+                    console.log(res.data)
+                })
+                .catch(err=>{
+                    console.log(err.message)
+                })
+        }, [])
+    );
 
     return (
         <SafeAreaView className="flex-1 bg-gray-50 px-1">
