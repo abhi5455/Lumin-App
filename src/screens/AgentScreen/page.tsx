@@ -2,7 +2,6 @@ import {SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View} from 
 import {EllipsisVertical, PlusCircle, Search, Settings} from "lucide-react-native";
 import MenuIcon from '../../assets/svg/MenuIcon.svg'
 import FilterIcon from '../../assets/svg/FilterIcon.svg'
-import PhoneTickIcon from '../../assets/svg/PhoneTickIcon.svg'
 import React from "react";
 import FilterModal from "../ConversationScreen/components/FilterModal.tsx";
 import {useAppNavigation} from "../../common/navigationHelper.ts";
@@ -24,7 +23,7 @@ export default function AgentScreen() {
                     Convogents
                 </Text>
                 <TouchableOpacity
-                    onPress={()=>{
+                    onPress={() => {
                         navigation.navigate("SectionNavigator", {
                             screen: "AccountSettingsScreen",
                         });
@@ -33,7 +32,8 @@ export default function AgentScreen() {
                 </TouchableOpacity>
             </View>
 
-            <View className="flex-row items-center bg-white rounded-xl justify-between px-4 py-1 mt-4 mx-4 border-[1px] border-gray-100">
+            <View
+                className="flex-row items-center bg-white rounded-xl justify-between px-4 py-1 mt-4 mx-4 border-[1px] border-gray-100">
                 <Search color={'#889baf'} size={20}/>
                 <TextInput
                     placeholder="Search Agents"
@@ -46,8 +46,16 @@ export default function AgentScreen() {
             <View className="flex-row items-center bg-[#f6f7f9] justify-between px-4 py-3">
                 <Text className="text-slate-400 text-sm font-poppinsMedium">2 out of 5 agents created</Text>
                 <View className="flex flex-row items-center gap-4">
-                    <TouchableOpacity
-                        className="flex flex-row justify-center items-center gap-2 px-3 py-2 h-full bg-primary/80 rounded-lg">
+                    <TouchableOpacity onPress={() => {
+                        navigation.navigate("SectionNavigator", {
+                            screen: "AgentDetailsScreen",
+                            params: {
+                                screen: "CreateAgent",
+                                agentData: 'test'
+                            }
+                        });
+                    }}
+                                      className="flex flex-row justify-center items-center gap-2 px-3 py-2 h-full bg-primary/80 rounded-lg">
                         <PlusCircle color={'#FFF'} size={15}/>
                         <Text className="text-sm font-poppinsMedium text-white">Add Agent</Text>
                     </TouchableOpacity>
@@ -98,6 +106,10 @@ export default function AgentScreen() {
                              setActionModalVisible(false)
                              navigation.navigate("SectionNavigator", {
                                  screen: "AgentDetailsScreen",
+                                 params: {
+                                     screen: "EditAgent",
+                                     agentData: 'test'
+                                 }
                              });
                          }}/>
 

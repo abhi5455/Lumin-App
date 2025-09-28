@@ -1,10 +1,10 @@
 "use client"
 
-import {useEffect, useMemo, useState} from "react"
-import {Modal, View, Text, TouchableOpacity, ActivityIndicator, ScrollView} from "react-native"
-import axios from "axios";
-import {BASE_URL} from "../../../../test";
-import Toast from "react-native-toast-message";
+import { useEffect, useMemo, useState } from "react"
+import { Modal, View, Text, TouchableOpacity, ActivityIndicator, ScrollView } from "react-native"
+import axios from "axios"
+import { BASE_URL } from "../../../../test"
+import Toast from "react-native-toast-message"
 
 type PickerType = "language" | "voice" | "accent" | "phone"
 type Option = { label: string; value: string }
@@ -47,74 +47,79 @@ export default function CommonPickerModal({
             setOptions([])
             setError(null)
             try {
-                if (type === 'language') {
-                    axios.get(`${BASE_URL}/languages`)
+                if (type === "language") {
+                    axios
+                        .get(`${BASE_URL}/languages`)
                         .then((res) => {
                             const data = res.data?.data?.languages?.map((item: any) => ({
                                 label: item.lang,
                                 value: item._id,
-                            }));
+                            }))
                             setOptions(data)
                         })
                         .catch((err) => {
                             Toast.show({
-                                type: 'error',
-                                text1: 'Failed to fetch languages',
-                                text2: err.message
+                                type: "error",
+                                text1: "Failed to fetch languages",
+                                text2: err.message,
                             })
                             setError(err.message)
                         })
-                } else if (type === 'voice') {
-                    axios.get(`${BASE_URL}/voices`)
+                } else if (type === "voice") {
+                    axios
+                        .get(`${BASE_URL}/voices`)
                         .then((res) => {
                             console.log("Test ", res.data)
                             const data = res.data?.data?.voices?.map((item: any) => ({
                                 label: item.voice,
                                 value: item._id,
-                            }));
+                            }))
                             setOptions(data)
                         })
                         .catch((err) => {
                             Toast.show({
-                                type: 'error',
-                                text1: 'Failed to fetch voices',
-                                text2: err.message
+                                type: "error",
+                                text1: "Failed to fetch voices",
+                                text2: err.message,
                             })
                             setError(err.message)
                         })
-                } else if (type === 'accent') {
-                    axios.get(`${BASE_URL}/accents`)
+                } else if (type === "accent") {
+                    axios
+                        .get(`${BASE_URL}/accents`)
                         .then((res) => {
                             console.log("Test ", res.data)
                             const data = res.data?.data?.accents?.map((item: any) => ({
                                 label: item.accent,
                                 value: item._id,
-                            }));
+                            }))
                             setOptions(data)
                         })
                         .catch((err) => {
                             Toast.show({
-                                type: 'error',
-                                text1: 'Failed to fetch voices',
-                                text2: err.message
+                                type: "error",
+                                text1: "Failed to fetch voices",
+                                text2: err.message,
                             })
                             setError(err.message)
                         })
-                } else if (type === 'number') {
-                    axios.get(`${BASE_URL}/numbers/all`)
+                } else if (type === "phone") {
+                    axios
+                        .get(`${BASE_URL}/numbers/all`)
                         .then((res) => {
-                            console.log("Test ", res.data)
-                            // const data = res.data?.data?.accents?.map((item: any) => ({
-                            //     label: item.accent,
-                            //     value: item._id,
-                            // }));
-                            // setOptions(data)
+                            // Attempt to normalize typical API shape; adjust if backend differs
+                            const list = res?.data?.data?.numbers || res?.data?.data || res?.data || []
+                            const data = (list as any[]).map((item: any) => ({
+                                label: item.label || item.display || item.number || item.phone || String(item?.e164 || ""),
+                                value: item._id || item.id || item.value || item.number || String(item?.e164 || ""),
+                            }))
+                            setOptions(data)
                         })
                         .catch((err) => {
                             Toast.show({
-                                type: 'error',
-                                text1: 'Failed to fetch voices',
-                                text2: err.message
+                                type: "error",
+                                text1: "Failed to fetch phone numbers",
+                                text2: err.message,
                             })
                             setError(err.message)
                         })
@@ -137,7 +142,7 @@ export default function CommonPickerModal({
         <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
             <View className="flex-1">
                 {/* Overlay */}
-                <TouchableOpacity activeOpacity={1} onPress={onClose} className="absolute inset-0 bg-black/50"/>
+                <TouchableOpacity activeOpacity={1} onPress={onClose} className="absolute inset-0 bg-black/50" />
                 {/* Centered Card */}
                 <View className="flex-1 items-center justify-center px-6">
                     <View className="w-full max-w-[560px] rounded-2xl bg-white p-5">
@@ -145,7 +150,7 @@ export default function CommonPickerModal({
 
                         {loading ? (
                             <View className="py-8 items-center justify-center">
-                                <ActivityIndicator color="#0d9488"/>
+                                <ActivityIndicator color="#0d9488" />
                                 <Text className="text-black font-poppinsMedium mt-3">Loading...</Text>
                             </View>
                         ) : error ? (
