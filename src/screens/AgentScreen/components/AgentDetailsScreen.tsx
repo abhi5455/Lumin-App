@@ -47,15 +47,11 @@ export default function AgentDetailsScreen() {
     const [role, setRole] = useState("")
     const [accent, setAccent] = useState("")
     const [phoneNumber, setPhoneNumber] = useState("+1 8523647")
-    const [workingTime24Hr, setWorkingTime24Hr] = useState(true)
-    const [workingTimeStart, setWorkingTimeStart] = useState("6:00 am")
-    const [workingTimeEnd, setWorkingTimeEnd] = useState("12 am")
     const [trainingData, setTrainingData] = useState("")
 
     const [pickerVisible, setPickerVisible] = useState(false)
     const [pickerType, setPickerType] = useState<PickerType | null>(null)
     const [hoursVisible, setHoursVisible] = useState(false)
-    const [options, setOptions] = useState<{ label: string; value: string }[]>([])
 
     const [workingHours, setWorkingHours] = useState<{ from: number; to: number }>({from: 540, to: 1020})
 
@@ -70,40 +66,6 @@ export default function AgentDetailsScreen() {
 
     const [schedHoursVisible, setSchedHoursVisible] = useState(false)
     const [schedulingTime, setSchedulingTime] = useState<{ from: number; to: number }>({from: 600, to: 900})
-
-    const loadOptionsFor = async (type: PickerType) => {
-        // Replace with real API calls; modal identifies the triggered type via this param
-        // e.g., return fetch(`https://api.example.com/options?type=${type}`).then(r => r.json())
-        return new Promise<{ label: string; value: string }[]>((resolve) => {
-            setTimeout(() => {
-                if (type === "language") {
-                    resolve([
-                        {label: "English", value: "en"},
-                        {label: "Spanish", value: "es"},
-                        {label: "French", value: "fr"},
-                    ])
-                } else if (type === "voice") {
-                    resolve([
-                        {label: "Male", value: "male"},
-                        {label: "Female", value: "female"},
-                        {label: "Neutral", value: "neutral"},
-                    ])
-                } else if (type === "accent") {
-                    resolve([
-                        {label: "Cheerful", value: "cheerful"},
-                        {label: "Calm", value: "calm"},
-                        {label: "Confident", value: "confident"},
-                    ])
-                } else {
-                    resolve([
-                        {label: "+1 85236479", value: "+185236479"},
-                        {label: "+1 613000111", value: "+1613000111"},
-                        {label: "+44 208000222", value: "+44208000222"},
-                    ])
-                }
-            }, 300)
-        })
-    }
 
     const openPicker = (type: PickerType) => {
         setPickerType(type)
@@ -129,18 +91,6 @@ export default function AgentDetailsScreen() {
             setNumberId(opt.value)
         }
     }
-
-    const handleWorkingHoursSelect = (start, end) => {
-        setWorkingTimeStart(start)
-        setWorkingTimeEnd(end)
-        setHoursVisible(false)
-    }
-
-    useEffect(() => {
-        if (pickerType) {
-            loadOptionsFor(pickerType).then(setOptions)
-        }
-    }, [pickerType])
 
     return (
         <View className="flex-1 bg-gray-50">
@@ -309,7 +259,7 @@ export default function AgentDetailsScreen() {
                 {/* Date Range */}
                 <Text className="text-gray-800 text-base font-poppinsSemiBold mb-2">Date range</Text>
                 <TouchableOpacity
-                    className="bg-white border border-gray-200 rounded-lg px-4 py-2 flex-row items-center justify-between mb-4"
+                    className="bg-white border border-gray-200 rounded-lg px-4 py-4 flex-row items-center justify-between mb-4"
                     onPress={() => setDateModalVisible(true)}
                     activeOpacity={0.8}
                 >
@@ -322,7 +272,7 @@ export default function AgentDetailsScreen() {
                 {/* Time Range */}
                 <Text className="text-gray-800 text-base font-poppinsSemiBold mb-2">Time range</Text>
                 <TouchableOpacity
-                    className="bg-white border border-gray-200 rounded-lg px-4 py-2 flex-row items-center justify-between mb-8"
+                    className="bg-white border border-gray-200 rounded-lg px-4 py-4 flex-row items-center justify-between mb-8"
                     onPress={() => setSchedHoursVisible(true)}
                     activeOpacity={0.8}
                 >
@@ -422,7 +372,6 @@ export default function AgentDetailsScreen() {
                                     ? phoneNumber
                                     : undefined
                 }
-                loadOptions={loadOptionsFor}
                 onSelect={handlePickerSelect}
                 onClose={() => {
                     setPickerVisible(false)

@@ -15,6 +15,10 @@ import {ILead} from "../../../types/leads.ts";
 import axios from "axios";
 import {BASE_URL} from "../../../../test";
 import Toast from "react-native-toast-message";
+import WorkingHoursModal, {parseHHMM} from "../../AgentScreen/components/WorkingHoursModal.tsx";
+import DatepickerModal from "../../AgentScreen/components/DatePickerModal.tsx";
+import SingleDatepickerModal from "./SingleDatepickerModal.tsx";
+import {formatDate} from "date-fns";
 
 interface IOutboundCallsScreenParams{
     lead: ILead
@@ -31,8 +35,29 @@ const OutboundCallsScreen = () => {
     const [companyName, setCompanyName] = useState('');
     const [instruction, setInstruction] = useState('');
     const [dateRange, setDateRange] = useState('');
-    const [timeRange, setTimeRange] = useState('');
     const [isLoading, setIsLoading] = useState(false)
+
+    const [schedHoursVisible, setSchedHoursVisible] = useState(false)
+    const [schedulingTime, setSchedulingTime] = useState<{ from: number | null; to: number | null}>({from: null, to: null})
+
+    const [dateModalVisible, setDateModalVisible] = useState(false)
+
+    function minutesTo12hLabel(total: number) {
+        const h24 = Math.floor(total / 60)
+        const m = total % 60
+        const ampm = h24 >= 12 ? "pm" : "am"
+        const h12 = h24 % 12 === 0 ? 12 : h24 % 12
+        const mm = m.toString().padStart(2, "0")
+        return `${h12}:${mm} ${ampm}`
+    }
+
+    function minutesTo24hLabel(total: number): string {
+        const h24 = Math.floor(total / 60)
+        const m = total % 60
+        const hh = h24.toString().padStart(2, "0")
+        const mm = m.toString().padStart(2, "0")
+        return `${hh}:${mm}`
+    }
 
     useEffect(() => {
         setFullName(lead?.fullName)
@@ -40,6 +65,8 @@ const OutboundCallsScreen = () => {
         setPhoneNumber(lead?.phone)
         setCompanyName(lead?.company)
         setInstruction(lead?.instruction)
+        setSchedulingTime({from: parseHHMM(lead?.schedule?.startTime || "") ?? 0, to: parseHHMM(lead?.schedule?.endTime || "") ?? 0 })
+        setDateRange(lead?.schedule?.date)
     }, [lead]);
 
     return (
@@ -174,22 +201,30 @@ const OutboundCallsScreen = () => {
                     />
                     <CalendarFold color={'#889baf'} size={22}/>
                 </View>
+                <Text className="text-gray-800 text-base font-poppinsSemiBold mb-2">Date range</Text>
+                <TouchableOpacity
+                    className="bg-white border border-gray-200 rounded-lg px-4 py-4 flex-row items-center justify-between mb-4"
+                    onPress={() => setDateModalVisible(true)}
+                    activeOpacity={0.8}
+                >
+                    <Text className="text-gray-800 font-poppinsMedium flex-1">
+                        {dateRange ? `${formatDate(new Date(dateRange), "dd-mm-yyyy")}` : "Pick date"}
+                    </Text>
+                    <CalendarFold color={"#889baf"} size={22}/>
+                </TouchableOpacity>
 
                 {/* Time Range */}
-                <Text className="text-gray-800 text-base font-poppinsSemiBold mb-2">
-                    Time range
-                </Text>
-                <View
-                    className="bg-white border border-gray-200 rounded-lg px-4 py-2 flex-row items-center justify-between mb-8">
-                    <TextInput
-                        className="text-gray-800 font-poppinsMedium flex-1"
-                        placeholder="07:30 Am to 08:30 Am"
-                        placeholderTextColor="#9CA3AF"
-                        value={timeRange}
-                        onChangeText={setTimeRange}
-                    />
-                    <CalendarFold color={'#889baf'} size={22}/>
-                </View>
+                <Text className="text-gray-800 text-base font-poppinsSemiBold mb-2">Time range</Text>
+                <TouchableOpacity
+                    className="bg-white border border-gray-200 rounded-lg px-4 py-4 flex-row items-center justify-between mb-8"
+                    onPress={() => setSchedHoursVisible(true)}
+                    activeOpacity={0.8}
+                >
+                    <Text className="text-gray-800 font-poppinsMedium flex-1">
+                        {`${minutesTo12hLabel(schedulingTime.from || 0)} to ${minutesTo12hLabel(schedulingTime.to || 0)}`}
+                    </Text>
+                    <CalendarFold color={"#889baf"} size={22}/>
+                </TouchableOpacity>
                 <View className="min-h-[100px] bg-transparent min-w-1"/>
             </ScrollView>
 
@@ -207,8 +242,8 @@ const OutboundCallsScreen = () => {
                             instruction: instruction,
                             schedule: {
                                 date: "2024-07-01T00:00:00.000Z",
-                                startTime: "17:00",
-                                endTime: "18:00"
+                                startTime: minutesTo24hLabel(schedulingTime?.from || 0) || "",
+                                endTime: minutesTo24hLabel(schedulingTime?.to || 0) || ""
                             },
                             status: "new"
                         }
@@ -246,6 +281,26 @@ const OutboundCallsScreen = () => {
                     }
                 </TouchableOpacity>
             </View>
+
+            <WorkingHoursModal
+                visible={schedHoursVisible}
+                initialFrom={schedulingTime.from || 0}
+                initialTo={schedulingTime.to || 0}
+                onClose={() => setSchedHoursVisible(false)}
+                onSave={({from, to}) => {
+                    console.log(from, to)
+                    setSchedulingTime({from, to})
+                }}
+            />
+
+            <SingleDatepickerModal
+                visible={dateModalVisible}
+                initialDate={dateRange}
+                onClose={() => setDateModalVisible(false)}
+                onSave={(date) => {
+                    setDateRange(date)
+                }}
+            />
         </SafeAreaView>
     );
 };

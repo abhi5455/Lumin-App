@@ -21,7 +21,7 @@ function toText(minutes: number): string {
     return `${pad2(h)}:${pad2(m)}`
 }
 
-function parseHHMM(s: string): number | null {
+export function parseHHMM(s: string): number | null {
     const m = s.trim().match(/^(\d{1,2}):(\d{2})$/)
     if (!m) return null
     const hh = Number(m[1])

@@ -16,8 +16,6 @@ interface CommonPickerModalProps {
     selectedValue?: string
     onClose: () => void
     onSelect: (option: Option) => void
-    // Pass a loader that fetches data based on the triggered type; the modal identifies the type
-    loadOptions?: (type: PickerType) => Promise<Option[]>
 }
 
 export default function CommonPickerModal({
@@ -27,7 +25,6 @@ export default function CommonPickerModal({
                                               selectedValue,
                                               onClose,
                                               onSelect,
-                                              loadOptions,
                                           }: CommonPickerModalProps) {
     const [loading, setLoading] = useState(false)
     const [options, setOptions] = useState<Option[]>([])
@@ -136,7 +133,7 @@ export default function CommonPickerModal({
         return () => {
             mounted = false
         }
-    }, [visible, type, loadOptions])
+    }, [visible, type])
 
     return (
         <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>

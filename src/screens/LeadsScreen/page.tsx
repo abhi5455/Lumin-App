@@ -32,6 +32,7 @@ export default function LeadsScreen() {
             }
             axios.get(`${BASE_URL}/leads`)
                 .then((res) => {
+                    console.log(res.data.data)
                     setLeads(res.data.data.leads)
                 })
                 .catch((err) => {
@@ -80,36 +81,53 @@ export default function LeadsScreen() {
             <ScrollView className="flex-1 flex px-4 bg-[#f6f7f9] pt-1">
                 {!isLoading ?
                     <Fragment>
-                        {leads.map((lead, index) => (
-                            <View
-                                key={index}
-                                className="flex-row items-center justify-between py-4 px-3 mb-4 rounded-lg border-b bg-white border-gray-100">
-                                <View className="flex flex-row">
-                                    <View
-                                        className="w-12 h-12 bg-teal-600 rounded-full items-center justify-center mr-4">
-                                        <Text className="text-white text-lg font-poppinsSemiBold">A</Text>
+                        {leads.length > 0 ? (
+                            leads.map((lead, index) => (
+                                <View
+                                    key={index}
+                                    className="flex-row items-center justify-between py-4 px-3 mb-4 rounded-lg border-b bg-white border-gray-100">
+                                    <View className="flex flex-row">
+                                        <View
+                                            className="w-12 h-12 bg-teal-600 rounded-full items-center justify-center mr-4">
+                                            <Text className="text-white text-lg font-poppinsSemiBold">A</Text>
+                                        </View>
+                                        <View className="">
+                                            <Text
+                                                className="text-black text-base font-poppinsMedium">{lead?.fullName}</Text>
+                                            <Text
+                                                className="text-slate-400 text-sm font-poppinsMedium">{lead?.phone}</Text>
+                                        </View>
+                                        <View className="flex justify-center items-center mx-2 ml-3">
+                                            <PhoneTickIcon/>
+                                        </View>
                                     </View>
-                                    <View className="">
-                                        <Text
-                                            className="text-black text-base font-poppinsMedium">{lead?.fullName}</Text>
-                                        <Text className="text-slate-400 text-sm font-poppinsMedium">{lead?.phone}</Text>
+                                    <View className="px-2 py-1 border-[#4caf50] border-[1px] rounded-full">
+                                        <Text className="text-[#4caf50] text-xs font-poppinsMedium">Scheduled</Text>
                                     </View>
-                                    <View className="flex justify-center items-center mx-2 ml-3">
-                                        <PhoneTickIcon/>
-                                    </View>
-                                </View>
-                                <View className="px-2 py-1 border-[#4caf50] border-[1px] rounded-full">
-                                    <Text className="text-[#4caf50] text-xs font-poppinsMedium">Scheduled</Text>
-                                </View>
 
-                                <TouchableOpacity className="mr-1" onPress={() => {
-                                    setSelectedLead(lead)
-                                    setActionModalVisible(!actionModalVisible)
-                                }}>
-                                    <EllipsisVertical size={20}/>
-                                </TouchableOpacity>
+                                    <TouchableOpacity className="mr-1" onPress={() => {
+                                        setSelectedLead(lead)
+                                        setActionModalVisible(!actionModalVisible)
+                                    }}>
+                                        <EllipsisVertical size={20}/>
+                                    </TouchableOpacity>
+                                </View>
+                            ))
+                        ) : (
+                            // No leads section
+                            <View className="flex-1 justify-center items-center py-32">
+                                <View className="w-20 h-20 rounded-full items-center justify-center mb-0">
+                                    <PhoneTickIcon width={32} height={32}/>
+                                </View>
+                                <Text className="text-gray-600 text-xl font-poppinsSemiBold mb-2">
+                                    No Leads Found
+                                </Text>
+                                <Text className="text-gray-400 text-sm font-poppinsMedium text-center px-8 leading-6">
+                                    You don't have any existing leads yet. New leads will appear here once they're{'\n'}
+                                    available.
+                                </Text>
                             </View>
-                        ))}
+                        )}
                     </Fragment>
                     :
                     <View className="py-[50px]">
