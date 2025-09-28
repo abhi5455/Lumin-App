@@ -45,7 +45,7 @@ export default function AccountInfoScreen() {
                 </View>
 
                 {/* Personal Information */}
-                <View className="py-6">
+                <View className="pt-6 pb-4">
                     {/* Email */}
                     <View className="mb-6">
                         <Text
@@ -59,16 +59,16 @@ export default function AccountInfoScreen() {
                     </View>
 
                     {/* Mobile */}
-                    <View className="mb-6">
-                        <Text
-                            className="text-gray-400 text-xs font-poppinsMedium uppercase tracking-wide mb-2">MOBILE</Text>
-                        <View className="flex-row items-center justify-between">
-                            <Text className="text-black text-base font-poppinsMedium">+912545788</Text>
-                            <TouchableOpacity>
-                                <PencilIcon/>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
+                    {/*<View className="mb-6">*/}
+                    {/*    <Text*/}
+                    {/*        className="text-gray-400 text-xs font-poppinsMedium uppercase tracking-wide mb-2">MOBILE</Text>*/}
+                    {/*    <View className="flex-row items-center justify-between">*/}
+                    {/*        <Text className="text-black text-base font-poppinsMedium">+912545788</Text>*/}
+                    {/*        <TouchableOpacity>*/}
+                    {/*            <PencilIcon/>*/}
+                    {/*        </TouchableOpacity>*/}
+                    {/*    </View>*/}
+                    {/*</View>*/}
 
                     {/* Designation */}
                     <View className="mb-6">
@@ -97,7 +97,7 @@ export default function AccountInfoScreen() {
                 </View>
 
                 {/* Billing Address Section */}
-                <View className="py-4">
+                <View className="py-0">
                     <Text className="text-black text-lg font-poppinsSemiBold mb-6">Billing Address</Text>
 
                     {/* Recipient Name */}
@@ -152,12 +152,123 @@ export default function AccountInfoScreen() {
                     </View>
 
                     {/* State */}
-                    <View className="mb-8">
+                    <View className="mb-6">
                         <Text
                             className="text-gray-400 text-xs font-poppinsMedium uppercase tracking-wide mb-2">STATE</Text>
                         <View className="flex-row items-center justify-between">
                             <Text
                                 className="text-black text-base font-poppinsMedium">{userProfile?.company?.state}</Text>
+                            <TouchableOpacity>
+                                <PencilIcon/>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+
+                    {/* Country */}
+                    <View className="mb-8">
+                        <Text
+                            className="text-gray-400 text-xs font-poppinsMedium uppercase tracking-wide mb-2">COUNTRY</Text>
+                        <View className="flex-row items-center justify-between">
+                            <Text
+                                className="text-black text-base font-poppinsMedium">{userProfile?.company?.country}</Text>
+                            <TouchableOpacity>
+                                <PencilIcon/>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+
+                {/* Company Info Section */}
+                <View className="py-3">
+                    <Text className="text-black text-lg font-poppinsSemiBold mb-6">Company Information</Text>
+
+                    {/* Company Name */}
+                    <View className="mb-6">
+                        <Text className="text-gray-400 text-xs font-poppinsMedium uppercase tracking-wide mb-2">COMPANY
+                            NAME</Text>
+                        <View className="flex-row items-center justify-between">
+                            <Text className="text-black text-base font-poppinsMedium">{userProfile?.company?.name}</Text>
+                            <TouchableOpacity>
+                                <PencilIcon/>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+
+                    {/* Company Address */}
+                    <View className="mb-6">
+                        <Text className="text-gray-400 text-xs font-poppinsMedium uppercase tracking-wide mb-2">
+                            COMPANY ADDRESS
+                        </Text>
+                        <View className="flex-row items-center justify-between">
+                            <Text
+                                className="text-black text-base font-poppinsMedium">{userProfile?.company?.address}</Text>
+                            <TouchableOpacity>
+                                <PencilIcon/>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+
+                    {/* Registration Number */}
+                    <View className="mb-6">
+                        <Text className="text-gray-400 text-xs font-poppinsMedium uppercase tracking-wide mb-2">
+                            REGISTRATION NUMBER</Text>
+                        <View className="flex-row items-center justify-between">
+                            <Text
+                                className="text-black text-base font-poppinsMedium">{userProfile?.company?.registrationNumber}</Text>
+                            <TouchableOpacity>
+                                <PencilIcon/>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+
+                    {/* Business Code */}
+                    <View className="mb-6">
+                        <Text className="text-gray-400 text-xs font-poppinsMedium uppercase tracking-wide mb-2">
+                            BUSINESS CODE</Text>
+                        <View className="flex-row items-center justify-between">
+                            <Text
+                                className="text-black text-base font-poppinsMedium">{userProfile?.company?.businessCode}</Text>
+                            <TouchableOpacity>
+                                <PencilIcon/>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+
+                    {/* State */}
+                    <View className="mb-6">
+                        <Text
+                            className="text-gray-400 text-xs font-poppinsMedium uppercase tracking-wide mb-2">STATE</Text>
+                        <View className="flex-row items-center justify-between">
+                            <Text
+                                className="text-black text-base font-poppinsMedium">{userProfile?.company?.state}</Text>
+                            <TouchableOpacity>
+                                <PencilIcon/>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+
+                    {/* Country */}
+                    <View className="mb-6">
+                        <Text
+                            className="text-gray-400 text-xs font-poppinsMedium uppercase tracking-wide mb-2">COUNTRY</Text>
+                        <View className="flex-row items-center justify-between">
+                            <Text
+                                className="text-black text-base font-poppinsMedium">{userProfile?.company?.country}</Text>
+                            <TouchableOpacity>
+                                <PencilIcon/>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+
+                    {/* About Company */}
+                    <View className="mb-8">
+                        <Text
+                            className="text-gray-400 text-xs font-poppinsMedium uppercase tracking-wide mb-2">
+                            ABOUT COMPANY
+                        </Text>
+                        <View className="flex-row items-center justify-between">
+                            <Text
+                                className="flex flex-wrap max-w-[85%] text-black text-base font-poppinsMedium">{userProfile?.company?.aboutCompany}</Text>
                             <TouchableOpacity>
                                 <PencilIcon/>
                             </TouchableOpacity>
