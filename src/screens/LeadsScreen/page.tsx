@@ -1,17 +1,48 @@
-import {SafeAreaView, ScrollView, Text, TouchableOpacity, View} from "react-native";
+import {ActivityIndicator, SafeAreaView, ScrollView, Text, TouchableOpacity, View} from "react-native";
 import {EllipsisVertical, Settings} from "lucide-react-native";
 import MenuIcon from '../../assets/svg/MenuIcon.svg'
 import FilterIcon from '../../assets/svg/FilterIcon.svg'
 import PhoneTickIcon from '../../assets/svg/PhoneTickIcon.svg'
-import React from "react";
+import React, {Fragment, useCallback, useEffect, useState} from "react";
 import FilterModal from "../ConversationScreen/components/FilterModal.tsx";
 import {useAppNavigation} from "../../common/navigationHelper.ts";
 import ActionModal from "./components/ActionModal.tsx";
+import {storage} from "../../lib/storage.ts";
+import {useFocusEffect} from "@react-navigation/native";
+import axios from "axios";
+import {BASE_URL} from "../../../test";
+import Toast from "react-native-toast-message";
+import {ILead} from "../../types/leads.ts";
 
 export default function LeadsScreen() {
     const navigation = useAppNavigation()
     const [filterModalVisible, setFilterModalVisible] = React.useState(false);
     const [actionModalVisible, setActionModalVisible] = React.useState(false);
+    const [leads, setLeads] = useState<ILead[]>([])
+    const [triggerFetch, setTriggerFetch] = useState<number>(0)
+    const [selectedLead, setSelectedLead] = useState<ILead>()
+    const [isLoading, setIsLoading] = useState(true)
+
+    useFocusEffect(
+        useCallback(() => {
+            setIsLoading(true)
+            axios.get(`${BASE_URL}/leads`)
+                .then((res) => {
+                    setLeads(res.data.data.leads)
+                })
+                .catch((err) => {
+                    Toast.show({
+                        type: 'error',
+                        text1: 'Something went wrong!',
+                        text2: err.message || '',
+                        position: "top"
+                    });
+                })
+                .finally(() => {
+                    setIsLoading(false)
+                })
+        }, [triggerFetch, navigation])
+    );
 
     return (
         <SafeAreaView className="flex-1 bg-gray-50 px-1">
@@ -24,7 +55,7 @@ export default function LeadsScreen() {
                     Convogents
                 </Text>
                 <TouchableOpacity
-                    onPress={()=>{
+                    onPress={() => {
                         navigation.navigate("SectionNavigator", {
                             screen: "AccountSettingsScreen",
                         });
@@ -43,31 +74,44 @@ export default function LeadsScreen() {
 
             {/* Conversation List */}
             <ScrollView className="flex-1 flex px-4 bg-[#f6f7f9] pt-1">
-                {Array.from({length: 10}).map((_, index) => (
-                    <View
-                        key={index}
-                        className="flex-row items-center justify-between py-4 px-3 mb-4 rounded-lg border-b bg-white border-gray-100">
-                        <View className="flex flex-row">
-                            <View className="w-12 h-12 bg-teal-600 rounded-full items-center justify-center mr-4">
-                                <Text className="text-white text-lg font-poppinsSemiBold">A</Text>
-                            </View>
-                            <View className="">
-                                <Text className="text-black text-base font-poppinsMedium">Adam</Text>
-                                <Text className="text-slate-400 text-sm font-poppinsMedium">+912545788</Text>
-                            </View>
-                            <View className="flex justify-center items-center mx-2 ml-3">
-                                <PhoneTickIcon/>
-                            </View>
-                        </View>
-                        <View className="px-2 py-1 border-[#4caf50] border-[1px] rounded-full">
-                            <Text className="text-[#4caf50] text-xs font-poppinsMedium">Scheduled</Text>
-                        </View>
+                {!isLoading ?
+                    <Fragment>
+                        {leads.map((lead, index) => (
+                            <View
+                                key={index}
+                                className="flex-row items-center justify-between py-4 px-3 mb-4 rounded-lg border-b bg-white border-gray-100">
+                                <View className="flex flex-row">
+                                    <View
+                                        className="w-12 h-12 bg-teal-600 rounded-full items-center justify-center mr-4">
+                                        <Text className="text-white text-lg font-poppinsSemiBold">A</Text>
+                                    </View>
+                                    <View className="">
+                                        <Text
+                                            className="text-black text-base font-poppinsMedium">{lead?.fullName}</Text>
+                                        <Text className="text-slate-400 text-sm font-poppinsMedium">{lead?.phone}</Text>
+                                    </View>
+                                    <View className="flex justify-center items-center mx-2 ml-3">
+                                        <PhoneTickIcon/>
+                                    </View>
+                                </View>
+                                <View className="px-2 py-1 border-[#4caf50] border-[1px] rounded-full">
+                                    <Text className="text-[#4caf50] text-xs font-poppinsMedium">Scheduled</Text>
+                                </View>
 
-                        <TouchableOpacity className="mr-1" onPress={() => setActionModalVisible(!actionModalVisible)}>
-                            <EllipsisVertical size={20}/>
-                        </TouchableOpacity>
+                                <TouchableOpacity className="mr-1" onPress={() => {
+                                    setSelectedLead(lead)
+                                    setActionModalVisible(!actionModalVisible)
+                                }}>
+                                    <EllipsisVertical size={20}/>
+                                </TouchableOpacity>
+                            </View>
+                        ))}
+                    </Fragment>
+                    :
+                    <View className="py-[50px]">
+                        <ActivityIndicator color={'#178671'} size={30} className={''}/>
                     </View>
-                ))}
+                }
                 <View className="min-h-[150px] bg-transparent min-w-1"/>
             </ScrollView>
 
@@ -84,12 +128,14 @@ export default function LeadsScreen() {
             }} onApply={() => {
                 setActionModalVisible(false)
             }}
-            viewAction={() => {
-                setActionModalVisible(false)
-                navigation.navigate("SectionNavigator", {
-                    screen: "OutboundCallsScreen",
-                });
-            }}/>
+                         viewAction={() => {
+                             setActionModalVisible(false)
+                             navigation.navigate("SectionNavigator", {
+                                 screen: "OutboundCallsScreen",
+                             });
+                         }}
+                         lead={selectedLead}
+            setTriggerFetch={setTriggerFetch}/>
         </SafeAreaView>
     )
 }
