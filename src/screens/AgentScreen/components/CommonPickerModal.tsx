@@ -66,7 +66,6 @@ export default function CommonPickerModal({
                     axios
                         .get(`${BASE_URL}/voices`)
                         .then((res) => {
-                            console.log("Test ", res.data)
                             const data = res.data?.data?.voices?.map((item: any) => ({
                                 label: item.voice,
                                 value: item._id,
@@ -85,7 +84,6 @@ export default function CommonPickerModal({
                     axios
                         .get(`${BASE_URL}/accents`)
                         .then((res) => {
-                            console.log("Test ", res.data)
                             const data = res.data?.data?.accents?.map((item: any) => ({
                                 label: item.accent,
                                 value: item._id,
@@ -121,7 +119,6 @@ export default function CommonPickerModal({
                             setError(err.message)
                         })
                 }
-                console.log(options)
             } catch (e) {
                 if (mounted) setError("Failed to load options")
             } finally {

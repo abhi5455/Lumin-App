@@ -249,7 +249,6 @@ export default function DatepickerModal({
                                 disabled={!canSave}
                                 onPress={() => {
                                     if (fromDate && toDate) onSave({ from: startOfDay(fromDate).toISOString(), to: endOfDay(toDate).toISOString() })
-                                    console.log("Yay ", startOfDay(fromDate).toISOString())
                                     onClose()
                                 }}
                                 className={`px-4 py-2 rounded-lg ${canSave ? "bg-teal-600" : "bg-gray-300"}`}

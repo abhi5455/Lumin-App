@@ -31,7 +31,6 @@ export default function AgentDetailsScreen() {
         screen: string;
         agentData: string;
     };
-    console.log("Hii ", screen)
     const navigation = useAppNavigation()
     const [enableAgent, setEnableAgent] = useState(true)
     const [agentName, setAgentName] = useState("")
@@ -46,7 +45,7 @@ export default function AgentDetailsScreen() {
     const [pickerType, setPickerType] = useState<PickerType | null>(null)
     const [hoursVisible, setHoursVisible] = useState(false)
 
-    const [workingHours, setWorkingHours] = useState<{ from: number; to: number }>({from: 540, to: 1020})
+    const [workingHours, setWorkingHours] = useState<{ from: number | null; to: number | null}>({from: null, to: null})
 
     const [languageId, setLanguageId] = useState<string>("")
     const [voiceId, setVoiceId] = useState<string>("")
@@ -58,7 +57,7 @@ export default function AgentDetailsScreen() {
     const [dateTo, setDateTo] = useState<string>(null)
 
     const [schedHoursVisible, setSchedHoursVisible] = useState(false)
-    const [schedulingTime, setSchedulingTime] = useState<{ from: number; to: number }>({from: 600, to: 900})
+    const [schedulingTime, setSchedulingTime] = useState<{ from: number | null; to: number | null}>({from: null, to: null})
 
     const openPicker = (type: PickerType) => {
         setPickerType(type)
@@ -219,7 +218,7 @@ export default function AgentDetailsScreen() {
                         className="bg-white border border-gray-200 rounded-lg px-4 py-3 flex-row justify-between items-center"
                     >
                         <Text className="text-gray-500 py-1 font-poppinsMedium">
-                            {minutesTo12hLabel(workingHours.from)} to {minutesTo12hLabel(workingHours.to)}
+                            {workingHours.from && workingHours.to ?`${minutesTo12hLabel(workingHours.from)} to ${minutesTo12hLabel(workingHours.to)}` : 'from time — to time'}
                         </Text>
                         <Timer color={"#889baf"} size={22}/>
                     </TouchableOpacity>
@@ -270,7 +269,7 @@ export default function AgentDetailsScreen() {
                     activeOpacity={0.8}
                 >
                     <Text className="text-gray-800 font-poppinsMedium flex-1">
-                        {`${minutesTo12hLabel(schedulingTime.from)} to ${minutesTo12hLabel(schedulingTime.to)}`}
+                        {schedulingTime.from && schedulingTime.to ?`${minutesTo12hLabel(schedulingTime.from)} to ${minutesTo12hLabel(schedulingTime.to)}` : 'from time — to time'}
                     </Text>
                     <CalendarFold color={"#889baf"} size={22}/>
                 </TouchableOpacity>
@@ -282,7 +281,7 @@ export default function AgentDetailsScreen() {
                 <TouchableOpacity
                     className="bg-teal-600 py-5"
                     onPress={() => {
-                        if(!agentName || !languageId || !voiceId || !role || !accentId || !workingHours.from || !workingHours.from || !numberId ) {
+                        if(!agentName || !languageId || !voiceId || !role || !accentId || !workingHours.from || !workingHours.from) {
                             Toast.show({
                                 type: 'error',
                                 text1: 'Invalid Data!',
@@ -362,8 +361,8 @@ export default function AgentDetailsScreen() {
 
             <WorkingHoursModal
                 visible={hoursVisible}
-                initialFrom={workingHours.from}
-                initialTo={workingHours.to}
+                initialFrom={workingHours.from || 0}
+                initialTo={workingHours.to || 0}
                 onClose={() => setHoursVisible(false)}
                 onSave={({from, to}) => setWorkingHours({from, to})}
             />
@@ -381,8 +380,8 @@ export default function AgentDetailsScreen() {
 
             <WorkingHoursModal
                 visible={schedHoursVisible}
-                initialFrom={schedulingTime.from}
-                initialTo={schedulingTime.to}
+                initialFrom={schedulingTime.from || 0}
+                initialTo={schedulingTime.to || 0}
                 onClose={() => setSchedHoursVisible(false)}
                 onSave={({from, to}) => setSchedulingTime({from, to})}
             />
