@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react"
 import { Modal, View, Text, TouchableOpacity, ScrollView } from "react-native"
+import {ChevronLeft, ChevronRight} from "lucide-react-native";
 
 type DatepickerModalProps = {
     visible: boolean
@@ -154,13 +155,13 @@ export default function DatepickerModal({
                         {/* Header month nav */}
                         <View className="flex-row items-center justify-between mb-3">
                             <TouchableOpacity onPress={() => changeMonth(-1)} className="px-3 py-1 rounded bg-gray-100">
-                                <Text className="text-black font-poppinsSemiBold">{"‹"}</Text>
+                                <ChevronLeft size={15}/>
                             </TouchableOpacity>
                             <Text className="text-black font-poppinsSemiBold">
                                 {MONTHS[viewMonth]} {viewYear}
                             </Text>
                             <TouchableOpacity onPress={() => changeMonth(1)} className="px-3 py-1 rounded bg-gray-100">
-                                <Text className="text-black font-poppinsSemiBold">{"›"}</Text>
+                                <ChevronRight size={15}/>
                             </TouchableOpacity>
                         </View>
 
@@ -195,35 +196,38 @@ export default function DatepickerModal({
 
                         {/* Calendar grid */}
                         <ScrollView className="max-h-[320px]">
-                            <View className="flex-row flex-wrap">
-                                {days.map((d, idx) => {
-                                    if (!d) {
-                                        return <View key={idx} className="w-[14.2857%] aspect-square" />
-                                    }
-                                    const selectedStart = fromDate && sameDay(d, fromDate)
-                                    const selectedEnd = toDate && sameDay(d, toDate)
-                                    const inRange = isInRange(d)
-                                    const isToday = sameDay(d, today)
+                            {Array.from({ length: Math.ceil(days.length / 7) }, (_, weekIndex) => (
+                                <View key={weekIndex} className="flex-row">
+                                    {days.slice(weekIndex * 7, (weekIndex + 1) * 7).map((d, dayIndex) => {
+                                        const idx = weekIndex * 7 + dayIndex
+                                        if (!d) {
+                                            return <View key={idx} className="flex-1 aspect-square" />
+                                        }
+                                        const selectedStart = fromDate && sameDay(d, fromDate)
+                                        const selectedEnd = toDate && sameDay(d, toDate)
+                                        const inRange = isInRange(d)
+                                        const isToday = sameDay(d, today)
 
-                                    const bg = selectedStart || selectedEnd ? "bg-teal-600" : inRange ? "bg-teal-100" : "bg-white"
+                                        const bg = selectedStart || selectedEnd ? "bg-teal-600" : inRange ? "bg-teal-100" : "bg-white"
 
-                                    const border = isToday ? "border border-teal-600" : ""
+                                        const border = isToday ? "border border-teal-600" : ""
 
-                                    return (
-                                        <TouchableOpacity
-                                            key={idx}
-                                            className={`w-[14.2857%] aspect-square items-center justify-center ${bg} ${border}`}
-                                            onPress={() => onDayPress(d)}
-                                        >
-                                            <Text
-                                                className={`${selectedStart || selectedEnd ? "text-white" : "text-black"} font-poppinsMedium`}
+                                        return (
+                                            <TouchableOpacity
+                                                key={idx}
+                                                className={`flex-1 aspect-square items-center justify-center ${bg} ${border}`}
+                                                onPress={() => onDayPress(d)}
                                             >
-                                                {d.getDate()}
-                                            </Text>
-                                        </TouchableOpacity>
-                                    )
-                                })}
-                            </View>
+                                                <Text
+                                                    className={`${selectedStart || selectedEnd ? "text-white" : "text-black"} font-poppinsMedium`}
+                                                >
+                                                    {d.getDate()}
+                                                </Text>
+                                            </TouchableOpacity>
+                                        )
+                                    })}
+                                </View>
+                            ))}
                         </ScrollView>
 
                         {/* Actions */}
@@ -244,7 +248,8 @@ export default function DatepickerModal({
                             <TouchableOpacity
                                 disabled={!canSave}
                                 onPress={() => {
-                                    if (fromDate && toDate) onSave({ from: startOfDay(fromDate), to: endOfDay(toDate) })
+                                    if (fromDate && toDate) onSave({ from: startOfDay(fromDate).toISOString(), to: endOfDay(toDate).toISOString() })
+                                    console.log("Yay ", startOfDay(fromDate).toISOString())
                                     onClose()
                                 }}
                                 className={`px-4 py-2 rounded-lg ${canSave ? "bg-teal-600" : "bg-gray-300"}`}

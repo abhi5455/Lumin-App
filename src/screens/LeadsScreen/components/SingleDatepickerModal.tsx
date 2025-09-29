@@ -157,7 +157,7 @@ export default function SingleDatepickerModal({
                         {/* Weekday header */}
                         <View className="flex-row justify-between mb-1">
                             {WEEKDAYS.map((w, idx) => (
-                                <View key={idx} className="w-[14.2857%] items-center">
+                                <View key={idx} className="flex-1 items-center">
                                     <Text className="text-gray-500 font-poppinsMedium">{w}</Text>
                                 </View>
                             ))}
@@ -165,29 +165,34 @@ export default function SingleDatepickerModal({
 
                         {/* Calendar grid */}
                         <ScrollView className="max-h-[320px]">
-                            <View className="flex-row flex-wrap">
-                                {days.map((d, idx) => {
-                                    if (!d) {
-                                        return <View key={idx} className="w-[14.2857%] aspect-square" />
-                                    }
-                                    const isSelected = selectedDate && sameDay(d, selectedDate)
-                                    const isToday = sameDay(d, today)
+                            <View>
+                                {Array.from({ length: Math.ceil(days.length / 7) }, (_, weekIndex) => (
+                                    <View key={weekIndex} className="flex-row">
+                                        {days.slice(weekIndex * 7, (weekIndex + 1) * 7).map((d, dayIndex) => {
+                                            const idx = weekIndex * 7 + dayIndex
+                                            if (!d) {
+                                                return <View key={idx} className="flex-1 aspect-square" />
+                                            }
+                                            const isSelected = selectedDate && sameDay(d, selectedDate)
+                                            const isToday = sameDay(d, today)
 
-                                    const bg = isSelected ? "bg-teal-600" : "bg-white"
-                                    const border = isToday ? "border border-teal-600" : ""
+                                            const bg = isSelected ? "bg-teal-600" : "bg-white"
+                                            const border = isToday ? "border border-teal-600" : ""
 
-                                    return (
-                                        <TouchableOpacity
-                                            key={idx}
-                                            className={`w-[14.2857%] aspect-square items-center justify-center ${bg} ${border}`}
-                                            onPress={() => onDayPress(d)}
-                                        >
-                                            <Text className={`${isSelected ? "text-white" : "text-black"} font-poppinsMedium`}>
-                                                {d.getDate()}
-                                            </Text>
-                                        </TouchableOpacity>
-                                    )
-                                })}
+                                            return (
+                                                <TouchableOpacity
+                                                    key={idx}
+                                                    className={`flex-1 aspect-square items-center justify-center ${bg} ${border}`}
+                                                    onPress={() => onDayPress(d)}
+                                                >
+                                                    <Text className={`${isSelected ? "text-white" : "text-black"} font-poppinsMedium`}>
+                                                        {d.getDate()}
+                                                    </Text>
+                                                </TouchableOpacity>
+                                            )
+                                        })}
+                                    </View>
+                                ))}
                             </View>
                         </ScrollView>
 
@@ -207,6 +212,7 @@ export default function SingleDatepickerModal({
                             <TouchableOpacity
                                 disabled={!canSave}
                                 onPress={() => {
+                                    console.log("Select date ", selectedDate)
                                     if (selectedDate) onSave(startOfDay(selectedDate).toISOString())
                                     onClose()
                                 }}

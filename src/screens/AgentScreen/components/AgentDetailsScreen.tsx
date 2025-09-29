@@ -12,6 +12,7 @@ import {BASE_URL} from "../../../../test"
 import Toast from "react-native-toast-message"
 import DatepickerModal from "./DatePickerModal.tsx";
 import {useRoute} from "@react-navigation/core";
+import {formatDate} from "date-fns";
 
 type PickerType = "language" | "voice" | "accent" | "phone"
 
@@ -61,8 +62,8 @@ export default function AgentDetailsScreen() {
     const [numberId, setNumberId] = useState<string>("")
 
     const [dateModalVisible, setDateModalVisible] = useState(false)
-    const [dateFrom, setDateFrom] = useState<Date | null>(null)
-    const [dateTo, setDateTo] = useState<Date | null>(null)
+    const [dateFrom, setDateFrom] = useState<string>(null)
+    const [dateTo, setDateTo] = useState<string>(null)
 
     const [schedHoursVisible, setSchedHoursVisible] = useState(false)
     const [schedulingTime, setSchedulingTime] = useState<{ from: number; to: number }>({from: 600, to: 900})
@@ -264,7 +265,7 @@ export default function AgentDetailsScreen() {
                     activeOpacity={0.8}
                 >
                     <Text className="text-gray-800 font-poppinsMedium flex-1">
-                        {dateFrom && dateTo ? `${fmtDDMMYY(dateFrom)} to ${fmtDDMMYY(dateTo)}` : "from date — to date"}
+                        {dateFrom && dateTo ? `${formatDate(new Date(dateFrom), "dd-MM-yyyy")}  to  ${formatDate(new Date(dateTo), "dd-MM-yyyy")}` : "from date — to date"}
                     </Text>
                     <CalendarFold color={"#889baf"} size={22}/>
                 </TouchableOpacity>
@@ -327,8 +328,8 @@ export default function AgentDetailsScreen() {
                                 date:
                                     dateFrom && dateTo
                                         ? {
-                                            from: startOfDay(dateFrom).toISOString(),
-                                            to: endOfDay(dateTo).toISOString(),
+                                            from: dateFrom,
+                                            to: dateTo,
                                         }
                                         : undefined,
                                 time: {
