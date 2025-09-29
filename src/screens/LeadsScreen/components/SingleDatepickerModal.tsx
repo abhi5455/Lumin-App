@@ -2,13 +2,13 @@
 
 import { useEffect, useMemo, useState } from "react"
 import { Modal, View, Text, TouchableOpacity, ScrollView } from "react-native"
-import {ChevronLeft, ChevronRight} from "lucide-react-native";
+import { ChevronLeft, ChevronRight } from "lucide-react-native"
 
 type SingleDatepickerModalProps = {
     visible: boolean
     initialDate?: string | Date | null
     onClose: () => void
-    onSave: (date: Date) => void
+    onSave: (date: string) => void
     title?: string
 }
 
@@ -30,7 +30,7 @@ function fmtDDMMYY(d?: Date | null) {
     return `${dd}-${mm}-${yy}`
 }
 
-const WEEKDAYS = ["S", "M", "T", "W", "T", "F", "S"]
+const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 const MONTHS = [
     "January",
     "February",
@@ -54,6 +54,11 @@ function daysInMonth(year: number, monthIndex: number) {
 function firstWeekday(year: number, monthIndex: number) {
     // 0..6 (Sun..Sat)
     return new Date(year, monthIndex, 1).getDay()
+}
+
+// Helper function to create dates at noon to avoid timezone issues
+function createDateAtNoon(year: number, month: number, day: number) {
+    return new Date(year, month, day, 12, 0, 0, 0)
 }
 
 export default function SingleDatepickerModal({
@@ -81,12 +86,21 @@ export default function SingleDatepickerModal({
     const leadingBlanks = firstWeekday(viewYear, viewMonth)
     const totalDays = daysInMonth(viewYear, viewMonth)
     const days: Array<Date | null> = []
-    for (let i = 0; i < leadingBlanks; i++) days.push(null)
-    for (let d = 1; d <= totalDays; d++) {
-        days.push(new Date(viewYear, viewMonth, d))
+
+    // Add leading blanks
+    for (let i = 0; i < leadingBlanks; i++) {
+        days.push(null)
     }
+
+    // Add actual days - use createDateAtNoon to avoid timezone issues
+    for (let d = 1; d <= totalDays; d++) {
+        days.push(createDateAtNoon(viewYear, viewMonth, d))
+    }
+
     // Pad to full weeks
-    while (days.length % 7 !== 0) days.push(null)
+    while (days.length % 7 !== 0) {
+        days.push(null)
+    }
 
     function onDayPress(d: Date) {
         const d0 = startOfDay(d)
@@ -123,13 +137,13 @@ export default function SingleDatepickerModal({
                         {/* Header month nav */}
                         <View className="flex-row items-center justify-between mb-3">
                             <TouchableOpacity onPress={() => changeMonth(-1)} className="px-3 py-1 rounded bg-gray-100">
-                                <ChevronLeft size={15}/>
+                                <ChevronLeft size={15} />
                             </TouchableOpacity>
                             <Text className="text-black font-poppinsSemiBold">
                                 {MONTHS[viewMonth]} {viewYear}
                             </Text>
                             <TouchableOpacity onPress={() => changeMonth(1)} className="px-3 py-1 rounded bg-gray-100">
-                                <ChevronRight size={15}/>
+                                <ChevronRight size={15} />
                             </TouchableOpacity>
                         </View>
 
@@ -193,7 +207,7 @@ export default function SingleDatepickerModal({
                             <TouchableOpacity
                                 disabled={!canSave}
                                 onPress={() => {
-                                    if (selectedDate) onSave(startOfDay(selectedDate))
+                                    if (selectedDate) onSave(startOfDay(selectedDate).toISOString())
                                     onClose()
                                 }}
                                 className={`px-4 py-2 rounded-lg ${canSave ? "bg-teal-600" : "bg-gray-300"}`}

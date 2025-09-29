@@ -187,20 +187,6 @@ const OutboundCallsScreen = () => {
                 </View>
 
                 {/* Date Range */}
-                <Text className="text-gray-800 text-base font-poppinsSemiBold mb-2">
-                    Date range
-                </Text>
-                <View
-                    className="bg-white border border-gray-200 rounded-lg px-4 py-2 flex-row items-center justify-between mb-4">
-                    <TextInput
-                        className="text-gray-800 font-poppinsMedium flex-1"
-                        placeholder="dd-mm-yy"
-                        placeholderTextColor="#9CA3AF"
-                        value={dateRange}
-                        onChangeText={setDateRange}
-                    />
-                    <CalendarFold color={'#889baf'} size={22}/>
-                </View>
                 <Text className="text-gray-800 text-base font-poppinsSemiBold mb-2">Date range</Text>
                 <TouchableOpacity
                     className="bg-white border border-gray-200 rounded-lg px-4 py-4 flex-row items-center justify-between mb-4"
@@ -208,7 +194,7 @@ const OutboundCallsScreen = () => {
                     activeOpacity={0.8}
                 >
                     <Text className="text-gray-800 font-poppinsMedium flex-1">
-                        {dateRange ? `${formatDate(new Date(dateRange), "dd-mm-yyyy")}` : "Pick date"}
+                        {dateRange ? `${formatDate(new Date(dateRange), "dd-MM-yyyy")}` : "Pick date"}
                     </Text>
                     <CalendarFold color={"#889baf"} size={22}/>
                 </TouchableOpacity>
@@ -241,7 +227,7 @@ const OutboundCallsScreen = () => {
                             company: companyName,
                             instruction: instruction,
                             schedule: {
-                                date: "2024-07-01T00:00:00.000Z",
+                                date: dateRange,
                                 startTime: minutesTo24hLabel(schedulingTime?.from || 0) || "",
                                 endTime: minutesTo24hLabel(schedulingTime?.to || 0) || ""
                             },
