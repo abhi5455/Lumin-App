@@ -13,6 +13,7 @@ import Toast from "react-native-toast-message"
 import DatepickerModal from "./DatePickerModal.tsx";
 import {useRoute} from "@react-navigation/core";
 import {formatDate} from "date-fns";
+import {countryToFlag} from "../../../lib/countryToFlag.ts";
 
 type PickerType = "language" | "voice" | "accent" | "phone"
 
@@ -38,7 +39,7 @@ export default function AgentDetailsScreen() {
     const [voice, setVoice] = useState("")
     const [role, setRole] = useState("")
     const [accent, setAccent] = useState("")
-    const [phoneNumber, setPhoneNumber] = useState("+1 8523647")
+    const [phoneNumber, setPhoneNumber] = useState("")
     const [trainingData, setTrainingData] = useState("")
 
     const [pickerVisible, setPickerVisible] = useState(false)
@@ -51,6 +52,7 @@ export default function AgentDetailsScreen() {
     const [voiceId, setVoiceId] = useState<string>("")
     const [accentId, setAccentId] = useState<string>("")
     const [numberId, setNumberId] = useState<string>("")
+    const [countryCode, setCountryCode] = useState<string>("IN")
 
     const [dateModalVisible, setDateModalVisible] = useState(false)
     const [dateFrom, setDateFrom] = useState<string>(null)
@@ -64,7 +66,7 @@ export default function AgentDetailsScreen() {
         setPickerVisible(true)
     }
 
-    const handlePickerSelect = (opt: { label: string; value: string }) => {
+    const handlePickerSelect = (opt: { label: string; value: string, countryCode?: string }) => {
         if (!pickerType) return
         if (pickerType === "language") {
             setLanguage(opt.label)
@@ -81,6 +83,7 @@ export default function AgentDetailsScreen() {
         if (pickerType === "phone") {
             setPhoneNumber(opt.label)
             setNumberId(opt.value)
+            setCountryCode(opt.countryCode || "IN")
         }
     }
 
@@ -189,8 +192,8 @@ export default function AgentDetailsScreen() {
                         onPress={() => openPicker("phone")}
                     >
                         <View className="flex-row items-center">
-                            <Text className="text-red-500 font-poppinsMedium mr-2">🇨🇦</Text>
-                            <Text className="text-gray-500 py-1 font-poppinsMedium">{phoneNumber}</Text>
+                            <Text className="text-red-500 font-poppinsMedium mr-2">{phoneNumber && countryToFlag(countryCode)}</Text>
+                            <Text className="text-gray-500 py-1 font-poppinsMedium">{phoneNumber ? phoneNumber : "Select Number"}</Text>
                         </View>
                         <ChevronDown color={"#889baf"}/>
                     </TouchableOpacity>
@@ -281,7 +284,7 @@ export default function AgentDetailsScreen() {
                 <TouchableOpacity
                     className="bg-teal-600 py-5"
                     onPress={() => {
-                        if(!agentName || !languageId || !voiceId || !role || !accentId || !workingHours.from || !workingHours.from) {
+                        if(!agentName || !languageId || !voiceId || !role || !accentId || !numberId || !workingHours.from || !workingHours.from) {
                             Toast.show({
                                 type: 'error',
                                 text1: 'Invalid Data!',
@@ -297,7 +300,7 @@ export default function AgentDetailsScreen() {
                             voice: voiceId || "68d64c7312ffa8e98695197d",
                             role: role || "Support",
                             accent: accentId || "68d64c7312ffa8e986951980",
-                            number: numberId || "507f1f77bcf86cd799439011",
+                            number: numberId || "68d9435c8e859835df62612e",
                             workingHours: {
                                 from: workingHours.from,
                                 to: workingHours.to,

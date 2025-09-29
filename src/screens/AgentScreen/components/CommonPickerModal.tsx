@@ -7,7 +7,7 @@ import { BASE_URL } from "../../../../test"
 import Toast from "react-native-toast-message"
 
 type PickerType = "language" | "voice" | "accent" | "phone"
-type Option = { label: string; value: string }
+type Option = { label: string; value: string; countryCode?: string }
 
 interface CommonPickerModalProps {
     visible: boolean
@@ -100,13 +100,12 @@ export default function CommonPickerModal({
                         })
                 } else if (type === "phone") {
                     axios
-                        .get(`${BASE_URL}/numbers/all`)
+                        .get(`${BASE_URL}/numbers/owned`)
                         .then((res) => {
-                            // Attempt to normalize typical API shape; adjust if backend differs
-                            const list = res?.data?.data?.numbers || res?.data?.data || res?.data || []
-                            const data = (list as any[]).map((item: any) => ({
-                                label: item.label || item.display || item.number || item.phone || String(item?.e164 || ""),
-                                value: item._id || item.id || item.value || item.number || String(item?.e164 || ""),
+                            const data = res.data?.data?.numbers?.map((item: any) => ({
+                                label: item.number,
+                                value: item._id,
+                                countryCode: item.country
                             }))
                             setOptions(data)
                         })
