@@ -141,7 +141,7 @@ export default function AgentDetailsScreen() {
                         className="bg-white border border-gray-200 rounded-lg px-4 py-3 flex-row justify-between items-center"
                         onPress={() => openPicker("language")}
                     >
-                        <Text className="text-gray-500 py-1 font-poppinsMedium">{language}</Text>
+                        <Text className="text-gray-500 py-1 font-poppinsMedium">{language ? language : "Select Language"}</Text>
                         <ChevronDown color={"#889baf"}/>
                     </TouchableOpacity>
                 </View>
@@ -153,7 +153,7 @@ export default function AgentDetailsScreen() {
                         className="bg-white border border-gray-200 rounded-lg px-4 py-3 flex-row justify-between items-center"
                         onPress={() => openPicker("voice")}
                     >
-                        <Text className="text-gray-500 py-1 font-poppinsMedium">{voice}</Text>
+                        <Text className="text-gray-500 py-1 font-poppinsMedium">{voice ? voice : "Select Voice"}</Text>
                         <ChevronDown color={"#889baf"}/>
                     </TouchableOpacity>
                 </View>
@@ -177,7 +177,7 @@ export default function AgentDetailsScreen() {
                         className="bg-white border border-gray-200 rounded-lg px-4 py-3 flex-row justify-between items-center"
                         onPress={() => openPicker("accent")}
                     >
-                        <Text className="text-gray-500 py-1 font-poppinsMedium">{accent}</Text>
+                        <Text className="text-gray-500 py-1 font-poppinsMedium">{accent ? accent : "Select Accent"}</Text>
                         <ChevronDown color={"#889baf"}/>
                     </TouchableOpacity>
                 </View>
