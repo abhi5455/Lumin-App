@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react"
 import { Modal, View, Text, TouchableOpacity, ScrollView } from "react-native"
+import {ChevronLeft, ChevronRight} from "lucide-react-native";
 
 type SingleDatepickerModalProps = {
     visible: boolean
@@ -122,13 +123,13 @@ export default function SingleDatepickerModal({
                         {/* Header month nav */}
                         <View className="flex-row items-center justify-between mb-3">
                             <TouchableOpacity onPress={() => changeMonth(-1)} className="px-3 py-1 rounded bg-gray-100">
-                                <Text className="text-black font-poppinsSemiBold">{"‹"}</Text>
+                                <ChevronLeft size={15}/>
                             </TouchableOpacity>
                             <Text className="text-black font-poppinsSemiBold">
                                 {MONTHS[viewMonth]} {viewYear}
                             </Text>
                             <TouchableOpacity onPress={() => changeMonth(1)} className="px-3 py-1 rounded bg-gray-100">
-                                <Text className="text-black font-poppinsSemiBold">{"›"}</Text>
+                                <ChevronRight size={15}/>
                             </TouchableOpacity>
                         </View>
 
