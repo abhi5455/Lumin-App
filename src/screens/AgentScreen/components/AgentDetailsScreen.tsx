@@ -25,14 +25,6 @@ function minutesTo12hLabel(total: number) {
     return `${h12}:${mm} ${ampm}`
 }
 
-function fmtDDMMYY(d?: Date | null) {
-    if (!d) return ""
-    const dd = String(d.getDate()).padStart(2, "0")
-    const mm = String(d.getMonth() + 1).padStart(2, "0")
-    const yy = String(d.getFullYear()).slice(-2)
-    return `${dd}-${mm}-${yy}`
-}
-
 export default function AgentDetailsScreen() {
     const route = useRoute();
     const {screen, agentData} = route.params as {
@@ -290,18 +282,6 @@ export default function AgentDetailsScreen() {
                 <TouchableOpacity
                     className="bg-teal-600 py-5"
                     onPress={() => {
-                        function startOfDay(d: Date) {
-                            const x = new Date(d)
-                            x.setHours(0, 0, 0, 0)
-                            return x
-                        }
-
-                        function endOfDay(d: Date) {
-                            const x = new Date(d)
-                            x.setHours(23, 59, 59, 0)
-                            return x
-                        }
-
                         if(!agentName || !languageId || !voiceId || !role || !accentId || !workingHours.from || !workingHours.from || !numberId ) {
                             Toast.show({
                                 type: 'error',

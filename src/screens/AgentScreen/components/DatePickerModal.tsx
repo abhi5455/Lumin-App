@@ -9,7 +9,7 @@ type DatepickerModalProps = {
     initialFrom?: string | Date | null
     initialTo?: string | Date | null
     onClose: () => void
-    onSave: (value: { from: Date; to: Date }) => void
+    onSave: (value: { from: string; to: string }) => void
     title?: string
 }
 
