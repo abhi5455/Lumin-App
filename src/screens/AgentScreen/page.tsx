@@ -1,16 +1,16 @@
 import {ActivityIndicator, SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View} from "react-native";
-import {EllipsisVertical, PhoneIncoming, PlusCircle, Search, Settings} from "lucide-react-native";
+import {EllipsisVertical, PlusCircle, Search, Settings} from "lucide-react-native";
 import MenuIcon from '../../assets/svg/MenuIcon.svg'
 import FilterIcon from '../../assets/svg/FilterIcon.svg'
 import React, {Fragment, useCallback, useRef, useState} from "react";
 import FilterModal from "../ConversationScreen/components/FilterModal.tsx";
 import {useAppNavigation} from "../../common/navigationHelper.ts";
-import ActionModal from "../LeadsScreen/components/ActionModal.tsx";
 import {useFocusEffect} from "@react-navigation/native";
 import axios from "axios";
 import {BASE_URL} from "../../../test";
 import Toast from "react-native-toast-message";
 import {IAgent} from "../../types/agent.ts";
+import ActionModal from "./components/ActionModal.tsx";
 
 export default function AgentScreen() {
     const navigation = useAppNavigation()
@@ -18,6 +18,7 @@ export default function AgentScreen() {
     const [actionModalVisible, setActionModalVisible] = React.useState(false);
     const [triggerFetch, setTriggerFetch] = useState<number>(0)
     const [agents, setAgents] = useState<IAgent[]>([])
+    const [selectedAgent, setSelectedAgent] = useState<IAgent>()
     const [isLoading, setIsLoading] = useState(true)
     const isFirstLoad = useRef(true);
 
@@ -121,7 +122,10 @@ export default function AgentScreen() {
                                     </View>
 
                                     <TouchableOpacity className="mr-1"
-                                                      onPress={() => setActionModalVisible(!actionModalVisible)}>
+                                                      onPress={() => {
+                                                          setSelectedAgent(agent)
+                                                          setActionModalVisible(!actionModalVisible)
+                                                      }}>
                                         <EllipsisVertical size={20}/>
                                     </TouchableOpacity>
                                 </View>
@@ -168,7 +172,8 @@ export default function AgentScreen() {
                                      agentData: 'test'
                                  }
                              });
-                         }} />
+                         }}
+            agent={selectedAgent}/>
 
         </SafeAreaView>
     )
