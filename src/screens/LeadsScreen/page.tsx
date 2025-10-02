@@ -123,8 +123,7 @@ export default function LeadsScreen() {
                                     No Leads Found
                                 </Text>
                                 <Text className="text-gray-400 text-sm font-poppinsMedium text-center px-8 leading-6">
-                                    You don't have any existing leads yet. New leads will appear here once they're{'\n'}
-                                    available.
+                                    You don't have any existing leads yet. Leads will appear here once added.
                                 </Text>
                             </View>
                         )}
