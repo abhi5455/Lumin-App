@@ -112,10 +112,10 @@ export default function AgentDetailsScreen() {
                     <View className="flex flex-row justify-between items-center pb-4 py-6">
                         <View className="flex flex-row">
                             <View className="w-12 h-12 bg-teal-600 rounded-full items-center justify-center mr-4">
-                                <Text className="text-white text-lg font-poppinsSemiBold">A</Text>
+                                <Text className="text-white text-lg font-poppinsSemiBold">{agentName?.slice(0, 1).toUpperCase()}}</Text>
                             </View>
                             <View className="">
-                                <Text className="text-black text-base font-poppinsSemiBold">Adam</Text>
+                                <Text className="text-black text-base font-poppinsSemiBold">{agentName}</Text>
                                 <Text className="text-gray-500 text-base font-poppinsMedium">A1007</Text>
                             </View>
                         </View>
