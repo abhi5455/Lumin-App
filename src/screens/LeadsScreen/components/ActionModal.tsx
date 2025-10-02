@@ -7,39 +7,21 @@ import {
     StatusBar,
     TouchableWithoutFeedback, ActivityIndicator,
 } from 'react-native';
-import {useAppNavigation} from "../../../common/navigationHelper.ts";
 import axios from "axios";
 import {BASE_URL} from "../../../../test";
 import Toast from "react-native-toast-message";
 import {ILead} from "../../../types/leads.ts";
 
-interface FilterModalProps {
+interface ActionModalProps {
     visible: boolean;
     onClose: () => void;
-    onApply: () => void;
     viewAction: () => void;
     lead: ILead | undefined
-    setTriggerFetch?: (value: number) => void
+    setTriggerFetch?: (value: (prev) => any) => void
 }
 
-export default function ActionModal({visible, onClose, onApply, viewAction, lead, setTriggerFetch}: FilterModalProps) {
-    const navigation = useAppNavigation();
+export default function ActionModal({visible, onClose, viewAction, lead, setTriggerFetch}: ActionModalProps) {
     const [isLoading, setIsLoading] = useState(false)
-    const [filterStates, setFilterStates] = useState({
-        all: false,
-        success: false,
-        rejected: false,
-        followUp: false,
-    });
-
-    const toggleFilter = (key: keyof typeof filterStates) => {
-        setFilterStates(prev => ({...prev, [key]: !prev[key]}));
-    };
-
-    const handleApply = () => {
-        onApply();
-        onClose();
-    };
 
     return (
         <Modal
@@ -66,7 +48,9 @@ export default function ActionModal({visible, onClose, onApply, viewAction, lead
                                 <View className="mt-8">
                                     <TouchableOpacity
                                         className="bg-teal-600 py-4 rounded-lg"
-                                        onPress={viewAction}
+                                        onPress={() => {
+                                            viewAction()
+                                        }}
                                         disabled={isLoading}
                                     >
                                         <Text className="text-white text-center text-lg font-poppinsSemiBold">View or
@@ -89,7 +73,7 @@ export default function ActionModal({visible, onClose, onApply, viewAction, lead
                                                         position: "top"
                                                     });
                                                     if (setTriggerFetch) {
-                                                        setTriggerFetch(prev => prev+1)
+                                                        setTriggerFetch(prev => prev + 1)
                                                     }
                                                 })
                                                 .catch((err) => {
@@ -103,13 +87,14 @@ export default function ActionModal({visible, onClose, onApply, viewAction, lead
                                                 .finally(() => {
                                                     setIsLoading(false)
                                                 })
-                                                .finally(()=>{
+                                                .finally(() => {
                                                     onClose()
                                                 })
                                         }}
                                     >
                                         {!isLoading ?
-                                            <Text className="text-red-500 text-center text-lg font-poppinsSemiBold">Delete</Text>
+                                            <Text
+                                                className="text-red-500 text-center text-lg font-poppinsSemiBold">Delete</Text>
                                             : <ActivityIndicator color={'#ef4444'} size={25} className={''}/>
                                         }
                                     </TouchableOpacity>

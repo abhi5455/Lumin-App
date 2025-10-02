@@ -16,18 +16,17 @@ import axios from "axios";
 import {BASE_URL} from "../../../../test";
 import Toast from "react-native-toast-message";
 import WorkingHoursModal, {parseHHMM} from "../../AgentScreen/components/WorkingHoursModal.tsx";
-import DatepickerModal from "../../AgentScreen/components/DatePickerModal.tsx";
 import SingleDatepickerModal from "./SingleDatepickerModal.tsx";
 import {formatDate} from "date-fns";
 
-interface IOutboundCallsScreenParams{
-    lead: ILead
+interface IOutboundCallsScreenParams {
+    mode: string,
+    lead?: ILead
 }
 
 const OutboundCallsScreen = () => {
     const route = useRoute<RouteProp<{ OutboundCallsScreen: IOutboundCallsScreenParams }, 'OutboundCallsScreen'>>();
-    const { lead } = route?.params;
-    console.log("Lead Info ", lead)
+    const {mode, lead} = route?.params;
     const navigation = useAppNavigation();
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
@@ -38,7 +37,10 @@ const OutboundCallsScreen = () => {
     const [isLoading, setIsLoading] = useState(false)
 
     const [schedHoursVisible, setSchedHoursVisible] = useState(false)
-    const [schedulingTime, setSchedulingTime] = useState<{ from: number | null; to: number | null}>({from: null, to: null})
+    const [schedulingTime, setSchedulingTime] = useState<{ from: number | null; to: number | null }>({
+        from: null,
+        to: null
+    })
 
     const [dateModalVisible, setDateModalVisible] = useState(false)
 
@@ -60,13 +62,18 @@ const OutboundCallsScreen = () => {
     }
 
     useEffect(() => {
-        setFullName(lead?.fullName)
-        setEmail(lead.email)
-        setPhoneNumber(lead?.phone)
-        setCompanyName(lead?.company)
-        setInstruction(lead?.instruction)
-        setSchedulingTime({from: parseHHMM(lead?.schedule?.startTime || "") ?? 0, to: parseHHMM(lead?.schedule?.endTime || "") ?? 0 })
-        setDateRange(lead?.schedule?.date)
+        if (mode === "view") {
+            setFullName(lead?.fullName)
+            setEmail(lead.email)
+            setPhoneNumber(lead?.phone)
+            setCompanyName(lead?.company)
+            setInstruction(lead?.instruction)
+            setSchedulingTime({
+                from: parseHHMM(lead?.schedule?.startTime || "") ?? 0,
+                to: parseHHMM(lead?.schedule?.endTime || "") ?? 0
+            })
+            setDateRange(lead?.schedule?.date)
+        }
     }, [lead]);
 
     return (
@@ -80,7 +87,8 @@ const OutboundCallsScreen = () => {
                     >
                         <BackIcon/>
                     </TouchableOpacity>
-                    <Text className="text-white text-lg font-poppinsSemiBold">Outbound Calls - Leads</Text>
+                    <Text
+                        className="text-white text-lg font-poppinsSemiBold">{mode === 'create' ? "Create Lead" : "Outbound Calls - Leads"}</Text>
                 </View>
             </View>
 
@@ -233,37 +241,69 @@ const OutboundCallsScreen = () => {
                             },
                             status: "new"
                         }
-                        axios.put(`${BASE_URL}/leads/${lead?._id}`, leadData)
-                            .then((res) => {
-                                Toast.show({
-                                    type: 'success',
-                                    text1: `Lead data has been updated`,
-                                    text2: `Updated lead - ${lead?.fullName}`,
-                                    position: "top"
-                                });
-                                navigation.goBack()
-                                // if (setTriggerFetch) {
-                                //     setTriggerFetch(prev => prev+1)
-                                // }
-                            })
-                            .catch((err) => {
-                                Toast.show({
-                                    type: 'error',
-                                    text1: 'Failed to update lead!',
-                                    text2: err.message || '',
-                                    position: "top"
-                                });
-                            })
-                            .finally(() => {
-                                setIsLoading(false)
-                            })
-                            .finally(()=>{
-                            })
+                        if (mode === "create") {
+                            axios.post(`${BASE_URL}/leads`, leadData)
+                                .then((res) => {
+                                    Toast.show({
+                                        type: 'success',
+                                        text1: `Lead data has been created`,
+                                        text2: `Created lead - ${fullName}`,
+                                        position: "top"
+                                    });
+                                    navigation.goBack()
+                                    // if (setTriggerFetch) {
+                                    //     setTriggerFetch(prev => prev+1)
+                                    // }
+                                })
+                                .catch((err) => {
+                                    console.log("Creation Error ",err.message)
+                                    Toast.show({
+                                        type: 'error',
+                                        text1: 'Failed to create lead!',
+                                        text2: err.message || '',
+                                        position: "top"
+                                    });
+                                })
+                                .finally(() => {
+                                    setIsLoading(false)
+                                })
+                                .finally(() => {
+                                    setIsLoading(false)
+                                })
+                        } else {
+                            axios.put(`${BASE_URL}/leads/${lead?._id}`, leadData)
+                                .then((res) => {
+                                    Toast.show({
+                                        type: 'success',
+                                        text1: `Lead data has been updated`,
+                                        text2: `Updated lead - ${fullName}`,
+                                        position: "top"
+                                    });
+                                    navigation.goBack()
+                                    // if (setTriggerFetch) {
+                                    //     setTriggerFetch(prev => prev+1)
+                                    // }
+                                })
+                                .catch((err) => {
+                                    Toast.show({
+                                        type: 'error',
+                                        text1: 'Failed to update lead!',
+                                        text2: err.message || '',
+                                        position: "top"
+                                    });
+                                })
+                                .finally(() => {
+                                    setIsLoading(false)
+                                })
+                                .finally(() => {
+                                    setIsLoading(false)
+                                })
+                        }
                     }}
                 >
                     {!isLoading ?
-                    <Text className="text-white text-center text-lg font-poppinsSemiBold">Submit</Text>
-                    : <ActivityIndicator color={'#FFF'} size={25} className={''}/>
+                        <Text className="text-white text-center text-lg font-poppinsSemiBold">Submit</Text>
+                        : <ActivityIndicator color={'#FFF'} size={25} className={''}/>
                     }
                 </TouchableOpacity>
             </View>

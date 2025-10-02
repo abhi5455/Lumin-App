@@ -1,5 +1,5 @@
 import {ActivityIndicator, SafeAreaView, ScrollView, Text, TouchableOpacity, View} from "react-native";
-import {EllipsisVertical, Settings} from "lucide-react-native";
+import {EllipsisVertical, PlusCircle, Settings} from "lucide-react-native";
 import MenuIcon from '../../assets/svg/MenuIcon.svg'
 import FilterIcon from '../../assets/svg/FilterIcon.svg'
 import PhoneTickIcon from '../../assets/svg/PhoneTickIcon.svg'
@@ -71,9 +71,24 @@ export default function LeadsScreen() {
             {/* Recent Conversation Header */}
             <View className="flex-row items-center bg-[#f6f7f9] justify-between px-4 py-3">
                 <Text className="text-black text-lg font-poppinsMedium">Existing Leads</Text>
-                <TouchableOpacity className="bg-white" onPress={() => setFilterModalVisible(!filterModalVisible)}>
-                    <FilterIcon/>
-                </TouchableOpacity>
+                <View className="flex flex-row items-center gap-4">
+                    <TouchableOpacity onPress={() => {
+                        navigation.navigate("SectionNavigator", {
+                            screen: "OutboundCallsScreen",
+                            params: {
+                                mode: "create",
+                                agentData: 'test'
+                            }
+                        });
+                    }}
+                                      className="flex flex-row justify-center items-center gap-2 px-3 py-2 h-full bg-primary/80 rounded-lg">
+                        <PlusCircle color={'#FFF'} size={15}/>
+                        <Text className="text-sm font-poppinsMedium text-white">Add Lead</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity className="bg-white" onPress={() => setFilterModalVisible(!filterModalVisible)}>
+                        <FilterIcon/>
+                    </TouchableOpacity>
+                </View>
             </View>
 
             {/* Conversation List */}
@@ -88,7 +103,8 @@ export default function LeadsScreen() {
                                     <View className="flex flex-row">
                                         <View
                                             className="w-12 h-12 bg-teal-600 rounded-full items-center justify-center mr-4">
-                                            <Text className="text-white text-lg font-poppinsSemiBold">{lead?.fullName.slice(0,1).toUpperCase()}</Text>
+                                            <Text
+                                                className="text-white text-lg font-poppinsSemiBold">{lead?.fullName?.slice(0, 1).toUpperCase()}</Text>
                                         </View>
                                         <View className="">
                                             <Text
@@ -143,22 +159,23 @@ export default function LeadsScreen() {
             }}/>
 
             {/* Action Modal */}
-            <ActionModal visible={actionModalVisible} onClose={() => {
-                setActionModalVisible(false)
-            }} onApply={() => {
-                setActionModalVisible(false)
-            }}
-                         viewAction={() => {
-                             setActionModalVisible(false)
-                             navigation.navigate("SectionNavigator", {
-                                 screen: "OutboundCallsScreen",
-                                 params: {
-                                     lead: selectedLead
-                                 }
-                             });
-                         }}
-                         lead={selectedLead}
-                         setTriggerFetch={setTriggerFetch}/>
+            <ActionModal
+                visible={actionModalVisible}
+                onClose={() => {
+                    setActionModalVisible(false)
+                }}
+                viewAction={() => {
+                    setActionModalVisible(false)
+                    navigation.navigate("SectionNavigator", {
+                        screen: "OutboundCallsScreen",
+                        params: {
+                            mode: "view",
+                            lead: selectedLead
+                        }
+                    });
+                }}
+                lead={selectedLead}
+                setTriggerFetch={setTriggerFetch}/>
         </SafeAreaView>
     )
 }
