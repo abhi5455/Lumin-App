@@ -116,16 +116,18 @@ export default function LeadsScreen() {
                                             <PhoneTickIcon/>
                                         </View>
                                     </View>
-                                    <View className="px-2 py-1 border-[#4caf50] border-[1px] rounded-full">
-                                        <Text className="text-[#4caf50] text-xs font-poppinsMedium">Scheduled</Text>
-                                    </View>
+                                    <View className="flex flex-row items-center gap-5">
+                                        <View className="px-2 py-1 border-[#4caf50] border-[1px] rounded-full">
+                                            <Text className="text-[#4caf50] text-xs font-poppinsMedium">{lead?.status}</Text>
+                                        </View>
 
-                                    <TouchableOpacity className="mr-1" onPress={() => {
-                                        setSelectedLead(lead)
-                                        setActionModalVisible(!actionModalVisible)
-                                    }}>
-                                        <EllipsisVertical size={20}/>
-                                    </TouchableOpacity>
+                                        <TouchableOpacity className="mr-1" onPress={() => {
+                                            setSelectedLead(lead)
+                                            setActionModalVisible(!actionModalVisible)
+                                        }}>
+                                            <EllipsisVertical size={20}/>
+                                        </TouchableOpacity>
+                                    </View>
                                 </View>
                             ))
                         ) : (
