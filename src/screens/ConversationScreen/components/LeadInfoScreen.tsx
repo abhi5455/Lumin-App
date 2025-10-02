@@ -3,8 +3,16 @@ import {Phone, PhoneIncoming} from "lucide-react-native";
 import React from "react";
 import {useAppNavigation} from "../../../common/navigationHelper.ts";
 import BackIcon from '../../../assets/svg/BackIcon.svg'
+import {IConversation} from "../../../types/conversation.ts";
+import {RouteProp, useRoute} from "@react-navigation/core";
+
+interface ILeadInfoScreenPropsParams {
+    conversation: IConversation
+}
 
 export default function LeadInfoScreen() {
+    const route = useRoute<RouteProp<{ LeadInfoScreen: ILeadInfoScreenPropsParams }, 'LeadInfoScreen'>>();
+    const { conversation } = route?.params;
     const navigation = useAppNavigation()
 
     return (
@@ -31,12 +39,12 @@ export default function LeadInfoScreen() {
                             <Text className="text-white text-lg font-poppinsSemiBold">A</Text>
                         </View>
                         <View className="">
-                            <Text className="text-black text-base font-poppinsSemiBold">Adam</Text>
-                            <Text className="text-gray-500 text-sm font-poppinsMedium">+912545788</Text>
+                            <Text className="text-black text-base font-poppinsSemiBold">{conversation?.lead?.fullName}</Text>
+                            <Text className="text-gray-500 text-sm font-poppinsMedium">{conversation?.lead?.phone}</Text>
                         </View>
                     </View>
                     <View className="px-2 py-1 border-[#4caf50] border-[1px] rounded-full">
-                        <Text className="text-[#4caf50] text-xs font-poppinsMedium">Resolved</Text>
+                        <Text className="text-[#4caf50] text-xs font-poppinsMedium">{conversation?.lead?.status}</Text>
                     </View>
                 </View>
 
@@ -44,7 +52,7 @@ export default function LeadInfoScreen() {
                 <View className="flex gap-5">
                     <View>
                         <Text className="text-gray-400 text-xs font-poppinsMedium uppercase tracking-wide mb-2">EMAIL</Text>
-                        <Text className="text-black text-base font-poppinsMedium">enos.bogisich@orland.tv</Text>
+                        <Text className="text-black text-base font-poppinsMedium">{conversation?.lead?.email}</Text>
                     </View>
 
                     <View>

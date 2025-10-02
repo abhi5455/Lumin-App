@@ -3,11 +3,10 @@ import {EllipsisVertical, Settings} from "lucide-react-native";
 import MenuIcon from '../../assets/svg/MenuIcon.svg'
 import FilterIcon from '../../assets/svg/FilterIcon.svg'
 import PhoneTickIcon from '../../assets/svg/PhoneTickIcon.svg'
-import React, {Fragment, useCallback, useEffect, useRef, useState} from "react";
+import React, {Fragment, useCallback, useRef, useState} from "react";
 import FilterModal from "../ConversationScreen/components/FilterModal.tsx";
 import {useAppNavigation} from "../../common/navigationHelper.ts";
 import ActionModal from "./components/ActionModal.tsx";
-import {storage} from "../../lib/storage.ts";
 import {useFocusEffect} from "@react-navigation/native";
 import axios from "axios";
 import {BASE_URL} from "../../../test";

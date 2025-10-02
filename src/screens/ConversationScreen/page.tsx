@@ -22,10 +22,10 @@ export default function ConversationScreen() {
 
     useFocusEffect(
         useCallback(() => {
-            // if (isFirstLoad.current) {
-            //     setIsLoading(true)
-            //     isFirstLoad.current = false;
-            // }
+            if (isFirstLoad.current) {
+                setIsLoading(true)
+                isFirstLoad.current = false;
+            }
             axios.get(`${BASE_URL}/conversations`)
                 .then((res) => {
                     console.log("Yay convo ", res.data.data)
@@ -86,6 +86,9 @@ export default function ConversationScreen() {
                                     onPress={() => {
                                         navigation.navigate("SectionNavigator", {
                                             screen: "LeadInfoScreen",
+                                            params: {
+                                                conversation: conversation
+                                            }
                                         });
                                     }}
                                 >
