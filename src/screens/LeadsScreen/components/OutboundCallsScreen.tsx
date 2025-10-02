@@ -228,6 +228,16 @@ const OutboundCallsScreen = () => {
                     className="bg-teal-600 py-5"
                     onPress={() => {
                         setIsLoading(true)
+                        if (!fullName || !email || !phoneNumber || !companyName) {
+                            Toast.show({
+                                type: 'error',
+                                text1: 'Incomplete Info!',
+                                text2: 'Please fill in all the fields before submitting.',
+                                position: "top"
+                            });
+                            setIsLoading(false)
+                            return
+                        }
                         let leadData = {
                             fullName: fullName,
                             email: email,
@@ -256,7 +266,7 @@ const OutboundCallsScreen = () => {
                                     // }
                                 })
                                 .catch((err) => {
-                                    console.log("Creation Error ",err.message)
+                                    console.log("Creation Error ", err.message)
                                     Toast.show({
                                         type: 'error',
                                         text1: 'Failed to create lead!',
