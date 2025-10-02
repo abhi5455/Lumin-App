@@ -11,9 +11,11 @@ import axios from "axios"
 import {BASE_URL} from "../../../../test"
 import Toast from "react-native-toast-message"
 import DatepickerModal from "./DatePickerModal.tsx";
-import {useRoute} from "@react-navigation/core";
+import {RouteProp, useRoute} from "@react-navigation/core";
 import {formatDate} from "date-fns";
 import {countryToFlag} from "../../../lib/countryToFlag.ts";
+import {ILead} from "../../../types/leads.ts";
+import {IAgent} from "../../../types/agent.ts";
 
 type PickerType = "language" | "voice" | "accent" | "phone"
 
@@ -26,12 +28,14 @@ function minutesTo12hLabel(total: number) {
     return `${h12}:${mm} ${ampm}`
 }
 
+interface AgentDetailsScreenParams {
+    mode: string,
+    agent?: IAgent
+}
+
 export default function AgentDetailsScreen() {
-    const route = useRoute();
-    const {screen, agentData} = route.params as {
-        screen: string;
-        agentData: string;
-    };
+    const route = useRoute<RouteProp<{ AgentDetailsScreen: AgentDetailsScreenParams }, 'AgentDetailsScreen'>>();
+    const {mode, agent} = route?.params;
     const navigation = useAppNavigation()
     const [enableAgent, setEnableAgent] = useState(true)
     const [agentName, setAgentName] = useState("")
@@ -46,7 +50,7 @@ export default function AgentDetailsScreen() {
     const [pickerType, setPickerType] = useState<PickerType | null>(null)
     const [hoursVisible, setHoursVisible] = useState(false)
 
-    const [workingHours, setWorkingHours] = useState<{ from: number | null; to: number | null}>({from: null, to: null})
+    const [workingHours, setWorkingHours] = useState<{ from: number | null; to: number | null }>({from: null, to: null})
 
     const [languageId, setLanguageId] = useState<string>("")
     const [voiceId, setVoiceId] = useState<string>("")
@@ -59,7 +63,10 @@ export default function AgentDetailsScreen() {
     const [dateTo, setDateTo] = useState<string>(null)
 
     const [schedHoursVisible, setSchedHoursVisible] = useState(false)
-    const [schedulingTime, setSchedulingTime] = useState<{ from: number | null; to: number | null}>({from: null, to: null})
+    const [schedulingTime, setSchedulingTime] = useState<{ from: number | null; to: number | null }>({
+        from: null,
+        to: null
+    })
 
     const openPicker = (type: PickerType) => {
         setPickerType(type)
@@ -101,7 +108,7 @@ export default function AgentDetailsScreen() {
 
             <ScrollView className="flex-1 px-5">
                 {/* Profile Section */}
-                {screen === 'EditAgent' &&
+                {mode === 'view' &&
                     <View className="flex flex-row justify-between items-center pb-4 py-6">
                         <View className="flex flex-row">
                             <View className="w-12 h-12 bg-teal-600 rounded-full items-center justify-center mr-4">
@@ -143,7 +150,8 @@ export default function AgentDetailsScreen() {
                         className="bg-white border border-gray-200 rounded-lg px-4 py-3 flex-row justify-between items-center"
                         onPress={() => openPicker("language")}
                     >
-                        <Text className="text-gray-500 py-1 font-poppinsMedium">{language ? language : "Select Language"}</Text>
+                        <Text
+                            className="text-gray-500 py-1 font-poppinsMedium">{language ? language : "Select Language"}</Text>
                         <ChevronDown color={"#889baf"}/>
                     </TouchableOpacity>
                 </View>
@@ -179,7 +187,8 @@ export default function AgentDetailsScreen() {
                         className="bg-white border border-gray-200 rounded-lg px-4 py-3 flex-row justify-between items-center"
                         onPress={() => openPicker("accent")}
                     >
-                        <Text className="text-gray-500 py-1 font-poppinsMedium">{accent ? accent : "Select Accent"}</Text>
+                        <Text
+                            className="text-gray-500 py-1 font-poppinsMedium">{accent ? accent : "Select Accent"}</Text>
                         <ChevronDown color={"#889baf"}/>
                     </TouchableOpacity>
                 </View>
@@ -192,8 +201,10 @@ export default function AgentDetailsScreen() {
                         onPress={() => openPicker("phone")}
                     >
                         <View className="flex-row items-center">
-                            <Text className="text-red-500 font-poppinsMedium mr-2">{phoneNumber && countryToFlag(countryCode)}</Text>
-                            <Text className="text-gray-500 py-1 font-poppinsMedium">{phoneNumber ? phoneNumber : "Select Number"}</Text>
+                            <Text
+                                className="text-red-500 font-poppinsMedium mr-2">{phoneNumber && countryToFlag(countryCode)}</Text>
+                            <Text
+                                className="text-gray-500 py-1 font-poppinsMedium">{phoneNumber ? phoneNumber : "Select Number"}</Text>
                         </View>
                         <ChevronDown color={"#889baf"}/>
                     </TouchableOpacity>
@@ -221,7 +232,7 @@ export default function AgentDetailsScreen() {
                         className="bg-white border border-gray-200 rounded-lg px-4 py-3 flex-row justify-between items-center"
                     >
                         <Text className="text-gray-500 py-1 font-poppinsMedium">
-                            {workingHours.from && workingHours.to ?`${minutesTo12hLabel(workingHours.from)} to ${minutesTo12hLabel(workingHours.to)}` : 'from time — to time'}
+                            {workingHours.from && workingHours.to ? `${minutesTo12hLabel(workingHours.from)} to ${minutesTo12hLabel(workingHours.to)}` : 'from time — to time'}
                         </Text>
                         <Timer color={"#889baf"} size={22}/>
                     </TouchableOpacity>
@@ -272,7 +283,7 @@ export default function AgentDetailsScreen() {
                     activeOpacity={0.8}
                 >
                     <Text className="text-gray-800 font-poppinsMedium flex-1">
-                        {schedulingTime.from && schedulingTime.to ?`${minutesTo12hLabel(schedulingTime.from)} to ${minutesTo12hLabel(schedulingTime.to)}` : 'from time — to time'}
+                        {schedulingTime.from && schedulingTime.to ? `${minutesTo12hLabel(schedulingTime.from)} to ${minutesTo12hLabel(schedulingTime.to)}` : 'from time — to time'}
                     </Text>
                     <CalendarFold color={"#889baf"} size={22}/>
                 </TouchableOpacity>
@@ -284,7 +295,7 @@ export default function AgentDetailsScreen() {
                 <TouchableOpacity
                     className="bg-teal-600 py-5"
                     onPress={() => {
-                        if(!agentName || !languageId || !voiceId || !role || !accentId || !numberId || !workingHours.from || !workingHours.from) {
+                        if (!agentName || !languageId || !voiceId || !role || !accentId || !numberId || !workingHours.from || !workingHours.from) {
                             Toast.show({
                                 type: 'error',
                                 text1: 'Invalid Data!',

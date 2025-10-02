@@ -7,40 +7,21 @@ import {
     StatusBar,
     TouchableWithoutFeedback, ActivityIndicator,
 } from 'react-native';
-import {useAppNavigation} from "../../../common/navigationHelper.ts";
 import axios from "axios";
 import {BASE_URL} from "../../../../test";
 import Toast from "react-native-toast-message";
-import {ILead} from "../../../types/leads.ts";
 import {IAgent} from "../../../types/agent.ts";
 
-interface FilterModalProps {
+interface ActionModalProps {
     visible: boolean;
     onClose: () => void;
-    onApply: () => void;
     viewAction: () => void;
     agent: IAgent | undefined
     setTriggerFetch?: (value: number) => void
 }
 
-export default function ActionModal({visible, onClose, onApply, viewAction, agent, setTriggerFetch}: FilterModalProps) {
-    const navigation = useAppNavigation();
+export default function ActionModal({visible, onClose, viewAction, agent, setTriggerFetch}: ActionModalProps) {
     const [isLoading, setIsLoading] = useState(false)
-    const [filterStates, setFilterStates] = useState({
-        all: false,
-        success: false,
-        rejected: false,
-        followUp: false,
-    });
-
-    const toggleFilter = (key: keyof typeof filterStates) => {
-        setFilterStates(prev => ({...prev, [key]: !prev[key]}));
-    };
-
-    const handleApply = () => {
-        onApply();
-        onClose();
-    };
 
     return (
         <Modal
@@ -82,7 +63,7 @@ export default function ActionModal({visible, onClose, onApply, viewAction, agen
                                         disabled={isLoading}
                                         onPress={() => {
                                             setIsLoading(true)
-                                            axios.delete(`${BASE_URL}/agents/${lead?._id}`)
+                                            axios.delete(`${BASE_URL}/agents/${agent?._id}`)
                                                 .then((res) => {
                                                     Toast.show({
                                                         type: 'success',

@@ -112,10 +112,12 @@ export default function AgentScreen() {
                                     <View className="flex flex-row">
                                         <View
                                             className="w-12 h-12 bg-teal-600 rounded-full items-center justify-center mr-4">
-                                            <Text className="text-white text-lg font-poppinsSemiBold">{agent?.name.slice(0,1).toUpperCase()}</Text>
+                                            <Text
+                                                className="text-white text-lg font-poppinsSemiBold">{agent?.name.slice(0, 1).toUpperCase()}</Text>
                                         </View>
                                         <View className="">
-                                            <Text className="text-black text-base font-poppinsMedium">{agent?.name}</Text>
+                                            <Text
+                                                className="text-black text-base font-poppinsMedium">{agent?.name}</Text>
                                             <Text
                                                 className="text-slate-400 text-sm font-poppinsMedium">{agent?.number?.number}</Text>
                                         </View>
@@ -158,22 +160,23 @@ export default function AgentScreen() {
             }}/>
 
             {/* Action Modal */}
-            <ActionModal visible={actionModalVisible} onClose={() => {
-                setActionModalVisible(false)
-            }} onApply={() => {
-                setActionModalVisible(false)
-            }}
-                         viewAction={() => {
-                             setActionModalVisible(false)
-                             navigation.navigate("SectionNavigator", {
-                                 screen: "AgentDetailsScreen",
-                                 params: {
-                                     screen: "EditAgent",
-                                     agentData: 'test'
-                                 }
-                             });
-                         }}
-            agent={selectedAgent}/>
+            <ActionModal
+                visible={actionModalVisible}
+                onClose={() => {
+                    setActionModalVisible(false)
+                }}
+                viewAction={() => {
+                    setActionModalVisible(false)
+                    navigation.navigate("SectionNavigator", {
+                        screen: "AgentDetailsScreen",
+                        params: {
+                            mode: "view",
+                            agent: selectedAgent
+                        }
+                    });
+                }}
+                agent={selectedAgent}
+                setTriggerFetch={setTriggerFetch}/>
 
         </SafeAreaView>
     )
