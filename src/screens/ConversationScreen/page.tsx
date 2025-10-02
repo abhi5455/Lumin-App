@@ -26,7 +26,6 @@ export default function ConversationScreen() {
             }
             axios.get(`${BASE_URL}/conversations`)
                 .then((res) => {
-                    console.log("Yay convo ", res.data.data)
                     setConversations(res.data.data.conversations)
                 })
                 .catch((err) => {

@@ -1,16 +1,50 @@
-import {SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View} from "react-native";
-import {EllipsisVertical, PlusCircle, Search, Settings} from "lucide-react-native";
+import {ActivityIndicator, SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {EllipsisVertical, PhoneIncoming, PlusCircle, Search, Settings} from "lucide-react-native";
 import MenuIcon from '../../assets/svg/MenuIcon.svg'
 import FilterIcon from '../../assets/svg/FilterIcon.svg'
-import React from "react";
+import React, {Fragment, useCallback, useRef, useState} from "react";
 import FilterModal from "../ConversationScreen/components/FilterModal.tsx";
 import {useAppNavigation} from "../../common/navigationHelper.ts";
 import ActionModal from "../LeadsScreen/components/ActionModal.tsx";
+import {useFocusEffect} from "@react-navigation/native";
+import axios from "axios";
+import {BASE_URL} from "../../../test";
+import Toast from "react-native-toast-message";
+import {IAgent} from "../../types/agent.ts";
 
 export default function AgentScreen() {
     const navigation = useAppNavigation()
     const [filterModalVisible, setFilterModalVisible] = React.useState(false);
     const [actionModalVisible, setActionModalVisible] = React.useState(false);
+    const [triggerFetch, setTriggerFetch] = useState<number>(0)
+    const [agents, setAgents] = useState<IAgent[]>([])
+    const [isLoading, setIsLoading] = useState(true)
+    const isFirstLoad = useRef(true);
+
+    useFocusEffect(
+        useCallback(() => {
+            if (isFirstLoad.current) {
+                setIsLoading(true)
+                isFirstLoad.current = false;
+            }
+            axios.get(`${BASE_URL}/agents`)
+                .then((res) => {
+                    console.log("Yay agents ", res.data.data)
+                    setAgents(res.data.data.agents)
+                })
+                .catch((err) => {
+                    Toast.show({
+                        type: 'error',
+                        text1: 'Something went wrong!',
+                        text2: err.message || '',
+                        position: "top"
+                    });
+                })
+                .finally(() => {
+                    setIsLoading(false)
+                })
+        }, [triggerFetch, navigation])
+    );
 
     return (
         <SafeAreaView className="flex-1 bg-gray-50 px-1">
@@ -67,25 +101,48 @@ export default function AgentScreen() {
 
             {/* Conversation List */}
             <ScrollView className="flex-1 flex px-4 bg-[#f6f7f9] pt-1">
-                {Array.from({length: 10}).map((_, index) => (
-                    <View
-                        key={index}
-                        className="flex-row items-center justify-between py-4 px-3 mb-4 rounded-lg border-b bg-white border-gray-100">
-                        <View className="flex flex-row">
-                            <View className="w-12 h-12 bg-teal-600 rounded-full items-center justify-center mr-4">
-                                <Text className="text-white text-lg font-poppinsSemiBold">A</Text>
-                            </View>
-                            <View className="">
-                                <Text className="text-black text-base font-poppinsMedium">Adam</Text>
-                                <Text className="text-slate-400 text-sm font-poppinsMedium">+912545788</Text>
-                            </View>
-                        </View>
+                {!isLoading ?
+                    <Fragment>
+                        {agents.length > 0 ? (
+                            agents?.map((agent, index) => (
+                                <View
+                                    key={index}
+                                    className="flex-row items-center justify-between py-4 px-3 mb-4 rounded-lg border-b bg-white border-gray-100">
+                                    <View className="flex flex-row">
+                                        <View
+                                            className="w-12 h-12 bg-teal-600 rounded-full items-center justify-center mr-4">
+                                            <Text className="text-white text-lg font-poppinsSemiBold">{agent?.name.slice(0,1).toUpperCase()}</Text>
+                                        </View>
+                                        <View className="">
+                                            <Text className="text-black text-base font-poppinsMedium">{agent?.name}</Text>
+                                            <Text
+                                                className="text-slate-400 text-sm font-poppinsMedium">{agent?.number?.number}</Text>
+                                        </View>
+                                    </View>
 
-                        <TouchableOpacity className="mr-1" onPress={() => setActionModalVisible(!actionModalVisible)}>
-                            <EllipsisVertical size={20}/>
-                        </TouchableOpacity>
+                                    <TouchableOpacity className="mr-1"
+                                                      onPress={() => setActionModalVisible(!actionModalVisible)}>
+                                        <EllipsisVertical size={20}/>
+                                    </TouchableOpacity>
+                                </View>
+                            ))
+                        ) : (
+                            // No agents section
+                            <View className="flex-1 justify-center items-center py-32">
+                                <Text className="text-gray-600 text-xl font-poppinsSemiBold mb-2">
+                                    No Agents
+                                </Text>
+                                <Text className="text-gray-400 text-sm font-poppinsMedium text-center px-8 leading-6">
+                                    No agents added. They'll appear here {'\n'}once available.
+                                </Text>
+                            </View>
+                        )}
+                    </Fragment>
+                    :
+                    <View className="py-[50px]">
+                        <ActivityIndicator color={'#178671'} size={30} className={''}/>
                     </View>
-                ))}
+                }
                 <View className="min-h-[150px] bg-transparent min-w-1"/>
             </ScrollView>
 
@@ -111,7 +168,7 @@ export default function AgentScreen() {
                                      agentData: 'test'
                                  }
                              });
-                         }}/>
+                         }} />
 
         </SafeAreaView>
     )
