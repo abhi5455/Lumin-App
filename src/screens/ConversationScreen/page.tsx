@@ -95,7 +95,7 @@ export default function ConversationScreen() {
                                     <View className="flex flex-row">
                                         <View
                                             className="w-12 h-12 bg-teal-600 rounded-full items-center justify-center mr-4">
-                                            <Text className="text-white text-lg font-poppinsSemiBold">A</Text>
+                                            <Text className="text-white text-lg font-poppinsSemiBold">{conversation?.lead?.fullName.slice(0,1).toUpperCase()}</Text>
                                         </View>
                                         <View className="">
                                             <Text
@@ -109,7 +109,7 @@ export default function ConversationScreen() {
                                     </View>
                                     <View className="px-2 py-1 border-[#4caf50] border-[1px] rounded-full">
                                         <Text
-                                            className="text-[#4caf50] text-xs font-poppinsMedium">{conversation?.lead?.status}</Text>
+                                            className="text-[#4caf50] text-xs font-poppinsMedium">{conversation?.status}</Text>
                                     </View>
                                 </TouchableOpacity>
                             ))

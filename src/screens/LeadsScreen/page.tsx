@@ -88,7 +88,7 @@ export default function LeadsScreen() {
                                     <View className="flex flex-row">
                                         <View
                                             className="w-12 h-12 bg-teal-600 rounded-full items-center justify-center mr-4">
-                                            <Text className="text-white text-lg font-poppinsSemiBold">A</Text>
+                                            <Text className="text-white text-lg font-poppinsSemiBold">{lead?.fullName.slice(0,1).toUpperCase()}</Text>
                                         </View>
                                         <View className="">
                                             <Text

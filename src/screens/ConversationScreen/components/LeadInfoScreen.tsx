@@ -45,7 +45,7 @@ export default function LeadInfoScreen() {
                         </View>
                     </View>
                     <View className="px-2 py-1 border-[#4caf50] border-[1px] rounded-full">
-                        <Text className="text-[#4caf50] text-xs font-poppinsMedium">{conversation?.lead?.status}</Text>
+                        <Text className="text-[#4caf50] text-xs font-poppinsMedium">{conversation?.status}</Text>
                     </View>
                 </View>
 
