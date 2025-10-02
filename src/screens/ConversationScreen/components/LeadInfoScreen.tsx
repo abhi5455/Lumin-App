@@ -1,11 +1,11 @@
 import {SafeAreaView, ScrollView, Text, TouchableOpacity, View} from "react-native";
-import {Phone, PhoneIncoming} from "lucide-react-native";
+import {PhoneIncoming} from "lucide-react-native";
 import React from "react";
 import {useAppNavigation} from "../../../common/navigationHelper.ts";
 import BackIcon from '../../../assets/svg/BackIcon.svg'
 import {IConversation} from "../../../types/conversation.ts";
 import {RouteProp, useRoute} from "@react-navigation/core";
-import {differenceInMinutes, format, formatISO} from "date-fns";
+import {differenceInMinutes, format} from "date-fns";
 
 interface ILeadInfoScreenPropsParams {
     conversation: IConversation
