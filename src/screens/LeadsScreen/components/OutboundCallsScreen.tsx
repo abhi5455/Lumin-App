@@ -10,7 +10,7 @@ import {
 import BackIcon from "../../../assets/svg/BackIcon.svg";
 import {useAppNavigation} from "../../../common/navigationHelper.ts";
 import {CalendarFold} from "lucide-react-native";
-import {useRoute} from "@react-navigation/core";
+import {RouteProp, useRoute} from "@react-navigation/core";
 import {ILead} from "../../../types/leads.ts";
 import axios from "axios";
 import {BASE_URL} from "../../../../test";
@@ -25,7 +25,7 @@ interface IOutboundCallsScreenParams{
 }
 
 const OutboundCallsScreen = () => {
-    const route = useRoute<IOutboundCallsScreenParams>();
+    const route = useRoute<RouteProp<{ OutboundCallsScreen: IOutboundCallsScreenParams }, 'OutboundCallsScreen'>>();
     const { lead } = route?.params;
     console.log("Lead Info ", lead)
     const navigation = useAppNavigation();
