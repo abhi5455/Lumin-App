@@ -5,6 +5,7 @@ import {useAppNavigation} from "../../../common/navigationHelper.ts";
 import BackIcon from '../../../assets/svg/BackIcon.svg'
 import {IConversation} from "../../../types/conversation.ts";
 import {RouteProp, useRoute} from "@react-navigation/core";
+import {differenceInMinutes, format, formatISO} from "date-fns";
 
 interface ILeadInfoScreenPropsParams {
     conversation: IConversation
@@ -57,29 +58,29 @@ export default function LeadInfoScreen() {
 
                     <View>
                         <Text className="text-gray-400 text-xs font-poppinsMedium uppercase tracking-wide mb-2">TIME</Text>
-                        <Text className="text-black text-base font-poppinsMedium">07:30-08:30 PM</Text>
+                        <Text className="text-black text-base font-poppinsMedium">{format(new Date(conversation?.startTime), "hh:mm a")} -  {format(new Date(conversation.endTime), "hh:mm a")}</Text>
                     </View>
 
                     <View>
                         <Text className="text-gray-400 text-xs font-poppinsMedium uppercase tracking-wide mb-2">DATE</Text>
-                        <Text className="text-black text-base font-poppinsMedium">18-10-2025</Text>
+                        <Text className="text-black text-base font-poppinsMedium">{format(new Date(conversation?.date), "dd-MM-yyyy")}</Text>
                     </View>
 
                     <View>
                         <Text className="text-gray-400 text-xs font-poppinsMedium uppercase tracking-wide mb-2">AGENT</Text>
-                        <Text className="text-black text-base font-poppinsMedium">Chris</Text>
+                        <Text className="text-black text-base font-poppinsMedium">{conversation?.agent?.name}</Text>
                     </View>
 
                     <View>
                         <Text className="text-gray-400 text-xs font-poppinsMedium uppercase tracking-wide mb-2">DURATION</Text>
-                        <Text className="text-black text-base font-poppinsMedium">30 min</Text>
+                        <Text className="text-black text-base font-poppinsMedium">{differenceInMinutes(new Date(conversation.endTime), new Date(conversation.startTime))} mins</Text>
                     </View>
 
                     <View>
                         <Text className="text-gray-400 text-xs font-poppinsMedium uppercase tracking-wide mb-2">CALL TYPE</Text>
                         <View className="flex flex-row items-center gap-2">
                             <PhoneIncoming size={20} color="#4caf50"/>
-                            <Text className="text-black text-base font-poppinsMedium">Inbound Calls</Text>
+                            <Text className="text-black text-base font-poppinsMedium">{conversation?.callType}</Text>
                         </View>
                     </View>
 
