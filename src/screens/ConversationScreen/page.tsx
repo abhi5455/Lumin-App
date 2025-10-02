@@ -10,13 +10,11 @@ import axios from "axios";
 import {BASE_URL} from "../../../test";
 import Toast from "react-native-toast-message";
 import {IConversation} from "../../types/conversation.ts";
-import PhoneTickIcon from "../../assets/svg/PhoneTickIcon.svg";
 
 export default function ConversationScreen() {
     const navigation = useAppNavigation()
     const [filterModalVisible, setFilterModalVisible] = React.useState(false);
     const [conversations, setConversations] = useState<IConversation[]>([])
-    const [triggerFetch, setTriggerFetch] = useState<number>(0)
     const [isLoading, setIsLoading] = useState(true)
     const isFirstLoad = useRef(true);
 
@@ -42,7 +40,7 @@ export default function ConversationScreen() {
                 .finally(() => {
                     setIsLoading(false)
                 })
-        }, [triggerFetch, navigation])
+        }, [navigation])
     );
 
     return (
