@@ -24,10 +24,8 @@ export default function ChangeDetailsModal({isModalVisible, onClose, changeData,
 
     useFocusEffect(
         useCallback(() => {
-            console.log("Test ",changeData)
             setCurrentValue(changeData)
-            console.log("Test Current ", currentValue)
-        }, [])
+        }, [changeData])
     );
 
 
