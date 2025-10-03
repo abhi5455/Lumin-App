@@ -304,21 +304,21 @@ export default function DashboardScreen() {
 
                 {/* Bottom spacing */}
                 <View className="h-20"/>
-
-                {doubleChecking &&
-                    <View className="absolute self-center bg-white p-2 rounded-full top-2"
-                          style={{
-                              shadowColor: '#000',
-                              shadowOffset: { width: 0, height: 4 },
-                              shadowOpacity: 0.18,
-                              shadowRadius: 10,
-                              elevation: 5,
-                              zIndex: 50,
-                          }}>
-                        <ActivityIndicator color={'#178671'}/>
-                    </View>
-                }
             </ScrollView>
+
+            {doubleChecking &&
+                <View className="absolute self-center bg-white p-2 rounded-full top-20"
+                      style={{
+                          shadowColor: '#000',
+                          shadowOffset: { width: 0, height: 4 },
+                          shadowOpacity: 0.18,
+                          shadowRadius: 10,
+                          elevation: 5,
+                          zIndex: 50,
+                      }}>
+                    <ActivityIndicator color={'#178671'}/>
+                </View>
+            }
         </SafeAreaView>
     );
 };
