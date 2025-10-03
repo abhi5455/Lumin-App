@@ -3,6 +3,7 @@ import {useCallback} from "react";
 import {useAppNavigation} from "../../common/navigationHelper.ts";
 import {storage} from "../../lib/storage.ts";
 import {useFocusEffect} from "@react-navigation/native";
+import {fetchUserProfile} from "../../lib/userStorage.ts";
 
 export default function SplashScreen() {
     const navigation = useAppNavigation();
@@ -17,7 +18,9 @@ export default function SplashScreen() {
                     });
                     return;
                 }
+                fetchUserProfile()
                 navigation.navigate("TabNavigator");
+
             }, 2000);
 
             return () => clearTimeout(timer);

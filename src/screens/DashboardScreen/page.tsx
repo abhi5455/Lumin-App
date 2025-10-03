@@ -1,20 +1,16 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {
     View,
     Text,
     ScrollView,
     TouchableOpacity,
-    SafeAreaView, Dimensions, StatusBar,
+    SafeAreaView, Dimensions, StatusBar, ActivityIndicator,
 } from 'react-native';
 import {
     Settings,
     Rocket,
     ChevronDown,
-    Home,
-    MessageCircle,
-    Users,
-    User,
-    Phone, TrendingUp,
+    TrendingUp,
 } from 'lucide-react-native';
 import MenuIcon from "../../assets/svg/MenuIcon.svg";
 import TickIcon from "../../assets/svg/TickIcon.svg";
@@ -28,12 +24,22 @@ import {IUserProfile} from "../../types/profile.ts";
 import {useFocusEffect} from "@react-navigation/native";
 import axios from "axios";
 import {BASE_URL} from "../../../test";
+import {storage} from "../../lib/storage.ts";
+import Toast from "react-native-toast-message";
+import {RouteProp, useRoute} from "@react-navigation/core";
 
 const screenWidth = Dimensions.get('window').width;
 
+interface DashboardScreenParams {
+    from: string;
+}
+
 export default function DashboardScreen() {
-    const [userProfile, setUserProfile] = useState<IUserProfile>(getUserProfile() as IUserProfile);
+    const route = useRoute<RouteProp<{ DashboardScreen: DashboardScreenParams }, 'DashboardScreen'>>();
     const navigation = useAppNavigation();
+    const [doubleChecking, setDoubleChecking] = useState(false);
+    const [userProfile, setUserProfile] = useState<IUserProfile>(getUserProfile() as IUserProfile);
+
     const chartData = {
         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
         datasets: [
@@ -66,32 +72,55 @@ export default function DashboardScreen() {
         fillShadowGradientOpacity: 1,
     };
 
-    useEffect(() => {
-        fetchUserProfile()
-        setUserProfile(getUserProfile());
-    }, []);
-
-    // useFocusEffect(
-    //     useCallback(() => {
-    //         const user = getUserProfile();
-    //         console.log("Checking profile completion status:", user);
-    //         if (user && !user.profile_completed) {
-    //             console.log("Profile incomplete, navigating to RegisterScreen", user);
-    //             navigation.navigate("SectionNavigator", {
-    //                 screen: "RegisterScreen",
-    //             });
-    //         }
-    //     }, [])
-    // );
+    useFocusEffect(
+        useCallback(() => {
+            const authToken = storage.getString('authToken');
+            if (!authToken || authToken === '') {
+                navigation.navigate("SectionNavigator", {
+                    screen: "WelcomeScreen",
+                });
+                return;
+            }
+            console.log('Route params:', route?.params, 'from:', route?.params?.from, route?.params?.from === "RegisterScreen" || route?.params?.from === "SignInScreen");
+            if (route?.params?.from === "RegisterScreen" || route?.params?.from === "SignInScreen") {
+                return;
+            }
+            setDoubleChecking(true)
+            fetchUserProfile()
+                .then(() => {
+                    let profile = getUserProfile()
+                    setUserProfile(profile as IUserProfile);
+                    if (profile?.profile_verified !== true) {
+                        navigation.navigate("AuthenticationStack", {
+                            screen: "OtpScreen",
+                        });
+                    } else if (profile?.profile_completed !== true) {
+                        navigation.navigate("SectionNavigator", {
+                            screen: "RegisterScreen",
+                        });
+                    }
+                })
+                .catch((error) => {
+                    Toast.show({
+                        type: 'error',
+                        text1: 'Error fetching profile',
+                        text2: error.message
+                    })
+                })
+                .finally(() => {
+                    setDoubleChecking(false)
+                })
+        }, [])
+    );
 
     useFocusEffect(
         useCallback(() => {
             console.log('Fetching...')
             axios.get(`${BASE_URL}/dashboard`)
-                .then(res=>{
+                .then(res => {
                     console.log(res.data)
                 })
-                .catch(err=>{
+                .catch(err => {
                     console.log(err.message)
                 })
         }, [])
@@ -274,47 +303,13 @@ export default function DashboardScreen() {
 
                 {/* Bottom spacing */}
                 <View className="h-20"/>
+
+                {doubleChecking &&
+                    <View className="absolute self-center bg-white p-2 rounded-full top-2">
+                        <ActivityIndicator color={'#178671'}/>
+                    </View>
+                }
             </ScrollView>
-
-            {/* Bottom Navigation */}
-            <View className="bg-white border-t border-gray-200 px-4 py-2">
-                <View className="flex-row justify-between items-center">
-                    <TouchableOpacity className="items-center py-2 px-3">
-                        <Home size={24} color="#0d9488"/>
-                        <Text className="text-primary text-xs font-poppinsMedium mt-1">
-                            Dashboard
-                        </Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity className="items-center py-2 px-3">
-                        <MessageCircle size={24} color="#9ca3af"/>
-                        <Text className="text-gray-400 text-xs font-poppinsMedium mt-1">
-                            Conversation
-                        </Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity className="items-center py-2 px-3">
-                        <Users size={24} color="#9ca3af"/>
-                        <Text className="text-gray-400 text-xs font-poppinsMedium mt-1">
-                            Leads
-                        </Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity className="items-center py-2 px-3">
-                        <User size={24} color="#9ca3af"/>
-                        <Text className="text-gray-400 text-xs font-poppinsMedium mt-1">
-                            Agent
-                        </Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity className="items-center py-2 px-3">
-                        <Phone size={24} color="#9ca3af"/>
-                        <Text className="text-gray-400 text-xs font-poppinsMedium mt-1">
-                            Numbers
-                        </Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
         </SafeAreaView>
     );
 };

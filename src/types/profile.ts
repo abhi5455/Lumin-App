@@ -34,6 +34,7 @@ export interface IUserProfile {
     email: string;
     name: string;
     profile_completed: boolean;
+    profile_verified: boolean;
     status: 'active' | 'inactive' | string;
     type: IUserType;
     updatedAt: string;

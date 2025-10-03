@@ -11,7 +11,7 @@ export const fetchUserProfile = async () => {
             return res.data.data;
         })
         .catch(error => {
-            console.error("Error fetching user profile:", error);
+            console.error("Error fetching user profile:", error.message);
             throw error;
         });
 }
@@ -28,3 +28,8 @@ export const getUserProfile = () => {
 export const clearUserProfile = () => {
     storage.delete('userProfile');
 };
+
+export const resetForLogout = () => {
+    storage.set('authToken', '');
+    clearUserProfile();
+}

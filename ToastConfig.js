@@ -36,4 +36,21 @@ export const toastConfig = {
             }}
         />
     ),
+    info: (props) => (
+        <BaseToast
+            {...props}
+            style={{
+                borderLeftColor: "#3b82f6"
+            }}
+            text1Style={{
+                fontSize: 14,
+                fontFamily: 'Poppins-SemiBold',
+                marginBottom: 5
+            }}
+            text2Style={{
+                fontSize: 11,
+                fontFamily: 'Poppins-Medium',
+            }}
+        />
+    ),
 };

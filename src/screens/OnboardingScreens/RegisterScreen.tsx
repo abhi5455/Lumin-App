@@ -157,16 +157,19 @@ const RegisterScreen: React.FC = () => {
         else{
             setIsLoading(true);
             axios.post(`${BASE_URL}/users/onboarding`, formData)
-                .then(response => {
-                    console.log('Registration successful:', response.data);
+                .then(res => {
                     Toast.show({
                         type: 'success',
                         text1: 'Registration Successful!',
                         position: "top"
                     });
-                    fetchUserProfile()
                     navigation.goBack()
-                    navigation.navigate("TabNavigator");
+                    // navigation.navigate("TabNavigator");
+                    navigation.navigate("TabNavigator", {
+                        screen: "DashboardScreen",
+                        params: { from: "RegisterScreen" }
+                    });
+                    fetchUserProfile()
                 })
                 .catch(error => {
                     console.error('Registration error:', error);

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
     View,
     Text,
@@ -15,8 +15,6 @@ import axios from "axios";
 import {storage} from "../../lib/storage.ts";
 import {BASE_URL} from "../../../test";
 import {fetchUserProfile} from "../../lib/userStorage.ts";
-
-// import Config from "react-native-config";
 
 interface ValidationRule {
     text: string;
@@ -47,7 +45,10 @@ function handleLogin(email: string, password: string, setIsLoading: (loading: bo
             await fetchUserProfile()
             navigation.goBack();
             navigation.goBack();
-            navigation.navigate("TabNavigator");
+            navigation.navigate("TabNavigator", {
+                screen: "DashboardScreen",
+                params: { from: "SignInScreen" }
+            });
         })
         .catch(err => {
             Toast.show({
@@ -72,7 +73,6 @@ function handleSignUp(name: string, email: string, password: string, setIsLoadin
         });
         return;
     }
-    // console.log("Logging", Config.BASE_URL);
     setIsLoading(true)
     axios.post(`${BASE_URL}/register`, {name: name, email: email, password: password})
         .then(async res => {
@@ -83,13 +83,10 @@ function handleSignUp(name: string, email: string, password: string, setIsLoadin
                 position: "top"
             });
             storage.set('authToken', res.data.data);
-            await fetchUserProfile()
             navigation.goBack();
             navigation.goBack();
-            // navigation.navigate("TabNavigator");
-
-            navigation.navigate("SectionNavigator", {
-                screen: "RegisterScreen",
+            navigation.navigate("AuthenticationStack", {
+                screen: "OtpScreen",
             });
         })
         .catch(err => {
