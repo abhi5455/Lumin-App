@@ -31,5 +31,6 @@ export const clearUserProfile = () => {
 
 export const resetForLogout = () => {
     storage.set('authToken', '');
+    storage.set('profile_completed', false)
     clearUserProfile();
 }

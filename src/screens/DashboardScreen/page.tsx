@@ -82,7 +82,8 @@ export default function DashboardScreen() {
                 return;
             }
             console.log('Route params:', route?.params, 'from:', route?.params?.from, route?.params?.from === "RegisterScreen" || route?.params?.from === "SignInScreen");
-            if (route?.params?.from === "RegisterScreen" || route?.params?.from === "SignInScreen") {
+            // There is a lag in fetching user profile after onboarding, so checking a storage value to indicate onboarding just completed [storage.getBoolean('profile_completed') === true]
+            if (route?.params?.from === "RegisterScreen" || route?.params?.from === "SignInScreen" || storage.getBoolean('profile_completed') === true) {
                 return;
             }
             setDoubleChecking(true)

@@ -125,7 +125,6 @@ export default function OtpScreen() {
                                               text2: 'Your OTP has been successfully verified.',
                                               position: "top"
                                           })
-                                          navigation.goBack()
                                           navigation.navigate("SectionNavigator", {
                                               screen: "RegisterScreen",
                                           });

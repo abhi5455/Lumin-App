@@ -88,6 +88,10 @@ function handleSignUp(name: string, email: string, password: string, setIsLoadin
             navigation.navigate("AuthenticationStack", {
                 screen: "OtpScreen",
             });
+
+            // There is a lag in fetching user profile after onboarding, so setting a storage value to indicate onboarding just completed
+            storage.set('profile_completed', false)
+
         })
         .catch(err => {
             Toast.show({

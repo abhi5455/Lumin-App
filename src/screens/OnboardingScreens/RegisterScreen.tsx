@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     View,
     Text,
@@ -12,6 +12,7 @@ import axios from "axios";
 import {BASE_URL} from "../../../test";
 import {useAppNavigation} from "../../common/navigationHelper.ts";
 import {fetchUserProfile} from "../../lib/userStorage.ts";
+import {storage} from "../../lib/storage.ts";
 
 interface IFormData{
     company: {
@@ -164,7 +165,8 @@ const RegisterScreen: React.FC = () => {
                         position: "top"
                     });
                     navigation.goBack()
-                    // navigation.navigate("TabNavigator");
+                    // There is a lag in fetching user profile after onboarding, so setting a storage value to indicate onboarding just completed
+                    storage.set('profile_completed', true)
                     navigation.navigate("TabNavigator", {
                         screen: "DashboardScreen",
                         params: { from: "RegisterScreen" }
