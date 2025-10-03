@@ -1,11 +1,11 @@
 import axios from "axios";
 import {storage} from "../lib/storage.ts";
-import {BASE_URL} from "../../test";
 import Toast from "react-native-toast-message";
+import { BASE_URL as API_BASE_URL } from '@env';
 
-// import Config from "react-native-config";
+export const BASE_URL = API_BASE_URL;
 
-function AxiosInterceptor() {
+export default function AxiosInterceptor() {
     axios.interceptors.request.use(
         async (config) => {
             const token = storage.getString("authToken");
@@ -40,5 +40,3 @@ function AxiosInterceptor() {
         }
     );
 }
-
-export default AxiosInterceptor;

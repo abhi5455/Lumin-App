@@ -9,9 +9,9 @@ import {useAppNavigation} from "../../common/navigationHelper.ts";
 import ActionModal from "./components/ActionModal.tsx";
 import {useFocusEffect} from "@react-navigation/native";
 import axios from "axios";
-import {BASE_URL} from "../../../test";
 import Toast from "react-native-toast-message";
 import {ILead} from "../../types/leads.ts";
+import {BASE_URL} from "../../utils/axios.ts";
 
 export default function LeadsScreen() {
     const navigation = useAppNavigation()

@@ -7,10 +7,10 @@ import FilterModal from "../ConversationScreen/components/FilterModal.tsx";
 import {useAppNavigation} from "../../common/navigationHelper.ts";
 import {useFocusEffect} from "@react-navigation/native";
 import axios from "axios";
-import {BASE_URL} from "../../../test";
 import Toast from "react-native-toast-message";
 import {IAgent} from "../../types/agent.ts";
 import ActionModal from "./components/ActionModal.tsx";
+import {BASE_URL} from "../../utils/axios.ts";
 
 export default function AgentScreen() {
     const navigation = useAppNavigation()

@@ -3,8 +3,8 @@
 import { useEffect, useMemo, useState } from "react"
 import { Modal, View, Text, TouchableOpacity, ActivityIndicator, ScrollView } from "react-native"
 import axios from "axios"
-import { BASE_URL } from "../../../../test"
 import Toast from "react-native-toast-message"
+import {BASE_URL} from "../../../utils/axios.ts";
 
 type PickerType = "language" | "voice" | "accent" | "phone"
 type Option = { label: string; value: string; countryCode?: string }

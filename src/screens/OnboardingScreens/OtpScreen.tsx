@@ -2,9 +2,8 @@ import {ActivityIndicator, ScrollView, StatusBar, Text, TextInput, TouchableOpac
 import React, {useEffect, useRef, useState} from "react";
 import {useAppNavigation} from "../../common/navigationHelper.ts";
 import axios from "axios";
-import {BASE_URL} from "../../../test";
 import Toast from "react-native-toast-message";
-import {storage} from "../../lib/storage.ts";
+import {BASE_URL} from "../../utils/axios.ts";
 
 export default function OtpScreen() {
     const [isLoading, setIsLoading] = useState(false)

@@ -13,8 +13,8 @@ import {useAppNavigation} from "../../common/navigationHelper.ts";
 import Toast from "react-native-toast-message";
 import axios from "axios";
 import {storage} from "../../lib/storage.ts";
-import {BASE_URL} from "../../../test";
 import {fetchUserProfile} from "../../lib/userStorage.ts";
+import {BASE_URL} from "../../utils/axios.ts";
 
 interface ValidationRule {
     text: string;
@@ -31,7 +31,6 @@ function handleLogin(email: string, password: string, setIsLoading: (loading: bo
         });
         return;
     }
-    // console.log("Logging", Config.BASE_URL);
     setIsLoading(true)
     axios.post(`${BASE_URL}/login`, {email: email, password: password})
         .then(async res => {

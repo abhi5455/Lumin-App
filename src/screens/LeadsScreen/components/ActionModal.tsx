@@ -8,9 +8,9 @@ import {
     TouchableWithoutFeedback, ActivityIndicator,
 } from 'react-native';
 import axios from "axios";
-import {BASE_URL} from "../../../../test";
 import Toast from "react-native-toast-message";
 import {ILead} from "../../../types/leads.ts";
+import {BASE_URL} from "../../../utils/axios.ts";
 
 interface ActionModalProps {
     visible: boolean;

@@ -8,8 +8,8 @@ import {
     Pressable, ActivityIndicator,
 } from 'react-native';
 import Toast from "react-native-toast-message";
-import {BASE_URL} from "../../../test";
 import axios from "axios";
+import {BASE_URL} from "../../utils/axios.ts";
 
 interface IChangePasswordModalProps {
     isModalVisible: boolean;

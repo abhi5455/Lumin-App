@@ -13,11 +13,11 @@ import {CalendarFold} from "lucide-react-native";
 import {RouteProp, useRoute} from "@react-navigation/core";
 import {ILead} from "../../../types/leads.ts";
 import axios from "axios";
-import {BASE_URL} from "../../../../test";
 import Toast from "react-native-toast-message";
 import WorkingHoursModal, {parseHHMM} from "../../AgentScreen/components/WorkingHoursModal.tsx";
 import SingleDatepickerModal from "./SingleDatepickerModal.tsx";
 import {formatDate} from "date-fns";
+import {BASE_URL} from "../../../utils/axios.ts";
 
 interface IOutboundCallsScreenParams {
     mode: string,

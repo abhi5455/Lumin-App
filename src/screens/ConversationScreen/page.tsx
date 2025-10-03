@@ -7,9 +7,9 @@ import {useAppNavigation} from "../../common/navigationHelper.ts";
 import FilterModal from "./components/FilterModal.tsx";
 import {useFocusEffect} from "@react-navigation/native";
 import axios from "axios";
-import {BASE_URL} from "../../../test";
 import Toast from "react-native-toast-message";
 import {IConversation} from "../../types/conversation.ts";
+import {BASE_URL} from "../../utils/axios.ts";
 
 export default function ConversationScreen() {
     const navigation = useAppNavigation()

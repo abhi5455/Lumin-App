@@ -1,7 +1,7 @@
 import {storage} from "./storage.ts";
 import axios from "axios";
-import {BASE_URL} from "../../test";
 import {IUserProfile} from "../types/profile.ts";
+import {BASE_URL} from "../utils/axios.ts";
 
 export const fetchUserProfile = async () => {
     axios.get(`${BASE_URL}/users/profile`)

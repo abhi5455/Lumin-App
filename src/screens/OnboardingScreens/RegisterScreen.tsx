@@ -9,10 +9,10 @@ import {
 import {ChevronDown, Info} from "lucide-react-native";
 import Toast from "react-native-toast-message";
 import axios from "axios";
-import {BASE_URL} from "../../../test";
 import {useAppNavigation} from "../../common/navigationHelper.ts";
 import {fetchUserProfile} from "../../lib/userStorage.ts";
 import {storage} from "../../lib/storage.ts";
+import {BASE_URL} from "../../utils/axios.ts";
 
 interface IFormData{
     company: {

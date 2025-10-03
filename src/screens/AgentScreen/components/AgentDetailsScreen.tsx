@@ -1,6 +1,6 @@
 "use client"
 
-import {useState, useEffect} from "react"
+import {useState} from "react"
 import {View, Text, TextInput, TouchableOpacity, ScrollView, Switch} from "react-native"
 import BackIcon from "../../../assets/svg/BackIcon.svg"
 import {useAppNavigation} from "../../../common/navigationHelper.ts"
@@ -8,14 +8,13 @@ import {CalendarFold, ChevronDown, Timer} from "lucide-react-native"
 import WorkingHoursModal from "./WorkingHoursModal.tsx"
 import CommonPickerModal from "./CommonPickerModal.tsx"
 import axios from "axios"
-import {BASE_URL} from "../../../../test"
 import Toast from "react-native-toast-message"
 import DatepickerModal from "./DatePickerModal.tsx";
 import {RouteProp, useRoute} from "@react-navigation/core";
 import {formatDate} from "date-fns";
 import {countryToFlag} from "../../../lib/countryToFlag.ts";
-import {ILead} from "../../../types/leads.ts";
 import {IAgent} from "../../../types/agent.ts";
+import {BASE_URL} from "../../../utils/axios.ts";
 
 type PickerType = "language" | "voice" | "accent" | "phone"
 

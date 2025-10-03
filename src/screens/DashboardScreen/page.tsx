@@ -23,7 +23,7 @@ import {fetchUserProfile, getUserProfile} from "../../lib/userStorage.ts";
 import {IUserProfile} from "../../types/profile.ts";
 import {useFocusEffect} from "@react-navigation/native";
 import axios from "axios";
-import {BASE_URL} from "../../../test";
+import {BASE_URL} from "../../utils/axios.ts";
 import {storage} from "../../lib/storage.ts";
 import Toast from "react-native-toast-message";
 import {RouteProp, useRoute} from "@react-navigation/core";
@@ -39,6 +39,7 @@ export default function DashboardScreen() {
     const navigation = useAppNavigation();
     const [doubleChecking, setDoubleChecking] = useState(false);
     const [userProfile, setUserProfile] = useState<IUserProfile>(getUserProfile() as IUserProfile);
+
 
     const chartData = {
         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
