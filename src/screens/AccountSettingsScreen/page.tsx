@@ -24,12 +24,12 @@ export default function AccountSettingsScreen(){
     const [userProfile, setUserProfile] = useState<IUserProfile | undefined>(getUserProfile());
     console.log("userProfile in AccountSettingsScreen:", userProfile);
     const menuItems = [
-        { id: 1, title: 'My Account', icon: <PersonIcon/> , action: () => navigation.navigate('SectionNavigator', {screen: 'AccountInfoScreen'})},
+        { id: 1, title: 'My Account', icon: <PersonIcon/>, action: () => navigation.navigate('SectionNavigator', {screen: 'AccountInfoScreen'})},
         { id: 2, title: 'Transaction history', icon: <TransactionIcon/> },
         { id: 3, title: 'Subscription', icon: <SubscriptionIcon/>},
-        { id: 4, title: 'Terms of service', icon: <TOSIcon/> },
-        { id: 5, title: 'Privacy Policy', icon: <PrivacyIcon/> },
-        { id: 6, title: 'Refund Policy', icon: <RefundIcon/> },
+        { id: 4, title: 'Terms of service', icon: <TOSIcon/>, action: () => navigation.navigate('SectionNavigator', {screen: 'TermsOfServices'})},
+        { id: 5, title: 'Privacy Policy', icon: <PrivacyIcon/>, action: () => navigation.navigate('SectionNavigator', {screen: 'PrivacyPolicy'}) },
+        { id: 6, title: 'Refund Policy', icon: <RefundIcon/>, action: () => navigation.navigate('SectionNavigator', {screen: 'RefundPolicy'}) },
         { id: 7, title: 'Log Out', icon: <LogoutIcon/>, action: () => {
                 // Clear auth token and navigate to Auth screen
                 resetForLogout()

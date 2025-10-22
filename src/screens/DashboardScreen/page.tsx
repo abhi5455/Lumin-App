@@ -76,6 +76,7 @@ export default function DashboardScreen() {
     useFocusEffect(
         useCallback(() => {
             const authToken = storage.getString('authToken');
+            console.log("Auth Token: ", authToken)
             if (!authToken || authToken === '') {
                 navigation.navigate("SectionNavigator", {
                     screen: "WelcomeScreen",

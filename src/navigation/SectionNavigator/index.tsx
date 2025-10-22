@@ -11,6 +11,9 @@ import SubscriptionScreen from "../../screens/SubscriptionScreen/page.tsx";
 import SuccessScreen from "../../screens/StatusScreen/SuccessScreen.tsx";
 import ProcessingScreen from "../../screens/StatusScreen/ProcessingScreen.tsx";
 import ErrorScreen from "../../screens/StatusScreen/ErrorScreen.tsx";
+import TermsOfServices from "../../screens/AccountSettingsScreen/TermsOfService.tsx";
+import RefundPolicy from "../../screens/AccountSettingsScreen/RefundPolicy.tsx";
+import PrivacyPolicy from "../../screens/AccountSettingsScreen/PrivacyPolicy.tsx";
 
 export default function SectionNavigator() {
     const Stack = createNativeStackNavigator()
@@ -89,6 +92,23 @@ export default function SectionNavigator() {
                 name="ErrorScreen"
                 options={{headerShown: false, gestureEnabled: false}}
                 component={ErrorScreen}
+            />
+
+
+            <Stack.Screen
+                name="TermsOfServices"
+                options={{headerShown: false, gestureEnabled: false}}
+                component={TermsOfServices}
+            />
+            <Stack.Screen
+                name="RefundPolicy"
+                options={{headerShown: false, gestureEnabled: false}}
+                component={RefundPolicy}
+            />
+            <Stack.Screen
+                name="PrivacyPolicy"
+                options={{headerShown: false, gestureEnabled: false}}
+                component={PrivacyPolicy}
             />
         </Stack.Navigator>
     )

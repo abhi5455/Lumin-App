@@ -1,11 +1,41 @@
-import React, { useState } from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import { View, Text, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
 import {Check, ChevronLeft} from "lucide-react-native";
 import {useAppNavigation} from "../../common/navigationHelper.ts";
+import {useFocusEffect} from "@react-navigation/native";
+import axios from "axios";
+import {BASE_URL} from "../../utils/axios.ts";
+import Toast from "react-native-toast-message";
 
 export default function SubscriptionScreen() {
     const navigation = useAppNavigation()
     const [selectedPlan, setSelectedPlan] = useState<'monthly' | 'yearly'>('monthly');
+    const [isLoading, setIsLoading] = useState(true)
+    const isFirstLoad = useRef(true);
+
+    useFocusEffect(
+        useCallback(() => {
+            if (isFirstLoad.current) {
+                setIsLoading(true)
+                isFirstLoad.current = false;
+            }
+            axios.get(`${BASE_URL}/subscription`)
+                .then((res) => {
+                    console.log("Subscribe ",res.data)
+                })
+                .catch((err) => {
+                    Toast.show({
+                        type: 'error',
+                        text1: 'Something went wrong!',
+                        text2: err.message || '',
+                        position: "top"
+                    });
+                })
+                .finally(() => {
+                    setIsLoading(false)
+                })
+        }, [navigation])
+    );
 
     return (
         <SafeAreaView className="flex-1 bg-white">
