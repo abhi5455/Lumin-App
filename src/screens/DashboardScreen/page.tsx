@@ -27,6 +27,7 @@ import {BASE_URL} from "../../utils/axios.ts";
 import {storage} from "../../lib/storage.ts";
 import Toast from "react-native-toast-message";
 import {RouteProp, useRoute} from "@react-navigation/core";
+import {IDashboard} from "../../types/dashboard.ts";
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -39,13 +40,17 @@ export default function DashboardScreen() {
     const navigation = useAppNavigation();
     const [doubleChecking, setDoubleChecking] = useState(false);
     const [userProfile, setUserProfile] = useState<IUserProfile>(getUserProfile() as IUserProfile);
+    const [dashboardData, setDashboardData] = useState<IDashboard>(null);
 
-
+    const labels = dashboardData?.chart?.data?.map(item => item.month)
+        || ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
+    const values = dashboardData?.chart?.data?.map(item => item.calls)
+        || [0, 0, 0, 0, 0, 0];
     const chartData = {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+        labels: labels,
         datasets: [
             {
-                data: [15000, 20000, 15000, 15000, 14000, 18000],
+                data: values,
                 color: (opacity = 1) => `rgba(134, 239, 172, ${opacity})`, // teal-300 equivalent
                 strokeWidth: 2,
             },
@@ -121,7 +126,8 @@ export default function DashboardScreen() {
             console.log('Fetching...')
             axios.get(`${BASE_URL}/dashboard`)
                 .then(res => {
-                    console.log(res.data)
+                    setDashboardData(res.data.data);
+                    console.log("Dashboard fetched ",res.data.data)
                 })
                 .catch(err => {
                     console.log(err.message)
@@ -158,7 +164,7 @@ export default function DashboardScreen() {
                         <Flower/>
                     </View>
                     <Text className="text-white text-xl font-poppinsBold mb-4">
-                        Enterprise Plan
+                        {dashboardData?.plan?.title}
                     </Text>
 
                     {/* Credits Section */}
@@ -221,7 +227,7 @@ export default function DashboardScreen() {
                     <View className="flex-1 bg-white rounded-xl p-4 mr-2 items-start">
                         <TickIcon/>
                         <Text className="text-black text-xl font-poppinsSemiBold mt-2">
-                            70%
+                            {dashboardData?.metrics?.find(m=> m.title === "Success rate").value || '0%'}
                         </Text>
                         <Text className="text-gray-400 text-xs font-poppinsMedium text-center">
                             Success rate
@@ -231,7 +237,7 @@ export default function DashboardScreen() {
                     <View className="flex-1 bg-white rounded-xl p-4 mx-1 items-start">
                         <AlertIcon/>
                         <Text className="text-black text-xl font-poppinsSemiBold mt-2">
-                            22%
+                            {dashboardData?.metrics?.find(m=> m.title === "Follow-up required").value || '0%'}
                         </Text>
                         <Text className="text-gray-400 text-xs font-poppinsMedium">
                             Follow-up required
@@ -241,7 +247,7 @@ export default function DashboardScreen() {
                     <View className="flex-1 bg-white rounded-xl p-4 ml-2 items-start">
                         <CrossIcon/>
                         <Text className="text-black text-xl font-poppinsSemiBold mt-2">
-                            8%
+                            {dashboardData?.metrics?.find(m=> m.title === "Rejection rate").value || '0%'}
                         </Text>
                         <Text className="text-gray-400 text-xs font-poppinsMedium text-center">
                             Rejection rate
@@ -254,13 +260,14 @@ export default function DashboardScreen() {
                     <View className="mx-4 mt-6 bg-white rounded-xl p-4">
                         <View className="flex-row items-center justify-between mb-4">
                             <Text className="text-black text-2xl font-poppinsSemiBold">
-                                20000
+                                {/*{dashboardData?.chart?.data?.map(item=>item?.calls).reduce((sum, val)=> sum+val, 0)}*/}
+                                {dashboardData?.chart?.total || 0}
                             </Text>
                             <TouchableOpacity className="flex-row items-center">
                                 <Text className="text-gray-500 text-sm font-poppinsMedium mr-1">
                                     Last 6 month
                                 </Text>
-                                <ChevronDown size={16} color="#6b7280"/>
+                                {/*<ChevronDown size={16} color="#6b7280"/>*/}
                             </TouchableOpacity>
                         </View>
 
@@ -294,12 +301,12 @@ export default function DashboardScreen() {
                         <View className="flex-row items-center mb-2">
                             <TrendingUp size={14}/>
                             <Text className="text-black text-sm font-poppinsMedium ml-1">
-                                Trending up by 5.2% this month
+                                Trending {parseFloat(dashboardData?.chart?.trend ?? "0") > 0 ? 'up' : 'down'} by {dashboardData?.chart?.trend} this month
                             </Text>
                         </View>
 
                         <Text className="text-gray-400 text-sm font-poppinsMedium">
-                            January - June 2024
+                            {dashboardData?.chart?.rangeLabel}
                         </Text>
                     </View>
                 </View>
