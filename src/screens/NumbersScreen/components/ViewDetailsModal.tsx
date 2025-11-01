@@ -52,7 +52,7 @@ export default function ViewDetailsModal({visible, onClose, onApply, number}: IV
                                 {/* Filter Options */}
                                 <View className="flex flex-row gap-2 items-center">
                                     <Text
-                                        className="text-red-500 font-poppinsMedium mr-2">{countryToFlag(number?.country)}</Text>
+                                        className="text-red-500 font-poppinsMedium mr-2">{number && countryToFlag(number?.country)}</Text>
                                     <Text className="font-poppinsMedium text-black text-base">
                                         {number?.number}
                                     </Text>
