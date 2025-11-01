@@ -148,6 +148,7 @@ export default function SubscriptionScreen() {
             </ScrollView>
             {/* Subscribe Button */}
             <TouchableOpacity className="bg-primary rounded-xl py-4 mx-5 items-center mb-8"
+                              disabled={isLoading || subscribeProcessing || !selectedPlan}
                               onPress={() => {
                                   setSubscribeProcessing(true);
                                   axios.post(`${BASE_URL}/subscribe/${selectedPlan?._id}`, {
