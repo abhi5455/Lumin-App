@@ -29,6 +29,7 @@ export default function NumbersScreen() {
     const [checkAvailabilityModalVisible, setCheckAvailabilityModalVisible] = useState(false);
     const [availableNumbersModalVisible, setAvailableNumbersModalVisible] = useState(false);
     const [phoneNumbers, setPhoneNumbers] = useState<IPhoneNumber[]>([]);
+    const [viewedNumber, setViewedNumber] = useState<IPhoneNumber | null>(null);
 
     const [isLoading, setIsLoading] = useState(true)
     const isFirstLoad = useRef(true);
@@ -43,6 +44,9 @@ export default function NumbersScreen() {
                 .then((res) => {
                     console.log(res.data.data)
                     setPhoneNumbers(res.data.data.numbers)
+                    if (res.data.data.numbers.length > 0) {
+                        setViewedNumber(res.data.data.numbers[0])
+                    }
                 })
                 .catch((err) => {
                     Toast.show({
@@ -130,14 +134,14 @@ export default function NumbersScreen() {
                                   className="flex-row items-center justify-between py-5 border-[1px] border-gray-100 px-3 mb-4 rounded-lg bg-white">
                                 <View className="flex flex-row items-center gap-2">
                                     {/* Canadian Flag Icon */}
-                                    <Text
-                                        className="text-red-500 font-poppinsMedium mr-2">{countryToFlag(number?.country)}</Text>
+                                    <Text className="text-red-500 font-poppinsMedium mr-2">{countryToFlag(number?.country)}</Text>
                                     <Text className="font-poppinsMedium text-black text-base">
                                         {number?.number}
                                     </Text>
                                 </View>
                                 <TouchableOpacity className="px-3 py-2.5 border-gray-200 border-[1px] rounded-md"
                                                   onPress={() => {
+                                                      setViewedNumber(number)
                                                       setViewDetailsModalVisible(true)
                                                   }}>
                                     <Text className="font-poppinsMedium text-teal-600 text-sm">
@@ -160,7 +164,8 @@ export default function NumbersScreen() {
                 setViewDetailsModalVisible(false)
             }} onApply={() => {
                 setViewDetailsModalVisible(false)
-            }}/>
+            }}
+                              number={viewedNumber as IPhoneNumber}/>
 
             {/*Check Availability Modal*/}
             <CheckAvailabilityModal visible={checkAvailabilityModalVisible} onClose={() => {
