@@ -1,10 +1,36 @@
 import {SafeAreaView, ScrollView, Text, TouchableOpacity, View} from "react-native";
-import React from "react";
+import React, {useEffect} from "react";
 import BackIcon from '../../../assets/svg/BackIcon.svg'
 import {useAppNavigation} from "../../../common/navigationHelper.ts";
+import {RouteProp, useRoute} from "@react-navigation/core";
+import axios from "axios";
+import {BASE_URL} from "../../../utils/axios.ts";
+import Toast from "react-native-toast-message";
+
+interface IChatScreenParams {
+    conversationID: string
+}
 
 export default function ChatScreen() {
+    const route = useRoute<RouteProp<{ LeadInfoScreen: IChatScreenParams }, 'LeadInfoScreen'>>();
+    const { conversationId } = route?.params;
     const navigation = useAppNavigation()
+
+    useEffect(() => {
+        axios.get(`${BASE_URL}/conversations/${conversationId}`)
+            .then((res => {
+                console.log("Conversation details ", res.data)
+            }))
+            .catch((err => {
+                console.log("Error fetching conversation details ", err)
+                Toast.show({
+                    type: 'error',
+                    text1: 'Something went wrong!',
+                    text2: err.message || '',
+                    position: "top"
+                })
+            }))
+    }, []);
 
     return (
         <SafeAreaView className="flex-1 bg-gray-50">

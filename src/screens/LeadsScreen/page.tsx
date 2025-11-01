@@ -3,7 +3,7 @@ import {EllipsisVertical, PlusCircle, Settings} from "lucide-react-native";
 import MenuIcon from '../../assets/svg/MenuIcon.svg'
 import FilterIcon from '../../assets/svg/FilterIcon.svg'
 import PhoneTickIcon from '../../assets/svg/PhoneTickIcon.svg'
-import React, {Fragment, useCallback, useRef, useState} from "react";
+import React, {Fragment, useCallback, useEffect, useRef, useState} from "react";
 import FilterModal from "../ConversationScreen/components/FilterModal.tsx";
 import {useAppNavigation} from "../../common/navigationHelper.ts";
 import ActionModal from "./components/ActionModal.tsx";
@@ -22,6 +22,7 @@ export default function LeadsScreen() {
     const [selectedLead, setSelectedLead] = useState<ILead>()
     const [isLoading, setIsLoading] = useState(true)
     const isFirstLoad = useRef(true);
+    const [filter, setFilter] = useState<string>('all');
 
     useFocusEffect(
         useCallback(() => {
@@ -29,7 +30,14 @@ export default function LeadsScreen() {
                 setIsLoading(true)
                 isFirstLoad.current = false;
             }
-            axios.get(`${BASE_URL}/leads`)
+
+            let params = {}
+            if(filter !== 'all'){
+                params = {
+                    status: filter
+                }
+            }
+            axios.get(`${BASE_URL}/leads`, {params})
                 .then((res) => {
                     console.log(res.data.data)
                     setLeads(res.data.data.leads)
@@ -45,8 +53,13 @@ export default function LeadsScreen() {
                 .finally(() => {
                     setIsLoading(false)
                 })
-        }, [triggerFetch, navigation])
+        }, [triggerFetch, navigation, filter])
     );
+
+    useEffect(() => {
+        setIsLoading(true)
+        setTriggerFetch(prev => prev + 1)
+    }, [filter]);
 
     return (
         <SafeAreaView className="flex-1 bg-gray-50 px-1">
@@ -159,7 +172,9 @@ export default function LeadsScreen() {
                 setFilterModalVisible(false)
             }} onApply={() => {
                 setFilterModalVisible(false)
-            }}/>
+            }}
+                         from={"LeadsScreen"}
+            setSelectedFilter={setFilter}/>
 
             {/* Action Modal */}
             <ActionModal

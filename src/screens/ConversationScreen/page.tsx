@@ -2,7 +2,7 @@ import {ActivityIndicator, SafeAreaView, ScrollView, Text, TouchableOpacity, Vie
 import {PhoneIncoming, Settings} from "lucide-react-native";
 import MenuIcon from '../../assets/svg/MenuIcon.svg'
 import FilterIcon from '../../assets/svg/FilterIcon.svg'
-import React, {Fragment, useCallback, useRef, useState} from "react";
+import React, {Fragment, useCallback, useEffect, useRef, useState} from "react";
 import {useAppNavigation} from "../../common/navigationHelper.ts";
 import FilterModal from "./components/FilterModal.tsx";
 import {useFocusEffect} from "@react-navigation/native";
@@ -17,6 +17,8 @@ export default function ConversationScreen() {
     const [conversations, setConversations] = useState<IConversation[]>([])
     const [isLoading, setIsLoading] = useState(true)
     const isFirstLoad = useRef(true);
+    const [filter, setFilter] = useState<string>('all');
+    const [triggerFetch, setTriggerFetch] = useState<number>(0)
 
     useFocusEffect(
         useCallback(() => {
@@ -24,7 +26,14 @@ export default function ConversationScreen() {
                 setIsLoading(true)
                 isFirstLoad.current = false;
             }
-            axios.get(`${BASE_URL}/conversations`)
+
+            let params = {}
+            if(filter !== 'all'){
+                params = {
+                    status: filter
+                }
+            }
+            axios.get(`${BASE_URL}/conversations`,{params})
                 .then((res) => {
                     setConversations(res.data.data.conversations)
                 })
@@ -39,8 +48,13 @@ export default function ConversationScreen() {
                 .finally(() => {
                     setIsLoading(false)
                 })
-        }, [navigation])
+        }, [navigation, triggerFetch])
     );
+
+    useEffect(() => {
+        setIsLoading(true)
+        setTriggerFetch(prev => prev + 1)
+    }, [filter]);
 
     return (
         <SafeAreaView className="flex-1 bg-gray-50 px-1">
@@ -139,7 +153,7 @@ export default function ConversationScreen() {
                 setFilterModalVisible(false)
             }} onApply={() => {
                 setFilterModalVisible(false)
-            }}/>
+            }} setSelectedFilter={setFilter}/>
         </SafeAreaView>
     )
 }

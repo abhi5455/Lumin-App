@@ -7,12 +7,12 @@ import {IConversation} from "../../../types/conversation.ts";
 import {RouteProp, useRoute} from "@react-navigation/core";
 import {differenceInMinutes, format} from "date-fns";
 
-interface ILeadInfoScreenPropsParams {
+interface ILeadInfoScreenParams {
     conversation: IConversation
 }
 
 export default function LeadInfoScreen() {
-    const route = useRoute<RouteProp<{ LeadInfoScreen: ILeadInfoScreenPropsParams }, 'LeadInfoScreen'>>();
+    const route = useRoute<RouteProp<{ LeadInfoScreen: ILeadInfoScreenParams }, 'LeadInfoScreen'>>();
     const { conversation } = route?.params;
     const navigation = useAppNavigation()
 
@@ -100,6 +100,9 @@ export default function LeadInfoScreen() {
                     onPress={() => {
                         navigation.navigate("SectionNavigator", {
                             screen: "ChatScreen",
+                            params: {
+                                conversationId: conversation.id
+                            }
                         });
                     }}
                 >
