@@ -26,7 +26,7 @@ export default function AccountSettingsScreen(){
     const menuItems = [
         { id: 1, title: 'My Account', icon: <PersonIcon/>, action: () => navigation.navigate('SectionNavigator', {screen: 'AccountInfoScreen'})},
         { id: 2, title: 'Transaction history', icon: <TransactionIcon/> },
-        { id: 3, title: 'Subscription', icon: <SubscriptionIcon/>},
+        { id: 3, title: 'Subscription', icon: <SubscriptionIcon/>, action: () => navigation.navigate('SectionNavigator', {screen: 'SubscriptionScreen'})},
         { id: 4, title: 'Terms of service', icon: <TOSIcon/>, action: () => navigation.navigate('SectionNavigator', {screen: 'TermsOfServices'})},
         { id: 5, title: 'Privacy Policy', icon: <PrivacyIcon/>, action: () => navigation.navigate('SectionNavigator', {screen: 'PrivacyPolicy'}) },
         { id: 6, title: 'Refund Policy', icon: <RefundIcon/>, action: () => navigation.navigate('SectionNavigator', {screen: 'RefundPolicy'}) },

@@ -95,90 +95,91 @@ export default function SubscriptionScreen() {
                     <>
 
                         {/* Pricing Cards */}
-                        <View className="flex gap-5 mb-8 mt-3">
-                            {/* Plans */}
-                            {subscriptionPlans.map((plan) => (
-                                <TouchableOpacity
-                                    className={`border-[1.25px] border-primary ${selectedPlan === plan ? 'bg-primary' : 'bg-white'} rounded-xl p-4`}
-                                    key={plan._id}
-                                    onPress={() => setSelectedPlan(plan)}>
-                                    <View className="flex-row justify-between items-center">
-                                        <Text
-                                            className={`${selectedPlan === plan ? 'text-white' : 'text-black'} text-lg font-poppinsSemiBold`}>{plan?.title}</Text>
-                                        <Text
-                                            className={`${selectedPlan === plan ? 'text-white' : 'text-gray-400'} text-base font-poppinsMedium`}>
-                                            {selectedBillingCycle === 'monthly'
-                                                ? `${getCurrencySymbol(plan?.currency || '')}${plan?.price_monthly || 0} per month`
-                                                : `${getCurrencySymbol(plan?.currency || '')}${plan?.price_yearly || 0} per year`}
-                                        </Text>
-                                    </View>
-                                </TouchableOpacity>
-                            ))}
-                        </View>
-
-                        {/* Features Section */}
-                        <View className="mb-8 px-1">
-                            <Text className="text-black text-2xl font-poppinsSemiBold mb-6 leading-8">
-                                Boost your productivity
-                            </Text>
-
-                            <View className="flex flex-col gap-3">
-                                {/* Features */}
-                                {selectedPlan?.benefits?.map((benefit, index) => (
-                                    <View className="flex-row items-start" key={index}>
-                                        <View
-                                            className="p-1 bg-[#b6d7d2] rounded-md items-center justify-center mr-3 mt-0.5">
-                                            <Check color={'#178671'} size={20}/>
+                            <View className="flex gap-5 mb-8 mt-3">
+                                {/* Plans */}
+                                {subscriptionPlans.map((plan) => (
+                                    <TouchableOpacity
+                                        className={`border-[1.25px] border-primary ${selectedPlan === plan ? 'bg-primary' : 'bg-white'} rounded-xl p-4`}
+                                        key={plan._id}
+                                        onPress={() => setSelectedPlan(plan)}>
+                                        <View className="flex-row justify-between items-center">
+                                            <Text
+                                                className={`${selectedPlan === plan ? 'text-white' : 'text-black'} text-lg font-poppinsSemiBold`}>{plan?.title}</Text>
+                                            <Text
+                                                className={`${selectedPlan === plan ? 'text-white' : 'text-gray-400'} text-base font-poppinsMedium`}>
+                                                {selectedBillingCycle === 'monthly'
+                                                    ? `${getCurrencySymbol(plan?.currency || '')}${plan?.price_monthly || 0} per month`
+                                                    : `${getCurrencySymbol(plan?.currency || '')}${plan?.price_yearly || 0} per year`}
+                                            </Text>
                                         </View>
-                                        <Text
-                                            className="text-gray-700 text-base font-poppinsMedium flex-1 leading-6">
-                                            {benefit}
-                                        </Text>
-                                    </View>
+                                    </TouchableOpacity>
                                 ))}
                             </View>
-                        </View>
 
-                        {/* Subscribe Button */}
-                        <TouchableOpacity className="bg-primary rounded-xl py-4 items-center mb-8"
-                                          onPress={() => {
-                                              setSubscribeProcessing(true);
-                                              axios.post(`${BASE_URL}/subscribe/${selectedPlan?._id}`, {
-                                                  billing_cycle: selectedBillingCycle
-                                              })
-                                                  .then((res => {
-                                                      console.log("Subscribe return ", res.data.data)
-                                                      console.log("URL ", res.data.data.checkoutUrl)
-                                                      if (res.data.data.checkoutUrl) {
-                                                          openURL(res.data.data.checkoutUrl)
-                                                      }
-                                                  }))
-                                                  .catch((err => {
-                                                      Toast.show({
-                                                          type: 'error',
-                                                          text1: 'Something went wrong!',
-                                                          text2: err.message || '',
-                                                          position: "top"
-                                                      })
-                                                  }))
-                                                  .finally(() => {
-                                                      setSubscribeProcessing(false);
-                                                  })
-                                          }}>
-                            {!subscribeProcessing ?
-                                <Text className="text-white text-lg font-poppinsSemiBold">Subscribe</Text>
-                                :
-                                <View>
-                                    <ActivityIndicator color={'#FFFFFF'} size={25} className={''}/>
+                        {/* Features Section */}
+                            <View className="mb-8 px-1">
+                                <Text className="text-black text-2xl font-poppinsSemiBold mb-6 leading-8">
+                                    Boost your productivity
+                                </Text>
+
+                                <View className="flex flex-col gap-3">
+                                    {/* Features */}
+                                    {selectedPlan?.benefits?.map((benefit, index) => (
+                                        <View className="flex-row items-start" key={index}>
+                                            <View
+                                                className="p-1 bg-[#b6d7d2] rounded-md items-center justify-center mr-3 mt-0.5">
+                                                <Check color={'#178671'} size={20}/>
+                                            </View>
+                                            <Text
+                                                className="text-gray-700 text-base font-poppinsMedium flex-1 leading-6">
+                                                {benefit}
+                                            </Text>
+                                        </View>
+                                    ))}
                                 </View>
-                            }
-                        </TouchableOpacity>
+                            </View>
+
+
                     </> :
                     <View className="py-[200px]">
                         <ActivityIndicator color={'#178671'} size={40} className={''}/>
                     </View>
                 }
             </ScrollView>
+            {/* Subscribe Button */}
+            <TouchableOpacity className="bg-primary rounded-xl py-4 mx-5 items-center mb-8"
+                              onPress={() => {
+                                  setSubscribeProcessing(true);
+                                  axios.post(`${BASE_URL}/subscribe/${selectedPlan?._id}`, {
+                                      billing_cycle: selectedBillingCycle
+                                  })
+                                      .then((res => {
+                                          console.log("Subscribe return ", res.data.data)
+                                          console.log("URL ", res.data.data.checkoutUrl)
+                                          if (res.data.data.checkoutUrl) {
+                                              openURL(res.data.data.checkoutUrl)
+                                          }
+                                      }))
+                                      .catch((err => {
+                                          Toast.show({
+                                              type: 'error',
+                                              text1: 'Something went wrong!',
+                                              text2: err.message || '',
+                                              position: "top"
+                                          })
+                                      }))
+                                      .finally(() => {
+                                          setSubscribeProcessing(false);
+                                      })
+                              }}>
+                {!subscribeProcessing ?
+                    <Text className="text-white text-lg font-poppinsSemiBold">Subscribe</Text>
+                    :
+                    <View>
+                        <ActivityIndicator color={'#FFFFFF'} size={25} className={''}/>
+                    </View>
+                }
+            </TouchableOpacity>
         </SafeAreaView>
     );
 };
