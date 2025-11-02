@@ -13,11 +13,7 @@ import NumbersIcon from '../../assets/svg/NumbersIcon.svg'
 import NumbersIconActive from '../../assets/svg/NumbersIconActive.svg'
 import {useEffect, useState} from "react";
 import {getFocusedRouteNameFromRoute} from "@react-navigation/native";
-import DashboardScreen from "../../screens/DashboardScreen/page.tsx";
-import ConversationScreen from "../../screens/ConversationScreen/page.tsx";
-import LeadsScreen from "../../screens/LeadsScreen/page.tsx";
-import AgentScreen from "../../screens/AgentScreen/page.tsx";
-import NumbersScreen from "../../screens/NumbersScreen/page.tsx";
+import AlumniScreen from "../../screens/AlumniScreen";
 
 export default function TabNavigator() {
     const Tab = createBottomTabNavigator()
@@ -63,7 +59,7 @@ export default function TabNavigator() {
         >
             <Tab.Screen
                 name="DashboardScreen"
-                component={DashboardScreen}
+                component={AlumniScreen}
                 options={({route}) => ({
                     tabBarLabel: ({focused}) => (
                         <Text
@@ -109,7 +105,7 @@ export default function TabNavigator() {
             />
             <Tab.Screen
                 name="ConversationScreen"
-                component={ConversationScreen}
+                component={AlumniScreen}
                 options={({route}) => ({
                     tabBarLabel: ({focused}) => (
                         <Text
@@ -161,7 +157,7 @@ export default function TabNavigator() {
             />
             <Tab.Screen
                 name="LeadsScreen"
-                component={LeadsScreen}
+                component={AlumniScreen}
                 options={({route}) => ({
                     tabBarLabel: ({focused}) => (
                         <Text
@@ -209,7 +205,7 @@ export default function TabNavigator() {
             />
             <Tab.Screen
                 name="AgentScreen"
-                component={AgentScreen}
+                component={AlumniScreen}
                 options={({route}) => ({
                     tabBarLabel: ({focused}) => (
                         <Text
@@ -257,7 +253,7 @@ export default function TabNavigator() {
             />
             <Tab.Screen
                 name="NumbersScreen"
-                component={NumbersScreen}
+                component={AlumniScreen}
                 options={({route}) => ({
                     tabBarLabel: ({focused}) => (
                         <Text
