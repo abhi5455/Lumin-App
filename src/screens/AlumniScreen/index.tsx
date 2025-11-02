@@ -1,6 +1,6 @@
 import {ScrollView, StatusBar, Text, TextInput, TouchableOpacity, View} from "react-native";
 import {SafeAreaProvider} from "react-native-safe-area-context";
-import {Fuel, Funnel, Linkedin, Mail, Mailbox, Search} from "lucide-react-native";
+import {Funnel, Search} from "lucide-react-native";
 import AlumniCard from "./components/AlumniCard.tsx";
 
 export default function AlumniScreen() {
