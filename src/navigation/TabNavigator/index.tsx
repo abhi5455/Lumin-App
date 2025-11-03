@@ -1,16 +1,14 @@
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {Dimensions, StyleSheet, View, Text} from "react-native";
 import AnimIcon from "../../common/AnimIcon.tsx";
-import DashboardIcon from '../../assets/svg/DashboardIcon.svg'
-import DashboardIconActive from '../../assets/svg/DashboardIconActive.svg'
-import ConversationIcon from '../../assets/svg/ConversationIcon.svg'
-import ConversationIconActive from '../../assets/svg/ConversationIconActive.svg'
-import LeadsIcon from '../../assets/svg/LeadsIcon.svg'
-import LeadsIconActive from '../../assets/svg/LeadsIconActive.svg'
-import AgentIcon from '../../assets/svg/AgentIcon.svg'
-import AgentIconActive from '../../assets/svg/AgentIconActive.svg'
-import NumbersIcon from '../../assets/svg/NumbersIcon.svg'
-import NumbersIconActive from '../../assets/svg/NumbersIconActive.svg'
+import ProfileIcon from '../../assets/svg/ProfileIcon.svg'
+import ProfileIconActive from '../../assets/svg/ProfileIconActive.svg'
+import ResourceIcon from '../../assets/svg/ResourceIcon.svg'
+import ResourceIconActive from '../../assets/svg/ResourceIconActive.svg'
+import CompanyIcon from '../../assets/svg/CompanyIcon.svg'
+import CompanyIconActive from '../../assets/svg/CompanyIconActive.svg'
+import AlumniIcon from '../../assets/svg/AlumniIcon.svg'
+import AlumniIconActive from '../../assets/svg/AlumniIconActive.svg'
 import {useEffect, useState} from "react";
 import {getFocusedRouteNameFromRoute} from "@react-navigation/native";
 import AlumniScreen from "../../screens/AlumniScreen";
@@ -83,16 +81,16 @@ export default function TabNavigator() {
                                     ]
                             }
                         >
-                            Dashboard
+                            Alumni
                         </Text>
                     ),
                     tabBarIcon: ({focused, color}) => {
                         return (
                             <AnimIcon focused={focused} color={color}>
                                 {focused ? (
-                                    <DashboardIconActive/>
+                                    <AlumniIconActive/>
                                 ) : (
-                                    <DashboardIcon/>
+                                    <AlumniIcon/>
                                 )}
                             </AnimIcon>
                         );
@@ -133,7 +131,7 @@ export default function TabNavigator() {
                                     ]
                             }
                         >
-                            Conversation
+                            Companies
                         </Text>
                     ),
                     tabBarIcon: ({focused, color}) => {
@@ -141,10 +139,10 @@ export default function TabNavigator() {
                             <AnimIcon focused={focused} color={color}>
                                 {focused ? (
                                     <View>
-                                        <ConversationIconActive/>
+                                        <CompanyIconActive/>
                                     </View>
                                 ) : (
-                                    <ConversationIcon/>
+                                    <CompanyIcon/>
                                 )}
                             </AnimIcon>
                         );
@@ -181,7 +179,7 @@ export default function TabNavigator() {
                                     ]
                             }
                         >
-                            Leads
+                            Resources
                         </Text>
                     ),
                     tabBarIcon: ({focused, color}) => {
@@ -189,58 +187,10 @@ export default function TabNavigator() {
                             <AnimIcon focused={focused} color={color}>
                                 {focused ? (
                                     <View>
-                                        <LeadsIconActive/>
+                                        <ResourceIconActive/>
                                     </View>
                                 ) : (
-                                    <LeadsIcon/>
-                                )}
-                            </AnimIcon>
-                        );
-                    },
-                    tabBarStyle: {
-                        ...styles.tabBar,
-                        display: isTabBarVisible(route),
-                    },
-                })}
-            />
-            <Tab.Screen
-                name="AgentScreen"
-                component={AlumniScreen}
-                options={({route}) => ({
-                    tabBarLabel: ({focused}) => (
-                        <Text
-                            style={
-                                focused
-                                    ? [
-                                        styles.activeLabel,
-                                        {
-                                            top: orientation == "landscape" ? 28 : 1,
-                                            right: orientation == "landscape" ? 16 : 0,
-                                            color: "#178671",
-                                        },
-                                    ]
-                                    : [
-                                        styles.inActiveLabel,
-                                        {
-                                            top: orientation == "landscape" ? 28 : 1,
-                                            right: orientation == "landscape" ? 16 : 0,
-                                            color: "#889baf",
-                                        },
-                                    ]
-                            }
-                        >
-                            Agent
-                        </Text>
-                    ),
-                    tabBarIcon: ({focused, color}) => {
-                        return (
-                            <AnimIcon focused={focused} color={color}>
-                                {focused ? (
-                                    <View>
-                                        <AgentIconActive/>
-                                    </View>
-                                ) : (
-                                    <AgentIcon/>
+                                    <ResourceIcon/>
                                 )}
                             </AnimIcon>
                         );
@@ -277,7 +227,7 @@ export default function TabNavigator() {
                                     ]
                             }
                         >
-                            Numbers
+                            Profile
                         </Text>
                     ),
                     tabBarIcon: ({focused, color}) => {
@@ -285,10 +235,10 @@ export default function TabNavigator() {
                             <AnimIcon focused={focused} color={color}>
                                 {focused ? (
                                     <View>
-                                        <NumbersIconActive/>
+                                        <ProfileIconActive/>
                                     </View>
                                 ) : (
-                                    <NumbersIcon/>
+                                    <ProfileIcon/>
                                 )}
                             </AnimIcon>
                         );
