@@ -1,7 +1,6 @@
 import {Text, TouchableOpacity, View} from "react-native";
 import LinkedinIcon from "../../../assets/svg/appIcons/linkedinIcon.svg";
 import MailIcon from "../../../assets/svg/appIcons/mailIcon.svg";
-import {Building, Building2, GraduationCap, History, Linkedin, Mail} from "lucide-react-native";
 
 export default function AlumniCard() {
     return (
