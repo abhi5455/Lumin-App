@@ -1,8 +1,11 @@
 import {Text, TouchableOpacity, View} from "react-native";
-import LinkedinIcon from "../../../assets/svg/appIcons/linkedinIcon.svg";
 import MailIcon from "../../../assets/svg/appIcons/mailIcon.svg";
+import { ChevronUpCircle } from "lucide-react-native";
+import {useAppNavigation} from "../../../common/navigationHelper.ts";
 
 export default function AlumniCard() {
+    const navigation = useAppNavigation()
+
     return (
         <View className="flex flex-col justify-center p-4 border border-gray-300 rounded-xl">
             <View className="flex flex-row items-center gap-4">
@@ -32,10 +35,18 @@ export default function AlumniCard() {
             </View>
             <View className="flex flex-row gap-2">
                 <TouchableOpacity
-                    className="flex flex-1 flex-row justify-center items-center gap-2 mt-4 bg-primary py-2 rounded-xl">
-                    {/*<Linkedin size={20} color={"#FFF"}/>*/}
-                    <LinkedinIcon/>
-                    <Text className="text-white font-poppinsMedium text-[14px]">Connect</Text>
+                    className="flex flex-1 flex-row justify-center items-center gap-2 mt-4 bg-primary py-2 rounded-xl"
+                onPress={() => {
+                    navigation.navigate("SectionNavigator", {
+                        screen: "AlumniDetailsScreen",
+                        params: {
+                            alumnusId: "alumnus_1"
+                        }
+                    })
+                }}>
+                    <ChevronUpCircle size={21} color={"#FFF"}/>
+                    {/*<LinkedinIcon/>*/}
+                    <Text className="text-white font-poppinsMedium text-[14px]">View</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     className="flex flex-1 flex-row justify-center items-center gap-2 mt-4 border border-gray-300 py-2 rounded-xl">
