@@ -68,7 +68,7 @@ export default function TabNavigator() {
                                         {
                                             top: orientation == "landscape" ? 28 : 1,
                                             right: orientation == "landscape" ? 16 : 0,
-                                            color: "#178671",
+                                            color: "#00796E",
                                         },
                                     ]
                                     : [
@@ -88,7 +88,9 @@ export default function TabNavigator() {
                         return (
                             <AnimIcon focused={focused} color={color}>
                                 {focused ? (
-                                    <AlumniIconActive/>
+                                    <View className="bg-primary/10 p-1 px-3 rounded-2xl">
+                                        <AlumniIconActive/>
+                                    </View>
                                 ) : (
                                     <AlumniIcon/>
                                 )}
@@ -114,7 +116,7 @@ export default function TabNavigator() {
                                         {
                                             top: orientation == "landscape" ? 28 : 1,
                                             right: orientation == "landscape" ? 16 : 0,
-                                            color: "#178671",
+                                            color: "#00796E",
                                             width: 85,
                                             textAlign: "center",
                                         },
@@ -138,7 +140,7 @@ export default function TabNavigator() {
                         return (
                             <AnimIcon focused={focused} color={color}>
                                 {focused ? (
-                                    <View>
+                                    <View className="bg-primary/10 p-1 px-3 rounded-2xl">
                                         <CompanyIconActive/>
                                     </View>
                                 ) : (
@@ -166,7 +168,7 @@ export default function TabNavigator() {
                                         {
                                             top: orientation == "landscape" ? 28 : 1,
                                             right: orientation == "landscape" ? 16 : 0,
-                                            color: "#178671",
+                                            color: "#00796E",
                                         },
                                     ]
                                     : [
@@ -186,7 +188,7 @@ export default function TabNavigator() {
                         return (
                             <AnimIcon focused={focused} color={color}>
                                 {focused ? (
-                                    <View>
+                                    <View className="bg-primary/10 p-1 px-3 rounded-2xl">
                                         <ResourceIconActive/>
                                     </View>
                                 ) : (
@@ -214,7 +216,7 @@ export default function TabNavigator() {
                                         {
                                             top: orientation == "landscape" ? 28 : 1,
                                             right: orientation == "landscape" ? 16 : 0,
-                                            color: "#178671",
+                                            color: "#00796E",
                                         },
                                     ]
                                     : [
@@ -234,7 +236,7 @@ export default function TabNavigator() {
                         return (
                             <AnimIcon focused={focused} color={color}>
                                 {focused ? (
-                                    <View>
+                                    <View className="bg-primary/10 p-1 px-3 rounded-2xl">
                                         <ProfileIconActive/>
                                     </View>
                                 ) : (
@@ -256,8 +258,8 @@ export default function TabNavigator() {
 const styles = StyleSheet.create({
     tabBar: {
         backgroundColor: '#FFFFFF',
-        borderTopWidth: 1,
-        borderTopColor: '#FFFFFF',
+        borderTopWidth: 0.5,
+        borderTopColor: '#D1D5DBB3',
         alignItems: "center",
         justifyContent: "center",
         alignSelf: "center",
@@ -272,6 +274,10 @@ const styles = StyleSheet.create({
         fontSize: 10,
         lineHeight: 13.13,
         // top: responsiveSize(-10),
+        // backgroundColor: "#00B19F1A",
+        paddingHorizontal: 7,
+        paddingVertical: 2,
+        borderRadius: 50,
         borderWidth: 0,
     },
     inActiveLabel: {
@@ -280,6 +286,7 @@ const styles = StyleSheet.create({
         fontSize: 10,
         lineHeight: 13.13,
         top: -10,
+        marginTop: 1.8
     },
     activeWrapper: {
         borderWidth: 0,
