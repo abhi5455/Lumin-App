@@ -6,7 +6,7 @@ export default function ProfileScreen() {
         <SafeAreaProvider className="flex-1">
             <StatusBar barStyle="light-content" backgroundColor={'#00b19f'}/>
             <View className="bg-primary h-[65px] justify-center px-5">
-                <Text className="font-poppinsLight text-white text-2xl">User Profile</Text>
+                <Text className="font-poppinsLight text-white text-2xl">My Profile</Text>
             </View>
 
             <View className="bg-primary flex-1">
