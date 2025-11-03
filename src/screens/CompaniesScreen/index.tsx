@@ -19,7 +19,7 @@ export default function CompaniesScreen() {
                             className="flex-1 flex flex-row justify-start items-center border border-gray-300 rounded-xl pr-4 pl-3 py-1 gap-1.5">
                             <Search size={20} color={"#999999"}/>
                             <TextInput
-                                placeholder={"Search Alumni"} className="text-black flex-1"
+                                placeholder={"Search Company"} className="text-black flex-1"
                                 placeholderTextColor={"#999999"}
                             />
                         </View>
