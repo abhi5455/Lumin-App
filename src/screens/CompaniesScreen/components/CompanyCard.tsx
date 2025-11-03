@@ -1,17 +1,5 @@
 import {Text, TouchableOpacity, View} from "react-native";
-import LinkedinIcon from "../../../assets/svg/appIcons/linkedinIcon.svg";
-import MailIcon from "../../../assets/svg/appIcons/mailIcon.svg";
-import {
-    Building,
-    Building2,
-    Calendar, ExternalLink,
-    GraduationCap,
-    History,
-    Linkedin,
-    LockOpen,
-    Mail,
-    MapPin
-} from "lucide-react-native";
+import { Calendar, ExternalLink, MapPin } from "lucide-react-native";
 
 export default function CompanyCard() {
     return (
