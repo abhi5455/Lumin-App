@@ -1,15 +1,15 @@
 import {ScrollView, StatusBar, Text, TextInput, TouchableOpacity, View} from "react-native";
 import {SafeAreaProvider} from "react-native-safe-area-context";
 import {Funnel, Search} from "lucide-react-native";
-import AlumniCard from "./components/AlumniCard.tsx";
+import CompanyCard from "./components/CompanyCard.tsx";
 
-export default function AlumniScreen() {
+export default function CompaniesScreen() {
 
     return (
         <SafeAreaProvider className="flex-1">
             <StatusBar barStyle="light-content" backgroundColor={'#00b19f'}/>
             <View className="bg-primary h-[65px] justify-center px-5">
-                <Text className="font-poppinsLight text-white text-2xl">Alumni Network</Text>
+                <Text className="font-poppinsLight text-white text-2xl">Recruited Companies</Text>
             </View>
 
             <View className="bg-primary flex-1">
@@ -31,7 +31,7 @@ export default function AlumniScreen() {
 
                         {[1, 2, 3, 4, 5].map((alumnus, index) => (
                             <View key={index} className="mb-5">
-                                <AlumniCard/>
+                                <CompanyCard/>
                             </View>
                         ))}
 

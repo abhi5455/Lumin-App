@@ -12,6 +12,9 @@ import AlumniIconActive from '../../assets/svg/AlumniIconActive.svg'
 import {useEffect, useState} from "react";
 import {getFocusedRouteNameFromRoute} from "@react-navigation/native";
 import AlumniScreen from "../../screens/AlumniScreen";
+import CompaniesScreen from "../../screens/CompaniesScreen";
+import ResourceScreen from "../../screens/ResourceScreen";
+import ProfileScreen from "../../screens/ProfileScreen";
 
 export default function TabNavigator() {
     const Tab = createBottomTabNavigator()
@@ -56,7 +59,7 @@ export default function TabNavigator() {
             }}
         >
             <Tab.Screen
-                name="DashboardScreen"
+                name="AlumniScreen"
                 component={AlumniScreen}
                 options={({route}) => ({
                     tabBarLabel: ({focused}) => (
@@ -104,8 +107,8 @@ export default function TabNavigator() {
                 })}
             />
             <Tab.Screen
-                name="ConversationScreen"
-                component={AlumniScreen}
+                name="CompaniesScreen"
+                component={CompaniesScreen}
                 options={({route}) => ({
                     tabBarLabel: ({focused}) => (
                         <Text
@@ -156,8 +159,8 @@ export default function TabNavigator() {
                 })}
             />
             <Tab.Screen
-                name="LeadsScreen"
-                component={AlumniScreen}
+                name="ResourceScreen"
+                component={ResourceScreen}
                 options={({route}) => ({
                     tabBarLabel: ({focused}) => (
                         <Text
@@ -204,8 +207,8 @@ export default function TabNavigator() {
                 })}
             />
             <Tab.Screen
-                name="NumbersScreen"
-                component={AlumniScreen}
+                name="ProfileScreen"
+                component={ProfileScreen}
                 options={({route}) => ({
                     tabBarLabel: ({focused}) => (
                         <Text
