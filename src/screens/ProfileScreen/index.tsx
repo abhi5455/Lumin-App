@@ -17,55 +17,55 @@ const profileOptions = [
     {
         title: "My Profile",
         subtitle: "View and update your personal details",
-        icon: <User size={19} color={"#DAA520"}/>,
+        icon: <User size={20} color={"#006a63"}/>,
         action: () => console.log("Navigate to My Profile"),
     },
     {
         title: "Change Password",
         subtitle: "Update your account credentials",
-        icon: <Lock size={19} color={"#DAA520"}/>,
+        icon: <Lock size={20} color={"#006a63"}/>,
         action: () => console.log("Navigate to Change Password"),
     },
     {
         title: "Help Center",
         subtitle: "Get support and find FAQs",
-        icon: <HelpCircle size={19} color={"#DAA520"}/>,
+        icon: <HelpCircle size={20} color={"#006a63"}/>,
         action: () => console.log("Navigate to Help Center"),
     },
     {
         title: "Terms & Conditions",
         subtitle: "Read the app’s usage policies",
-        icon: <FileText size={19} color={"#DAA520"}/>,
+        icon: <FileText size={20} color={"#006a63"}/>,
         action: () => console.log("Navigate to Terms & Conditions"),
     },
     {
         title: "Privacy Policy",
         subtitle: "Understand how we protect your data",
-        icon: <Shield size={19} color={"#DAA520"}/>,
+        icon: <Shield size={20} color={"#006a63"}/>,
         action: () => console.log("Navigate to Privacy Policy"),
     },
     {
         title: "Create Alumni",
         subtitle: "Add a new alumni record",
-        icon: <UserPlus size={19} color={"#DAA520"}/>,
+        icon: <UserPlus size={20} color={"#006a63"}/>,
         action: () => console.log("Navigate to Create Alumni"),
     },
     {
         title: "Edit Alumni",
         subtitle: "Modify existing alumni details",
-        icon: <Edit size={19} color={"#DAA520"}/>,
+        icon: <Edit size={20} color={"#006a63"}/>,
         action: () => console.log("Navigate to Edit Alumni"),
     },
     {
         title: "Create Company",
         subtitle: "Register a new company profile",
-        icon: <Building size={19} color={"#DAA520"}/>,
+        icon: <Building size={20} color={"#006a63"}/>,
         action: () => console.log("Navigate to Create Company"),
     },
     {
         title: "Edit Company",
         subtitle: "Update company information",
-        icon: <Edit3 size={19} color={"#DAA520"}/>,
+        icon: <Edit3 size={20} color={"#006a63"}/>,
         action: () => console.log("Navigate to Edit Company"),
     },
 
@@ -73,13 +73,13 @@ const profileOptions = [
     {
         title: "Logout",
         subtitle: "Sign out from your account",
-        icon: <LogOut size={19} color={"#DAA520"}/>,
+        icon: <LogOut size={20} color={"#006a63"}/>,
         action: () => console.log("Logout User"),
     },
     {
         title: "Delete Account",
         subtitle: "Permanently remove your account",
-        icon: <Trash2 size={19} color={"#DAA520"}/>,
+        icon: <Trash2 size={20} color={"#006a63"}/>,
         action: () => console.log("Delete Account"),
     },
 ];
@@ -98,7 +98,7 @@ export default function ProfileScreen() {
                 <View className="bg-white flex-1 rounded-t-[30px] px-4 flex justify-start items-center py-4">
                     <View className="flex flex-col justify-center items-center gap-2 mb-2">
                         <View className="flex items-center justify-center bg-primary rounded-full h-20 w-20">
-                            <Text className="text-white font-poppinsMedium">AB</Text>
+                            <Text className="text-white font-poppinsMedium text-lg">AB</Text>
                         </View>
                         <View className="flex flex-col justify-center items-center">
                             <Text className="font-poppinsMedium text-[18px]">Alice Brown</Text>
@@ -115,7 +115,7 @@ export default function ProfileScreen() {
                                 onPress={item?.action}>
                                 <View className="flex flex-row items-center gap-4">
                                     <View
-                                        className="flex justify-center items-center self-start mt-2 ml-2 bg-[#DAA520]/10 w-12 h-12 rounded-full">
+                                        className="flex justify-center items-center self-start ml-2  bg-primary/10  w-[50px] h-[50px] rounded-full">
                                         {item?.icon}
                                     </View>
                                     <View className="">
@@ -123,10 +123,10 @@ export default function ProfileScreen() {
                                         <Text className="font-poppinsLight text-gray-600">{item?.subtitle}</Text>
                                     </View>
                                 </View>
-                                <ChevronRight size={19} color={"#DAA520"}/>
+                                <ChevronRight size={20} color={"#006a63"}/>
                             </TouchableOpacity>
                         ))}
-                        <View className="h-[100px]"/>
+                        <View className="h-[50px]"/>
                     </ScrollView>
                 </View>
             </View>
