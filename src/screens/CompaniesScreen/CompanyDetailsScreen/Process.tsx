@@ -53,7 +53,7 @@ export default function Process() {
 
                 <View className="flex flex-col items-center gap-3 mb-5">
                     {recruitmentProcesses?.map((item, index) => (
-                        <View className="flex flex-row items-center gap-1 mx-5">
+                        <View className="flex flex-row items-center gap-1 mx-5" key={index}>
                             <View className="flex flex-col items-center gap-2">
                                 <View
                                     className="flex justify-center items-center h-[20px] w-[20px] bg-primary rounded-full">
