@@ -1,5 +1,5 @@
 import {Text, View} from "react-native";
-import {Banknote, HandCoins, History, PiggyBank, TrendingUp, User} from "lucide-react-native";
+import { HandCoins, Handshake, History, TrendingUp, User } from "lucide-react-native";
 
 export default function About() {
     return (
@@ -74,6 +74,22 @@ export default function About() {
                     </Text>
                 </View>
             </View>
+            <View
+                className="flex flex-row justify-center gap-2 border-[1px] bg-gray-100/35 border-primary rounded-xl p-2 mx-5 mt-5 pb-3">
+                <View
+                    className="flex justify-center items-center self-start mt-2 ml-2 bg-[#DAA520]/10 w-12 h-12 rounded-full">
+                    <Handshake size={19} color={"#DAA520"}/>
+                </View>
+                <View className="flex-1 flex-row items-center gap-5 pr-10">
+                    <Text className="font-poppinsMedium text-lg">
+                        Service Agreement:
+                    </Text>
+                    <Text className="font-poppinsMedium text-lg text-[#006a63]">
+                        2 yrs
+                    </Text>
+                </View>
+            </View>
+
             <View className="min-h-[50px]"/>
         </>
     )
