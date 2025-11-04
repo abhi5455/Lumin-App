@@ -93,7 +93,7 @@ export default function ProfileScreen() {
             </View>
 
             <View className="bg-primary flex-1">
-                <View className="bg-white flex-1 rounded-t-[30px] px-4 flex justify-start items-center py-4">
+                <ScrollView className="bg-white flex-1 rounded-t-[30px] px-4 flex py-4">
                     <View className="flex flex-col justify-center items-center gap-2 mb-2">
                         <View className="flex items-center justify-center bg-primary rounded-full h-20 w-20">
                             <Text className="text-white font-poppinsMedium text-lg">AB</Text>
@@ -104,12 +104,12 @@ export default function ProfileScreen() {
                                 TechCorp</Text>
                         </View>
                     </View>
-                    <ScrollView className="mt-5 flex-1 flex flex-col gap-5 self-stretch">
-                        <View className="h-[1px] self-stretch bg-gray-100 mb-5"/>
+                    <View className="mt-5 flex-1 flex flex-col gap-5 self-stretch">
+                        <View className="h-[1px] self-stretch bg-gray-100 mb-1"/>
 
                         {profileOptions?.map((item, index) => (
                             <TouchableOpacity
-                                className="flex flex-row items-center justify-between border-b-[1px] border-gray-100 pb-5 mb-5"
+                                className="flex flex-row items-center justify-between border-b-[1px] border-gray-100 pb-5"
                                 key={index}
                                 onPress={item?.action}>
                                 <View className="flex flex-row items-center gap-4">
@@ -125,9 +125,9 @@ export default function ProfileScreen() {
                                 <ChevronRight size={21} color={"#006a63"}/>
                             </TouchableOpacity>
                         ))}
-                        <View className="h-[50px]"/>
-                    </ScrollView>
-                </View>
+                        <View className="h-[85px]"/>
+                    </View>
+                </ScrollView>
             </View>
         </SafeAreaView>
     )
