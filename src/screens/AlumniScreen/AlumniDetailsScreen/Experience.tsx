@@ -13,7 +13,7 @@ export default function Experience() {
                     <Text className="font-poppinsMedium text-[13px] text-[#006a63]">
                         2025
                     </Text>
-                    <Text className="font-poppins text-[17px]">Software Engineer</Text>
+                    <Text className="font-poppins text-black text-lg">Software Engineer</Text>
                     <Text className="font-poppins text-[#DAA520]">TechCorp</Text>
                 </View>
             </View>
@@ -27,7 +27,7 @@ export default function Experience() {
                     <Text className="font-poppinsMedium text-[13px] text-[#006a63]">
                         2025
                     </Text>
-                    <Text className="font-poppins text-[17px]">Software Engineer</Text>
+                    <Text className="font-poppins text-black text-lg">Software Engineer</Text>
                     <Text className="font-poppins text-[#DAA520]">TechCorp</Text>
                 </View>
             </View>
