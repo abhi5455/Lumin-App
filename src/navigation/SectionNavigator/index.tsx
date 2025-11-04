@@ -2,6 +2,7 @@ import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import WelcomeScreen from "../../screens/OnboardingScreens/WelcomeScreen.tsx";
 import RegisterScreen from "../../screens/OnboardingScreens/RegisterScreen.tsx";
 import AlumniDetailsScreen from "../../screens/AlumniScreen/AlumniDetailsScreen";
+import CompanyDetailsScreen from "../../screens/CompaniesScreen/CompanyDetailsScreen";
 
 export default function SectionNavigator() {
     const Stack = createNativeStackNavigator()
@@ -23,6 +24,11 @@ export default function SectionNavigator() {
                 name="AlumniDetailsScreen"
                 options={{headerShown: false, gestureEnabled: false}}
                 component={AlumniDetailsScreen}
+            />
+            <Stack.Screen
+                name="CompanyDetailsScreen"
+                options={{headerShown: false, gestureEnabled: false}}
+                component={CompanyDetailsScreen}
             />
         </Stack.Navigator>
     )

@@ -1,7 +1,10 @@
 import {Text, TouchableOpacity, View} from "react-native";
-import { Calendar, ExternalLink, MapPin } from "lucide-react-native";
+import {Calendar, ExternalLink, MapPin} from "lucide-react-native";
+import {useAppNavigation} from "../../../common/navigationHelper.ts";
 
 export default function CompanyCard() {
+    const navigation = useAppNavigation()
+
     return (
         <View className="flex flex-col justify-center p-4 border border-gray-300 rounded-xl">
             <View className="flex flex-row items-center gap-4">
@@ -41,7 +44,15 @@ export default function CompanyCard() {
             </View>
             <View className="flex flex-row gap-2">
                 <TouchableOpacity
-                    className="flex flex-1 flex-row justify-center items-center gap-2 mt-4 bg-primary py-2 rounded-xl">
+                    className="flex flex-1 flex-row justify-center items-center gap-2 mt-4 bg-primary py-2 rounded-xl"
+                    onPress={() => {
+                        navigation.navigate("SectionNavigator", {
+                            screen: "CompanyDetailsScreen",
+                            params: {
+                                companyId: "company_1"
+                            }
+                        })
+                    }}>
                     <ExternalLink size={20} color={"#fff"}/>
                     <Text className="text-white font-poppinsMedium text-[14px]">View Details</Text>
                 </TouchableOpacity>
