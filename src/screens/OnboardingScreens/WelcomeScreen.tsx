@@ -29,7 +29,7 @@ const WelcomeScreen = () => {
                             {counter === 3 && 'Personalized Solutions'}
                         </Text>
                         <Text className="text-base font-poppinsLight text-gray-500 text-center leading-6 px-4">
-                            {counter === 1 && 'Experience seamless customer interactions\nwith our AI-driven voice agents.'}
+                            {counter === 1 && 'Process seamless customer interactions\nwith our AI-driven voice agents.'}
                             {counter === 2 && 'Effortlessly handle queries, schedule \nmeetings, and provide 24/7 support.'}
                             {counter === 3 && 'Customize workflows, optimize performance,\nand enhance your business growth.'}
                         </Text>

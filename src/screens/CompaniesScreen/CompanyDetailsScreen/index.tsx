@@ -5,6 +5,9 @@ import {useEffect, useState} from "react";
 import {ChevronLeft, Github, Globe, Linkedin, Mail, MapPin, Phone, Twitter} from "lucide-react-native";
 import {useAppNavigation} from "../../../common/navigationHelper.ts";
 import GlassDoorIcon from "../../../assets/svg/appIcons/GlassDoorIcon.svg";
+import About from "./About.tsx";
+import Analytics from "./Analytics.tsx";
+import Process from "./Process.tsx";
 
 interface CompanyDetailsScreenProps {
     companyId: string;
@@ -69,13 +72,28 @@ export default function CompanyDetailsScreen() {
                                 <GlassDoorIcon size={19}/>
                             </TouchableOpacity>
                         </View>
-                        <View className="flex flex-row gap-2">
+                        <View className="flex flex-row justify-center gap-2">
+                            {/*<View*/}
+                            {/*    className="flex flex-col flex-1 justify-center items-start bg-primary/10 py-1 rounded-lg w-max px-4">*/}
+                            {/*    <Text className="text-black font-poppins text-[11px]">Total Hires</Text>*/}
+                            {/*    <Text className="text-[#006a63] font-poppinsMedium text-lg">40</Text>*/}
+                            {/*</View>*/}
+                            {/*<View*/}
+                            {/*    className="flex flex-col flex-1 justify-center items-start bg-primary/10 py-1 rounded-lg w-max px-4">*/}
+                            {/*    <Text className="text-black font-poppins text-[11px]">Avg. Salary</Text>*/}
+                            {/*    <Text className="text-[#006a63] font-poppinsMedium text-lg">12 LPA</Text>*/}
+                            {/*</View>*/}
+                            {/*<View*/}
+                            {/*    className="flex flex-col flex-1 justify-center items-start bg-primary/10 py-1 rounded-lg w-max px-4">*/}
+                            {/*    <Text className="text-black font-poppins text-[11px]">Last Recruited</Text>*/}
+                            {/*    <Text className="text-[#006a63] font-poppinsMedium text-lg">2024</Text>*/}
+                            {/*</View>*/}
+
                             <TouchableOpacity
                                 className="flex flex-1 flex-row justify-center items-center gap-2 mt-4 bg-primary py-2 rounded-xl"
                                 onPress={() => {
                                 }}>
-                                {/*<ChevronUpCircle size={21} color={"#FFF"}/>*/}
-                                <Text className="text-white font-poppinsMedium text-[14px]">Message</Text>
+                                <Text className="text-white font-poppinsMedium text-[14px]">View Review</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -105,7 +123,11 @@ export default function CompanyDetailsScreen() {
                     </View>
 
                     <ScrollView>
-                        {
+                        {activeTab === 'about' ?
+                            <About/>
+                            : activeTab === 'analytics' ?
+                                <Analytics/>
+                                : <Process/>
                         }
                     </ScrollView>
 
