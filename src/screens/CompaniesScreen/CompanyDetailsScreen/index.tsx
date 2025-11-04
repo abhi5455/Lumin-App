@@ -73,22 +73,6 @@ export default function CompanyDetailsScreen() {
                             </TouchableOpacity>
                         </View>
                         <View className="flex flex-row justify-center gap-2">
-                            {/*<View*/}
-                            {/*    className="flex flex-col flex-1 justify-center items-start bg-primary/10 py-1 rounded-lg w-max px-4">*/}
-                            {/*    <Text className="text-black font-poppins text-[11px]">Total Hires</Text>*/}
-                            {/*    <Text className="text-[#006a63] font-poppinsMedium text-lg">40</Text>*/}
-                            {/*</View>*/}
-                            {/*<View*/}
-                            {/*    className="flex flex-col flex-1 justify-center items-start bg-primary/10 py-1 rounded-lg w-max px-4">*/}
-                            {/*    <Text className="text-black font-poppins text-[11px]">Avg. Salary</Text>*/}
-                            {/*    <Text className="text-[#006a63] font-poppinsMedium text-lg">12 LPA</Text>*/}
-                            {/*</View>*/}
-                            {/*<View*/}
-                            {/*    className="flex flex-col flex-1 justify-center items-start bg-primary/10 py-1 rounded-lg w-max px-4">*/}
-                            {/*    <Text className="text-black font-poppins text-[11px]">Last Recruited</Text>*/}
-                            {/*    <Text className="text-[#006a63] font-poppinsMedium text-lg">2024</Text>*/}
-                            {/*</View>*/}
-
                             <TouchableOpacity
                                 className="flex flex-1 flex-row justify-center items-center gap-2 mt-4 bg-primary py-2 rounded-xl"
                                 onPress={() => {
