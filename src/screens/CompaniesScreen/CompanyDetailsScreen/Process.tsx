@@ -63,8 +63,8 @@ export default function Process() {
                             </View>
                             <View
                                 className="flex flex-1 flex-col justify-center pl-4">
-                                <Text className="font-poppins text-black text-lg">Online Assessment</Text>
-                                <Text className="font-poppins text-[#DAA520]">aptitude + 2-3 DSA coding problems</Text>
+                                <Text className="font-poppins text-black text-lg">{item?.stage}</Text>
+                                <Text className="font-poppins text-[#DAA520]">{item?.details}</Text>
                             </View>
                         </View>
                     ))}
