@@ -1,6 +1,6 @@
 import {Dimensions, Text, View} from "react-native";
 import {BarChart, PieChart} from "react-native-chart-kit";
-import {BarChart2Icon, BarChart3Icon, ChartNoAxesCombined, PieChartIcon} from "lucide-react-native";
+import {BarChart3Icon, ChartNoAxesCombined} from "lucide-react-native";
 
 const departmentData = [
     {name: "CSE", value: 89, color: "#14b8a6"}, // Main teal

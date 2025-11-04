@@ -1,5 +1,5 @@
 import {Text, View} from "react-native";
-import { HandCoins, Handshake, History, TrendingUp, User } from "lucide-react-native";
+import {HandCoins, Handshake, History, TrendingUp, User} from "lucide-react-native";
 
 export default function About() {
     return (
@@ -19,13 +19,12 @@ export default function About() {
                 </View>
 
                 <Text className="text-black/80 text-[15px] font-poppins indent-8 text-justify px-3 mb-4 leading-6">
-                    {'\u2003'}{'\u2003'}{'\u2003'}TCS recruits from campuses through a well-defined, multi-stage process
-                    focused on assessing both technical proficiency and workplace readiness. The selection process
-                    typically begins with an aptitude-based online test that evaluates quantitative ability, logical
-                    reasoning, and verbal skills, followed by coding and technical interviews. Emphasis is placed on
-                    problem-solving, clarity of thought, and foundational programming knowledge rather than deep
-                    specialization. The final HR round assesses communication, adaptability, and cultural alignment with
-                    TCS’s values of learning, teamwork, and long-term growth within the organization.
+                    {'\u2003'}{'\u2003'}{'\u2003'}TCS (Tata Consultancy Services) is a global leader in IT services,
+                    consulting, and business solutions. Founded in 1968 as part of the Tata Group, it has become one of
+                    the largest technology companies in the world. TCS provides end-to-end digital transformation
+                    services across industries, including banking, healthcare, retail, and manufacturing, leveraging
+                    cutting-edge technologies like AI, cloud, and automation to help clients achieve business
+                    excellence.
                 </Text>
             </View>
 

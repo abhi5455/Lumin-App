@@ -1,5 +1,6 @@
 import {StatusBar, Text, View} from "react-native";
 import {SafeAreaView} from "react-native-safe-area-context";
+
 export default function ResourceScreen() {
 
     return (
@@ -14,7 +15,6 @@ export default function ResourceScreen() {
                     <Text className="font-poppins text-primary text-xl">Coming Soooon!</Text>
                 </View>
             </View>
-
         </SafeAreaView>
     )
 }

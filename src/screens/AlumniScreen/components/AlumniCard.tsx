@@ -1,6 +1,6 @@
 import {Text, TouchableOpacity, View} from "react-native";
 import MailIcon from "../../../assets/svg/appIcons/mailIcon.svg";
-import { ChevronUpCircle } from "lucide-react-native";
+import {ChevronUpCircle} from "lucide-react-native";
 import {useAppNavigation} from "../../../common/navigationHelper.ts";
 
 export default function AlumniCard() {
@@ -22,7 +22,7 @@ export default function AlumniCard() {
                 <View className="flex flex-row justify-start items-center gap-2.5">
                     <Text className="font-poppins text-black/70">Company:</Text>
                     <TouchableOpacity>
-                    <Text className="font-poppins text-[#DAA520]">TechCorp</Text>
+                        <Text className="font-poppins text-[#DAA520]">TechCorp</Text>
                     </TouchableOpacity>
                 </View>
                 <Text className="text-primary font-poppins">Batch of 2017</Text>
@@ -36,14 +36,14 @@ export default function AlumniCard() {
             <View className="flex flex-row gap-2">
                 <TouchableOpacity
                     className="flex flex-1 flex-row justify-center items-center gap-2 mt-4 bg-primary py-2 rounded-xl"
-                onPress={() => {
-                    navigation.navigate("SectionNavigator", {
-                        screen: "AlumniDetailsScreen",
-                        params: {
-                            alumnusId: "alumnus_1"
-                        }
-                    })
-                }}>
+                    onPress={() => {
+                        navigation.navigate("SectionNavigator", {
+                            screen: "AlumniDetailsScreen",
+                            params: {
+                                alumnusId: "alumnus_1"
+                            }
+                        })
+                    }}>
                     <ChevronUpCircle size={21} color={"#FFF"}/>
                     {/*<LinkedinIcon/>*/}
                     <Text className="text-white font-poppinsMedium text-[14px]">View</Text>
