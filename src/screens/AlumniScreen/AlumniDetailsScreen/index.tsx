@@ -45,33 +45,33 @@ export default function AlumniDetailsScreen() {
                                 <Text className="font-poppinsMedium text-[17px] mt-2">Alice Brown</Text>
                                 <Text className="font-poppinsLight text-gray-600">Software Engineer at
                                     TechCorp</Text>
-                                <Text className="text-primary font-poppins">Batch of 2017</Text>
+                                <Text className="text-black/80 font-poppins">Batch of 2017</Text>
                             </View>
                         </View>
                         <View className="flex flex-row justify-start mt-3 gap-4">
                             <TouchableOpacity
-                                className="flex justify-center items-center bg-primary/10 w-12 h-12 rounded-lg border-[1px] border-[#006a63]/20">
-                                <Linkedin size={19} color={"#006a63"}/>
+                                className="flex justify-center items-center bg-[#f0f6fc]/50  w-12 h-12 rounded-lg border-[1px] border-[#6b7280]/30">
+                                <Linkedin size={19} color={"#006a63"} strokeWidth={"1.7"}/>
                             </TouchableOpacity>
                             <TouchableOpacity
-                                className="flex justify-center items-center bg-primary/10 w-12 h-12 rounded-lg border-[1px] border-[#006a63]/20">
-                                <Mail size={19} color={"#006a63"}/>
+                                className="flex justify-center items-center bg-[#f0f6fc]/50  w-12 h-12 rounded-lg border-[1px] border-[#6b7280]/30">
+                                <Github size={19} color={"#006a63"} strokeWidth={"1.7"}/>
                             </TouchableOpacity>
                             <TouchableOpacity
-                                className="flex justify-center items-center bg-primary/10 w-12 h-12 rounded-lg border-[1px] border-[#006a63]/20">
-                                <Globe size={19} color={"#006a63"}/>
+                                className="flex justify-center items-center bg-[#f0f6fc]/50  w-12 h-12 rounded-lg border-[1px] border-[#6b7280]/30">
+                                <Globe size={19} color={"#006a63"} strokeWidth={"1.7"}/>
                             </TouchableOpacity>
                             <TouchableOpacity
-                                className="flex justify-center items-center bg-primary/10 w-12 h-12 rounded-lg border-[1px] border-[#006a63]/20">
-                                <Phone size={19} color={"#006a63"}/>
+                                className="flex justify-center items-center bg-[#f0f6fc]/50  w-12 h-12 rounded-lg border-[1px] border-[#6b7280]/30">
+                                <Phone size={19} color={"#006a63"} strokeWidth={"1.7"}/>
                             </TouchableOpacity>
                             <TouchableOpacity
-                                className="flex justify-center items-center bg-primary/10 w-12 h-12 rounded-lg border-[1px] border-[#006a63]/20">
-                                <Twitter size={19} color={"#006a63"}/>
+                                className="flex justify-center items-center bg-[#f0f6fc]/50  w-12 h-12 rounded-lg border-[1px] border-[#6b7280]/30">
+                                <Twitter size={19} color={"#006a63"} strokeWidth={"1.7"}/>
                             </TouchableOpacity>
                             <TouchableOpacity
-                                className="flex justify-center items-center bg-primary/10 w-12 h-12 rounded-lg border-[1px] border-[#006a63]/20">
-                                <Github size={19} color={"#006a63"}/>
+                                className="flex justify-center items-center bg-[#f0f6fc]/50  w-12 h-12 rounded-lg border-[1px] border-[#6b7280]/30">
+                                <Mail size={19} color={"#006a63"} strokeWidth={"1.7"}/>
                             </TouchableOpacity>
                         </View>
                         <View className="flex flex-row gap-2">
