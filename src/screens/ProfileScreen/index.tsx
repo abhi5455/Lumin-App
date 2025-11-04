@@ -16,7 +16,7 @@ import {
 const profileOptions = [
     {
         title: "My Profile",
-        subtitle: "View and update your personal details",
+        subtitle: "Manage your personal details",
         icon: <User size={20} color={"#006a63"}/>,
         action: () => console.log("Navigate to My Profile"),
     },
@@ -40,7 +40,7 @@ const profileOptions = [
     },
     {
         title: "Privacy Policy",
-        subtitle: "Understand how we protect your data",
+        subtitle: "Learn how we protect your data",
         icon: <Shield size={20} color={"#006a63"}/>,
         action: () => console.log("Navigate to Privacy Policy"),
     },
@@ -68,8 +68,6 @@ const profileOptions = [
         icon: <Edit3 size={20} color={"#006a63"}/>,
         action: () => console.log("Navigate to Edit Company"),
     },
-
-    // ——— Account Actions ———
     {
         title: "Logout",
         subtitle: "Sign out from your account",
@@ -108,6 +106,7 @@ export default function ProfileScreen() {
                     </View>
                     <ScrollView className="mt-5 flex-1 flex flex-col gap-5 self-stretch">
                         <View className="h-[1px] self-stretch bg-gray-100 mb-5"/>
+
                         {profileOptions?.map((item, index) => (
                             <TouchableOpacity
                                 className="flex flex-row items-center justify-between border-b-[1px] border-gray-100 pb-5 mb-5"
@@ -123,7 +122,7 @@ export default function ProfileScreen() {
                                         <Text className="font-poppinsLight text-gray-600">{item?.subtitle}</Text>
                                     </View>
                                 </View>
-                                <ChevronRight size={20} color={"#006a63"}/>
+                                <ChevronRight size={21} color={"#006a63"}/>
                             </TouchableOpacity>
                         ))}
                         <View className="h-[50px]"/>
