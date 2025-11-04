@@ -91,14 +91,14 @@ export default function CompanyDetailsScreen() {
                             <Text className="font-poppins text-lg">About</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
-                            className={`flex-1 justify-center items-center px-2 pt-2 pb-1 ${activeTab === 'education' && 'border-b border-primary'}`}
+                            className={`flex-1 justify-center items-center px-2 pt-2 pb-1 ${activeTab === 'analytics' && 'border-b border-primary'}`}
                             onPress={() => {
                                 setActiveTab('analytics')
                             }}>
                             <Text className="font-poppins text-lg">Analytics</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
-                            className={`flex-1 justify-center items-center px-2 pt-2 pb-1 ${activeTab === 'experience' && 'border-b border-primary'}`}
+                            className={`flex-1 justify-center items-center px-2 pt-2 pb-1 ${activeTab === 'process' && 'border-b border-primary'}`}
                             onPress={() => {
                                 setActiveTab('process')
                             }}>
