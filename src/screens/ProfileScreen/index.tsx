@@ -1,9 +1,9 @@
 import {StatusBar, Text, View} from "react-native";
-import {SafeAreaProvider} from "react-native-safe-area-context";
+import {SafeAreaView} from "react-native-safe-area-context";
 export default function ProfileScreen() {
 
     return (
-        <SafeAreaProvider className="flex-1">
+        <SafeAreaView className="flex-1">
             <StatusBar barStyle="light-content" backgroundColor={'#00b19f'}/>
             <View className="bg-primary h-[65px] justify-center px-5">
                 <Text className="font-poppinsLight text-white text-2xl">My Profile</Text>
@@ -15,6 +15,6 @@ export default function ProfileScreen() {
                 </View>
             </View>
 
-        </SafeAreaProvider>
+        </SafeAreaView>
     )
 }

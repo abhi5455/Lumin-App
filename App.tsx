@@ -1,11 +1,11 @@
 import "./global.css"
-import {SafeAreaView} from "react-native";
 import {NavigationContainer} from "@react-navigation/native";
 import {StackNavigator} from "./src/navigation/StackNavigator";
 import {GestureHandlerRootView} from "react-native-gesture-handler";
 import Toast from "react-native-toast-message";
 import {toastConfig} from "./ToastConfig";
 import AxiosInterceptor from "./src/utils/axios.ts";
+import {SafeAreaView} from "react-native-safe-area-context";
 
 export default function App() {
     AxiosInterceptor();

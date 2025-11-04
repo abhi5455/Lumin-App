@@ -1,8 +1,8 @@
 import {ScrollView, StatusBar, Text, TouchableOpacity, View} from "react-native";
-import {SafeAreaProvider} from "react-native-safe-area-context";
+import {SafeAreaView} from "react-native-safe-area-context";
 import {RouteProp, useRoute} from "@react-navigation/core";
 import {useEffect, useState} from "react";
-import {ChevronLeft, Github, Globe, Linkedin, Mail, MapPin, Phone, Twitter} from "lucide-react-native";
+import {ChevronLeft, Globe, Linkedin, Mail, MapPin, Twitter} from "lucide-react-native";
 import {useAppNavigation} from "../../../common/navigationHelper.ts";
 import GlassDoorIcon from "../../../assets/svg/appIcons/GlassDoorIcon.svg";
 import About from "./About.tsx";
@@ -24,7 +24,7 @@ export default function CompanyDetailsScreen() {
     }, []);
 
     return (
-        <SafeAreaProvider className="flex-1">
+        <SafeAreaView className="flex-1">
             <StatusBar barStyle="light-content" backgroundColor={'#00b19f'}/>
             <View className="flex flex-row items-center gap-4 bg-primary h-[65px] px-5">
                 <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -117,6 +117,6 @@ export default function CompanyDetailsScreen() {
 
                 </View>
             </View>
-        </SafeAreaProvider>
+        </SafeAreaView>
     )
 }

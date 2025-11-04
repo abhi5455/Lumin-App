@@ -1,5 +1,5 @@
 import {ScrollView, StatusBar, Text, TouchableOpacity, View} from "react-native";
-import {SafeAreaProvider} from "react-native-safe-area-context";
+import {SafeAreaView} from "react-native-safe-area-context";
 import {RouteProp, useRoute} from "@react-navigation/core";
 import {useEffect, useState} from "react";
 import {ChevronLeft, Github, Globe, Linkedin, Mail, Phone, Twitter} from "lucide-react-native";
@@ -23,7 +23,7 @@ export default function AlumniDetailsScreen() {
     }, []);
 
     return (
-        <SafeAreaProvider className="flex-1">
+        <SafeAreaView className="flex-1">
             <StatusBar barStyle="light-content" backgroundColor={'#00b19f'}/>
             <View className="flex flex-row items-center gap-4 bg-primary h-[65px] px-5">
                 <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -120,6 +120,6 @@ export default function AlumniDetailsScreen() {
 
                 </View>
             </View>
-        </SafeAreaProvider>
+        </SafeAreaView>
     )
 }
