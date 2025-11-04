@@ -117,7 +117,9 @@ export default function ResourceScreen() {
 
                     <ScrollView className="flex-1 pt-2 w-full">
                         {resourceData.map((item, index) => (
-                            <ResourceCard resourceItem={item} index={index}/>
+                            <View key={index}>
+                                <ResourceCard resourceItem={item}/>
+                            </View>
                         ))}
                         <View className="h-[100px]"/>
                     </ScrollView>

@@ -12,13 +12,12 @@ export interface IResourceItem {
 
 interface ResourceCardProps {
     resourceItem: IResourceItem;
-    index: number;
 }
 
-export function ResourceCard({resourceItem, index}: ResourceCardProps) {
+export function ResourceCard({resourceItem}: ResourceCardProps) {
     return (
         <View
-            className="flex flex-col justify-start gap-4 border-b-[1px] border-gray-100 pb-4 mb-4" key={index}>
+            className="flex flex-col justify-start gap-4 border-b-[1px] border-gray-100 pb-4 mb-4">
             <View className="flex flex-row items-center justify-between gap-4">
                 <View className="flex flex-row items-center gap-4">
                     <View
@@ -36,7 +35,7 @@ export function ResourceCard({resourceItem, index}: ResourceCardProps) {
             </View>
             <View className="flex flex-row flex-wrap justify-start items-center gap-2">
                 {resourceItem?.tags.map((tag, tagIndex) => (
-                    <View className="bg-primary/10 py-1 rounded-xl w-max px-3" index={tagIndex}>
+                    <View className="bg-primary/10 py-1 rounded-xl w-max px-3" key={tagIndex}>
                         <Text className="text-[#006a63] font-poppins text-[13px]">{tag}</Text>
                     </View>
                 ))}
