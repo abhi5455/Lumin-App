@@ -71,7 +71,7 @@ export default function Process() {
                 </View>
             </View>
 
-            <View className="min-h-[50px]"/>
+            <View className="min-h-[40px]"/>
         </>
     )
 }
