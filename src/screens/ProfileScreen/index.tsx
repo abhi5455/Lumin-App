@@ -5,91 +5,101 @@ import {
     ChevronRight,
     Edit,
     Edit3,
-    FileText, FlameIcon,
-    HelpCircle,
+    FlameIcon,
+    HelpCircle, Info,
     Lock, LogOut,
     Shield, Trash2,
     User,
     UserPlus
 } from "lucide-react-native";
-
-const profileOptions = [
-    {
-        title: "My Profile",
-        subtitle: "Manage your personal details",
-        icon: <User size={20} color={"#006a63"}/>,
-        action: () => console.log("Navigate to My Profile"),
-    },
-    {
-        title: "My Contributions",
-        subtitle: "See what you've shared",
-        icon: <FlameIcon size={20} color={"#006a63"}/>,
-        action: () => console.log("Navigate to Create Alumni"),
-    },
-    {
-        title: "Change Password",
-        subtitle: "Update your account credentials",
-        icon: <Lock size={20} color={"#006a63"}/>,
-        action: () => console.log("Navigate to Change Password"),
-    },
-    {
-        title: "Create Alumni",
-        subtitle: "Add a new alumni record",
-        icon: <UserPlus size={20} color={"#006a63"}/>,
-        action: () => console.log("Navigate to Create Alumni"),
-    },
-    {
-        title: "Edit Alumni",
-        subtitle: "Modify existing alumni details",
-        icon: <Edit size={20} color={"#006a63"}/>,
-        action: () => console.log("Navigate to Edit Alumni"),
-    },
-    {
-        title: "Create Company",
-        subtitle: "Register a new company profile",
-        icon: <Building size={20} color={"#006a63"}/>,
-        action: () => console.log("Navigate to Create Company"),
-    },
-    {
-        title: "Edit Company",
-        subtitle: "Update company information",
-        icon: <Edit3 size={20} color={"#006a63"}/>,
-        action: () => console.log("Navigate to Edit Company"),
-    },
-    {
-        title: "Help Center",
-        subtitle: "Get support and find FAQs",
-        icon: <HelpCircle size={20} color={"#006a63"}/>,
-        action: () => console.log("Navigate to Help Center"),
-    },
-    {
-        title: "Terms & Conditions",
-        subtitle: "Read the app’s usage policies",
-        icon: <FileText size={20} color={"#006a63"}/>,
-        action: () => console.log("Navigate to Terms & Conditions"),
-    },
-    {
-        title: "Privacy Policy",
-        subtitle: "Learn how we protect your data",
-        icon: <Shield size={20} color={"#006a63"}/>,
-        action: () => console.log("Navigate to Privacy Policy"),
-    },
-    {
-        title: "Logout",
-        subtitle: "Sign out from your account",
-        icon: <LogOut size={20} color={"#006a63"}/>,
-        action: () => console.log("Logout User"),
-    },
-    {
-        title: "Delete Account",
-        subtitle: "Permanently remove your account",
-        icon: <Trash2 size={20} color={"#006a63"}/>,
-        action: () => console.log("Delete Account"),
-    },
-];
-
+import {useAppNavigation} from "../../common/navigationHelper.ts";
 
 export default function ProfileScreen() {
+    const navigation = useAppNavigation()
+    const profileOptions = [
+        {
+            title: "My Profile",
+            subtitle: "Manage your personal details",
+            icon: <User size={20} color={"#006a63"}/>,
+            action: () => console.log("Navigate to My Profile"),
+        },
+        {
+            title: "My Contributions",
+            subtitle: "See what you've shared",
+            icon: <FlameIcon size={20} color={"#006a63"}/>,
+            action: () => console.log("Navigate to Create Alumni"),
+        },
+        {
+            title: "Change Password",
+            subtitle: "Update your account credentials",
+            icon: <Lock size={20} color={"#006a63"}/>,
+            action: () => console.log("Navigate to Change Password"),
+        },
+        {
+            title: "Create Alumni",
+            subtitle: "Add a new alumni record",
+            icon: <UserPlus size={20} color={"#006a63"}/>,
+            action: () => console.log("Navigate to Create Alumni"),
+        },
+        {
+            title: "Edit Alumni",
+            subtitle: "Modify existing alumni details",
+            icon: <Edit size={20} color={"#006a63"}/>,
+            action: () => console.log("Navigate to Edit Alumni"),
+        },
+        {
+            title: "Create Company",
+            subtitle: "Register a new company profile",
+            icon: <Building size={20} color={"#006a63"}/>,
+            action: () => console.log("Navigate to Create Company"),
+        },
+        {
+            title: "Edit Company",
+            subtitle: "Update company information",
+            icon: <Edit3 size={20} color={"#006a63"}/>,
+            action: () => console.log("Navigate to Edit Company"),
+        },
+        {
+            title: "About Us",
+            subtitle: "Learn more about our mission",
+            icon: <Info size={20} color={"#006a63"}/>,
+            action: () => {
+                navigation.navigate("SectionNavigator",{
+                    screen: "StaticSupportScreen",
+                    params: {sectionType: "About Us"}
+                })
+            },
+        },
+        {
+            title: "Privacy Policy",
+            subtitle: "Learn how we protect your data",
+            icon: <Shield size={20} color={"#006a63"}/>,
+            action: () => console.log("Navigate to Privacy Policy"),
+        },
+        {
+            title: "Help Center",
+            subtitle: "Get support and find FAQs",
+            icon: <HelpCircle size={20} color={"#006a63"}/>,
+            action: () => {
+                navigation.navigate("SectionNavigator",{
+                    screen: "StaticSupportScreen",
+                    params: {sectionType: "Help Center"}
+                })
+            },
+        },
+        {
+            title: "Logout",
+            subtitle: "Sign out from your account",
+            icon: <LogOut size={20} color={"#006a63"}/>,
+            action: () => console.log("Logout User"),
+        },
+        {
+            title: "Delete Account",
+            subtitle: "Permanently remove your account",
+            icon: <Trash2 size={20} color={"#006a63"}/>,
+            action: () => console.log("Delete Account"),
+        },
+    ];
 
     return (
         <SafeAreaView className="flex-1">

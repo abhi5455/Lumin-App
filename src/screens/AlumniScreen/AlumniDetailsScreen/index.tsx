@@ -13,7 +13,7 @@ interface AlumniDetailsScreenProps {
 }
 
 export default function AlumniDetailsScreen() {
-    const route = useRoute<RouteProp<{ AlumniDetailsScreen: AlumniDetailsScreenProps }, 'Index'>>();
+    const route = useRoute<RouteProp<{ AlumniDetailsScreen: AlumniDetailsScreenProps }, 'AlumniDetailsScreen'>>();
     const {alumnusId} = route?.params;
     const navigation = useAppNavigation()
     const [activeTab, setActiveTab] = useState<'about' | 'education' | 'experience'>('about')

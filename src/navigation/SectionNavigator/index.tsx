@@ -4,6 +4,7 @@ import RegisterScreen from "../../screens/OnboardingScreens/RegisterScreen.tsx";
 import AlumniDetailsScreen from "../../screens/AlumniScreen/AlumniDetailsScreen";
 import CompanyDetailsScreen from "../../screens/CompaniesScreen/CompanyDetailsScreen";
 import AddResourceScreen from "../../screens/ResourceScreen/AddResourceScreen";
+import StaticSupportScreen from "../../screens/StaticSupportScreen";
 
 export default function SectionNavigator() {
     const Stack = createNativeStackNavigator()
@@ -36,6 +37,12 @@ export default function SectionNavigator() {
                 name="AddResourceScreen"
                 options={{headerShown: false, gestureEnabled: false}}
                 component={AddResourceScreen}
+            />
+
+            <Stack.Screen
+                name="StaticSupportScreen"
+                options={{headerShown: false, gestureEnabled: false}}
+                component={StaticSupportScreen}
             />
         </Stack.Navigator>
     )
