@@ -49,7 +49,7 @@ export default function AlumniScreen() {
             </View>
 
             <AlumniNCompanyFilterModal
-                title={"Alumni Filter"}
+                title={"Alumni Filters"}
                 visible={filterModalVisible}
                 onClose={() => {
                     setFilterModalVisible(false)

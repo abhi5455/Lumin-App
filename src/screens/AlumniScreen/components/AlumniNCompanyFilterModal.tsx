@@ -1,5 +1,4 @@
 import {Modal, View, Text, TouchableOpacity, ScrollView, TouchableWithoutFeedback} from "react-native";
-import {Building2, CalendarDays, Funnel, GraduationCap, X} from "lucide-react-native";
 import {useState} from "react";
 
 interface FilterModalProps {
@@ -80,8 +79,8 @@ const alumniFilterOptions = {
 };
 
 export default function AlumniNCompanyFilterModal({visible, title, onClose, type}: FilterModalProps) {
-
     const [filterOptions, setFilterOptions] = useState<typeof filterOptions>(type === "alumni" ? alumniFilterOptions : CompanyFilterOptions);
+    const [selectedGroup, setSelectedGroup] = useState<string | null>(type === "alumni" ? Object.keys(alumniFilterOptions)[0] : Object.keys(CompanyFilterOptions)[0]);
 
     return (
         <Modal
@@ -92,74 +91,86 @@ export default function AlumniNCompanyFilterModal({visible, title, onClose, type
             <TouchableWithoutFeedback onPress={onClose}>
                 <View className="flex-1 bg-black/50 justify-end items-center">
                     <TouchableWithoutFeedback>
-                        <View className="bg-white w-full max-h-[70%] rounded-t-[20px] p-5"
+                        <View className="bg-white w-full min-h-[71%] max-h-[71%] rounded-t-[25px] pb-5"
                               onStartShouldSetResponder={() => true}>
                             {/* Header */}
-                            <View className="flex flex-row justify-between items-center mb-4">
-                                <Text className="font-poppinsMedium text-xl">{title}</Text>
-                                <TouchableOpacity onPress={onClose}>
-                                    <X size={20} color={'#6b7280'}/>
+                            <View className="bg-gray-200/75 w-[50px] h-[5px] self-center rounded-full mt-2 mb-[12px]"/>
+                            <View className="flex flex-row justify-between items-center mb-4 px-5">
+                                <Text className="font-poppinsMedium text-[20px]">{title}</Text>
+                                <TouchableOpacity onPress={() => {
+                                    filterOptions && setFilterOptions((prev) => {
+                                        const resetOptions = {} as typeof prev;
+                                        Object.entries(prev).forEach(([groupName, filterItems]) => {
+                                            resetOptions[groupName] = filterItems.map((item) => ({
+                                                ...item,
+                                                selected: false
+                                            }));
+                                        });
+                                        return resetOptions;
+                                    });
+                                }}>
+                                    <Text className="font-poppins text-red-500 text-lg">clear</Text>
                                 </TouchableOpacity>
                             </View>
-
-                            <ScrollView className="mb-4 px-3">
-                                {Object.entries(filterOptions)?.map(([groupName, filterItems]) => (
-                                    <View key={groupName} className="mb-4">
-                                        <View className="flex flex-row items-center gap-2">
-                                            {groupName === "GraduationYears" ?
-                                                <CalendarDays size={20} color={'#DAA520'} strokeWidth={'1px'}/>
-                                                : groupName === "Degrees" ?
-                                                    <GraduationCap size={20} color={'#DAA520'} strokeWidth={'1px'}/>
-                                                    : groupName === "Companies" ?
-                                                        <Building2 size={20} color={'#DAA520'} strokeWidth={'1px'}/>
-                                                        : <Funnel size={20} color={'#DAA520'} strokeWidth={'1px'}/>
-                                            }
-                                            <Text
-                                                className="font-poppinsLight text-xl text-[#DAA520]">{groupName}</Text>
-                                        </View>
-                                        {filterItems?.map((item, index) => (
-                                            <TouchableOpacity className="flex flex-row items-center my-3 px-3"
-                                                              key={index}
-                                                              onPress={() => {
-                                                                  setFilterOptions((prev) => ({
-                                                                          ...prev,
-                                                                          [groupName]: prev[groupName].map((d) => (
-                                                                              d.id === item.id ? {
-                                                                                  ...d,
-                                                                                  selected: !d.selected
-                                                                              } : d
-                                                                          ))
-                                                                      }
-                                                                  ))
-                                                              }}>
+                            <View className="flex flex-row min-h-[80%] max-h-[80%] pb-5">
+                                <ScrollView
+                                    className="bg-gray-100/75 rounded-r-3xl min-w-[50%] max-w-[52%]">
+                                    <View>
+                                        {Object.entries(filterOptions)?.map(([groupName, filterItems]) => (
+                                            <TouchableOpacity
+                                                className={`flex flex-row items-center gap-3 pr-3 pl-2 py-2 ${selectedGroup === groupName ? 'bg-primary/10' : 'bg-transparent'} border-b-[1px] border-gray-200/50`}
+                                                onPress={() => setSelectedGroup(groupName)} key={groupName}>
                                                 <View
-                                                    className={`w-5 h-5 rounded border items-center justify-center mr-3 ${
-                                                        item?.selected ? "bg-primary border-primary" : " border-primary"
-                                                    }`}
-                                                >
-                                                    {item?.selected && (
-                                                        <Text
-                                                            className="text-white text-xs font-poppinsSemiBold">✓</Text>
-                                                    )}
-                                                </View>
+                                                    className={`${selectedGroup === groupName ? 'bg-[#006a63]' : 'bg-gray-50'} w-2 h-full rounded-full`}/>
                                                 <Text
-                                                    className="font-poppins text-gray-700 text-lg">{item?.label}</Text>
+                                                    className={`font-poppins ${selectedGroup === groupName ? 'text-[#006a63]' : 'text-black'} text-[15px] py-1`}>{groupName}</Text>
                                             </TouchableOpacity>
                                         ))}
                                     </View>
-                                ))}
-                            </ScrollView>
+                                </ScrollView>
+                                <ScrollView className="px-3 my-2">
+                                    {selectedGroup && filterOptions[selectedGroup]?.map((item, index) => (
+                                        <TouchableOpacity className="flex flex-row items-center my-3 px-3"
+                                                          key={index}
+                                                          onPress={() => {
+                                                              setFilterOptions((prev) => ({
+                                                                      ...prev,
+                                                                      [selectedGroup]: prev[selectedGroup].map((d) =>
+                                                                          d.id === item.id ? {
+                                                                              ...d,
+                                                                              selected: !d.selected
+                                                                          } : d
+                                                                      )
+                                                                  }
+                                                              ))
+                                                          }}>
+                                            <View
+                                                className={`w-5 h-5 rounded border items-center justify-center mr-3 ${
+                                                    item?.selected ? "bg-primary border-primary" : " border-primary"
+                                                }`}
+                                            >
+                                                {item?.selected && (
+                                                    <Text
+                                                        className="text-white text-xs font-poppinsSemiBold">✓</Text>
+                                                )}
+                                            </View>
+                                            <Text
+                                                className="font-poppins text-gray-700 text-lg">{item?.label}</Text>
+                                        </TouchableOpacity>
+                                    ))}
+                                </ScrollView>
+                            </View>
 
-                            <View className="flex flex-row justify-center items-center gap-3">
+                            <View className="flex flex-row justify-center items-center gap-3 px-5">
                                 <TouchableOpacity
-                                    className="flex flex-1 flex-row justify-center items-center border border-gray-300 py-3 rounded-xl"
+                                    className="flex flex-1 flex-row justify-center items-center border border-gray-300 py-3 rounded-2xl"
                                     onPress={() => {
                                         onClose();
                                     }}>
                                     <Text className="text-gray-700 font-poppinsMedium text-lg">Cancel</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity
-                                    className="flex-1 bg-primary py-3 rounded-xl items-center justify-center"
+                                    className="flex-1 bg-primary py-3 rounded-2xl items-center justify-center"
                                     onPress={() => {
                                         onClose();
                                     }}>
