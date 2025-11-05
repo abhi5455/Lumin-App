@@ -8,7 +8,7 @@ import {
     FileText,
     HelpCircle,
     Lock, LogOut,
-    Shield, Trash2,
+    Shield, SproutIcon, Trash2,
     User,
     UserPlus
 } from "lucide-react-native";
@@ -21,28 +21,16 @@ const profileOptions = [
         action: () => console.log("Navigate to My Profile"),
     },
     {
+        title: "My Contributions",
+        subtitle: "See what you've shared",
+        icon: <SproutIcon size={20} color={"#006a63"}/>,
+        action: () => console.log("Navigate to Create Alumni"),
+    },
+    {
         title: "Change Password",
         subtitle: "Update your account credentials",
         icon: <Lock size={20} color={"#006a63"}/>,
         action: () => console.log("Navigate to Change Password"),
-    },
-    {
-        title: "Help Center",
-        subtitle: "Get support and find FAQs",
-        icon: <HelpCircle size={20} color={"#006a63"}/>,
-        action: () => console.log("Navigate to Help Center"),
-    },
-    {
-        title: "Terms & Conditions",
-        subtitle: "Read the app’s usage policies",
-        icon: <FileText size={20} color={"#006a63"}/>,
-        action: () => console.log("Navigate to Terms & Conditions"),
-    },
-    {
-        title: "Privacy Policy",
-        subtitle: "Learn how we protect your data",
-        icon: <Shield size={20} color={"#006a63"}/>,
-        action: () => console.log("Navigate to Privacy Policy"),
     },
     {
         title: "Create Alumni",
@@ -67,6 +55,24 @@ const profileOptions = [
         subtitle: "Update company information",
         icon: <Edit3 size={20} color={"#006a63"}/>,
         action: () => console.log("Navigate to Edit Company"),
+    },
+    {
+        title: "Help Center",
+        subtitle: "Get support and find FAQs",
+        icon: <HelpCircle size={20} color={"#006a63"}/>,
+        action: () => console.log("Navigate to Help Center"),
+    },
+    {
+        title: "Terms & Conditions",
+        subtitle: "Read the app’s usage policies",
+        icon: <FileText size={20} color={"#006a63"}/>,
+        action: () => console.log("Navigate to Terms & Conditions"),
+    },
+    {
+        title: "Privacy Policy",
+        subtitle: "Learn how we protect your data",
+        icon: <Shield size={20} color={"#006a63"}/>,
+        action: () => console.log("Navigate to Privacy Policy"),
     },
     {
         title: "Logout",
