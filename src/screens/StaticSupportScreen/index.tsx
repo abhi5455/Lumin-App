@@ -91,8 +91,6 @@ const privacyPolicyInfo: IStaticSectionInfo[] = [
     {
         title: "Privacy Controls",
         pointContent: [
-            "You can control who sees your profile: all users, alumni only, or private.",
-            "Choose what information appears publicly.",
             "Delete your experiences and uploaded resources.",
             "Request full account deletion."
         ]
@@ -119,7 +117,6 @@ const privacyPolicyInfo: IStaticSectionInfo[] = [
             "Access and correct your personal data.",
             "Request deletion of your data.",
             "Export your data.",
-            "Opt out of non-essential communications."
         ]
     },
     {
