@@ -6,35 +6,82 @@ interface FilterModalProps {
     visible: boolean;
     title?: string;
     onClose: () => void;
+    type: "alumni" | "companies";
 }
 
-export default function AlumniFilterModal({visible, title, onClose}: FilterModalProps) {
+const CompanyFilterOptions = {
+    Department: [
+        {id: 1, label: "B.Tech - CSE", selected: false},
+        {id: 2, label: "B.Tech - ECE", selected: false},
+        {id: 3, label: "B.Tech - ME", selected: false},
+        {id: 4, label: "B.Tech - Civil", selected: false},
+        {id: 5, label: "B.Tech - RAI", selected: false},
+        {id: 6, label: "B.Tech - EEE", selected: false},
+        {id: 7, label: "MCA", selected: false},
+        {id: 8, label: "M.Tech - CSE", selected: false},
+        {id: 9, label: "M.Tech - ECE", selected: false},
+        {id: 10, label: "M.Tech - ME", selected: false},
+        {id: 11, label: "M.Tech - Civil", selected: false},
+        {id: 12, label: "M.Tech - EEE", selected: false},
+    ],
+    Package: [
+        {id: 1, label: "1-5 LPA", selected: false},
+        {id: 2, label: "5-10 LPA", selected: false},
+        {id: 3, label: "10-15 LPA", selected: false},
+        {id: 4, label: "15-20 LPA", selected: false},
+        {id: 5, label: "20-30 LPA", selected: false},
+        {id: 6, label: "30-50 LPA", selected: false},
+        {id: 7, label: "50+ LPA", selected: false},
+    ],
+    RecruitedYear: [
+        {id: 1, label: "2025", selected: false},
+        {id: 2, label: "2024", selected: false},
+        {id: 3, label: "2023", selected: false},
+        {id: 4, label: "2022", selected: false},
+        {id: 5, label: "2021", selected: false},
+        {id: 6, label: "2020", selected: false},
+        {id: 7, label: "2019", selected: false},
+        {id: 8, label: "2018", selected: false},
+        {id: 9, label: "2017", selected: false},
+        {id: 10, label: "2016", selected: false},
+        {id: 11, label: "2015", selected: false},
+        {id: 12, label: "2014", selected: false},
+        {id: 13, label: "2013", selected: false},
+        {id: 14, label: "2012", selected: false},
+        {id: 15, label: "2011", selected: false},
+        {id: 16, label: "2010", selected: false},
+    ],
+};
 
-    const [filterOptions, setFilterOptions] = useState<typeof filterOptions>({
-        GraduationYears: [
-            {id: 1, label: "2025", selected: false},
-            {id: 2, label: "2024", selected: false},
-            {id: 3, label: "2023", selected: false},
-            {id: 4, label: "2022", selected: false},
-            {id: 5, label: "2021", selected: false},
-            {id: 6, label: "2020", selected: false},
-        ],
-        Degrees: [
-            {id: 1, label: "B.Tech - CSE", selected: false},
-            {id: 2, label: "B.Tech - ECE", selected: false},
-            {id: 3, label: "B.Tech - ME", selected: false},
-            {id: 4, label: "MCA", selected: false},
-            {id: 5, label: "M.Tech - CSE", selected: false},
-        ],
-        Companies: [
-            {id: 1, label: "Google", selected: false},
-            {id: 2, label: "Microsoft", selected: false},
-            {id: 3, label: "Amazon", selected: false},
-            {id: 4, label: "Infosys", selected: false},
-            {id: 5, label: "TCS", selected: false},
-            {id: 6, label: "Wipro", selected: false},
-        ],
-    });
+const alumniFilterOptions = {
+    GraduationYears: [
+        {id: 1, label: "2025", selected: false},
+        {id: 2, label: "2024", selected: false},
+        {id: 3, label: "2023", selected: false},
+        {id: 4, label: "2022", selected: false},
+        {id: 5, label: "2021", selected: false},
+        {id: 6, label: "2020", selected: false},
+    ],
+    Degrees: [
+        {id: 1, label: "B.Tech - CSE", selected: false},
+        {id: 2, label: "B.Tech - ECE", selected: false},
+        {id: 3, label: "B.Tech - ME", selected: false},
+        {id: 4, label: "MCA", selected: false},
+        {id: 5, label: "M.Tech - CSE", selected: false},
+    ],
+    Companies: [
+        {id: 1, label: "Google", selected: false},
+        {id: 2, label: "Microsoft", selected: false},
+        {id: 3, label: "Amazon", selected: false},
+        {id: 4, label: "Infosys", selected: false},
+        {id: 5, label: "TCS", selected: false},
+        {id: 6, label: "Wipro", selected: false},
+    ],
+};
+
+export default function AlumniFilterModal({visible, title, onClose, type}: FilterModalProps) {
+
+    const [filterOptions, setFilterOptions] = useState<typeof filterOptions>(type === "alumni" ? alumniFilterOptions : CompanyFilterOptions);
 
     return (
         <Modal
