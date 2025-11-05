@@ -87,7 +87,6 @@ export default function ProfileScreen() {
 
     return (
         <SafeAreaView className="flex-1">
-            <StatusBar barStyle="light-content" backgroundColor={'#00b19f'}/>
             <View className="bg-primary h-[65px] justify-center px-5">
                 <Text className="font-poppinsLight text-white text-2xl">Profile</Text>
             </View>

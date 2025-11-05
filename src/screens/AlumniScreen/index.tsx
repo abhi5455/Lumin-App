@@ -2,12 +2,20 @@ import {ScrollView, StatusBar, Text, TextInput, TouchableOpacity, View} from "re
 import {SafeAreaView} from "react-native-safe-area-context";
 import {Funnel, Search} from "lucide-react-native";
 import AlumniCard from "./components/AlumniCard.tsx";
+import AlumniFilterModal from "./components/AlumniFilterModal.tsx";
+import {useEffect, useState} from "react";
 
 export default function AlumniScreen() {
+    const [filterModalVisible, setFilterModalVisible] = useState(false);
+
+    useEffect(() => {
+        StatusBar.setBarStyle('light-content')
+        console.log("Chanageinggg status Bar")
+        StatusBar.setBackgroundColor(filterModalVisible ? '#01584f' : '#00b19f')
+    }, [filterModalVisible])
 
     return (
         <SafeAreaView className="flex-1">
-            <StatusBar barStyle="light-content" backgroundColor={'#00b19f'}/>
             <View className="bg-primary h-[65px] justify-center px-5">
                 <Text className="font-poppinsLight text-white text-2xl">Alumni Network</Text>
             </View>
@@ -23,7 +31,7 @@ export default function AlumniScreen() {
                                 placeholderTextColor={"#999999"}
                             />
                         </View>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={() => setFilterModalVisible(true)}>
                             <Funnel size={22} color={"#999"} className=""/>
                         </TouchableOpacity>
                     </View>
@@ -38,6 +46,14 @@ export default function AlumniScreen() {
                         <View className="h-[100px]"/>
                     </ScrollView>
                 </View>
+
+                <AlumniFilterModal
+                    title={"Alumni Filter"}
+                    visible={filterModalVisible}
+                    onClose={() => {
+                        setFilterModalVisible(false)
+                    }}
+                />
             </View>
 
         </SafeAreaView>
