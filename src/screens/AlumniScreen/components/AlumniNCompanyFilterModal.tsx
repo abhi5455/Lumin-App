@@ -91,8 +91,7 @@ export default function AlumniNCompanyFilterModal({visible, title, onClose, type
             <TouchableWithoutFeedback onPress={onClose}>
                 <View className="flex-1 bg-black/50 justify-end items-center">
                     <TouchableWithoutFeedback>
-                        <View className="bg-white w-full min-h-[71%] max-h-[71%] rounded-t-[25px] pb-5"
-                              onStartShouldSetResponder={() => true}>
+                        <View className="bg-white w-full min-h-[71%] max-h-[71%] rounded-t-[25px] pb-5">
                             {/* Header */}
                             <View className="bg-gray-200/75 w-[50px] h-[5px] self-center rounded-full mt-2 mb-[12px]"/>
                             <View className="flex flex-row justify-between items-center mb-4 px-5">

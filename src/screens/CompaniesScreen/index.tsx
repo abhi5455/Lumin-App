@@ -10,7 +10,6 @@ export default function CompaniesScreen() {
 
     useEffect(() => {
         StatusBar.setBarStyle('light-content')
-        console.log("Chanageinggg status Bar")
         StatusBar.setBackgroundColor(filterModalVisible ? '#01584f' : '#00b19f')
     }, [filterModalVisible])
 
