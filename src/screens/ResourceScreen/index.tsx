@@ -1,8 +1,9 @@
-import {ScrollView, StatusBar, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {ScrollView, Text, TextInput, TouchableOpacity, View} from "react-native";
 import {SafeAreaView} from "react-native-safe-area-context";
-import {Search} from "lucide-react-native";
+import {PlusIcon, Search} from "lucide-react-native";
 import {useState} from "react";
 import {IResourceItem, ResourceCard} from "./components/ResourceCard.tsx";
+import {useAppNavigation} from "../../common/navigationHelper.ts";
 
 const companyFilters = [
     {id: 0, name: "All"},
@@ -73,6 +74,7 @@ export const resourceData: IResourceItem[] = [
 
 
 export default function ResourceScreen() {
+    const navigation = useAppNavigation()
     const [selectedFilter, setSelectedFilter] = useState(0);
 
     return (
@@ -88,7 +90,7 @@ export default function ResourceScreen() {
                             className="flex flex-row justify-start items-center border border-gray-300 rounded-xl pr-4 pl-3 py-1 gap-1.5">
                             <Search size={20} color={"#999999"}/>
                             <TextInput
-                                placeholder={"Search Resource"} className="text-black flex-1"
+                                placeholder={"Search by author or tag name"} className="text-black flex-1"
                                 placeholderTextColor={"#999999"}
                             />
                         </View>
@@ -122,6 +124,22 @@ export default function ResourceScreen() {
                         ))}
                         <View className="h-[100px]"/>
                     </ScrollView>
+
+                    <TouchableOpacity
+                        className="bg-primary rounded-full h-14 w-14 absolute bottom-[85px] right-[30px] flex items-center justify-center z-50"
+                        style={{
+                            shadowColor: '#000',
+                            shadowOffset: {width: 0, height: 4},
+                            shadowOpacity: 0.3,
+                            shadowRadius: 4.65,
+                            elevation: 6,
+                        }} onPress={() => {
+                        navigation.navigate("SectionNavigator", {
+                            screen: "AddResourceScreen",
+                        })
+                    }}>
+                        <PlusIcon size={20} color={'#FFFFFF'}/>
+                    </TouchableOpacity>
                 </View>
             </View>
         </SafeAreaView>

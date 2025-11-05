@@ -25,7 +25,6 @@ export default function CompanyDetailsScreen() {
 
     return (
         <SafeAreaView className="flex-1">
-            <StatusBar barStyle="light-content" backgroundColor={'#00b19f'}/>
             <View className="flex flex-row items-center gap-4 bg-primary h-[65px] px-5">
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                     <ChevronLeft size={25} color={"#FFFFFF"}/>
