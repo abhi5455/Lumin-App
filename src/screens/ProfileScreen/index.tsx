@@ -74,7 +74,12 @@ export default function ProfileScreen() {
             title: "Privacy Policy",
             subtitle: "Learn how we protect your data",
             icon: <Shield size={20} color={"#006a63"}/>,
-            action: () => console.log("Navigate to Privacy Policy"),
+            action: () => {
+                navigation.navigate("SectionNavigator",{
+                    screen: "StaticSupportScreen",
+                    params: {sectionType: "Privacy Policy"}
+                })
+            },
         },
         {
             title: "Help Center",

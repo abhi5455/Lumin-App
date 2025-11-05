@@ -36,31 +36,99 @@ const aboutInfo: IStaticSectionInfo[] = [
 
 const helpSupportInfo: IStaticSectionInfo[] = [
     {
-        title: "Getting Started - For Students",
+        title: "Getting Started – Students",
         pointContent: [
-            "Create Account – Register using your college email.",
-            "Explore Alumni – Browse profiles by company, batch, or department.",
-            "Read Experiences – Learn from real interview stories.",
-            "Access Resources – Download study materials and guides.",
-            "Connect – Reach out to alumni for mentorship."
+            "Sign up using your college email.",
+            "Browse alumni profiles by company, batch, or department.",
+            "Read authentic interview experiences.",
+            "Download study materials and guides.",
+            "Connect with alumni for mentorship and advice."
         ]
     },
     {
-        title: "Getting Started - For Alumni",
+        title: "Getting Started – Alumni",
         pointContent: [
-            "Update Profile – Keep your current role and company updated.",
-            "Share Experience – Write about your recruitment journey.",
-            "Upload Resources – Contribute materials that helped you.",
-            "Mentor Students – Respond to connection requests.",
-            "Stay Engaged – Help build the knowledge base."
+            "Keep your profile updated with current role and company.",
+            "Share your recruitment journey to help students.",
+            "Upload resources that guided your preparation.",
+            "Respond to mentorship requests from students.",
+            "Stay active to contribute to the knowledge base."
         ]
     },
     {
         title: "Contact Support",
         pointContent: [
-            "Technical Issues – Email: support@alumnex.college.edu",
-            "Response Time – We aim to respond within 24–48 hours on working days."
+            "Technical issues – Email support@alumnex.college.edu",
+            "Response time – 24–48 hours on working days."
         ]
+    }
+];
+
+const privacyPolicyInfo: IStaticSectionInfo[] = [
+    {
+        title: "Information We Collect",
+        pointContent: [
+            "Account information: Name, email, batch, department, college ID, profile photo, bio, current company and role (for alumni).",
+            "Usage data: Companies you search, resources you download, alumni profiles you view, and app interactions.",
+            "User-generated content: Interview experiences you share, resources you upload, messages sent through the platform."
+        ]
+    },
+    {
+        title: "How We Use Your Information",
+        pointContent: [
+            "Provide services: Display profiles, connect with mentors, show personalized company and placement insights.",
+            "Improve the platform: Analyze usage patterns, generate placement statistics and trends, identify popular companies and resources.",
+            "Ensure security: Verify alumni, prevent fake profiles, and maintain platform integrity."
+        ]
+    },
+    {
+        title: "Information Sharing",
+        pointContent: [
+            "Shared with: College placement cell for verification and moderation, other verified users based on privacy settings.",
+            "Not shared: Contact information with third parties, personal data with advertisers, individual usage patterns outside the college."
+        ]
+    },
+    {
+        title: "Privacy Controls",
+        pointContent: [
+            "You can control who sees your profile: all users, alumni only, or private.",
+            "Choose what information appears publicly.",
+            "Delete your experiences and uploaded resources.",
+            "Request full account deletion."
+        ]
+    },
+    {
+        title: "Data Retention",
+        pointContent: [
+            "Active accounts: Data is retained while your account is active.",
+            "Deleted accounts: Personal data removed within 30 days.",
+            "Alumni contributions may be retained anonymously for community benefit."
+        ]
+    },
+    {
+        title: "Student Data Protection",
+        content: "We are committed to protecting student information. Data is used only for educational and career guidance within the college community."
+    },
+    {
+        title: "Third-Party Services",
+        content: "We use Supabase for data storage and authentication. Their privacy policy applies to data they handle on our behalf."
+    },
+    {
+        title: "Your Rights",
+        pointContent: [
+            "Access and correct your personal data.",
+            "Request deletion of your data.",
+            "Export your data.",
+            "Opt out of non-essential communications."
+        ]
+    },
+    {
+        title: "Changes to Policy",
+        content: "Users will be notified of significant privacy policy changes through in-app announcements."
+    },
+    {
+        title: "Contact",
+        content: "For privacy concerns or data requests, contact your college placement cell or use the in-app Help feature."
     }
 ];
 
@@ -75,7 +143,7 @@ export default function StaticSupportScreen() {
     const [infoData, setInfoData] = useState<IStaticSectionInfo[]>()
 
     useEffect(() => {
-        setInfoData(sectionType === "About Us" ? aboutInfo : helpSupportInfo)
+        setInfoData(sectionType === "About Us" ? aboutInfo : sectionType === "Help Center" ? helpSupportInfo : privacyPolicyInfo)
     }, [sectionType]);
 
     return (
