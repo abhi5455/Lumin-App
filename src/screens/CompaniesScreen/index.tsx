@@ -32,7 +32,7 @@ export default function CompaniesScreen() {
                             />
                         </View>
                         <TouchableOpacity onPress={() => setFilterModalVisible(true)}>
-                            <Funnel size={22} color={"#999"}/>
+                            <Funnel size={22} color={"#999"} strokeWidth={'1.8px'}/>
                         </TouchableOpacity>
                     </View>
                     <ScrollView className="pt-2">

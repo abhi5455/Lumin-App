@@ -54,7 +54,7 @@ export default function CompanyCard() {
                         })
                     }}>
                     <ExternalLink size={20} color={"#fff"}/>
-                    <Text className="text-white font-poppinsMedium text-[14px]">View Details</Text>
+                    <Text className="text-white font-poppinsMedium text-[14px] ml-[2px] mt-[3px]">View Details</Text>
                 </TouchableOpacity>
             </View>
         </View>

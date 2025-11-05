@@ -45,12 +45,10 @@ export default function AlumniCard() {
                         })
                     }}>
                     <ChevronUpCircle size={21} color={"#FFF"}/>
-                    {/*<LinkedinIcon/>*/}
                     <Text className="text-white font-poppinsMedium text-[14px]">View</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     className="flex flex-1 flex-row justify-center items-center gap-2 mt-4 border border-gray-300 py-2 rounded-xl">
-                    {/*<Mail size={20} color={"#374151"}/>*/}
                     <MailIcon/>
                     <Text className="text-gray-700 font-poppinsMedium text-[14px]">Message</Text>
                 </TouchableOpacity>
