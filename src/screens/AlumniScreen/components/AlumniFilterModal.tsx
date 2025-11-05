@@ -1,5 +1,5 @@
-import {Modal, View, Text, TouchableOpacity, Pressable} from "react-native";
-import {X} from "lucide-react-native";
+import {Modal, View, Text, TouchableOpacity, Pressable, ScrollView, TouchableWithoutFeedback} from "react-native";
+import {GraduationCap, X} from "lucide-react-native";
 import {useState} from "react";
 
 interface FilterModalProps {
@@ -42,38 +42,77 @@ export default function AlumniFilterModal({visible, title, onClose}: FilterModal
             visible={visible}
             animationType="slide"
         >
-            <Pressable className="flex-1 bg-black/50 justify-end items-center" onPress={onClose}>
-                <View className="bg-white w-full rounded-t-2xl p-5"
-                      onStartShouldSetResponder={() => true}>
-                    {/* Header */}
-                    <View className="flex flex-row justify-between items-center mb-4">
-                        <Text className="font-poppinsMedium text-xl">{title}</Text>
-                        <TouchableOpacity onPress={onClose}>
-                            <X size={20} color={'#6b7280'}/>
-                        </TouchableOpacity>
-                    </View>
+            <TouchableWithoutFeedback onPress={onClose}>
+                <View className="flex-1 bg-black/50 justify-end items-center">
+                    <TouchableWithoutFeedback>
+                        <View className="bg-white w-full max-h-[70%] rounded-t-2xl p-5"
+                              onStartShouldSetResponder={() => true}>
+                            {/* Header */}
+                            <View className="flex flex-row justify-between items-center mb-4">
+                                <Text className="font-poppinsMedium text-xl">{title}</Text>
+                                <TouchableOpacity onPress={onClose}>
+                                    <X size={20} color={'#6b7280'}/>
+                                </TouchableOpacity>
+                            </View>
 
-                    <View>
-                        <Text className="font-poppinsMedium text-xl mb-2">Degree</Text>
-                        {filterOptions?.degrees?.map((degree, index) => (
-                            <TouchableOpacity className="flex flex-row items-center my-3 px-3" key={index}
-                                              onPress={() => {
-                                              }}>
-                                <View
-                                    className={`w-5 h-5 rounded border items-center justify-center mr-3 ${
-                                        degree?.selected ? "bg-teal-600 border-teal-600" : "border-gray-300"
-                                    }`}
+                            <ScrollView className="mb-4">
+                                {Object.entries(filterOptions)?.map(([groupName, filterItems]) => (
+                                    <View key={groupName} className="mb-6">
+                                        <View className="flex flex-row items-center gap-2">
+                                            <GraduationCap size={22} color={'#6b7280'} strokeWidth={'1px'}/>
+                                            <Text className="font-poppinsLight text-xl text-gray-500">{groupName}</Text>
+                                        </View>
+                                        {filterItems?.map((item, index) => (
+                                            <TouchableOpacity className="flex flex-row items-center my-3 px-3"
+                                                              key={index}
+                                                              onPress={() => {
+                                                                  setFilterOptions((prev) => ({
+                                                                          ...prev,
+                                                                          [groupName]: prev[groupName].map((d) => (
+                                                                              d.id === item.id ? {
+                                                                                  ...d,
+                                                                                  selected: !d.selected
+                                                                              } : d
+                                                                          ))
+                                                                      }
+                                                                  ))
+                                                              }}>
+                                                <View
+                                                    className={`w-5 h-5 rounded border items-center justify-center mr-3 ${
+                                                        item?.selected ? "bg-primary border-primary" : " border-primary"
+                                                    }`}
+                                                >
+                                                    {item?.selected && (
+                                                        <Text
+                                                            className="text-white text-xs font-poppinsSemiBold">✓</Text>
+                                                    )}
+                                                </View>
+                                                <Text
+                                                    className="font-poppins text-gray-700 text-lg">{item?.label}</Text>
+                                            </TouchableOpacity>
+                                        ))}
+                                    </View>
+                                ))}
+                            </ScrollView>
+
+                            <View className="flex flex-row justify-center items-center gap-3">
+                                <TouchableOpacity
+                                    className="flex flex-1 flex-row justify-center items-center border border-gray-300 py-3 rounded-xl">
+                                    <Text className="text-gray-700 font-poppinsMedium text-lg">Cancel</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    className="flex-1 bg-primary py-3 rounded-xl items-center justify-center"
+                                    onPress={() => {
+                                        onClose();
+                                    }}
                                 >
-                                    {degree?.selected && (
-                                        <Text className="text-white text-xs font-poppinsSemiBold">✓</Text>
-                                    )}
-                                </View>
-                                <Text className="font-poppins text-gray-700 text-lg">{degree?.label}</Text>
-                            </TouchableOpacity>
-                        ))}
-                    </View>
+                                    <Text className="text-white font-poppinsMedium text-lg">Apply Filters</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </TouchableWithoutFeedback>
                 </View>
-            </Pressable>
+            </TouchableWithoutFeedback>
         </Modal>
     )
 }
