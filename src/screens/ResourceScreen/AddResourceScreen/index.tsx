@@ -30,39 +30,35 @@ export default function AddResourceScreen() {
                 <View className="bg-white flex-1 justify-between rounded-t-[30px] py-5 px-5">
                     <ScrollView className="flex flex-col">
                         {/*Title*/}
-                        <View className="relative flex flex-col gap-2 mb-5 mt-3">
+                        <View
+                            className="relative flex flex-row justify-start items-center border border-gray-300 rounded-xl px-4 mb-5 mt-3">
                             <Text
                                 className={`${title === "" ? 'hidden' : 'absolute'} top-[-10px] left-[7px] z-50 px-1 bg-white text-gray-300 font-poppinsMedium text-md ml-2`}>Title</Text>
-                            <View
-                                className="flex flex-row justify-start items-center border border-gray-300 rounded-xl px-4">
-                                <TextInput
-                                    placeholder={"Enter title"} className="text-black flex-1 h-[50px] text-lg"
-                                    placeholderTextColor={"#999999"}
-                                    value={title}
-                                    onChangeText={setTitle}
-                                />
-                            </View>
+                            <TextInput
+                                placeholder={"Enter title"} className="text-black flex-1 h-[50px] text-lg"
+                                placeholderTextColor={"#999999"}
+                                value={title}
+                                onChangeText={setTitle}
+                            />
                         </View>
 
                         {/*Content*/}
-                        <View className="relative flex flex-col gap-2 mb-6">
+                        <View
+                            className="relative flex flex-row justify-start items-center border border-gray-300 rounded-xl px-4 mb-5 mt-1">
                             <Text
                                 className={`${content === "" ? 'hidden' : 'absolute'} top-[-10px] left-[7px] z-50 px-1 bg-white text-gray-300 font-poppinsMedium text-md ml-2`}>Content</Text>
-                            <View
-                                className="flex flex-row justify-start items-center border border-gray-300 rounded-xl px-4">
-                                <TextInput
-                                    placeholder={"Enter content"}
-                                    className="text-black flex-1 h-[50px] text-lg min-h-[200px] align-top pt-4"
-                                    placeholderTextColor={"#999999"}
-                                    multiline={true}
-                                    value={content}
-                                    onChangeText={setContent}
-                                />
-                            </View>
+                            <TextInput
+                                placeholder={"Enter content"}
+                                className="text-black flex-1 h-[50px] text-lg min-h-[200px] align-top pt-4"
+                                placeholderTextColor={"#999999"}
+                                multiline={true}
+                                value={content}
+                                onChangeText={setContent}
+                            />
                         </View>
 
                         {/*Tags*/}
-                        <View className="relative flex flex-col gap-2 mb-4">
+                        <View className="relative flex flex-col gap-2 mb-4 mt-1">
                             <View
                                 className="relative flex flex-col items-start border border-gray-300 rounded-xl px-4 py-2 pb-3 gap-4">
                                 <Text
