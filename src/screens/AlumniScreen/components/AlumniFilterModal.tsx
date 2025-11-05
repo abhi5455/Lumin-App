@@ -1,4 +1,4 @@
-import {Modal, View, Text, TouchableOpacity, Pressable, ScrollView, TouchableWithoutFeedback} from "react-native";
+import {Modal, View, Text, TouchableOpacity, ScrollView, TouchableWithoutFeedback} from "react-native";
 import {GraduationCap, X} from "lucide-react-native";
 import {useState} from "react";
 
