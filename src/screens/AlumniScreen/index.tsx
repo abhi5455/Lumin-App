@@ -2,7 +2,7 @@ import {ScrollView, StatusBar, Text, TextInput, TouchableOpacity, View} from "re
 import {SafeAreaView} from "react-native-safe-area-context";
 import {Funnel, Search} from "lucide-react-native";
 import AlumniCard from "./components/AlumniCard.tsx";
-import AlumniFilterModal from "./components/AlumniFilterModal.tsx";
+import AlumniNCompanyFilterModal from "./components/AlumniNCompanyFilterModal.tsx";
 import {useEffect, useState} from "react";
 
 export default function AlumniScreen() {
@@ -48,7 +48,7 @@ export default function AlumniScreen() {
                 </View>
             </View>
 
-            <AlumniFilterModal
+            <AlumniNCompanyFilterModal
                 title={"Alumni Filter"}
                 visible={filterModalVisible}
                 onClose={() => {

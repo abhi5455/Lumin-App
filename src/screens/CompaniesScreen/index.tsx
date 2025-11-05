@@ -3,7 +3,7 @@ import {SafeAreaView} from "react-native-safe-area-context";
 import {Funnel, Search} from "lucide-react-native";
 import CompanyCard from "./components/CompanyCard.tsx";
 import {useEffect, useState} from "react";
-import AlumniFilterModal from "../AlumniScreen/components/AlumniFilterModal.tsx";
+import AlumniNCompanyFilterModal from "../AlumniScreen/components/AlumniNCompanyFilterModal.tsx";
 
 export default function CompaniesScreen() {
     const [filterModalVisible, setFilterModalVisible] = useState(false);
@@ -48,7 +48,7 @@ export default function CompaniesScreen() {
                 </View>
             </View>
 
-            <AlumniFilterModal
+            <AlumniNCompanyFilterModal
                 title={"Alumni Filter"}
                 visible={filterModalVisible}
                 onClose={() => {

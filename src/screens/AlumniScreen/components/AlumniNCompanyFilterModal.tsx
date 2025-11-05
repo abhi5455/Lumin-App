@@ -79,7 +79,7 @@ const alumniFilterOptions = {
     ],
 };
 
-export default function AlumniFilterModal({visible, title, onClose, type}: FilterModalProps) {
+export default function AlumniNCompanyFilterModal({visible, title, onClose, type}: FilterModalProps) {
 
     const [filterOptions, setFilterOptions] = useState<typeof filterOptions>(type === "alumni" ? alumniFilterOptions : CompanyFilterOptions);
 
