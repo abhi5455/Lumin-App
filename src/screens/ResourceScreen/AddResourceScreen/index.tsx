@@ -72,9 +72,9 @@ export default function AddResourceScreen() {
                                             <TouchableOpacity onPress={() => {
                                                 setTags(prev => prev.filter(t => t !== tag))
                                             }}>
-                                                <X size={19} color={'rgb(0 0 0 / 0.65)'}/>
+                                                <X size={16} color={'rgb(0 0 0 / 0.65)'}/>
                                             </TouchableOpacity>
-                                            <Text className="text-[#006a63] font-poppinsMedium text-md">{tag}</Text>
+                                            <Text className="text-[#006a63] font-poppinsMedium text-md ml-1">{tag}</Text>
                                         </View>
                                     ))}
                                     {tags.length < 3 &&
