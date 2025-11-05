@@ -5,10 +5,10 @@ import {
     ChevronRight,
     Edit,
     Edit3,
-    FileText,
+    FileText, FlameIcon,
     HelpCircle,
     Lock, LogOut,
-    Shield, SproutIcon, Trash2,
+    Shield, Trash2,
     User,
     UserPlus
 } from "lucide-react-native";
@@ -23,7 +23,7 @@ const profileOptions = [
     {
         title: "My Contributions",
         subtitle: "See what you've shared",
-        icon: <SproutIcon size={20} color={"#006a63"}/>,
+        icon: <FlameIcon size={20} color={"#006a63"}/>,
         action: () => console.log("Navigate to Create Alumni"),
     },
     {
