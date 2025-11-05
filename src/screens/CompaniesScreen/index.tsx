@@ -3,6 +3,7 @@ import {SafeAreaView} from "react-native-safe-area-context";
 import {Funnel, Search} from "lucide-react-native";
 import CompanyCard from "./components/CompanyCard.tsx";
 import {useEffect, useState} from "react";
+import AlumniFilterModal from "../AlumniScreen/components/AlumniFilterModal.tsx";
 
 export default function CompaniesScreen() {
     const [filterModalVisible, setFilterModalVisible] = useState(false);
@@ -30,8 +31,8 @@ export default function CompaniesScreen() {
                                 placeholderTextColor={"#999999"}
                             />
                         </View>
-                        <TouchableOpacity>
-                            <Funnel size={22} color={"#999"} className=""/>
+                        <TouchableOpacity onPress={() => setFilterModalVisible(true)}>
+                            <Funnel size={22} color={"#999"}/>
                         </TouchableOpacity>
                     </View>
                     <ScrollView className="pt-2">
@@ -47,6 +48,14 @@ export default function CompaniesScreen() {
                 </View>
             </View>
 
+            <AlumniFilterModal
+                title={"Alumni Filter"}
+                visible={filterModalVisible}
+                onClose={() => {
+                    setFilterModalVisible(false)
+                }}
+                type={'companies'}
+            />
         </SafeAreaView>
     )
 }

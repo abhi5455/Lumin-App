@@ -32,7 +32,7 @@ export default function AlumniScreen() {
                             />
                         </View>
                         <TouchableOpacity onPress={() => setFilterModalVisible(true)}>
-                            <Funnel size={22} color={"#999"} className=""/>
+                            <Funnel size={22} color={"#999"}/>
                         </TouchableOpacity>
                     </View>
                     <ScrollView className="pt-2">
@@ -46,16 +46,16 @@ export default function AlumniScreen() {
                         <View className="h-[100px]"/>
                     </ScrollView>
                 </View>
-
-                <AlumniFilterModal
-                    title={"Alumni Filter"}
-                    visible={filterModalVisible}
-                    onClose={() => {
-                        setFilterModalVisible(false)
-                    }}
-                />
             </View>
 
+            <AlumniFilterModal
+                title={"Alumni Filter"}
+                visible={filterModalVisible}
+                onClose={() => {
+                    setFilterModalVisible(false)
+                }}
+                type={'alumni'}
+            />
         </SafeAreaView>
     )
 }
