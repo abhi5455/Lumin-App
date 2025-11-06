@@ -13,7 +13,7 @@ export default function CustomStaticSection({staticSectionInfo}: IStaticSectionI
             {staticSectionInfo?.map((info, index) => (
                 <View className="flex flex-col justify-center px-2 gap-1 mb-1" key={index}>
                     <Text
-                        className="font-poppins text-[19px] text-[#006a63] mb-[-2px]">{info?.title}</Text>
+                        className="font-poppins text-[18px] text-[#006a63] mb-[-2px]">{info?.title}</Text>
                     {info?.content &&
                         <Text className="font-poppinsLight text-gray-700 text-[15px]">{info?.content}</Text>
                     }
