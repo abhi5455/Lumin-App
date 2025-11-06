@@ -20,7 +20,7 @@ export function ResourceCard({resourceItem, type}: ResourceCardProps) {
     console.log("Type ", type)
     return (
         <View
-            className="flex flex-col justify-start gap-4 border-b-[1px] border-gray-100 pb-4 mb-4">
+            className="flex flex-col justify-start gap-2.5 border-b-[1px] border-gray-100 pb-4 mb-4">
             <View className="flex flex-row items-start justify-between gap-4">
                 <View className="flex flex-row items-center gap-4">
                     <View
@@ -49,9 +49,9 @@ export function ResourceCard({resourceItem, type}: ResourceCardProps) {
                     </View>
                 ))}
             </View>
-            <View>
-                <Text className="font-poppins text-lg">{resourceItem?.title}</Text>
-                <Text className="font-poppinsLight text-gray-700 mt-1">{resourceItem?.content}</Text>
+            <View className="mt-[-2px]a">
+                <Text className="font-poppins text-[17px]">{resourceItem?.title}</Text>
+                <Text className="font-poppinsLight text-gray-700 mt-1 text-[15px]">{resourceItem?.content}</Text>
             </View>
         </View>
     );

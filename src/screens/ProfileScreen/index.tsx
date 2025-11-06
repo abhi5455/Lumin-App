@@ -149,7 +149,7 @@ export default function ProfileScreen() {
                                 onPress={item?.action}>
                                 <View className="flex flex-row items-center gap-4">
                                     <View
-                                        className="flex justify-center items-center self-start ml-2  bg-primary/10  w-[50px] h-[50px] rounded-full">
+                                        className="flex justify-center items-center self-start ml-2 bg-primary/10 w-[50px] h-[50px] rounded-full">
                                         {item?.icon}
                                     </View>
                                     <View className="">
