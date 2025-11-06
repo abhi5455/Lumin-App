@@ -1,8 +1,8 @@
-import {ScrollView, StatusBar, Text, TouchableOpacity, View} from "react-native";
+import {ScrollView, Text, TouchableOpacity, View} from "react-native";
 import {SafeAreaView} from "react-native-safe-area-context";
 import {RouteProp, useRoute} from "@react-navigation/core";
 import {useEffect, useState} from "react";
-import {ChevronLeft, Github, Globe, Linkedin, Mail, Phone, Twitter} from "lucide-react-native";
+import {ChevronLeft, Edit3, Github, Globe, Linkedin, Mail, Phone, Twitter} from "lucide-react-native";
 import {useAppNavigation} from "../../../common/navigationHelper.ts";
 import About from "./About.tsx";
 import Education from "./Education.tsx";
@@ -10,11 +10,12 @@ import Experience from "./Experience.tsx";
 
 interface AlumniDetailsScreenProps {
     alumnusId: string;
+    type: "alumnus" | "myProfile";
 }
 
 export default function AlumniDetailsScreen() {
     const route = useRoute<RouteProp<{ AlumniDetailsScreen: AlumniDetailsScreenProps }, 'AlumniDetailsScreen'>>();
-    const {alumnusId} = route?.params;
+    const {alumnusId, type} = route?.params;
     const navigation = useAppNavigation()
     const [activeTab, setActiveTab] = useState<'about' | 'education' | 'experience'>('about')
 
@@ -24,11 +25,19 @@ export default function AlumniDetailsScreen() {
 
     return (
         <SafeAreaView className="flex-1">
-            <View className="flex flex-row items-center gap-4 bg-primary h-[65px] px-5">
-                <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <ChevronLeft size={25} color={"#FFFFFF"}/>
-                </TouchableOpacity>
-                <Text className="font-poppinsLight text-white text-2xl">Alumnus Details</Text>
+            <View className="flex flex-row justify-between items-center gap-4 bg-primary h-[65px] px-5 pr-8">
+                <View className="flex flex-row items-center gap-4 bg-primary h-[65px]">
+                    <TouchableOpacity onPress={() => navigation.goBack()}>
+                        <ChevronLeft size={25} color={"#FFFFFF"}/>
+                    </TouchableOpacity>
+                    <Text
+                        className="font-poppinsLight text-white text-2xl">{type === "myProfile" ? "My Profile" : "Alumnus Details"}</Text>
+                </View>
+                {type === "myProfile" &&
+                    <TouchableOpacity className="mt-[2px]">
+                        <Edit3 size={20} color={"#FFFFFF"} strokeWidth={"1.7px"}/>
+                    </TouchableOpacity>
+                }
             </View>
 
             <View className="bg-primary flex-1">
@@ -73,15 +82,17 @@ export default function AlumniDetailsScreen() {
                                 <Mail size={19} color={"#006a63"} strokeWidth={"1.7"}/>
                             </TouchableOpacity>
                         </View>
-                        <View className="flex flex-row gap-2">
-                            <TouchableOpacity
-                                className="flex flex-1 flex-row justify-center items-center gap-2 mt-4 bg-primary py-2 rounded-xl"
-                                onPress={() => {
-                                }}>
-                                {/*<ChevronUpCircle size={21} color={"#FFF"}/>*/}
-                                <Text className="text-white font-poppinsMedium text-[14px]">Message</Text>
-                            </TouchableOpacity>
-                        </View>
+                        {type === "alumnus" &&
+                            <View className="flex flex-row gap-2">
+                                <TouchableOpacity
+                                    className="flex flex-1 flex-row justify-center items-center gap-2 mt-4 bg-primary py-2 rounded-xl"
+                                    onPress={() => {
+                                    }}>
+                                    {/*<ChevronUpCircle size={21} color={"#FFF"}/>*/}
+                                    <Text className="text-white font-poppinsMedium text-[14px]">Message</Text>
+                                </TouchableOpacity>
+                            </View>
+                        }
                     </View>
 
                     <View className="flex flex-row justify-between border-b border-gray-100 mx-4">

@@ -40,7 +40,8 @@ export default function AlumniCard() {
                         navigation.navigate("SectionNavigator", {
                             screen: "AlumniDetailsScreen",
                             params: {
-                                alumnusId: "alumnus_1"
+                                alumnusId: "alumnus_1",
+                                type: "alumnus"
                             }
                         })
                     }}>

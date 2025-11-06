@@ -21,7 +21,15 @@ export default function ProfileScreen() {
             title: "My Profile",
             subtitle: "Manage your personal details",
             icon: <User size={20} color={"#006a63"}/>,
-            action: () => console.log("Navigate to My Profile"),
+            action: () => {
+                navigation.navigate("SectionNavigator", {
+                    screen: "AlumniDetailsScreen",
+                    params: {
+                        alumnusId: "alumnus_1",
+                        type: "myProfile"
+                    }
+                })
+            },
         },
         {
             title: "My Contributions",
@@ -35,36 +43,36 @@ export default function ProfileScreen() {
             icon: <Lock size={20} color={"#006a63"}/>,
             action: () => console.log("Navigate to Change Password"),
         },
-        {
-            title: "Create Alumni",
-            subtitle: "Add a new alumni record",
-            icon: <UserPlus size={20} color={"#006a63"}/>,
-            action: () => console.log("Navigate to Create Alumni"),
-        },
-        {
-            title: "Edit Alumni",
-            subtitle: "Modify existing alumni details",
-            icon: <Edit size={20} color={"#006a63"}/>,
-            action: () => console.log("Navigate to Edit Alumni"),
-        },
-        {
-            title: "Create Company",
-            subtitle: "Register a new company profile",
-            icon: <Building size={20} color={"#006a63"}/>,
-            action: () => console.log("Navigate to Create Company"),
-        },
-        {
-            title: "Edit Company",
-            subtitle: "Update company information",
-            icon: <Edit3 size={20} color={"#006a63"}/>,
-            action: () => console.log("Navigate to Edit Company"),
-        },
+        // {
+        //     title: "Create Alumni",
+        //     subtitle: "Add a new alumni record",
+        //     icon: <UserPlus size={20} color={"#006a63"}/>,
+        //     action: () => console.log("Navigate to Create Alumni"),
+        // },
+        // {
+        //     title: "Edit Alumni",
+        //     subtitle: "Modify existing alumni details",
+        //     icon: <Edit size={20} color={"#006a63"}/>,
+        //     action: () => console.log("Navigate to Edit Alumni"),
+        // },
+        // {
+        //     title: "Create Company",
+        //     subtitle: "Register a new company profile",
+        //     icon: <Building size={20} color={"#006a63"}/>,
+        //     action: () => console.log("Navigate to Create Company"),
+        // },
+        // {
+        //     title: "Edit Company",
+        //     subtitle: "Update company information",
+        //     icon: <Edit3 size={20} color={"#006a63"}/>,
+        //     action: () => console.log("Navigate to Edit Company"),
+        // },
         {
             title: "About Us",
             subtitle: "Learn more about our mission",
             icon: <Info size={20} color={"#006a63"}/>,
             action: () => {
-                navigation.navigate("SectionNavigator",{
+                navigation.navigate("SectionNavigator", {
                     screen: "StaticSupportScreen",
                     params: {sectionType: "About Us"}
                 })
@@ -75,7 +83,7 @@ export default function ProfileScreen() {
             subtitle: "Learn how we protect your data",
             icon: <Shield size={20} color={"#006a63"}/>,
             action: () => {
-                navigation.navigate("SectionNavigator",{
+                navigation.navigate("SectionNavigator", {
                     screen: "StaticSupportScreen",
                     params: {sectionType: "Privacy Policy"}
                 })
@@ -86,7 +94,7 @@ export default function ProfileScreen() {
             subtitle: "Get support and find FAQs",
             icon: <HelpCircle size={20} color={"#006a63"}/>,
             action: () => {
-                navigation.navigate("SectionNavigator",{
+                navigation.navigate("SectionNavigator", {
                     screen: "StaticSupportScreen",
                     params: {sectionType: "Help Center"}
                 })
