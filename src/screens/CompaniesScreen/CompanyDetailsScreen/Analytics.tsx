@@ -33,11 +33,11 @@ export default function Analytics() {
     return (
         <View className="flex flex-col justify-center px-5 mt-5 gap-4">
             <View
-                className="flex flex-col justify-center gap-2 border-[1px] bg-gray-100/40 border-primary rounded-xl p-2 mt-5">
+                className="flex flex-col justify-center gap-2 border-[1px] bg-gray-100/40 border-[#006a63]/50 rounded-xl p-2 mt-5">
                 <View className="flex flex-row items-center gap-3">
                     <View
-                        className="flex justify-center items-center self-start mt-2 ml-2 bg-[#DAA520]/10 w-12 h-12 rounded-full">
-                        <BarChart3Icon size={19} color={"#DAA520"}/>
+                        className="flex justify-center items-center self-start mt-2 ml-2 bg-primary/10 w-12 h-12 rounded-full">
+                        <BarChart3Icon size={19} color={"#006a63"}/>
                     </View>
                     <View className="flex-1">
                         <Text className="font-poppinsMedium text-lg">
@@ -50,9 +50,9 @@ export default function Analytics() {
                     width={screenWidth - 20}
                     height={220}
                     chartConfig={{
-                        backgroundColor: "#FF8000",
-                        backgroundGradientFrom: "#FF8000",
-                        backgroundGradientTo: "#FF8000",
+                        backgroundColor: "#006a63",
+                        backgroundGradientFrom: "#006a63",
+                        backgroundGradientTo: "#006a63",
                         color: (opacity = 1) => `rgba(0, 106, 99, ${opacity})`,
                     }}
                     accessor={"value"}
@@ -64,11 +64,11 @@ export default function Analytics() {
 
 
             <View
-                className="flex flex-col justify-center items-center gap-4 border-[1px] bg-gray-100/40 border-primary rounded-xl p-2 mt-5 pb-4">
+                className="flex flex-col justify-center items-center gap-4 border-[1px] bg-gray-100/40 border-[#006a63]/50 rounded-xl p-2 mt-5 pb-4">
                 <View className="flex flex-row items-center gap-3">
                     <View
-                        className="flex justify-center items-center self-start mt-2 ml-2 bg-[#DAA520]/10 w-12 h-12 rounded-full">
-                        <ChartNoAxesCombined size={19} color={"#DAA520"}/>
+                        className="flex justify-center items-center self-start mt-2 ml-2 bg-primary/10 w-12 h-12 rounded-full">
+                        <ChartNoAxesCombined size={19} color={"#006a63"}/>
                     </View>
                     <View className="flex-1">
                         <Text className="font-poppinsMedium text-lg">
