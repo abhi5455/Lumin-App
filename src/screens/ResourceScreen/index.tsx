@@ -1,9 +1,10 @@
 import {ScrollView, Text, TextInput, TouchableOpacity, View} from "react-native";
 import {SafeAreaView} from "react-native-safe-area-context";
-import {PlusIcon, Search} from "lucide-react-native";
+import {ChevronLeft, PlusIcon, Search} from "lucide-react-native";
 import {useState} from "react";
 import {IResourceItem, ResourceCard} from "./components/ResourceCard.tsx";
 import {useAppNavigation} from "../../common/navigationHelper.ts";
+import {RouteProp, useRoute} from "@react-navigation/core";
 
 const companyFilters = [
     {id: 0, name: "All"},
@@ -72,15 +73,37 @@ export const resourceData: IResourceItem[] = [
     }
 ];
 
+interface IResourceScreenProps {
+    type?: string
+}
 
 export default function ResourceScreen() {
+    const route = useRoute<RouteProp<{ ResourceScreen: IResourceScreenProps }, 'ResourceScreen'>>();
+    const {type} = route?.params ?? "resource";
     const navigation = useAppNavigation()
     const [selectedFilter, setSelectedFilter] = useState(0);
 
     return (
         <SafeAreaView className="flex-1">
-            <View className="bg-primary h-[65px] justify-center px-5">
-                <Text className="font-poppinsLight text-white text-2xl">Resources</Text>
+            <View className="flex flex-row justify-between items-center gap-4 bg-primary h-[65px] px-5 pr-8">
+                <View className="flex flex-row items-center gap-4 bg-primary h-[65px]">
+                    {(type && type === "myContributions") &&
+                        <TouchableOpacity onPress={() => navigation.goBack()}>
+                            <ChevronLeft size={25} color={"#FFFFFF"}/>
+                        </TouchableOpacity>
+                    }
+                    <Text
+                        className="font-poppinsLight text-white text-2xl">{(type && type === "myContributions") ? "My Contributions" : "Resources"}</Text>
+                </View>
+                {(type && type === "myContributions") &&
+                    <TouchableOpacity className="mt-[2px]" onPress={() => {
+                        navigation.navigate("SectionNavigator", {
+                            screen: "AddResourceScreen",
+                        })
+                    }}>
+                        <PlusIcon size={22} color={"#FFFFFF"} strokeWidth={"1.7px"}/>
+                    </TouchableOpacity>
+                }
             </View>
 
             <View className="bg-primary flex-1">
@@ -90,56 +113,67 @@ export default function ResourceScreen() {
                             className="flex flex-row justify-start items-center border border-gray-300 rounded-xl pr-4 pl-3 py-1 gap-1.5">
                             <Search size={20} color={"#999999"}/>
                             <TextInput
-                                placeholder={"Search by author or tag name"} className="text-black flex-1"
+                                placeholder={`Search by ${(type && type === "myContributions") ? '' : 'author or '}tag name`}
+                                className="text-black flex-1"
                                 placeholderTextColor={"#999999"}
                             />
                         </View>
-                        <ScrollView
-                            horizontal
-                            showsHorizontalScrollIndicator={false}
-                            className="max-h-[30px]"
-                            contentContainerStyle={{
-                                flexDirection: 'row',
-                                alignItems: 'center',
-                                gap: 10,
-                            }}
-                        >
-                            {companyFilters?.map((item, index) => (
-                                <TouchableOpacity
-                                    className={`${selectedFilter === item?.id ? 'bg-primary/10' : 'bg-gray-100'} py-1 rounded-xl px-3 self-baseline`}
-                                    key={index}
-                                    onPress={() => setSelectedFilter(item?.id)}>
-                                    <Text
-                                        className={`${selectedFilter === item?.id ? 'text-[#006a63]' : 'text-black/80'} font-poppins text-[13px]`}>{item?.name}</Text>
-                                </TouchableOpacity>
-                            ))}
-                        </ScrollView>
+                        {(type && type === "myContributions") ?
+                            <></> :
+                            <ScrollView
+                                horizontal
+                                showsHorizontalScrollIndicator={false}
+                                className="max-h-[30px]"
+                                contentContainerStyle={{
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    gap: 10,
+                                }}
+                            >
+                                {companyFilters?.map((item, index) => (
+                                    <TouchableOpacity
+                                        className={`${selectedFilter === item?.id ? 'bg-primary/10' : 'bg-gray-100'} py-1 rounded-xl px-3 self-baseline`}
+                                        key={index}
+                                        onPress={() => setSelectedFilter(item?.id)}>
+                                        <Text
+                                            className={`${selectedFilter === item?.id ? 'text-[#006a63]' : 'text-black/80'} font-poppins text-[13px]`}>{item?.name}</Text>
+                                    </TouchableOpacity>
+                                ))}
+                            </ScrollView>
+                        }
                     </View>
 
                     <ScrollView className="flex-1 pt-2 w-full">
                         {resourceData.map((item, index) => (
                             <View key={index}>
-                                <ResourceCard resourceItem={item}/>
+                                <ResourceCard resourceItem={item} type={type}/>
                             </View>
                         ))}
-                        <View className="h-[100px]"/>
+                        {(type && type === "myContributions") ?
+                            <View className="h-[50px]"/>
+                            :
+                            <View className="h-[100px]"/>
+                        }
                     </ScrollView>
 
-                    <TouchableOpacity
-                        className="bg-primary rounded-full h-14 w-14 absolute bottom-[85px] right-[30px] flex items-center justify-center z-50"
-                        style={{
-                            shadowColor: '#000',
-                            shadowOffset: {width: 0, height: 4},
-                            shadowOpacity: 0.3,
-                            shadowRadius: 4.65,
-                            elevation: 6,
-                        }} onPress={() => {
-                        navigation.navigate("SectionNavigator", {
-                            screen: "AddResourceScreen",
-                        })
-                    }}>
-                        <PlusIcon size={20} color={'#FFFFFF'}/>
-                    </TouchableOpacity>
+                    {(type && type === "myContributions") ?
+                        <></> :
+                        <TouchableOpacity
+                            className="bg-primary rounded-full h-14 w-14 absolute bottom-[85px] right-[30px] flex items-center justify-center z-50"
+                            style={{
+                                shadowColor: '#000',
+                                shadowOffset: {width: 0, height: 4},
+                                shadowOpacity: 0.3,
+                                shadowRadius: 4.65,
+                                elevation: 6,
+                            }} onPress={() => {
+                            navigation.navigate("SectionNavigator", {
+                                screen: "AddResourceScreen",
+                            })
+                        }}>
+                            <PlusIcon size={20} color={'#FFFFFF'}/>
+                        </TouchableOpacity>
+                    }
                 </View>
             </View>
         </SafeAreaView>

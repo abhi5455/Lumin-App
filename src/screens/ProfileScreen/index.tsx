@@ -35,7 +35,14 @@ export default function ProfileScreen() {
             title: "My Contributions",
             subtitle: "See what you've shared",
             icon: <FlameIcon size={20} color={"#006a63"}/>,
-            action: () => console.log("Navigate to Create Alumni"),
+            action: () => {
+                navigation.navigate("SectionNavigator", {
+                    screen: "ResourceScreen",
+                    params: {
+                        type: "myContributions"
+                    }
+                })
+            },
         },
         {
             title: "Change Password",
