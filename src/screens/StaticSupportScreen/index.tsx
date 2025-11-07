@@ -10,7 +10,7 @@ const aboutInfo: IStaticSectionInfo[] = [
     {
         title: "Bridging Alumni & Students",
         content:
-            "AlumNex is a student-built platform that connects alumni and current students through genuine placement insights and mentorship. We believe the best career advice comes from real experiences. AlumNex turns scattered placement knowledge into a structured, searchable network that empowers students to make informed career choices."
+            "Lumin is a student-built platform that connects alumni and current students through genuine placement insights and mentorship. We believe the best career advice comes from real experiences. Lumin turns scattered placement knowledge into a structured, searchable network that empowers students to make informed career choices."
     },
     {
         title: "Our Mission",
@@ -30,7 +30,7 @@ const aboutInfo: IStaticSectionInfo[] = [
     {
         title: "Built by Students, for Students",
         content:
-            "AlumNex began as a student initiative to make placement information more meaningful — transforming plain statistics into shared experiences, mentorship, and guidance."
+            "Lumin began as a student initiative to make placement information more meaningful — transforming plain statistics into shared experiences, mentorship, and guidance."
     }
 ];
 
@@ -58,7 +58,7 @@ const helpSupportInfo: IStaticSectionInfo[] = [
     {
         title: "Contact Support",
         pointContent: [
-            "Technical issues – Email support@alumnex.college.edu",
+            "Technical issues – Email support@lumin.college.edu",
             "Response time – 24–48 hours on working days."
         ]
     }
