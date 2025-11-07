@@ -27,10 +27,13 @@ export default function SplashScreen() {
 
     return (
         <>
-            <StatusBar barStyle={"light-content"} backgroundColor="#00b19f"/>
-            <View className="flex-1 items-center justify-center bg-primary">
-                <Text className="text-2xl font-bold text-white">
-                    AlumNex
+            <StatusBar barStyle={"dark-content"} backgroundColor="#ffffff"/>
+            <View className="flex-1 items-center justify-center bg-white">
+                <Text className="text-[36px] text-primary font-poppinsLight">
+                    Lumin
+                </Text>
+                <Text className="text-sm text-primary font-poppinsLight mt-[-10px]">
+                    - Experience Meets Ambition -
                 </Text>
             </View>
         </>
