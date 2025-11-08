@@ -1,6 +1,5 @@
 import {supabase} from "../lib/supabaseClient.ts";
 import {ICollege} from "../types/type_college.ts";
-import { SUPABASE_URL, SUPABASE_ANON_KEY } from '@env';
 
 export const collegeService = {
     async getAll() {
@@ -30,12 +29,39 @@ export const collegeService = {
     },
 
     async create(college: Omit<ICollege, 'id' | 'created_at'>) {
-        console.log("Creating college: ", college, "\n Url ", SUPABASE_URL, "\n Anon ",SUPABASE_ANON_KEY);
         const {data, error} =
             await supabase.from('college')
                 .insert([college])
                 .select()
-                .single()
+                .single();
+
+        if (error) {
+            console.log("Error: ", error);
+            throw error
+        }
+        return data;
+    },
+
+    async update(college: Omit<ICollege, 'created_at'>) {
+        const {data, error} =
+            await supabase.from('college')
+                .update(college)
+                .eq('id', college.id)
+                .select()
+                .single();
+
+        if (error) {
+            console.log("Error: ", error);
+            throw error
+        }
+        return data;
+    },
+
+    async delete(id: string) {
+        const {data, error} =
+            await supabase.from('college')
+                .delete()
+                .eq('id', id);
 
         if (error) {
             console.log("Error: ", error);
@@ -43,5 +69,4 @@ export const collegeService = {
         }
         return data;
     }
-
 }
