@@ -5,7 +5,7 @@ export const studentService = {
     async getAll() {
         const {data, error} =
             await supabase.from('student')
-                .select('*');
+                .select(`*, college(*), department(*), rstudentcompany(*, company(*)), studenteducation(*)`)
 
         if (error) {
             console.log("Error: ", error);
@@ -17,7 +17,7 @@ export const studentService = {
     async getAllByCollegeId(collegeId: string) {
         const {data, error} =
             await supabase.from('student')
-                .select(`*, college(*), department(*), RStudentCompany(*, company(*)), StudentEducation(*)`)
+                .select(`*, college(*), department(*), rstudentcompany(*, company(*)), studenteducation(*)`)
                 .eq('college_id', collegeId);
 
         if (error) {
@@ -30,7 +30,7 @@ export const studentService = {
     async getById(id: string) {
         const {data, error} =
             await supabase.from('student')
-                .select(`*, college(*), department(*), RStudentCompany(*, company(*)), StudentEducation(*)`)
+                .select(`*, college(*), department(*), rstudentcompany(*, company(*)), studenteducation(*)`)
                 .eq('id', id)
                 .single();
 
