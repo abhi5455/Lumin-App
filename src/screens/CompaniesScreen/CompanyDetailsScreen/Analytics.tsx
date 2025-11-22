@@ -1,6 +1,7 @@
 import {Dimensions, Text, View} from "react-native";
 import {BarChart, PieChart} from "react-native-chart-kit";
 import {BarChart3Icon, ChartNoAxesCombined} from "lucide-react-native";
+import {ICompany} from "../../../types/typeCompany.ts";
 
 const departmentData = [
     {name: "CSE", value: 89, color: "#14b8a6"}, // Main teal
@@ -19,7 +20,7 @@ const yearlyPlacements = [
     {year: "2024", placed: 23},
 ];
 
-export default function Analytics() {
+export default function Analytics({company}: { company: ICompany }) {
     const screenWidth = Dimensions.get("window").width;
     const barData = {
         labels: yearlyPlacements.map(item => item.year),

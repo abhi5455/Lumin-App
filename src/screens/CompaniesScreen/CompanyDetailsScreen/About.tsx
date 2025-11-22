@@ -1,7 +1,8 @@
 import {Text, View} from "react-native";
 import {HandCoins, Handshake, History, TrendingUp, User} from "lucide-react-native";
+import {ICompany} from "../../../types/typeCompany.ts";
 
-export default function About() {
+export default function About({company}: { company: ICompany }) {
     return (
         <>
             <View
@@ -19,12 +20,7 @@ export default function About() {
                 </View>
 
                 <Text className="text-black/80 text-[15px] font-poppins indent-8 text-justify px-3 mb-4 leading-6">
-                    {'\u2003'}{'\u2003'}{'\u2003'}TCS (Tata Consultancy Services) is a global leader in IT services,
-                    consulting, and business solutions. Founded in 1968 as part of the Tata Group, it has become one of
-                    the largest technology companies in the world. TCS provides end-to-end digital transformation
-                    services across industries, including banking, healthcare, retail, and manufacturing, leveraging
-                    cutting-edge technologies like AI, cloud, and automation to help clients achieve business
-                    excellence.
+                    {'\u2003'}{'\u2003'}{'\u2003'}{company?.overview}
                 </Text>
             </View>
 
@@ -39,7 +35,7 @@ export default function About() {
                         Total Hires:
                     </Text>
                     <Text className="font-poppinsMedium text-lg text-[#006a63]">
-                        40
+                        {company?.total_hires}
                     </Text>
                 </View>
             </View>
@@ -54,7 +50,7 @@ export default function About() {
                         Average Salary:
                     </Text>
                     <Text className="font-poppinsMedium text-lg text-[#006a63]">
-                        12 LPA
+                        {company?.avg_salary}
                     </Text>
                 </View>
             </View>
@@ -69,7 +65,7 @@ export default function About() {
                         Last Recruited:
                     </Text>
                     <Text className="font-poppinsMedium text-lg text-[#006a63]">
-                        2024
+                        {company?.last_recruited}
                     </Text>
                 </View>
             </View>
@@ -84,7 +80,7 @@ export default function About() {
                         Service Agreement:
                     </Text>
                     <Text className="font-poppinsMedium text-lg text-[#006a63]">
-                        2 yrs
+                        {company?.agreement} yrs
                     </Text>
                 </View>
             </View>

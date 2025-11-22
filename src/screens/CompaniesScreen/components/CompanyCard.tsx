@@ -53,7 +53,8 @@ export default function CompanyCard({company}: { company: ICompany }) {
                         navigation.navigate("SectionNavigator", {
                             screen: "CompanyDetailsScreen",
                             params: {
-                                companyId: "company_1"
+                                companyId: company?.id,
+                                companyData: company
                             }
                         })
                     }}>

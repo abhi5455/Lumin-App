@@ -39,7 +39,7 @@ export const companyService = {
         return data;
     },
 
-    async getAllById(id: string) {
+    async getById(id: string) {
         const {data, error} =
             await supabase.from('company')
                 .select(`

@@ -1,5 +1,6 @@
 import {Text, View} from "react-native";
 import {Wrench} from "lucide-react-native";
+import {ICompany} from "../../../types/typeCompany.ts";
 
 const recruitmentProcesses = [
     {
@@ -24,7 +25,7 @@ const recruitmentProcesses = [
 ];
 
 
-export default function Process() {
+export default function Process({company}: { company: ICompany }) {
     return (
         <>
             <View
