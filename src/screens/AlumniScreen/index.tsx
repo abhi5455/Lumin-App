@@ -3,7 +3,7 @@ import {SafeAreaView} from "react-native-safe-area-context";
 import {Funnel, Search} from "lucide-react-native";
 import AlumniCard from "./components/AlumniCard.tsx";
 import AlumniNCompanyFilterModal from "./components/AlumniNCompanyFilterModal.tsx";
-import {useCallback, useEffect, useState} from "react";
+import {useCallback, useEffect, useRef, useState} from "react";
 import {studentService} from "../../services/studentService.ts";
 import {IStudent} from "../../types/type_student.ts";
 import {useFocusEffect} from "@react-navigation/native";
@@ -12,16 +12,19 @@ export default function AlumniScreen() {
     const [filterModalVisible, setFilterModalVisible] = useState(false);
     const [alumniList, setAlumniList] = useState<IStudent[]>([]);
     const [isLoading, setIsLoading] = useState(false);
+    const isFirstLoad = useRef(true)
 
     useEffect(() => {
         StatusBar.setBarStyle('light-content')
-        console.log("Chanageinggg status Bar")
         StatusBar.setBackgroundColor(filterModalVisible ? '#01584f' : '#00b19f')
     }, [filterModalVisible])
 
     useFocusEffect(
         useCallback(() => {
-            setIsLoading(true);
+            if (isFirstLoad.current) {
+                setIsLoading(true)
+                isFirstLoad.current = false
+            }
             studentService.getAllAlumniByCollegeId('6ba00e19-69c8-4f0e-a4f9-525d9502deca')
                 .then(data => {
                     console.log("Alumni Data: ", data);
