@@ -164,7 +164,7 @@ export default function CompanyDetailsScreen() {
                                             } else {
                                                 Toast.show({
                                                         type: "missing",
-                                                        text1: "Glassdoor review not available!",
+                                                        text1: "Review not available!",
                                                         position: "top"
                                                     }
                                                 )
