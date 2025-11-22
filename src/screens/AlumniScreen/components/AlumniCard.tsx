@@ -13,7 +13,7 @@ export default function AlumniCard({alumnus}: { alumnus: IStudent }) {
         <View className="flex flex-col justify-center p-4 border border-gray-300 rounded-xl">
             <View className="flex flex-row items-center gap-4">
                 <View className="flex items-center justify-center bg-primary rounded-full h-14 w-14">
-                    <Text className="text-white font-poppinsMedium">AB</Text>
+                    <Text className="text-white font-poppinsMedium">{alumnus?.name.split(" ")?.map(n=> n[0].toUpperCase()).join('')}</Text>
                 </View>
                 <View>
                     <Text className="font-poppinsMedium text-lg">{alumnus?.name}</Text>
@@ -45,8 +45,9 @@ export default function AlumniCard({alumnus}: { alumnus: IStudent }) {
                         navigation.navigate("SectionNavigator", {
                             screen: "AlumniDetailsScreen",
                             params: {
-                                alumnusId: "alumnus_1",
-                                type: "alumnus"
+                                alumnusId: alumnus?.id,
+                                type: "alumnus",
+                                alumnusData: alumnus,
                             }
                         })
                     }}>

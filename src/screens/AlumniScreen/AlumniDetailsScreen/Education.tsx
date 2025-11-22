@@ -1,10 +1,11 @@
 import {Text, View} from "react-native";
 import {GraduationCap} from "lucide-react-native";
+import {IStudent} from "../../../types/type_student.ts";
 
-export default function Education() {
+export default function Education({alumnus}: { alumnus: IStudent }) {
     return (
         <View className="flex flex-col justify-center px-5 mt-5 gap-4">
-            {[1, 2, 3].map((item, index) => (
+            {alumnus?.studenteducation?.map((item, index) => (
                 <View className="border-[1px] bg-gray-100/35 border-[#006a63]/50 rounded-xl p-2" key={index}>
                     <View className="flex flex-row items-center gap-3">
                         <View
@@ -14,10 +15,10 @@ export default function Education() {
 
                         <View className="flex-1">
                             <Text className="font-poppinsMedium text-[15px] mt-2">
-                                Rajiv Gandhi Institute of Technology, Kottayam
+                                {item?.institution}
                             </Text>
                             <Text className="font-poppins text-[#006a63]">
-                                B.Tech in CSE
+                                {item?.degree_type} in {item?.field_of_study}
                             </Text>
                         </View>
                     </View>
@@ -28,7 +29,7 @@ export default function Education() {
                                 Marks:
                             </Text>
                             <Text className="font-poppinsMedium text-md text-[#006a63]">
-                                95.5%
+                                {item?.marks_percent}%
                             </Text>
                         </View>
                         <View className="flex flex-col justify-center items-end">
@@ -36,7 +37,7 @@ export default function Education() {
                                 Period:
                             </Text>
                             <Text className="font-poppinsMedium text-[13px] text-[#006a63]">
-                                2022-2026
+                                {item?.start_year}-{item?.end_year}
                             </Text>
                         </View>
                     </View>
