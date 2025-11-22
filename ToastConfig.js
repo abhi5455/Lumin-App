@@ -6,7 +6,8 @@ export const toastConfig = {
         <BaseToast
             {...props}
             style={{
-                borderLeftColor: "#22c55e"
+                borderLeftColor: "#22c55e",
+                borderRadius: 10,
             }}
             text1Style={{
                 fontSize: 14,
@@ -24,6 +25,7 @@ export const toastConfig = {
             {...props}
             style={{
                 borderLeftColor: "#FF0000",
+                borderRadius: 10,
             }}
             text1Style={{
                 fontSize: 14,
@@ -40,7 +42,8 @@ export const toastConfig = {
         <BaseToast
             {...props}
             style={{
-                borderLeftColor: "#3b82f6"
+                borderLeftColor: "#3b82f6",
+                borderRadius: 10,
             }}
             text1Style={{
                 fontSize: 14,
@@ -53,4 +56,26 @@ export const toastConfig = {
             }}
         />
     ),
+    missing: (props) => (
+        <BaseToast
+            {...props}
+            style={{
+                borderLeftColor: "#f97316", // orange-500 (warning)
+                backgroundColor: "#fff7ed", // soft orange background
+                borderRadius: 10,
+            }}
+            text1Style={{
+                fontSize: 14,
+                fontFamily: "Poppins-SemiBold",
+                marginBottom: 5,
+                color: "#7c2d12", // dark-orange for title
+            }}
+            text2Style={{
+                fontSize: 11,
+                fontFamily: "Poppins-Medium",
+                color: "#9a3412",
+            }}
+        />
+    ),
+
 };

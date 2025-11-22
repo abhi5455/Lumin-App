@@ -9,6 +9,8 @@ import Education from "./Education.tsx";
 import Experience from "./Experience.tsx";
 import {studentService} from "../../../services/studentService.ts";
 import {IStudent} from "../../../types/type_student.ts";
+import {openURL} from "../../../lib/openUrl.ts";
+import Toast from "react-native-toast-message";
 
 interface AlumniDetailsScreenProps {
     alumnusId: string;
@@ -82,27 +84,105 @@ export default function AlumniDetailsScreen() {
                                 </View>
                                 <View className="flex flex-row justify-start mt-3 gap-4">
                                     <TouchableOpacity
-                                        className="flex justify-center items-center bg-[#f0f6fc]/50  w-12 h-12 rounded-lg border-[1px] border-[#6b7280]/30">
+                                        className="flex justify-center items-center bg-[#f0f6fc]/50  w-12 h-12 rounded-lg border-[1px] border-[#6b7280]/30"
+                                        onPress={() => {
+                                            if (alumnus?.linkedin_url) {
+                                                openURL(alumnus?.linkedin_url)
+                                            } else {
+                                                Toast.show({
+                                                        type: "missing",
+                                                        text1: "LinkedIn Profile not available!",
+                                                        text2: "The user has not provided yet.",
+                                                        position: "top"
+                                                    }
+                                                )
+                                            }
+                                        }}>
                                         <Linkedin size={19} color={"#006a63"} strokeWidth={"1.7"}/>
                                     </TouchableOpacity>
                                     <TouchableOpacity
-                                        className="flex justify-center items-center bg-[#f0f6fc]/50  w-12 h-12 rounded-lg border-[1px] border-[#6b7280]/30">
+                                        className="flex justify-center items-center bg-[#f0f6fc]/50  w-12 h-12 rounded-lg border-[1px] border-[#6b7280]/30"
+                                        onPress={() => {
+                                            if (alumnus?.github_url) {
+                                                openURL(alumnus?.github_url)
+                                            } else {
+                                                Toast.show({
+                                                        type: "missing",
+                                                        text1: "Github Profile not available!",
+                                                        text2: "The user has not provided yet.",
+                                                        position: "top"
+                                                    }
+                                                )
+                                            }
+                                        }}>
                                         <Github size={19} color={"#006a63"} strokeWidth={"1.7"}/>
                                     </TouchableOpacity>
                                     <TouchableOpacity
-                                        className="flex justify-center items-center bg-[#f0f6fc]/50  w-12 h-12 rounded-lg border-[1px] border-[#6b7280]/30">
+                                        className="flex justify-center items-center bg-[#f0f6fc]/50  w-12 h-12 rounded-lg border-[1px] border-[#6b7280]/30"
+                                        onPress={() => {
+                                            if (alumnus?.portfolio_url) {
+                                                openURL(alumnus?.portfolio_url)
+                                            } else {
+                                                Toast.show({
+                                                        type: "missing",
+                                                        text1: "Portfolio link not available!",
+                                                        text2: "The user has not provided yet.",
+                                                        position: "top"
+                                                    }
+                                                )
+                                            }
+                                        }}>
                                         <Globe size={19} color={"#006a63"} strokeWidth={"1.7"}/>
                                     </TouchableOpacity>
                                     <TouchableOpacity
-                                        className="flex justify-center items-center bg-[#f0f6fc]/50  w-12 h-12 rounded-lg border-[1px] border-[#6b7280]/30">
+                                        className="flex justify-center items-center bg-[#f0f6fc]/50  w-12 h-12 rounded-lg border-[1px] border-[#6b7280]/30"
+                                        onPress={() => {
+                                            if (alumnus?.phone) {
+                                                openURL(`tel:${alumnus?.phone}`)
+                                            } else {
+                                                Toast.show({
+                                                        type: "missing",
+                                                        text1: "Phone number not available!",
+                                                        text2: "The user has not provided yet.",
+                                                        position: "top"
+                                                    }
+                                                )
+                                            }
+                                        }}>
                                         <Phone size={19} color={"#006a63"} strokeWidth={"1.7"}/>
                                     </TouchableOpacity>
                                     <TouchableOpacity
-                                        className="flex justify-center items-center bg-[#f0f6fc]/50  w-12 h-12 rounded-lg border-[1px] border-[#6b7280]/30">
+                                        className="flex justify-center items-center bg-[#f0f6fc]/50  w-12 h-12 rounded-lg border-[1px] border-[#6b7280]/30"
+                                        onPress={() => {
+                                            if (alumnus?.twitter_url) {
+                                                openURL(alumnus?.twitter_url)
+                                            } else {
+                                                Toast.show({
+                                                        type: "missing",
+                                                        text1: "X Profile not available!",
+                                                        text2: "The user has not provided yet.",
+                                                        position: "top"
+                                                    }
+                                                )
+                                            }
+                                        }}>
                                         <Twitter size={19} color={"#006a63"} strokeWidth={"1.7"}/>
                                     </TouchableOpacity>
                                     <TouchableOpacity
-                                        className="flex justify-center items-center bg-[#f0f6fc]/50  w-12 h-12 rounded-lg border-[1px] border-[#6b7280]/30">
+                                        className="flex justify-center items-center bg-[#f0f6fc]/50  w-12 h-12 rounded-lg border-[1px] border-[#6b7280]/30"
+                                        onPress={() => {
+                                            if (alumnus?.email) {
+                                                openURL(`mailto:${alumnus?.email}`)
+                                            } else {
+                                                Toast.show({
+                                                        type: "missing",
+                                                        text1: "MailId not available!",
+                                                        text2: "The user has not provided yet.",
+                                                        position: "top"
+                                                    }
+                                                )
+                                            }
+                                        }}>
                                         <Mail size={19} color={"#006a63"} strokeWidth={"1.7"}/>
                                     </TouchableOpacity>
                                 </View>
@@ -111,6 +191,17 @@ export default function AlumniDetailsScreen() {
                                         <TouchableOpacity
                                             className="flex flex-1 flex-row justify-center items-center gap-2 mt-4 bg-primary py-2 rounded-xl"
                                             onPress={() => {
+                                                if (alumnus?.email) {
+                                                    openURL(`mailto:${alumnus?.email}`)
+                                                } else {
+                                                    Toast.show({
+                                                            type: "missing",
+                                                            text1: "MailId not available!",
+                                                            text2: "The user has not provided yet.",
+                                                            position: "top"
+                                                        }
+                                                    )
+                                                }
                                             }}>
                                             {/*<ChevronUpCircle size={21} color={"#FFF"}/>*/}
                                             <Text className="text-white font-poppinsMedium text-[14px]">Message</Text>
