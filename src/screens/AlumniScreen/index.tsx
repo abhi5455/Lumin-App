@@ -25,7 +25,7 @@ export default function AlumniScreen() {
                 setIsLoading(true)
                 isFirstLoad.current = false
             }
-            studentService.getAllAlumniByCollegeId('f5e59e26-be10-4aff-be3e-35d98c8b431c')
+            studentService.getAllAlumniByCollegeId('a251b186-86b3-4c5f-8257-01e52700829a')
                 .then(data => {
                     console.log("Alumni Data: ", data);
                     setAlumniList(data || [])
@@ -72,7 +72,6 @@ export default function AlumniScreen() {
                                 <ActivityIndicator size={28} color="#00b19f" className="mt-8"/>
                             </View>
                         }
-
                         <View className="h-[100px]"/>
                     </ScrollView>
                 </View>

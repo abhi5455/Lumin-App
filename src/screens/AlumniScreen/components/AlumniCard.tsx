@@ -53,7 +53,7 @@ export default function AlumniCard({alumnus}: { alumnus: IStudent }) {
                             }
                         })
                     }}>
-                    <ChevronUpCircle size={21} color={"#FFF"}/>
+                    <ChevronUpCircle size={20} color={"#FFF"}/>
                     <Text className="text-white font-poppinsMedium text-[14px]">View</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
