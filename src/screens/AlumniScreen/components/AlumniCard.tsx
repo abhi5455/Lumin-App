@@ -3,6 +3,8 @@ import MailIcon from "../../../assets/svg/appIcons/mailIcon.svg";
 import {ChevronUpCircle} from "lucide-react-native";
 import {useAppNavigation} from "../../../common/navigationHelper.ts";
 import {IStudent} from "../../../types/type_student.ts";
+import {openURL} from "../../../lib/openUrl.ts";
+import Toast from "react-native-toast-message";
 
 export default function AlumniCard({alumnus}: { alumnus: IStudent }) {
     const navigation = useAppNavigation()
@@ -55,7 +57,20 @@ export default function AlumniCard({alumnus}: { alumnus: IStudent }) {
                     <Text className="text-white font-poppinsMedium text-[14px]">View</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                    className="flex flex-1 flex-row justify-center items-center gap-2 mt-4 border border-gray-300 py-2 rounded-xl">
+                    className="flex flex-1 flex-row justify-center items-center gap-2 mt-4 border border-gray-300 py-2 rounded-xl"
+                    onPress={() => {
+                        if (alumnus?.email) {
+                            openURL(`mailto:${alumnus?.email}`)
+                        } else {
+                            Toast.show({
+                                    type: "missing",
+                                    text1: "MailId not available!",
+                                    text2: "The user has not provided yet.",
+                                    position: "top"
+                                }
+                            )
+                        }
+                    }}>
                     <MailIcon/>
                     <Text className="text-gray-700 font-poppinsMedium text-[14px]">Message</Text>
                 </TouchableOpacity>
