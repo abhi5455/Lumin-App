@@ -25,7 +25,14 @@ export default function AlumniCard({alumnus}: { alumnus: IStudent }) {
             <View className="flex flex-col mt-2 gap-1">
                 <View className="flex flex-row justify-start items-center gap-2.5">
                     <Text className="font-poppins text-black/70">Company:</Text>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => {
+                        navigation.navigate("SectionNavigator", {
+                            screen: "CompanyDetailsScreen",
+                            params: {
+                                companyId: currentCompany?.company_id,
+                            }
+                        })
+                    }}>
                         <Text className="font-poppins text-[#DAA520]">{currentCompany?.company?.name}</Text>
                     </TouchableOpacity>
                 </View>

@@ -1,7 +1,10 @@
-import {Text, View} from "react-native";
+import {Text, View, TouchableOpacity} from "react-native";
 import {IStudent} from "../../../types/type_student.ts";
+import {useAppNavigation} from "../../../common/navigationHelper.ts";
 
 export default function Experience({alumnus}: { alumnus: IStudent }) {
+    const navigation = useAppNavigation()
+
     return (
         <View className="flex flex-col justify-center px-5 mt-5 gap-4">
             {alumnus?.rstudentcompany?.map((item, index) => (
@@ -16,7 +19,16 @@ export default function Experience({alumnus}: { alumnus: IStudent }) {
                             {item?.end_year || "Present"}
                         </Text>
                         <Text className="font-poppins text-black text-lg">{item?.position}</Text>
+                        <TouchableOpacity onPress={() => {
+                            navigation.navigate("SectionNavigator", {
+                                screen: "CompanyDetailsScreen",
+                                params: {
+                                    companyId: item?.company?.id,
+                                }
+                            })
+                        }}>
                         <Text className="font-poppins text-[#DAA520]">{item?.company?.name}</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
             ))}
