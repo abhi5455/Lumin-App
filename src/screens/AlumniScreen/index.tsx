@@ -25,7 +25,7 @@ export default function AlumniScreen() {
                 setIsLoading(true)
                 isFirstLoad.current = false
             }
-            studentService.getAllAlumniByCollegeId('6ba00e19-69c8-4f0e-a4f9-525d9502deca')
+            studentService.getAllAlumniByCollegeId('f5e59e26-be10-4aff-be3e-35d98c8b431c')
                 .then(data => {
                     console.log("Alumni Data: ", data);
                     setAlumniList(data || [])
