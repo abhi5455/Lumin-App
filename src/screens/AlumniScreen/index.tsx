@@ -7,6 +7,7 @@ import {useCallback, useEffect, useRef, useState} from "react";
 import {studentService} from "../../services/studentService.ts";
 import {IStudent} from "../../types/type_student.ts";
 import {useFocusEffect} from "@react-navigation/native";
+import NoDataAvailSticker from "../../assets/svg/NoDataAvail.svg";
 
 export default function AlumniScreen() {
     const [filterModalVisible, setFilterModalVisible] = useState(false);
@@ -25,9 +26,8 @@ export default function AlumniScreen() {
                 setIsLoading(true)
                 isFirstLoad.current = false
             }
-            studentService.getAllAlumniByCollegeId('a251b186-86b3-4c5f-8257-01e52700829a')
+            studentService.getAllAlumniByCollegeId('dc919c8b-b2b6-4465-abe3-124d80b57cbf')
                 .then(data => {
-                    console.log("Alumni Data: ", data);
                     setAlumniList(data || [])
                 })
                 .catch(error => {
@@ -62,7 +62,15 @@ export default function AlumniScreen() {
                     </View>
                     <ScrollView className="pt-2">
 
-                        {!isLoading ? alumniList.map((alumnus, index) => (
+                        {!isLoading ? alumniList.length === 0 ?
+                                <View className="flex flex-1 flex-col justify-center items-center min-h-[50vh] gap-3">
+                                    <NoDataAvailSticker/>
+                                    <Text
+                                        className="text-black/30 text-[15px] font-poppinsLight indent-8 text-justify px-3 mb-4 leading-6">
+                                        No data available
+                                    </Text>
+                                </View>
+                                : alumniList.map((alumnus, index) => (
                                 <View key={index} className="mb-5">
                                     <AlumniCard alumnus={alumnus}/>
                                 </View>

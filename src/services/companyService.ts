@@ -1,7 +1,7 @@
 import {supabase} from "../lib/supabaseClient.ts";
 
 export const companyService = {
-    async getAll(){
+    async getAll() {
         const {data, error} =
             await supabase.from("company")
                 .select(`
@@ -9,10 +9,14 @@ export const companyService = {
                 companyroles(
                     id,
                     role_name
-                ) AS companyRoles
+                ),
+                recruitmentprocess(
+                    *,
+                    recruitmentrounds(*)
+                )
             `);
 
-        if(error){
+        if (error) {
             console.log("Error: ", error);
             throw error
         }
@@ -28,7 +32,11 @@ export const companyService = {
                     companyroles(
                         id,
                         role_name
-                    ) AS companyRoles
+                    ),
+                    recruitmentprocess(
+                        *,
+                        recruitmentrounds(*)
+                    )
                 `)
                 .eq('college_id', collegeId);
 
@@ -48,7 +56,11 @@ export const companyService = {
                     companyroles(
                         id,
                         role_name
-                    ) AS companyRoles
+                    ),
+                    recruitmentprocess(
+                        *,
+                        recruitmentrounds(*)
+                    )
                 `)
                 .eq('id', id)
                 .single();

@@ -32,7 +32,6 @@ export default function AlumniDetailsScreen() {
         if (!alumnusData) {
             studentService.getById(alumnusId)
                 .then(data => {
-                    console.log("Alumnus Data: ", data);
                     setAlumnus(data);
                 })
                 .catch(error => {

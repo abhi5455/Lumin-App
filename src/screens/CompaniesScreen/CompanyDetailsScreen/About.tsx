@@ -20,7 +20,7 @@ export default function About({company}: { company: ICompany }) {
                 </View>
 
                 <Text className="text-black/80 text-[15px] font-poppins indent-8 text-justify px-3 mb-4 leading-6">
-                    {'\u2003'}{'\u2003'}{'\u2003'}{company?.overview}
+                    {'\u2003'}{'\u2003'}{'\u2003'}{company?.overview || "No about information available."}
                 </Text>
             </View>
 

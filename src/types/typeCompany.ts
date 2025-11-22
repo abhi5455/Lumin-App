@@ -29,4 +29,24 @@ export interface ICompany {
         id: string;
         role_name: string;
     }[];
+    recruitmentprocess: IRecruitmentProcess;
 }
+
+export interface IRecruitmentRound {
+    id: string;
+    process_id: string;
+    round: string;
+    description: string;
+    round_number: number;
+    created_at: string;
+}
+
+export interface IRecruitmentProcess {
+    id: string;
+    company_id: string;
+    year: number;
+    process_description: string;
+    created_at: string;
+    recruitmentrounds: IRecruitmentRound[];
+}
+

@@ -6,6 +6,7 @@ import {useCallback, useEffect, useRef, useState} from "react";
 import AlumniNCompanyFilterModal from "../AlumniScreen/components/AlumniNCompanyFilterModal.tsx";
 import {useFocusEffect} from "@react-navigation/native";
 import {companyService} from "../../services/companyService.ts";
+import NoDataAvailSticker from "../../assets/svg/NoDataAvail.svg"
 import {ICompany} from "../../types/typeCompany.ts";
 
 export default function CompaniesScreen() {
@@ -25,9 +26,8 @@ export default function CompaniesScreen() {
                 setIsLoading(true)
                 isFirstLoad.current = false
             }
-            companyService.getAllByCollegeId('a251b186-86b3-4c5f-8257-01e52700829a')
+            companyService.getAllByCollegeId('dc919c8b-b2b6-4465-abe3-124d80b57cbf')
                 .then(data => {
-                    console.log("Company Data: ", data);
                     setCompanyList(data || [])
                 })
                 .catch(error => {
@@ -62,11 +62,19 @@ export default function CompaniesScreen() {
                     </View>
                     <ScrollView className="pt-2">
 
-                        {!isLoading ? companyList.map((company, index) => (
-                                <View key={index} className="mb-5">
-                                    <CompanyCard company={company}/>
+                        {!isLoading ? companyList.length === 0 ?
+                                <View className="flex flex-1 flex-col justify-center items-center min-h-[50vh] gap-3">
+                                    <NoDataAvailSticker/>
+                                    <Text
+                                        className="text-black/30 text-[15px] font-poppinsLight indent-8 text-justify px-3 mb-4 leading-6">
+                                        No data available
+                                    </Text>
                                 </View>
-                            ))
+                                : companyList.map((company, index) => (
+                                    <View key={index} className="mb-5">
+                                        <CompanyCard company={company}/>
+                                    </View>
+                                ))
                             :
                             <View>
                                 <ActivityIndicator size={28} color="#00b19f" className="mt-8"/>

@@ -30,7 +30,6 @@ export default function CompanyDetailsScreen() {
         if (!companyData) {
             companyService.getById(companyId)
                 .then(data => {
-                    console.log("Alumnus Data: ", data);
                     setCompany(data as ICompany);
                 })
                 .catch(error => {
