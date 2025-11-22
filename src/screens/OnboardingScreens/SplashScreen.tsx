@@ -13,7 +13,7 @@ export default function SplashScreen() {
         Animated.parallel([
             Animated.timing(fadeAnim, {
                 toValue: 1,
-                duration: 1000,
+                duration: 1300,
                 useNativeDriver: true,
             }),
             Animated.spring(scaleAnim, {

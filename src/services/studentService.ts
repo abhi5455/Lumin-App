@@ -27,6 +27,20 @@ export const studentService = {
         return data;
     },
 
+    async getAllAlumniByCollegeId(collegeId: string) {
+        const {data, error} =
+            await supabase.from('student')
+                .select(`*, college(*), department(*), rstudentcompany(*, company(*)), studenteducation(*)`)
+                .eq('college_id', collegeId)
+                .eq('status', 'alumni');
+
+        if (error) {
+            console.log("Error: ", error);
+            throw error
+        }
+        return data;
+    },
+
     async getById(id: string) {
         const {data, error} =
             await supabase.from('student')

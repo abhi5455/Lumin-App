@@ -1,18 +1,40 @@
-import {ScrollView, StatusBar, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {ActivityIndicator, ScrollView, StatusBar, Text, TextInput, TouchableOpacity, View} from "react-native";
 import {SafeAreaView} from "react-native-safe-area-context";
 import {Funnel, Search} from "lucide-react-native";
 import AlumniCard from "./components/AlumniCard.tsx";
 import AlumniNCompanyFilterModal from "./components/AlumniNCompanyFilterModal.tsx";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
+import {studentService} from "../../services/studentService.ts";
+import {IStudent} from "../../types/type_student.ts";
+import {useFocusEffect} from "@react-navigation/native";
 
 export default function AlumniScreen() {
     const [filterModalVisible, setFilterModalVisible] = useState(false);
+    const [alumniList, setAlumniList] = useState<IStudent[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         StatusBar.setBarStyle('light-content')
         console.log("Chanageinggg status Bar")
         StatusBar.setBackgroundColor(filterModalVisible ? '#01584f' : '#00b19f')
     }, [filterModalVisible])
+
+    useFocusEffect(
+        useCallback(() => {
+            setIsLoading(true);
+            studentService.getAllAlumniByCollegeId('6ba00e19-69c8-4f0e-a4f9-525d9502deca')
+                .then(data => {
+                    console.log("Alumni Data: ", data);
+                    setAlumniList(data || [])
+                })
+                .catch(error => {
+                    console.log("Error fetching alumni data: ", error);
+                })
+                .finally(() => {
+                    setIsLoading(false);
+                })
+        }, [])
+    );
 
     return (
         <SafeAreaView className="flex-1">
@@ -37,11 +59,16 @@ export default function AlumniScreen() {
                     </View>
                     <ScrollView className="pt-2">
 
-                        {[1, 2, 3, 4, 5].map((alumnus, index) => (
-                            <View key={index} className="mb-5">
-                                <AlumniCard/>
+                        {!isLoading ? alumniList.map((alumnus, index) => (
+                                <View key={index} className="mb-5">
+                                    <AlumniCard alumnus={alumnus}/>
+                                </View>
+                            ))
+                            :
+                            <View>
+                                <ActivityIndicator size={28} color="#00b19f" className="mt-8"/>
                             </View>
-                        ))}
+                        }
 
                         <View className="h-[100px]"/>
                     </ScrollView>
