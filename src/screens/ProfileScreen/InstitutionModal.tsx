@@ -1,5 +1,5 @@
-import {Image, Modal, Pressable, ScrollView, Text, TouchableWithoutFeedback, View} from "react-native";
-import InstitutionImage from '../../assets/svg/Institution.svg';
+import {Modal, ScrollView, Text, TouchableWithoutFeedback, View} from "react-native";
+import InstitutionImage from "../../assets/svg/Institution.svg";
 
 interface InstitutionModalProps {
     visible: boolean;
@@ -7,51 +7,42 @@ interface InstitutionModalProps {
 }
 
 export default function InstitutionModal({visible, onClose}: InstitutionModalProps) {
-
     return (
         <Modal
-            transparent
             visible={visible}
+            transparent={true}
             animationType="fade"
+            onRequestClose={onClose}
         >
-            <Pressable
-                className="flex-1 bg-black/50 justify-center px-5"
-                onPress={onClose}
-            >
-                <Pressable
-                    className="bg-white rounded-3xl py-4 min-h-[70%] max-h-[70%]"
-                    onPress={(e) => e.stopPropagation()}
-                >
-                        <ScrollView>
-                            <View className="flex flex-col items-center bg-white w-full rounded-[25px] p-4">
-                            {/*<InstitutionImage/>*/}
-                            {/*<Image src={'../../assets/svg/Institution.svg'}/>*/}
-                            <Text className="font-poppinsMedium text-xl text-center">Deccan College of Engineering</Text>
-                            <Text className="font-poppinsLight text-lg overflow-scroll text-center">{'\u2003'}{'\u2003'}{'\u2003'}Deccan College of Engineering is a premier
-                                technical institution established in 1995, offering undergraduate and postgraduate
-                                programs in various engineering disciplines. With a strong focus on academic excellence,
-                                industry partnerships, and holistic development, the college has consistently produced
-                                top-tier engineering talent for leading companies worldwide.Deccan College of Engineering is a premier
-                                technical institution established in 1995, offering undergraduate and postgraduate
-                                programs in various engineering disciplines. With a strong focus on academic excellence,
-                                industry partnerships, and holistic development, the college has consistently produced
-                                top-tier engineering talent for leading companies worldwide.Deccan College of Engineering is a premier
-                                technical institution established in 1995, offering undergraduate and postgraduate
-                                programs in various engineering disciplines. With a strong focus on academic excellence,
-                                industry partnerships, and holistic development, the college has consistently produced
-                                top-tier engineering talent for leading companies worldwide.Deccan College of Engineering is a premier
-                                technical institution established in 1995, offering undergraduate and postgraduate
-                                programs in various engineering disciplines. With a strong focus on academic excellence,
-                                industry partnerships, and holistic development, the college has consistently produced
-                                top-tier engineering talent for leading companies worldwide.Deccan College of Engineering is a premier
-                                technical institution established in 1995, offering undergraduate and postgraduate
-                                programs in various engineering disciplines. With a strong focus on academic excellence,
-                                industry partnerships, and holistic development, the college has consistently produced
-                                top-tier engineering talent for leading companies worldwide.</Text>
-                            </View>
-                        </ScrollView>
-                    </Pressable>
-            </Pressable>
+            {/* Backdrop - tapping here closes modal */}
+            <TouchableWithoutFeedback onPress={onClose}>
+                <View className="flex-1 bg-black/50 justify-center px-5">
+
+                    {/* Content area - tapping here does nothing, allows scrolling */}
+                    <TouchableWithoutFeedback onPress={() => {}}>
+                        <View className="bg-white rounded-3xl max-h-[70%] overflow-hidden">
+                            <ScrollView
+                                className="px-5 py-6"
+                                showsVerticalScrollIndicator={true}
+                                horizontal={false}
+                            >
+                                <View className="w-full flex items-center max-h-[165px]">
+                                    <InstitutionImage fill="#006a63" width={200} height={200}/>
+
+                                </View>
+                                <Text className="text-2xl font-bold mb-3 text-gray-900 text-center font-poppinsMedium">
+                                    Deccan College of Engineering
+                                </Text>
+
+                                <Text className="text-base font-poppins text-gray-700 mb-4 text-center">
+                                    Deccan College of Engineering is a premier technical institution established in 1995, offering undergraduate and postgraduate programs in various engineering disciplines. With a strong focus on academic excellence, industry partnerships, and holistic development, the college has consistently produced top-tier engineering talent for leading companies worldwide.
+                                </Text>
+                            </ScrollView>
+                        </View>
+                    </TouchableWithoutFeedback>
+
+                </View>
+            </TouchableWithoutFeedback>
         </Modal>
-    )
+    );
 }

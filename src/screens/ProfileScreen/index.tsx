@@ -1,7 +1,7 @@
-import {ScrollView, Text, TouchableOpacity, View} from "react-native";
+import {ScrollView, StatusBar, Text, TouchableOpacity, View} from "react-native";
 import {SafeAreaView} from "react-native-safe-area-context";
 import {
-    Building,
+    Building, Building2,
     ChevronRight,
     Edit,
     Edit3,
@@ -13,6 +13,8 @@ import {
     UserPlus
 } from "lucide-react-native";
 import {useAppNavigation} from "../../common/navigationHelper.ts";
+import InstitutionModal from "./InstitutionModal.tsx";
+import {useEffect, useState} from "react";
 
 export default function ProfileScreen() {
     const navigation = useAppNavigation()
@@ -121,10 +123,20 @@ export default function ProfileScreen() {
         },
     ];
 
+    const [isInstitutionModalVisible, setIsInstitutionModalVisible] = useState(false);
+
+    useEffect(() => {
+        StatusBar.setBarStyle('light-content')
+        StatusBar.setBackgroundColor(isInstitutionModalVisible ? '#01584f' : '#00b19f')
+    }, [isInstitutionModalVisible])
+
     return (
         <SafeAreaView className="flex-1">
-            <View className="bg-primary h-[65px] justify-center px-5">
+            <View className="flex flex-row bg-primary h-[65px] justify-between items-center px-5">
                 <Text className="font-poppinsLight text-white text-2xl">Profile</Text>
+                <TouchableOpacity onPress={() => setIsInstitutionModalVisible(true)}>
+                    <Building2 size={20} color={"#ffffff"} strokeWidth={1.5}/>
+                </TouchableOpacity>
             </View>
 
             <View className="bg-primary flex-1">
@@ -164,6 +176,8 @@ export default function ProfileScreen() {
                     </View>
                 </ScrollView>
             </View>
+
+            <InstitutionModal visible={isInstitutionModalVisible} onClose={()=>setIsInstitutionModalVisible(false)}/>
         </SafeAreaView>
     )
 }
