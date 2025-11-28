@@ -4,7 +4,7 @@ import {
     Text,
     TextInput,
     TouchableOpacity,
-    ScrollView, ActivityIndicator, StatusBar,
+    ActivityIndicator, StatusBar,
 } from 'react-native';
 import {Eye, EyeOff} from "lucide-react-native";
 import {useAppNavigation} from "../../common/navigationHelper.ts";
@@ -61,75 +61,30 @@ function handleLogin(email: string, password: string, setIsLoading: (loading: bo
         });
 }
 
-function handleSignUp(name: string, email: string, password: string, setIsLoading: (loading: boolean) => void, navigation?: any) {
-    if (!name || !email || !password) {
-        Toast.show({
-            type: 'error',
-            text1: 'Invalid Credentials!',
-            text2: 'Fill required details',
-            position: "top"
-        });
-        return;
-    }
-    setIsLoading(true)
-    axios.post(`${BASE_URL}/register`, {name: name, email: email, password: password})
-        .then(async res => {
-            Toast.show({
-                type: 'success',
-                text1: 'Signup Successful!',
-                text2: 'User registered!',
-                position: "top"
-            });
-            storage.set('authToken', res.data.data);
-            navigation.goBack();
-            navigation.goBack();
-            navigation.navigate("AuthenticationStack", {
-                screen: "OtpScreen",
-            });
-
-            // There is a lag in fetching user profile after onboarding, so setting a storage value to indicate onboarding just completed
-            storage.set('profile_completed', false)
-
-        })
-        .catch(err => {
-            Toast.show({
-                type: 'error',
-                text1: 'Signup Failed!',
-                text2: err.response?.data?.message || 'An error occurred during login.',
-                position: "top"
-            });
-        })
-        .finally(() => {
-            setIsLoading(false);
-        });
-}
-
 const AuthScreen: React.FC = () => {
     const navigation = useAppNavigation()
-    const [isSignUp, setIsSignUp] = useState(true);
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
-    const [agreeToTerms, setAgreeToTerms] = useState(false);
     const [showValidation, setShowValidation] = useState(false);
 
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        StatusBar.setBarStyle('light-content')
-        StatusBar.setBackgroundColor('#00b19f')
+        StatusBar.setBarStyle('dark-content')
+        StatusBar.setBackgroundColor('#fff')
     }, [])
 
     return (
         <SafeAreaView className="flex-1">
-            <View className="bg-primary h-[65px] justify-center px-5">
-                <Text className="font-poppinsLight text-white text-2xl">Sign in</Text>
-            </View>
+            {/*<View className="bg-primary h-[65px] justify-center px-5">*/}
+            {/*    <Text className="font-poppinsLight text-white text-2xl">Sign in</Text>*/}
+            {/*</View>*/}
 
-            <View className="bg-primary flex-1">
-                <View className="bg-white flex-1 rounded-t-[30px] px-6 pt-10 flex">
-                    <View className="flex justify-center items-center mb-10">
+            <View className="bg-white flex-1">
+                <View className="bg-white flex-1 rounded-t-[30px] px-6 flex justify-center pb-10">
+                    <View className="flex justify-center items-center mb-12">
                         <Text className="text-[36px] text-primary font-poppinsLight self-center">
                             Lumin
                         </Text>
@@ -138,33 +93,32 @@ const AuthScreen: React.FC = () => {
                         </Text>
                     </View>
 
-                    <View className="mb-4">
+                    <View className="mb-5">
                         <Text className="text-base font-poppins text-primary mb-2">
                             Email Id
                         </Text>
                         <TextInput
                             value={email}
                             onChangeText={setEmail}
-                            className="border border-gray-200 rounded-xl px-4 py-4 text-base font-poppinsMedium text-gray-800 bg-white"
-                            placeholder=""
+                            className="border border-gray-200 rounded-xl px-4 py-4 pt-5 text-base font-poppins text-gray-800 bg-white"
+                            placeholder="Enter Email address"
+                            placeholderTextColor={'#889baf'}
                             keyboardType="email-address"
                         />
                     </View>
 
-                    <View className="mb-4">
+                    <View className="mb-5">
                         <Text className="text-base font-poppins text-primary mb-2">Password</Text>
                         <View className="relative">
                             <TextInput
                                 value={password}
                                 onChangeText={(text) => {
                                     setPassword(text);
-                                    if (isSignUp) {
-                                        setShowValidation(text.length > 0);
-                                    }
                                 }}
                                 secureTextEntry={!showPassword}
-                                className="border border-gray-200 rounded-xl px-4 py-4 pr-12 text-base font-poppinsMedium text-gray-800 bg-white"
-                                placeholder=""
+                                className="border border-gray-200 rounded-xl px-4 py-4 pt-5 pr-12 text-base font-poppins text-gray-800 bg-white"
+                                placeholder="Enter password"
+                                placeholderTextColor={'#889baf'}
                             />
                             <TouchableOpacity
                                 onPress={() => setShowPassword(!showPassword)}
@@ -179,19 +133,7 @@ const AuthScreen: React.FC = () => {
                     {/* Submit Button */}
                     <TouchableOpacity className="bg-primary rounded-xl py-4 mb-6"
                                       onPress={() => {
-                                          if (isSignUp && !agreeToTerms) {
-                                              Toast.show({
-                                                  type: 'error',
-                                                  text1: 'Terms Not Accepted!',
-                                                  text2: 'You must agree to the terms and conditions to proceed.',
-                                                  position: "top"
-                                              });
-                                              return;
-                                          } else if (isSignUp) {
-                                              handleSignUp(name, email, password, setIsLoading, navigation);
-                                          } else {
-                                              handleLogin(email, password, setIsLoading, navigation);
-                                          }
+                                          handleLogin(email, password, setIsLoading, navigation);
                                       }}>
                         {!isLoading ?
                             <Text className="text-lg font-poppinsSemiBold text-white text-center">
