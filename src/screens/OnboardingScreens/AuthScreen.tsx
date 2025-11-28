@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     View,
     Text,
@@ -6,8 +6,6 @@ import {
     TouchableOpacity,
     ScrollView, ActivityIndicator, StatusBar,
 } from 'react-native';
-import GoogleIcon from '../../assets/svg/Google.svg'
-import AppleIcon from '../../assets/svg/apple.svg'
 import {Eye, EyeOff} from "lucide-react-native";
 import {useAppNavigation} from "../../common/navigationHelper.ts";
 import Toast from "react-native-toast-message";
@@ -15,6 +13,7 @@ import axios from "axios";
 import {storage} from "../../lib/storage.ts";
 import {fetchUserProfile} from "../../lib/userStorage.ts";
 import {BASE_URL} from "../../utils/axios.ts";
+import {SafeAreaView} from "react-native-safe-area-context";
 
 interface ValidationRule {
     text: string;
@@ -46,7 +45,7 @@ function handleLogin(email: string, password: string, setIsLoading: (loading: bo
             navigation.goBack();
             navigation.navigate("TabNavigator", {
                 screen: "DashboardScreen",
-                params: { from: "SignInScreen" }
+                params: {from: "SignInScreen"}
             });
         })
         .catch(err => {
@@ -117,215 +116,94 @@ const AuthScreen: React.FC = () => {
 
     const [isLoading, setIsLoading] = useState(false);
 
-    const validatePassword = (password: string): ValidationRule[] => {
-        return [
-            {
-                text: '*At least 8 characters.',
-                isValid: password.length >= 8,
-            },
-            {
-                text: '*At least one uppercase letter.',
-                isValid: /[A-Z]/.test(password),
-            },
-            {
-                text: '*At least one lowercase letter',
-                isValid: /[a-z]/.test(password),
-            },
-            {
-                text: '*At least one digit.',
-                isValid: /\d/.test(password),
-            },
-            {
-                text: '*At least one special character (e.g., @, #, $, %).',
-                isValid: /[!@#$%^&*(),.?":{}|<>]/.test(password),
-            },
-            {
-                text: '*Password should not contain spaces.',
-                isValid: !/\s/.test(password),
-            },
-        ];
-    };
-
-    const validationRules = validatePassword(password);
+    useEffect(() => {
+        StatusBar.setBarStyle('light-content')
+        StatusBar.setBackgroundColor('#00b19f')
+    }, [])
 
     return (
-        <ScrollView className="flex-1 bg-white">
-            <StatusBar barStyle={"dark-content"} backgroundColor="#FFF"/>
-            <View className="px-6 pt-16 pb-8">
-                {/* Header */}
-                <Text className="text-3xl font-poppinsBold text-gray-900 text-center mb-4">
-                    {isSignUp ? 'Sign Up' : 'Sign In'}
-                </Text>
+        <SafeAreaView className="flex-1">
+            <View className="bg-primary h-[65px] justify-center px-5">
+                <Text className="font-poppinsLight text-white text-2xl">Sign in</Text>
+            </View>
 
-                <Text className="text-base font-poppinsMedium text-gray-400 text-center mb-8 leading-6">
-                    Customize workflows, optimize performance,{'\n'}and enhance your business growth.
-                </Text>
+            <View className="bg-primary flex-1">
+                <View className="bg-white flex-1 rounded-t-[30px] px-6 pt-10 flex">
+                    <View className="flex justify-center items-center mb-10">
+                        <Text className="text-[36px] text-primary font-poppinsLight self-center">
+                            Lumin
+                        </Text>
+                        <Text className="text-sm text-primary font-poppinsLight mt-[-10px]">
+                            - Experience Meets Ambition -
+                        </Text>
+                    </View>
 
-                {/* Social Login Buttons */}
-                <View className="flex-row gap-4 mb-6">
-                    <TouchableOpacity
-                        className="flex-1 gap-2 bg-gray-100 rounded-xl py-4 px-4 flex-row items-center justify-center">
-                        <GoogleIcon/>
-                        <Text className="text-base font-poppinsMedium text-gray-600">Google</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                        className="flex-1 gap-2 bg-gray-100 rounded-xl py-4 px-4 flex-row items-center justify-center">
-                        <AppleIcon/>
-                        <Text className="text-base font-poppinsMedium text-gray-600">Apple Id</Text>
-                    </TouchableOpacity>
-                </View>
-
-                {/* Divider */}
-                <View className="flex-row items-center mb-6">
-                    <View className="flex-1 h-px bg-gray-300"/>
-                    <Text className="mx-4 text-base font-poppinsMedium text-gray-500">Or</Text>
-                    <View className="flex-1 h-px bg-gray-300"/>
-                </View>
-
-                {/* Form Fields */}
-                {isSignUp && (
                     <View className="mb-4">
-                        <Text className="text-base font-poppinsMedium text-primary mb-2">Name</Text>
+                        <Text className="text-base font-poppins text-primary mb-2">
+                            Email Id
+                        </Text>
                         <TextInput
-                            value={name}
-                            onChangeText={setName}
+                            value={email}
+                            onChangeText={setEmail}
                             className="border border-gray-200 rounded-xl px-4 py-4 text-base font-poppinsMedium text-gray-800 bg-white"
                             placeholder=""
+                            keyboardType="email-address"
                         />
                     </View>
-                )}
 
-                <View className="mb-4">
-                    <Text className="text-base font-poppinsMedium text-primary mb-2">
-                        Email/Phone Number
-                    </Text>
-                    <TextInput
-                        value={email}
-                        onChangeText={setEmail}
-                        className="border border-gray-200 rounded-xl px-4 py-4 text-base font-poppinsMedium text-gray-800 bg-white"
-                        placeholder=""
-                        keyboardType="email-address"
-                    />
-                </View>
-
-                <View className="mb-4">
-                    <Text className="text-base font-poppinsMedium text-primary mb-2">Password</Text>
-                    <View className="relative">
-                        <TextInput
-                            value={password}
-                            onChangeText={(text) => {
-                                setPassword(text);
-                                if (isSignUp) {
-                                    setShowValidation(text.length > 0);
-                                }
-                            }}
-                            secureTextEntry={!showPassword}
-                            className="border border-gray-200 rounded-xl px-4 py-4 pr-12 text-base font-poppinsMedium text-gray-800 bg-white"
-                            placeholder=""
-                        />
-                        <TouchableOpacity
-                            onPress={() => setShowPassword(!showPassword)}
-                            className="absolute right-4 top-4 text-gray-400"
-                        >
-                            {showPassword ? <Eye color={'#889baf'} size={22}/> : <EyeOff color={'#889baf'} size={22}/>}
-                        </TouchableOpacity>
-                    </View>
-                </View>
-
-                {/* Password Validation */}
-                {isSignUp && showValidation && (
                     <View className="mb-4">
-                        {validationRules.map((rule, index) => (
-                            <Text
-                                key={index}
-                                className={`text-sm font-poppinsMedium mb-1 ${
-                                    rule.isValid ? 'text-green-600' : 'text-red-500'
-                                }`}
+                        <Text className="text-base font-poppins text-primary mb-2">Password</Text>
+                        <View className="relative">
+                            <TextInput
+                                value={password}
+                                onChangeText={(text) => {
+                                    setPassword(text);
+                                    if (isSignUp) {
+                                        setShowValidation(text.length > 0);
+                                    }
+                                }}
+                                secureTextEntry={!showPassword}
+                                className="border border-gray-200 rounded-xl px-4 py-4 pr-12 text-base font-poppinsMedium text-gray-800 bg-white"
+                                placeholder=""
+                            />
+                            <TouchableOpacity
+                                onPress={() => setShowPassword(!showPassword)}
+                                className="absolute right-4 top-4 text-gray-400"
                             >
-                                {rule.text}
-                            </Text>
-                        ))}
-                    </View>
-                )}
-
-                {/* Forgot Password */}
-                {!isSignUp && (
-                    <TouchableOpacity className="mb-6">
-                        <Text className="text-base font-poppinsMedium text-gray-400 text-right">
-                            Forgot Password ?
-                        </Text>
-                    </TouchableOpacity>
-                )}
-
-                {/* Terms Checkbox (Sign Up only) */}
-                {isSignUp && (
-                    <View className="flex-row items-start mb-6">
-                        <TouchableOpacity
-                            onPress={() => setAgreeToTerms(!agreeToTerms)}
-                            className="mr-3 mt-1"
-                        >
-                            <View
-                                className={`w-5 h-5 border-2 rounded ${agreeToTerms ? 'bg-primary border-teal-600' : 'border-gray-300'}`}>
-                                {agreeToTerms && (
-                                    <Text className="text-white text-xs text-center">✓</Text>
-                                )}
-                            </View>
-                        </TouchableOpacity>
-                        <View className="flex-1">
-                            <Text className="text-sm font-poppinsMedium text-gray-600 leading-5">
-                                I'm agree to the{' '}
-                                <Text className="text-primary">Terms of Service</Text>
-                                {' '}and{' '}
-                                <Text className="text-primary">Privacy Policy</Text>
-                            </Text>
+                                {showPassword ? <Eye color={'#889baf'} size={22}/> :
+                                    <EyeOff color={'#889baf'} size={22}/>}
+                            </TouchableOpacity>
                         </View>
                     </View>
-                )}
 
-                {/* Submit Button */}
-                <TouchableOpacity className="bg-primary rounded-xl py-4 mb-6"
-                                  onPress={() => {
-                                      if (isSignUp && !agreeToTerms) {
-                                          Toast.show({
-                                              type: 'error',
-                                              text1: 'Terms Not Accepted!',
-                                              text2: 'You must agree to the terms and conditions to proceed.',
-                                              position: "top"
-                                          });
-                                          return;
-                                      }
-                                      else if (isSignUp) {
-                                          handleSignUp(name, email, password, setIsLoading, navigation);
-                                      }
-                                      else {
-                                          handleLogin(email, password, setIsLoading, navigation);
-                                      }
-                                  }}>
-                    {!isLoading ?
-                        <Text className="text-lg font-poppinsSemiBold text-white text-center">
-                            {isSignUp ? 'Create Account' : 'Sign in'}
-                        </Text>
-                        :
-                        <ActivityIndicator color={'#FFF'} size={25} className={''}/>
-                    }
-                </TouchableOpacity>
-
-                {/* Switch Auth Mode */}
-                <View className="flex-row items-center justify-start">
-                    <Text className="text-base font-poppinsMedium text-gray-600">
-                        Do you have account?{' '}
-                    </Text>
-                    <TouchableOpacity onPress={() => {
-                        setIsSignUp(!isSignUp)
-                    }}>
-                        <Text className="text-base font-poppinsMedium text-primary">
-                            {isSignUp ? 'Sign In' : 'Sign Up'}
-                        </Text>
+                    {/* Submit Button */}
+                    <TouchableOpacity className="bg-primary rounded-xl py-4 mb-6"
+                                      onPress={() => {
+                                          if (isSignUp && !agreeToTerms) {
+                                              Toast.show({
+                                                  type: 'error',
+                                                  text1: 'Terms Not Accepted!',
+                                                  text2: 'You must agree to the terms and conditions to proceed.',
+                                                  position: "top"
+                                              });
+                                              return;
+                                          } else if (isSignUp) {
+                                              handleSignUp(name, email, password, setIsLoading, navigation);
+                                          } else {
+                                              handleLogin(email, password, setIsLoading, navigation);
+                                          }
+                                      }}>
+                        {!isLoading ?
+                            <Text className="text-lg font-poppinsSemiBold text-white text-center">
+                                Sign in
+                            </Text>
+                            :
+                            <ActivityIndicator color={'#FFF'} size={25} className={''}/>
+                        }
                     </TouchableOpacity>
                 </View>
             </View>
-        </ScrollView>
+        </SafeAreaView>
     );
 };
 
