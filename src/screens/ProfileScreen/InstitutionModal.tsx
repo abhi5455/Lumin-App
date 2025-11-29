@@ -1,6 +1,8 @@
-import {Modal, ScrollView, Text, TouchableWithoutFeedback, View} from "react-native";
+import {Modal, ScrollView, Text, TouchableOpacity, TouchableWithoutFeedback, View} from "react-native";
 import InstitutionImage from "../../assets/svg/Institution.svg";
-import {MapPin} from "lucide-react-native";
+import {MapPin, XIcon} from "lucide-react-native";
+import {getUserProfile} from "../../lib/userStorage.ts";
+import {IStudent} from "../../types/type_student.ts";
 
 interface InstitutionModalProps {
     visible: boolean;
@@ -8,6 +10,8 @@ interface InstitutionModalProps {
 }
 
 export default function InstitutionModal({visible, onClose}: InstitutionModalProps) {
+    const userProfile: IStudent = getUserProfile()
+
     return (
         <Modal
             visible={visible}
@@ -20,26 +24,33 @@ export default function InstitutionModal({visible, onClose}: InstitutionModalPro
                 <View className="flex-1 bg-black/50 justify-center px-5">
 
                     {/* Content area - tapping here does nothing, allows scrolling */}
-                    <TouchableWithoutFeedback onPress={() => {}}>
+                    <TouchableWithoutFeedback onPress={() => {
+                    }}>
                         <View className="bg-white rounded-3xl max-h-[70%] overflow-hidden">
                             <ScrollView
                                 className="px-5 py-6 bg-primary/5d"
                                 showsVerticalScrollIndicator={true}
                                 horizontal={false}
                             >
+                                <TouchableOpacity className="w-full flex-row justify-end items-center mb-[-15px]"
+                                                  onPress={onClose}>
+                                    <XIcon color={'#4b5563'} size={21}/>
+                                </TouchableOpacity>
                                 <View className="w-full flex items-center max-h-[165px]">
                                     <InstitutionImage fill="#00b19f" width={200} height={200}/>
 
                                 </View>
                                 <Text className="text-2xl font-bold mb-2 text-gray-900 text-center font-poppinsMedium">
-                                    Deccan College of Engineering
+                                    {userProfile?.college?.name}
                                 </Text>
                                 <View className="flex flex-row justify-center items-center gap-2 mb-1">
                                     <MapPin size={20} color={"#DAA520"} strokeWidth={1.5}/>
-                                    <Text className="font-poppins text-[#DAA520]">Kottayam, Kerala</Text>
+                                    <Text className="font-poppins text-[#DAA520]">
+                                        {userProfile?.college?.location}
+                                    </Text>
                                 </View>
                                 <Text className="text-base font-poppins text-gray-700 mb-4 text-center">
-                                    Deccan College of Engineering is a premier technical institution established in 1995, offering undergraduate and postgraduate programs in various engineering disciplines. With a strong focus on academic excellence, industry partnerships, and holistic development, the college has consistently produced top-tier engineering talent for leading companies worldwide.
+                                    {userProfile?.college?.about}
                                 </Text>
                             </ScrollView>
                         </View>

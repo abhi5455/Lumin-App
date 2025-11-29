@@ -2,6 +2,7 @@ export interface IStudent {
     id: string;
     name: string;
     email: string;
+    auth_email: string;
     phone: string | null;
     image_url: string | null;
     github_url: string | null;

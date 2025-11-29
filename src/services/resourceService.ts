@@ -3,140 +3,199 @@ import {IResource} from "../types/type_resource.ts";
 
 export const resourceService = {
     async getAll() {
-        const {data, error} =
-            await supabase.from('resource')
-                .select('*, student(*), college(*), files(*), resourcekeywords(*)')
+        const {data, error} = await supabase
+            .from('resources')
+            .select(`
+                *, 
+                student:uploaded_by_student_id(*), 
+                college:college_id(*), 
+                files(*), 
+                resourcekeywords(*)
+            `);
 
         if (error) {
             console.log("Error: ", error);
-            throw error
+            throw error;
         }
         return data;
     },
 
     async getAllByCollegeId(collegeId: string) {
-        const {data, error} =
-            await supabase.from('resource')
-                .select('*, student(*), college(*), files(*), resourcekeywords(*)')
-                .eq('college_id', collegeId);
+        const {data, error} = await supabase
+            .from('resources')
+            .select(`
+                *, 
+                student:uploaded_by_student_id(*), 
+                college:college_id(*), 
+                files(*), 
+                resourcekeywords(*)
+            `)
+            .eq('college_id', collegeId);
 
         if (error) {
             console.log("Error: ", error);
-            throw error
+            throw error;
         }
         return data;
     },
 
     async getById(id: string) {
-        const {data, error} =
-            await supabase.from('resource')
-                .select('*, student(*), college(*), files(*), resourcekeywords(*)')
-                .eq('id', id)
-                .single();
+        const {data, error} = await supabase
+            .from('resources')
+            .select(`
+                *, 
+                student:uploaded_by_student_id(*), 
+                college:college_id(*), 
+                files(*), 
+                resourcekeywords(*)
+            `)
+            .eq('id', id)
+            .single();
 
         if (error) {
             console.log("Error: ", error);
-            throw error
+            throw error;
         }
         return data;
     },
 
     async create(resource: Omit<IResource, 'id' | 'created_at' | 'updated_at'>) {
-        //Creating resource
-        const {data, error} =
-            await supabase.from('resource')
-                .insert([resource])
-                .select()
-                .single();
+        // Separate keywords and files from main resource data
+        const {keywords, files, ...resourceData} = resource;
+
+        // Creating resource
+        const {data, error} = await supabase
+            .from('resources')
+            .insert([resourceData])
+            .select()
+            .single();
 
         if (error) {
             console.log("Error: ", error);
-            throw error
-        }
-        // return data;
-
-        //creating resource keywords to link keywords to resource
-        const resourceKeywords = resource?.keywords.map((keyword) => ({
-            resource_id: data?.id,
-            ...keyword
-        }));
-
-        const {kdata, kerror} =
-            await supabase.from('resourcekeywords')
-                .insert(resourceKeywords)
-        if (kerror) {
-            console.log("Keyword Error: ", kerror);
-            throw kerror
+            throw error;
         }
 
-        //creating files to link files to resource
-        const resourceFiles = resource?.files.map((file) => ({
-            resource_id: data?.id,
-            ...file
-        }));
-        const {fdata, ferror} =
-            await supabase.from('files')
-                .insert(resourceFiles)
-        if (ferror) {
-            console.log("File Error: ", ferror);
-            throw ferror
+        // Creating resource keywords
+        if (keywords && keywords.length > 0) {
+            const resourceKeywords = keywords.map((kw) => {
+                const {id, created_at, ...keywordData} = kw; // Omit id and created_at
+                return {
+                    resource_id: data.id,
+                    ...keywordData
+                };
+            });
+
+            const {error: keywordError} = await supabase
+                .from('resourcekeywords')
+                .insert(resourceKeywords);
+
+            if (keywordError) {
+                console.log("Keyword Error: ", keywordError);
+                throw keywordError;
+            }
+        }
+
+        // Creating files
+        if (files && files.length > 0) {
+            const resourceFiles = files.map((file) => {
+                const {id, created_at, ...fileData} = file; // Omit id and created_at
+                return {
+                    resource_id: data.id,
+                    ...fileData
+                };
+            });
+
+            const {error: fileError} = await supabase
+                .from('files')
+                .insert(resourceFiles);
+
+            if (fileError) {
+                console.log("File Error: ", fileError);
+                throw fileError;
+            }
         }
 
         return data;
     },
 
     async update(resource: Omit<IResource, 'updated_at'>) {
-        const {data, error} =
-            await supabase.from('resource')
-                .update(resource)
-                .eq('id', resource.id)
-                .select()
-                .single();
+        const {keywords, files, ...resourceData} = resource;
+
+        const {data, error} = await supabase
+            .from('resources')
+            .update(resourceData)
+            .eq('id', resource.id)
+            .select()
+            .single();
 
         if (error) {
             console.log("Error: ", error);
-            throw error
+            throw error;
         }
 
-        //updating resource keywords
-        const resourceKeywords = resource?.keywords.map((keyword) => ({
-            resource_id: resource.id,
-            ...keyword
-        }));
-        const {kdata, kerror} =
-            await supabase.from('resourcekeywords')
-                .upsert(resourceKeywords)
-        if (kerror) {
-            console.log("Keyword Error: ", kerror);
-            throw kerror
+        // Delete old keywords and insert new ones
+        await supabase
+            .from('resourcekeywords')
+            .delete()
+            .eq('resource_id', resource.id);
+
+        if (keywords && keywords.length > 0) {
+            const resourceKeywords = keywords.map((kw) => {
+                const {id, created_at, ...keywordData} = kw; // Omit id and created_at
+                return {
+                    resource_id: resource.id,
+                    ...keywordData
+                };
+            });
+
+            const {error: keywordError} = await supabase
+                .from('resourcekeywords')
+                .insert(resourceKeywords);
+
+            if (keywordError) {
+                console.log("Keyword Error: ", keywordError);
+                throw keywordError;
+            }
         }
 
-        //updating files
-        const resourceFiles = resource?.files.map((file) => ({
-            resource_id: resource.id,
-            ...file
-        }));
-        const {fdata, ferror} =
-            await supabase.from('files')
-                .upsert(resourceFiles)
-        if (ferror) {
-            console.log("File Error: ", ferror);
-            throw ferror
+        // Delete old files and insert new ones
+        await supabase
+            .from('files')
+            .delete()
+            .eq('resource_id', resource.id);
+
+        if (files && files.length > 0) {
+            const resourceFiles = files.map((file) => {
+                const {id, created_at, ...fileData} = file; // Omit id and created_at
+                return {
+                    resource_id: resource.id,
+                    ...fileData
+                };
+            });
+
+            const {error: fileError} = await supabase
+                .from('files')
+                .insert(resourceFiles);
+
+            if (fileError) {
+                console.log("File Error: ", fileError);
+                throw fileError;
+            }
         }
 
         return data;
     },
 
     async delete(id: string) {
-        const {data, error} =
-            await supabase.from('resource')
-                .delete()
-                .eq('id', id);
+        const {data, error} = await supabase
+            .from('resources')
+            .delete()
+            .eq('id', id);
 
         if (error) {
             console.log("Error: ", error);
-            throw error
+            throw error;
         }
         return data;
     },
-}
+};

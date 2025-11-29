@@ -140,9 +140,10 @@ async function handleLogin(identifier: string, password: string, setIsLoading: (
 
 const AuthScreen: React.FC = () => {
     const navigation = useAppNavigation()
-    const [email, setEmail] = useState('');
+    const [identifier, setIdentifier] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [validationError, setValidationError] = useState(false)
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -150,6 +151,10 @@ const AuthScreen: React.FC = () => {
         StatusBar.setBarStyle('dark-content')
         StatusBar.setBackgroundColor('#fff')
     }, [])
+
+    useEffect(() => {
+        setValidationError(false)
+    }, [identifier, password]);
 
     return (
         <SafeAreaView className="flex-1">
@@ -168,28 +173,14 @@ const AuthScreen: React.FC = () => {
                         </Text>
                     </View>
 
-                    {/*<View className="mb-5">*/}
-                    {/*    <Text className="text-base font-poppins text-primary mb-2">*/}
-                    {/*        Email Id*/}
-                    {/*    </Text>*/}
-                    {/*    <TextInput*/}
-                    {/*        value={email}*/}
-                    {/*        onChangeText={setEmail}*/}
-                    {/*        className="border border-gray-200 rounded-xl px-4 py-4 pt-5 text-base font-poppins text-gray-800 bg-white"*/}
-                    {/*        placeholder="Enter Email address"*/}
-                    {/*        placeholderTextColor={'#889baf'}*/}
-                    {/*        keyboardType="email-address"*/}
-                    {/*    />*/}
-                    {/*</View>*/}
-
                     <View className="mb-5">
-                        <Text className="text-base font-poppins text-primary mb-2">
+                        <Text className={`text-base font-poppins mb-2 ${validationError && identifier === '' ? 'text-red-400' : 'text-primary'}`}>
                             Admission Number
                         </Text>
                         <TextInput
-                            value={email}
-                            onChangeText={setEmail}
-                            className="border border-gray-200 rounded-xl px-4 py-4 pt-5 text-base font-poppins text-gray-800 bg-white"
+                            value={identifier}
+                            onChangeText={setIdentifier}
+                            className={`${validationError && identifier === '' ? 'border-red-400' : 'border-gray-200'} border rounded-xl px-4 py-4 pt-5 text-base font-poppins text-gray-800 bg-white`}
                             placeholder="Enter admission number"
                             placeholderTextColor={'#889baf'}
                             keyboardType="email-address"
@@ -197,7 +188,7 @@ const AuthScreen: React.FC = () => {
                     </View>
 
                     <View className="mb-7">
-                        <Text className="text-base font-poppins text-primary mb-2">Password</Text>
+                        <Text className={`text-base font-poppins text-primary mb-2  ${validationError && password === '' ? 'text-red-400' : 'text-primary'}`}>Password</Text>
                         <View className="relative">
                             <TextInput
                                 value={password}
@@ -205,7 +196,7 @@ const AuthScreen: React.FC = () => {
                                     setPassword(text);
                                 }}
                                 secureTextEntry={!showPassword}
-                                className="border border-gray-200 rounded-xl px-4 py-4 pt-5 pr-12 text-base font-poppins text-gray-800 bg-white"
+                                className={`${validationError && password === '' ? 'border-red-400' : 'border-gray-200'} border rounded-xl px-4 py-4 pt-5 pr-12 text-base font-poppins text-gray-800 bg-white`}
                                 placeholder="Enter password"
                                 placeholderTextColor={'#889baf'}
                             />
@@ -222,7 +213,22 @@ const AuthScreen: React.FC = () => {
                     {/* Submit Button */}
                     <TouchableOpacity className="bg-primary rounded-xl py-4 mb-6"
                                       onPress={() => {
-                                          handleLogin(email, password, setIsLoading, navigation);
+                                          if(identifier.trim() === '' || password.trim() === ''){
+                                              if(identifier.trim() === ''){
+                                                  setIdentifier('')
+                                              }
+                                              if(password.trim() === '') {
+                                                  setPassword('')
+                                              }
+                                              setValidationError(true)
+                                              Toast.show({
+                                                  type: 'error',
+                                                  text1: "Insufficient data!",
+                                                  text2: "Fill all required fields"
+                                              })
+                                              return
+                                          }
+                                          handleLogin(identifier, password, setIsLoading, navigation);
                                       }}>
                         {!isLoading ?
                             <Text className="text-lg font-poppinsSemiBold text-white text-center">

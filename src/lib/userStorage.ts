@@ -1,36 +1,34 @@
 import {storage} from "./storage.ts";
-import axios from "axios";
-import {IUserProfile} from "../types/profile.ts";
-import {BASE_URL} from "../utils/axios.ts";
+import {IStudent} from "../types/type_student.ts";
+import {studentService} from "../services/studentService.ts";
+import Toast from "react-native-toast-message";
 
-export const fetchUserProfile = async () => {
-    axios.get(`${BASE_URL}/users/profile`)
-        .then(res => {
-            console.log("User profile fetched:", res.data.data);
-            setUserProfile(res.data.data);
-            return res.data.data;
+export const fetchUserProfile = async (id?: string) => {
+    const userId = id ? id : JSON.parse(storage.getString('userProfile') || '')?.id
+
+    studentService.getById(userId)
+        .then(data=>{
+            storage.set('userProfile', JSON.stringify(data));
         })
-        .catch(error => {
-            console.error("Error fetching user profile:", error.message);
-            throw error;
-        });
-}
-
-export const setUserProfile = (userProfile: IUserProfile) => {
-    storage.set('userProfile', JSON.stringify(userProfile));
+        .catch(error=>{
+            Toast.show({
+                type: "error",
+                position: "top",
+                text1: "Error fetching user profile",
+                text2: error.message
+            })
+        })
 }
 
 export const getUserProfile = () => {
     const userProfile = storage.getString('userProfile');
-    return userProfile ? JSON.parse(userProfile) : null;
+    return userProfile ? JSON.parse(userProfile) : null as IStudent;
+}
+
+export const setUserProfile = (userProfile: IStudent) => {
+    storage.set('userProfile', JSON.stringify(userProfile));
 }
 
 export const clearUserProfile = () => {
     storage.delete('userProfile');
 };
-
-export const resetForLogout = () => {
-    storage.set('authToken', '');
-    storage.set('profile_completed', false)
-    clearUserProfile();
-}

@@ -3,6 +3,7 @@ import SplashScreen from "../../screens/OnboardingScreens/SplashScreen.tsx";
 import SectionNavigator from "../SectionNavigator";
 import TabNavigator from "../TabNavigator";
 import {useMMKVBoolean} from "react-native-mmkv";
+import AuthScreen from "../../screens/OnboardingScreens/AuthScreen.tsx";
 
 export const StackNavigator = () => {
     const Stack = createNativeStackNavigator()
@@ -14,6 +15,11 @@ export const StackNavigator = () => {
                 name="SplashScreen"
                 options={{headerShown: false, gestureEnabled: false}}
                 component={SplashScreen}
+            />
+            <Stack.Screen
+                name="AuthScreen"
+                options={{headerShown: false, gestureEnabled: false}}
+                component={AuthScreen}
             />
             <Stack.Screen
                 name="TabNavigator"

@@ -14,22 +14,28 @@ import {
 } from "lucide-react-native";
 import {useAppNavigation} from "../../common/navigationHelper.ts";
 import InstitutionModal from "./InstitutionModal.tsx";
-import {useEffect, useState} from "react";
-import {clearUserProfile} from "../../lib/userStorage.ts";
+import {useCallback, useEffect, useState} from "react";
+import {clearUserProfile, getUserProfile} from "../../lib/userStorage.ts";
+import {useFocusEffect} from "@react-navigation/native";
+import ConfirmationModal from "./ConfirmationModal.tsx";
 
 export default function ProfileScreen() {
     const navigation = useAppNavigation()
+    const [isConfirmationModalVisible, setIsConfirmationModalVisible] = useState(false);
+
     const profileOptions = [
         {
             title: "My Profile",
             subtitle: "Manage your personal details",
             icon: <User size={20} color={"#006a63"}/>,
             action: () => {
+                const userProfile = getUserProfile()
                 navigation.navigate("SectionNavigator", {
                     screen: "AlumniDetailsScreen",
                     params: {
                         alumnusId: "alumnus_1",
-                        type: "myProfile"
+                        type: "myProfile",
+                        alumnusData: userProfile
                     }
                 })
             },
@@ -115,25 +121,34 @@ export default function ProfileScreen() {
             subtitle: "Sign out from your account",
             icon: <LogOut size={20} color={"#006a63"}/>,
             action: () => {
-                clearUserProfile()
-                navigation.goBack()
-                navigation.navigate("SplashScreen");
+                setIsConfirmationModalVisible(true)
             },
         },
         {
             title: "Delete Account",
             subtitle: "Permanently remove your account",
             icon: <Trash2 size={20} color={"#006a63"}/>,
-            action: () => console.log("Delete Account"),
+            action: () => {
+                setIsConfirmationModalVisible(true)
+            },
         },
     ];
+
+    useFocusEffect(
+        useCallback(() => {
+            const userProfile = getUserProfile()
+            if (!userProfile) {
+                navigation.navigate("SplashScreen");
+            }
+        }, [])
+    );
 
     const [isInstitutionModalVisible, setIsInstitutionModalVisible] = useState(false);
 
     useEffect(() => {
         StatusBar.setBarStyle('light-content')
-        StatusBar.setBackgroundColor(isInstitutionModalVisible ? '#01584f' : '#00b19f')
-    }, [isInstitutionModalVisible])
+        StatusBar.setBackgroundColor(isInstitutionModalVisible || isConfirmationModalVisible ? '#01584f' : '#00b19f')
+    }, [isInstitutionModalVisible, isConfirmationModalVisible])
 
     return (
         <SafeAreaView className="flex-1">
@@ -182,7 +197,16 @@ export default function ProfileScreen() {
                 </ScrollView>
             </View>
 
-            <InstitutionModal visible={isInstitutionModalVisible} onClose={()=>setIsInstitutionModalVisible(false)}/>
+            <InstitutionModal visible={isInstitutionModalVisible} onClose={() => setIsInstitutionModalVisible(false)}/>
+            <ConfirmationModal visible={isConfirmationModalVisible}
+                               onClose={() => {
+                                   setIsConfirmationModalVisible(false)
+                               }}
+                               action={() => {
+                                   setIsConfirmationModalVisible(false)
+                                   clearUserProfile()
+                                   navigation.navigate("SplashScreen");
+                               }}/>
         </SafeAreaView>
     )
 }

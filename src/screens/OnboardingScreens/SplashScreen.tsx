@@ -3,6 +3,7 @@ import {useCallback, useRef, useEffect} from "react";
 import {useAppNavigation} from "../../common/navigationHelper.ts";
 import {storage} from "../../lib/storage.ts";
 import {useFocusEffect} from "@react-navigation/native";
+import {getUserProfile} from "../../lib/userStorage.ts";
 
 export default function SplashScreen() {
     const navigation = useAppNavigation();
@@ -26,9 +27,15 @@ export default function SplashScreen() {
 
     useFocusEffect(
         useCallback(() => {
-            const authToken = storage.getString('authToken');
+            // const authToken = storage.getString('authToken');
+            const userProfile = getUserProfile()
             const timer = setTimeout(() => {
-                navigation.navigate("TabNavigator");
+                if(!userProfile){
+                    navigation.navigate("AuthScreen");
+                }
+                else {
+                    navigation.navigate("TabNavigator");
+                }
             }, 1000);
             return () => clearTimeout(timer);
         }, [navigation])
