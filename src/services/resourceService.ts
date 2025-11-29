@@ -39,6 +39,45 @@ export const resourceService = {
         return data;
     },
 
+    async getAllByCollegeNCompanyId(collegeId: string, companyId: string) {
+        const {data, error} = await supabase
+            .from('resources')
+            .select(`
+                *, 
+                student:uploaded_by_student_id(*), 
+                college:college_id(*), 
+                files(*), 
+                resourcekeywords(*)
+            `)
+            .eq('college_id', collegeId)
+            .eq('company_id', companyId);
+
+        if (error) {
+            console.log("Error: ", error);
+            throw error;
+        }
+        return data;
+    },
+
+    async getAllByStudentId(studentId: string) {
+        const {data, error} = await supabase
+            .from('resources')
+            .select(`
+                *, 
+                student:uploaded_by_student_id(*), 
+                college:college_id(*), 
+                files(*), 
+                resourcekeywords(*)
+            `)
+            .eq('uploaded_by_student_id', studentId);
+
+        if (error) {
+            console.log("Error: ", error);
+            throw error;
+        }
+        return data;
+    },
+
     async getById(id: string) {
         const {data, error} = await supabase
             .from('resources')

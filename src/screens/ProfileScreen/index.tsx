@@ -32,11 +32,10 @@ export default function ProfileScreen() {
             subtitle: "Manage your personal details",
             icon: <User size={20} color={"#006a63"}/>,
             action: () => {
-                const userProfile = getUserProfile()
                 navigation.navigate("SectionNavigator", {
                     screen: "AlumniDetailsScreen",
                     params: {
-                        alumnusId: "alumnus_1",
+                        alumnusId: userProfile?.id,
                         type: "myProfile",
                         alumnusData: userProfile
                     }

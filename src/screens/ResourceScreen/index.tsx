@@ -1,10 +1,19 @@
-import {ScrollView, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {ActivityIndicator, ScrollView, Text, TextInput, TouchableOpacity, View} from "react-native";
 import {SafeAreaView} from "react-native-safe-area-context";
 import {ChevronLeft, PlusIcon, Search} from "lucide-react-native";
-import {useState} from "react";
+import {useCallback, useEffect, useRef, useState} from "react";
 import {IResourceItem, ResourceCard} from "./components/ResourceCard.tsx";
 import {useAppNavigation} from "../../common/navigationHelper.ts";
 import {RouteProp, useRoute} from "@react-navigation/core";
+import {useFocusEffect} from "@react-navigation/native";
+import {IStudent, IStudentCompany} from "../../types/type_student.ts";
+import {getUserProfile} from "../../lib/userStorage.ts";
+import {studentService} from "../../services/studentService.ts";
+import {resourceService} from "../../services/resourceService.ts";
+import {IResource} from "../../types/type_resource.ts";
+import NoDataAvailSticker from "../../assets/svg/NoDataAvail.svg";
+import {companyService} from "../../services/companyService.ts";
+import {ICompany} from "../../types/typeCompany.ts";
 
 const companyFilters = [
     {id: 0, name: "All"},
@@ -20,59 +29,6 @@ const companyFilters = [
     {id: 10, name: "Cognizant"},
 ];
 
-export const resourceData: IResourceItem[] = [
-    {
-        id: 1,
-        name: "Alice Brown",
-        batch: "2024",
-        timeAgo: "2d ago",
-        tags: ["Experience", "Microsoft"],
-        title: "Microsoft Interview Experience - SDE Role",
-        content:
-            "I attended the Microsoft interview for the Software Development Engineer position, and it was one of the most structured interview processes I’ve faced. The first round tested my problem-solving ability with questions on arrays and strings, while the second was purely focused on optimization and clean coding. In the final round, they evaluated design thinking through a real-world scenario on building scalable APIs. The interviewers were very encouraging and wanted to understand my reasoning rather than just correctness. It taught me to think aloud and communicate logic clearly."
-    },
-    {
-        id: 2,
-        name: "Adithya Menon",
-        batch: "2023",
-        timeAgo: "1w ago",
-        tags: ["Experience", "Amazon"],
-        title: "Amazon SDE Interview Journey",
-        content:
-            "The Amazon SDE process was intense and rewarding. It began with an online assessment that covered data structures, sorting algorithms, and problem optimization. The technical rounds were centered on scalability and system efficiency. I had to explain how to design a notification system for millions of users. The behavioral round was strictly aligned with Amazon’s leadership principles, where every answer had to reflect ownership and customer obsession. It pushed me to think from a product and system point of view rather than just a coding one."
-    },
-    {
-        id: 3,
-        name: "Neha Krishnan",
-        batch: "2025",
-        timeAgo: "5d ago",
-        tags: ["Experience", "Google"],
-        title: "Google On-Campus Interview Experience",
-        content:
-            "The Google interview process on campus was an amazing experience. The first round focused on algorithms — recursion, dynamic programming, and tree traversal problems. The second was about system design where I was asked to outline a URL shortener service. The discussion was very interactive, with interviewers prompting me to reason through edge cases and trade-offs. The final HR round emphasized creativity, teamwork, and how I deal with open-ended problems. I came out of it with a better appreciation for structured problem-solving and clear communication."
-    },
-    {
-        id: 4,
-        name: "Vivek Raj",
-        batch: "2022",
-        timeAgo: "3w ago",
-        tags: ["Experience", "TCS"],
-        title: "TCS Digital Interview Experience",
-        content:
-            "My TCS Digital interview was one of my earliest corporate interactions. The process began with an aptitude test covering logical and quantitative reasoning, followed by a coding round with two problems of moderate difficulty. The technical interview tested my knowledge of OOP, DBMS, and real-world applications of C programming. The HR round was conversational and focused on adaptability and willingness to learn new technologies. It was a good balance between technical depth and personality assessment — a great first exposure to corporate interviews."
-    },
-    {
-        id: 5,
-        name: "Lakshmi Suresh",
-        batch: "2024",
-        timeAgo: "4d ago",
-        tags: ["Experience", "Infosys"],
-        title: "Infosys System Engineer Role Interview",
-        content:
-            "The Infosys interview was more conceptual than purely technical. The first test included logical reasoning, verbal ability, and some easy coding questions. The technical round covered basic programming, database management, and object-oriented design. The interviewer asked me to explain my final-year project, focusing on my role in implementation. The HR discussion was pleasant and revolved around teamwork and communication. It was an excellent experience for understanding how large organizations assess overall potential rather than just technical expertise."
-    }
-];
-
 interface IResourceScreenProps {
     type?: string
 }
@@ -82,6 +38,90 @@ export default function ResourceScreen() {
     const {type} = route?.params ?? "resource";
     const navigation = useAppNavigation()
     const [selectedFilter, setSelectedFilter] = useState(0);
+    const [resources, setResources] = useState<IResource[]>([])
+    const [isLoading, setIsLoading] = useState(false);
+    const isFirstLoad = useRef(true);
+    const [companies, setCompanies] = useState<ICompany[]>([]);
+    const [searchValue, setSearchValue] = useState('');
+
+    useFocusEffect(
+        useCallback(() => {
+            if (isFirstLoad.current) {
+                setIsLoading(true)
+                isFirstLoad.current = false
+            }
+            const userProfile: IStudent = getUserProfile()
+            if (type === 'myContributions') {
+                resourceService.getAllByStudentId(userProfile?.id || '')
+                    .then(data => {
+                        console.log("Resource, ", data)
+                        setResources(data)
+                    })
+                    .catch(error => {
+                        console.log("Error fetching alumni data: ", error);
+                    })
+                    .finally(() => {
+                        setSelectedFilter(0)
+                        setIsLoading(false);
+                    })
+            } else {
+                resourceService.getAllByCollegeId(userProfile?.college_id || '')
+                    .then(data => {
+                        console.log("Resource, ", data)
+                        setResources(data)
+                    })
+                    .catch(error => {
+                        console.log("Error fetching alumni data: ", error);
+                    })
+                    .finally(() => {
+                        setSelectedFilter(0)
+                        setIsLoading(false);
+                    })
+            }
+
+            companyService.getAllByCollegeId(userProfile?.college_id || '')
+                .then(data => {
+                    setCompanies(data || [])
+                })
+                .catch(error => {
+                    console.log("Error fetching companies: ", error);
+                })
+        }, [])
+    );
+
+    useEffect(() => {
+        if(selectedFilter === 0) {
+            // All
+            const userProfile: IStudent = getUserProfile()
+            resourceService.getAllByCollegeId(userProfile?.college_id || '')
+                .then(data => {
+                    setResources(data)
+                })
+                .catch(error => {
+                    console.log("Error fetching alumni data: ", error);
+                })
+                .finally(() => {
+                    setIsLoading(false);
+                })
+        }
+        else if(selectedFilter === 1) {
+            setSearchValue('Experiences');
+        }
+        else {
+            const userProfile: IStudent = getUserProfile()
+            console.log("Selected Company ID: ", selectedFilter, String(selectedFilter));
+            resourceService.getAllByCollegeNCompanyId(userProfile?.college_id || '', String(selectedFilter))
+                .then(data => {
+                    setResources(data)
+                })
+                .catch(error => {
+                    console.log("Error fetching alumni data: ", error);
+                })
+                .finally(() => {
+                    setIsLoading(false);
+                })
+        }
+    }, [selectedFilter]);
 
     return (
         <SafeAreaView className="flex-1">
@@ -116,6 +156,8 @@ export default function ResourceScreen() {
                                 placeholder={`Search by ${(type && type === "myContributions") ? '' : 'author or '}tag name`}
                                 className="text-black flex-1"
                                 placeholderTextColor={"#999999"}
+                                value={searchValue}
+                                onChangeText={setSearchValue}
                             />
                         </View>
                         {(type && type === "myContributions") ?
@@ -130,7 +172,19 @@ export default function ResourceScreen() {
                                     gap: 10,
                                 }}
                             >
-                                {companyFilters?.map((item, index) => (
+                                <TouchableOpacity
+                                    className={`${selectedFilter === 0 ? 'bg-primary/10' : 'bg-gray-100'} py-1 rounded-xl px-3 self-baseline`}
+                                    onPress={() => setSelectedFilter(0)}>
+                                    <Text
+                                        className={`${selectedFilter === 0 ? 'text-[#006a63]' : 'text-black/80'} font-poppins text-[13px]`}>All</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    className={`${selectedFilter === 1 ? 'bg-primary/10' : 'bg-gray-100'} py-1 rounded-xl px-3 self-baseline`}
+                                    onPress={() => setSelectedFilter(1)}>
+                                    <Text
+                                        className={`${selectedFilter === 1 ? 'text-[#006a63]' : 'text-black/80'} font-poppins text-[13px]`}>Experiences</Text>
+                                </TouchableOpacity>
+                                {companies?.map((item, index) => (
                                     <TouchableOpacity
                                         className={`${selectedFilter === item?.id ? 'bg-primary/10' : 'bg-gray-100'} py-1 rounded-xl px-3 self-baseline`}
                                         key={index}
@@ -144,11 +198,24 @@ export default function ResourceScreen() {
                     </View>
 
                     <ScrollView className="flex-1 pt-2 w-full">
-                        {resourceData.map((item, index) => (
-                            <View key={index}>
-                                <ResourceCard resourceItem={item} type={type}/>
+                        {!isLoading ? resources.length === 0 ?
+                                <View className="flex flex-1 flex-col justify-center items-center min-h-[50vh] gap-3">
+                                    <NoDataAvailSticker/>
+                                    <Text
+                                        className="text-black/30 text-[15px] font-poppinsLight indent-8 text-justify px-3 mb-4 leading-6">
+                                        No data available
+                                    </Text>
+                                </View>
+                                : resources.map((item, index) => (
+                                    <View key={index}>
+                                        <ResourceCard resourceItem={item} type={type}/>
+                                    </View>
+                                ))
+                            :
+                            <View>
+                                <ActivityIndicator size={28} color="#00b19f" className="mt-8"/>
                             </View>
-                        ))}
+                        }
                         {(type && type === "myContributions") ?
                             <View className="h-[50px]"/>
                             :
