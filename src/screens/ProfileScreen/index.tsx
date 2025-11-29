@@ -18,9 +18,12 @@ import {useCallback, useEffect, useState} from "react";
 import {clearUserProfile, getUserProfile} from "../../lib/userStorage.ts";
 import {useFocusEffect} from "@react-navigation/native";
 import ConfirmationModal from "./ConfirmationModal.tsx";
+import {IStudent} from "../../types/type_student.ts";
 
 export default function ProfileScreen() {
     const navigation = useAppNavigation()
+    const userProfile: IStudent = getUserProfile()
+    const currentCompany = userProfile?.rstudentcompany?.find(c => c?.is_current);
     const [isConfirmationModalVisible, setIsConfirmationModalVisible] = useState(false);
 
     const profileOptions = [
@@ -163,12 +166,17 @@ export default function ProfileScreen() {
                 <ScrollView className="bg-white flex-1 rounded-t-[30px] px-4 flex py-4">
                     <View className="flex flex-col justify-center items-center gap-2 mb-2">
                         <View className="flex items-center justify-center bg-primary rounded-full h-20 w-20">
-                            <Text className="text-white font-poppinsMedium text-lg">AB</Text>
+                            <Text className="text-white font-poppinsMedium text-lg">{userProfile?.name.split(" ")?.map(n=> n[0].toUpperCase()).join('')}</Text>
                         </View>
                         <View className="flex flex-col justify-center items-center">
-                            <Text className="font-poppinsMedium text-[18px]">Alice Brown</Text>
-                            <Text className="font-poppinsLight text-gray-600">Software Engineer at
-                                TechCorp</Text>
+                            <Text className="font-poppinsMedium text-[18px]">{userProfile?.name}</Text>
+                            {userProfile?.status === 'alumni' ?
+                            <Text className="font-poppinsLight text-gray-600 text-center">{currentCompany?.position} at
+                                {currentCompany?.company?.name}</Text>
+                                :
+                                <Text className="font-poppinsLight text-gray-600 text-center">Student at
+                                    {userProfile?.college?.name}</Text>
+                            }
                         </View>
                     </View>
                     <View className="mt-5 flex-1 flex flex-col gap-5 self-stretch">
