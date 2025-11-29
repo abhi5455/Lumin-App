@@ -15,6 +15,7 @@ import {
 import {useAppNavigation} from "../../common/navigationHelper.ts";
 import InstitutionModal from "./InstitutionModal.tsx";
 import {useEffect, useState} from "react";
+import {clearUserProfile} from "../../lib/userStorage.ts";
 
 export default function ProfileScreen() {
     const navigation = useAppNavigation()
@@ -113,7 +114,11 @@ export default function ProfileScreen() {
             title: "Logout",
             subtitle: "Sign out from your account",
             icon: <LogOut size={20} color={"#006a63"}/>,
-            action: () => console.log("Logout User"),
+            action: () => {
+                clearUserProfile()
+                navigation.goBack()
+                navigation.navigate("SplashScreen");
+            },
         },
         {
             title: "Delete Account",

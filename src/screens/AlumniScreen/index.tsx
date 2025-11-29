@@ -8,6 +8,8 @@ import {studentService} from "../../services/studentService.ts";
 import {IStudent} from "../../types/type_student.ts";
 import {useFocusEffect} from "@react-navigation/native";
 import NoDataAvailSticker from "../../assets/svg/NoDataAvail.svg";
+import {getUserProfile} from "../../lib/userStorage.ts";
+import {companyService} from "../../services/companyService.ts";
 
 export default function AlumniScreen() {
     const [filterModalVisible, setFilterModalVisible] = useState(false);
@@ -26,7 +28,8 @@ export default function AlumniScreen() {
                 setIsLoading(true)
                 isFirstLoad.current = false
             }
-            studentService.getAllAlumniByCollegeId('dc919c8b-b2b6-4465-abe3-124d80b57cbf')
+            const userProfile: IStudent = getUserProfile()
+            studentService.getAllAlumniByCollegeId(userProfile?.college_id || '')
                 .then(data => {
                     setAlumniList(data || [])
                 })

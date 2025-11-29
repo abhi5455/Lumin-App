@@ -9,65 +9,140 @@ import {
 import {Eye, EyeOff} from "lucide-react-native";
 import {useAppNavigation} from "../../common/navigationHelper.ts";
 import Toast from "react-native-toast-message";
-import axios from "axios";
-import {storage} from "../../lib/storage.ts";
-import {fetchUserProfile} from "../../lib/userStorage.ts";
-import {BASE_URL} from "../../utils/axios.ts";
 import {SafeAreaView} from "react-native-safe-area-context";
+import {supabase} from "../../lib/supabaseClient.ts";
+import {migrateStudents} from "../../services/testService.ts";
+import {fetchUserProfile} from "../../lib/userStorage.ts";
 
 interface ValidationRule {
     text: string;
     isValid: boolean;
 }
 
-function handleLogin(email: string, password: string, setIsLoading: (loading: boolean) => void, navigation?: any) {
-    if (!email || !password) {
-        Toast.show({
-            type: 'error',
-            text1: 'Invalid Credentials!',
-            text2: 'Fill required details',
-            position: "top"
-        });
-        return;
-    }
+async function handleLogin(identifier: string, password: string, setIsLoading: (loading: boolean) => void, navigation?: any) {
     setIsLoading(true)
-    axios.post(`${BASE_URL}/login`, {email: email, password: password})
-        .then(async res => {
-            Toast.show({
-                type: 'success',
-                text1: 'Login Successful!',
-                text2: 'Welcome back!',
-                position: "top"
-            });
-            storage.set('authToken', res.data.data);
-            await fetchUserProfile()
-            navigation.goBack();
-            navigation.goBack();
-            navigation.navigate("TabNavigator", {
-                screen: "DashboardScreen",
-                params: {from: "SignInScreen"}
-            });
-        })
-        .catch(err => {
+    try {
+        let authEmail = identifier;
+        let studentData = null;
+
+        // Check if identifier is an admission number or email
+        if (!identifier.includes('@')) {
+            // It's an admission number, fetch the auth_email
+            const {data: student, error} = await supabase
+                .from('student')
+                .select('auth_email, email')
+                .eq('admission_number', identifier)
+                .maybeSingle();
+
+            if (error || !student) {
+                Toast.show({
+                    type: 'error',
+                    text1: 'Login Failed!',
+                    text2: error?.message || 'Invalid admission number',
+                    position: "top"
+                });
+                console.log("Error ", error)
+                return {success: false, error: 'Invalid admission number'};
+            }
+
+            authEmail = student?.auth_email;
+            studentData = student;
+        } else {
+            // Check if it's the actual email (contact email)
+            const {data: student, error} = await supabase
+                .from('student')
+                .select('auth_email, email')
+                .eq('email', identifier)
+                .maybeSingle();
+
+            if (student && !error) {
+                authEmail = student.auth_email;
+                studentData = student;
+            } else {
+                // It might be the auth_email directly
+                const {data: studentByAuth, error: authError} = await supabase
+                    .from('student')
+                    .select('auth_email, email')
+                    .eq('auth_email', identifier)
+                    .maybeSingle();
+
+                if (studentByAuth && !authError) {
+                    authEmail = studentByAuth?.auth_email;
+                    studentData = studentByAuth;
+                }
+            }
+        }
+
+        // Login with auth_email and password
+        const {data: authData, error: authError} = await supabase.auth.signInWithPassword({
+            email: authEmail,
+            password: password
+        });
+
+        if (authError) {
             Toast.show({
                 type: 'error',
                 text1: 'Login Failed!',
-                text2: err.response?.data?.message || 'An error occurred during login.',
+                text2: authError?.message || 'Invalid credentials',
                 position: "top"
             });
-        })
-        .finally(() => {
-            setIsLoading(false);
+            return {success: false, error: 'Invalid credentials'};
+        }
+
+        // Fetch complete student data
+        const {data: student, error: studentError} = await supabase
+            .from('student')
+            .select('*')
+            .eq('id', authData.user.id)
+            .maybeSingle();
+
+        if (studentError || !student) {
+            await supabase.auth.signOut();
+            Toast.show({
+                type: 'error',
+                text1: 'Login Failed!',
+                text2: 'Not authorized as student',
+                position: "top"
+            });
+            return {success: false, error: 'Not authorized as student'};
+        }
+
+        console.log("Return ", authData.user, "Student ", student, student.id)
+        Toast.show({
+            type: 'success',
+            text1: 'Login Success',
+            text2: 'Now Explore Lumin Features',
+            position: "top"
         });
+        await fetchUserProfile(student?.id)
+        navigation.goBack()
+        navigation.navigate("TabNavigator");
+
+        return {
+            success: true,
+            user: authData.user,
+            student: student
+        };
+
+    } catch (error) {
+        console.error('Login error:', error);
+        Toast.show({
+            type: 'error',
+            text1: 'Login Failed!',
+            text2: error.response?.data?.message || 'An error occurred during login.',
+            position: "top"
+        });
+        return {success: false, error: error.message};
+    } finally {
+        setIsLoading(false)
+    }
 }
 
 const AuthScreen: React.FC = () => {
     const navigation = useAppNavigation()
-    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
-    const [showValidation, setShowValidation] = useState(false);
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -84,7 +159,7 @@ const AuthScreen: React.FC = () => {
 
             <View className="bg-white flex-1">
                 <View className="bg-white flex-1 rounded-t-[30px] px-6 flex justify-center pb-10">
-                    <View className="flex justify-center items-center mb-12">
+                    <View className="flex justify-center items-center mb-14">
                         <Text className="text-[36px] text-primary font-poppinsLight self-center">
                             Lumin
                         </Text>
@@ -93,21 +168,35 @@ const AuthScreen: React.FC = () => {
                         </Text>
                     </View>
 
+                    {/*<View className="mb-5">*/}
+                    {/*    <Text className="text-base font-poppins text-primary mb-2">*/}
+                    {/*        Email Id*/}
+                    {/*    </Text>*/}
+                    {/*    <TextInput*/}
+                    {/*        value={email}*/}
+                    {/*        onChangeText={setEmail}*/}
+                    {/*        className="border border-gray-200 rounded-xl px-4 py-4 pt-5 text-base font-poppins text-gray-800 bg-white"*/}
+                    {/*        placeholder="Enter Email address"*/}
+                    {/*        placeholderTextColor={'#889baf'}*/}
+                    {/*        keyboardType="email-address"*/}
+                    {/*    />*/}
+                    {/*</View>*/}
+
                     <View className="mb-5">
                         <Text className="text-base font-poppins text-primary mb-2">
-                            Email Id
+                            Admission Number
                         </Text>
                         <TextInput
                             value={email}
                             onChangeText={setEmail}
                             className="border border-gray-200 rounded-xl px-4 py-4 pt-5 text-base font-poppins text-gray-800 bg-white"
-                            placeholder="Enter Email address"
+                            placeholder="Enter admission number"
                             placeholderTextColor={'#889baf'}
                             keyboardType="email-address"
                         />
                     </View>
 
-                    <View className="mb-5">
+                    <View className="mb-7">
                         <Text className="text-base font-poppins text-primary mb-2">Password</Text>
                         <View className="relative">
                             <TextInput

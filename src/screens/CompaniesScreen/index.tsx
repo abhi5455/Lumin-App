@@ -8,6 +8,8 @@ import {useFocusEffect} from "@react-navigation/native";
 import {companyService} from "../../services/companyService.ts";
 import NoDataAvailSticker from "../../assets/svg/NoDataAvail.svg"
 import {ICompany} from "../../types/typeCompany.ts";
+import {getUserProfile} from "../../lib/userStorage.ts";
+import {IStudent} from "../../types/type_student.ts";
 
 export default function CompaniesScreen() {
     const [filterModalVisible, setFilterModalVisible] = useState(false);
@@ -26,7 +28,8 @@ export default function CompaniesScreen() {
                 setIsLoading(true)
                 isFirstLoad.current = false
             }
-            companyService.getAllByCollegeId('dc919c8b-b2b6-4465-abe3-124d80b57cbf')
+            const userProfile: IStudent = getUserProfile()
+            companyService.getAllByCollegeId(userProfile?.college_id || '')
                 .then(data => {
                     setCompanyList(data || [])
                 })
