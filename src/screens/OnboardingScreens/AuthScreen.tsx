@@ -111,12 +111,17 @@ async function handleLogin(identifier: string, password: string, setIsLoading: (
         Toast.show({
             type: 'success',
             text1: 'Login Success',
-            text2: 'Now Explore Lumin Features',
+            text2: 'Dive in and experience everything Lumin offers.',
             position: "top"
         });
         await fetchUserProfile(student?.id)
         navigation.goBack()
-        navigation.navigate("TabNavigator");
+        navigation.navigate("TabNavigator", {
+            screen: "AlumniScreen",
+            params: {
+                collegeId: student?.college_id
+            }
+        });
 
         return {
             success: true,
@@ -174,7 +179,8 @@ const AuthScreen: React.FC = () => {
                     </View>
 
                     <View className="mb-5">
-                        <Text className={`text-base font-poppins mb-2 ${validationError && identifier === '' ? 'text-red-400' : 'text-primary'}`}>
+                        <Text
+                            className={`text-base font-poppins mb-2 ${validationError && identifier === '' ? 'text-red-400' : 'text-primary'}`}>
                             Admission Number
                         </Text>
                         <TextInput
@@ -188,7 +194,8 @@ const AuthScreen: React.FC = () => {
                     </View>
 
                     <View className="mb-7">
-                        <Text className={`text-base font-poppins text-primary mb-2  ${validationError && password === '' ? 'text-red-400' : 'text-primary'}`}>Password</Text>
+                        <Text
+                            className={`text-base font-poppins text-primary mb-2  ${validationError && password === '' ? 'text-red-400' : 'text-primary'}`}>Password</Text>
                         <View className="relative">
                             <TextInput
                                 value={password}
@@ -213,11 +220,11 @@ const AuthScreen: React.FC = () => {
                     {/* Submit Button */}
                     <TouchableOpacity className="bg-primary rounded-xl py-4 mb-6"
                                       onPress={() => {
-                                          if(identifier.trim() === '' || password.trim() === ''){
-                                              if(identifier.trim() === ''){
+                                          if (identifier.trim() === '' || password.trim() === '') {
+                                              if (identifier.trim() === '') {
                                                   setIdentifier('')
                                               }
-                                              if(password.trim() === '') {
+                                              if (password.trim() === '') {
                                                   setPassword('')
                                               }
                                               setValidationError(true)

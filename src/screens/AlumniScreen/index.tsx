@@ -9,9 +9,15 @@ import {IStudent} from "../../types/type_student.ts";
 import {useFocusEffect} from "@react-navigation/native";
 import NoDataAvailSticker from "../../assets/svg/NoDataAvail.svg";
 import {getUserProfile} from "../../lib/userStorage.ts";
-import {companyService} from "../../services/companyService.ts";
+import {RouteProp, useRoute} from "@react-navigation/core";
+
+interface IAlumniScreenProps{
+    collegeId: string
+}
 
 export default function AlumniScreen() {
+    const route = useRoute<RouteProp<{ ResourceScreen: IAlumniScreenProps }, 'AlumniScreen'>>();
+    const {collegeId} = route?.params ?? "";
     const [filterModalVisible, setFilterModalVisible] = useState(false);
     const [alumniList, setAlumniList] = useState<IStudent[]>([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -29,7 +35,7 @@ export default function AlumniScreen() {
                 isFirstLoad.current = false
             }
             const userProfile: IStudent = getUserProfile()
-            studentService.getAllAlumniByCollegeId(userProfile?.college_id || '')
+            studentService.getAllAlumniByCollegeId(userProfile?.college_id || collegeId)
                 .then(data => {
                     setAlumniList(data || [])
                 })
