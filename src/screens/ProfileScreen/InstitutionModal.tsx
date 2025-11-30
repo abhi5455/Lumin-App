@@ -1,4 +1,4 @@
-import {Modal, ScrollView, Text, TouchableOpacity, TouchableWithoutFeedback, View} from "react-native";
+import {Image, Modal, ScrollView, Text, TouchableOpacity, TouchableWithoutFeedback, View} from "react-native";
 import InstitutionImage from "../../assets/svg/Institution.svg";
 import {MapPin, XIcon} from "lucide-react-native";
 import {getUserProfile} from "../../lib/userStorage.ts";
@@ -36,9 +36,9 @@ export default function InstitutionModal({visible, onClose}: InstitutionModalPro
                                                   onPress={onClose}>
                                     <XIcon color={'#4b5563'} size={21}/>
                                 </TouchableOpacity>
-                                <View className="w-full flex items-center max-h-[165px]">
-                                    <InstitutionImage fill="#00b19f" width={200} height={200}/>
-
+                                <View className="w-full flex items-center mb-[2px]">
+                                    {/*<InstitutionImage fill="#00b19f" width={200} height={200}/>*/}
+                                    <Image source={require('../../assets/png/InstitutionBuilding.png')} style={{ width: 150, height: 150 }} />
                                 </View>
                                 <Text className="text-2xl font-bold mb-2 text-gray-900 text-center font-poppinsMedium">
                                     {userProfile?.college?.name}
