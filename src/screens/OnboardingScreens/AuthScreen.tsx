@@ -4,22 +4,17 @@ import {
     Text,
     TextInput,
     TouchableOpacity,
-    ActivityIndicator, StatusBar,
+    ActivityIndicator, StatusBar, Keyboard,
 } from 'react-native';
 import {Eye, EyeOff} from "lucide-react-native";
 import {useAppNavigation} from "../../common/navigationHelper.ts";
 import Toast from "react-native-toast-message";
 import {SafeAreaView} from "react-native-safe-area-context";
 import {supabase} from "../../lib/supabaseClient.ts";
-import {migrateStudents} from "../../services/testService.ts";
 import {fetchUserProfile} from "../../lib/userStorage.ts";
 
-interface ValidationRule {
-    text: string;
-    isValid: boolean;
-}
-
 async function handleLogin(identifier: string, password: string, setIsLoading: (loading: boolean) => void, navigation?: any) {
+    Keyboard.dismiss();
     setIsLoading(true)
     try {
         let authEmail = identifier;
