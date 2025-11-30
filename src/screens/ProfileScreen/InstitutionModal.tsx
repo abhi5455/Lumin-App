@@ -18,11 +18,8 @@ export default function InstitutionModal({visible, onClose}: InstitutionModalPro
             animationType="fade"
             onRequestClose={onClose}
         >
-            {/* Backdrop - tapping here closes modal */}
             <TouchableWithoutFeedback onPress={onClose}>
                 <View className="flex-1 bg-black/50 justify-center px-5">
-
-                    {/* Content area - tapping here does nothing, allows scrolling */}
                     <TouchableWithoutFeedback onPress={() => {
                     }}>
                         <View className="bg-white rounded-3xl max-h-[70%] overflow-hidden pb-1">
@@ -53,7 +50,6 @@ export default function InstitutionModal({visible, onClose}: InstitutionModalPro
                                     {userProfile?.college?.about}
                                 </Text>
                             </ScrollView>
-                            {/*<View className="bg-[#006a63]/20 w-[70px] h-[5px] rounded-full self-center mb-2 mt-2"/>*/}
                         </View>
                     </TouchableWithoutFeedback>
 

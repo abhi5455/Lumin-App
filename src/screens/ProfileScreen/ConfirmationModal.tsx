@@ -14,11 +14,8 @@ export default function ConfirmationModal({visible, onClose, action}: ConfirmMod
             animationType="fade"
             onRequestClose={onClose}
         >
-            {/* Backdrop - tapping here closes modal */}
             <TouchableWithoutFeedback onPress={onClose}>
                 <View className="flex-1 bg-black/50 justify-center px-5">
-
-                    {/* Content area - tapping here does nothing, allows scrolling */}
                     <TouchableWithoutFeedback onPress={() => {
                     }}>
                         <View className="bg-white rounded-3xl overflow-hidden p-5 py-7 flex flex-col gap-7">
