@@ -2,32 +2,17 @@ import {ActivityIndicator, ScrollView, Text, TextInput, TouchableOpacity, View} 
 import {SafeAreaView} from "react-native-safe-area-context";
 import {ChevronLeft, PlusIcon, Search} from "lucide-react-native";
 import {useCallback, useEffect, useRef, useState} from "react";
-import {IResourceItem, ResourceCard} from "./components/ResourceCard.tsx";
+import {ResourceCard} from "./components/ResourceCard.tsx";
 import {useAppNavigation} from "../../common/navigationHelper.ts";
 import {RouteProp, useRoute} from "@react-navigation/core";
 import {useFocusEffect} from "@react-navigation/native";
-import {IStudent, IStudentCompany} from "../../types/type_student.ts";
+import {IStudent} from "../../types/type_student.ts";
 import {getUserProfile} from "../../lib/userStorage.ts";
-import {studentService} from "../../services/studentService.ts";
 import {resourceService} from "../../services/resourceService.ts";
 import {IResource} from "../../types/type_resource.ts";
 import NoDataAvailSticker from "../../assets/svg/NoDataAvail.svg";
 import {companyService} from "../../services/companyService.ts";
 import {ICompany} from "../../types/typeCompany.ts";
-
-const companyFilters = [
-    {id: 0, name: "All"},
-    {id: 1, name: "Experiences"},
-    {id: 2, name: "Microsoft"},
-    {id: 3, name: "TCS"},
-    {id: 4, name: "Infosys"},
-    {id: 5, name: "Wipro"},
-    {id: 6, name: "Google"},
-    {id: 7, name: "Amazon"},
-    {id: 8, name: "Accenture"},
-    {id: 9, name: "IBM"},
-    {id: 10, name: "Cognizant"},
-];
 
 interface IResourceScreenProps {
     type?: string

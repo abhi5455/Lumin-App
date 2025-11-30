@@ -1,21 +1,39 @@
-import {ChevronLeft, PlusIcon, X} from "lucide-react-native";
+import {ChevronDown, ChevronLeft, PlusIcon, X} from "lucide-react-native";
 import {ScrollView, StatusBar, Text, TextInput, TouchableOpacity, View} from "react-native";
 import {useAppNavigation} from "../../../common/navigationHelper.ts";
 import {SafeAreaView} from "react-native-safe-area-context";
 import {useEffect, useState} from "react";
 import AddTagModal from "./components/AddTagModal.tsx";
+import {ICompany} from "../../../types/typeCompany.ts";
+import AttachCompanyModal from "./components/AttachCompanyModal.tsx";
+import {companyService} from "../../../services/companyService.ts";
+import {getUserProfile} from "../../../lib/userStorage.ts";
 
 export default function AddResourceScreen() {
-    const navigation = useAppNavigation()
-    const [title, setTitle] = useState("")
-    const [content, setContent] = useState("")
-    const [tags, setTags] = useState<string[]>([])
-    const [tagModalVisible, setTagModalVisible] = useState(false)
+    const navigation = useAppNavigation();
+    const [title, setTitle] = useState("");
+    const [content, setContent] = useState("");
+    const [tags, setTags] = useState<string[]>([]);
+    const [tagModalVisible, setTagModalVisible] = useState(false);
+    const [attachedCompany, setAttachedCompany] = useState<ICompany | null>(null);
+    const [attachCompanyModalVisible, setAttachCompanyModalVisible] = useState(false);
+    const [companies, setCompanies] = useState<ICompany[]>([]);
 
     useEffect(() => {
         StatusBar.setBarStyle('light-content')
         StatusBar.setBackgroundColor(tagModalVisible ? '#01584f' : '#00b19f')
     }, [tagModalVisible])
+
+    useEffect(() => {
+        const userProfile = getUserProfile()
+        companyService.getAllByCollegeId(userProfile?.college_id || '')
+            .then(data => {
+                setCompanies(data || [])
+            })
+            .catch(error => {
+                console.log("Error fetching companies: ", error);
+            })
+    }, []);
 
     return (
         <SafeAreaView className="flex-1">
@@ -74,7 +92,8 @@ export default function AddResourceScreen() {
                                             }}>
                                                 <X size={16} color={'rgb(0 0 0 / 0.65)'}/>
                                             </TouchableOpacity>
-                                            <Text className="text-[#006a63] font-poppinsMedium text-md ml-1">{tag}</Text>
+                                            <Text
+                                                className="text-[#006a63] font-poppinsMedium text-md ml-1">{tag}</Text>
                                         </View>
                                     ))}
                                     {tags.length < 3 &&
@@ -90,6 +109,33 @@ export default function AddResourceScreen() {
                                 </View>
                             </View>
                         </View>
+
+                        {/*Company*/}
+                        <TouchableOpacity className="relative flex flex-col gap-2 mb-4 mt-2" onPress={()=>{
+                            setAttachCompanyModalVisible(true)
+                        }}>
+                            <View
+                                className="relative flex flex-col items-start border border-gray-300 rounded-xl px-4 py-2 pb-3 gap-4">
+                                <Text
+                                    className={`absolute top-[-10px] left-[7px] z-50 px-1 bg-white text-gray-300 font-poppins text-md ml-2`}>Attach
+                                    with Company</Text>
+                                {attachedCompany ?
+                                    <View
+                                        className="flex flex-row justify-between items-center w-full gap-3 flex-wrap mt-3 pr-">
+                                        <Text
+                                            className="text-primary font-poppinsMedium text-[15px]">{attachedCompany?.name}</Text>
+                                        <ChevronDown size={20}/>
+                                    </View>
+                                    :
+                                    <View
+                                        className="flex flex-row justify-between items-center w-full gap-3 flex-wrap mt-3 pr-">
+                                        <Text className="text-gray-400 font-poppins text-[15px]">No Company
+                                            attached</Text>
+                                        <ChevronDown size={20}/>
+                                    </View>
+                                }
+                            </View>
+                        </TouchableOpacity>
                     </ScrollView>
                     <View className="flex flex-row justify-center items-center gap-3 px-4 pt-3">
                         <TouchableOpacity
@@ -107,6 +153,9 @@ export default function AddResourceScreen() {
                              setTagModalVisible(false)
                          }}
                          setTags={setTags}/>
+            <AttachCompanyModal visible={attachCompanyModalVisible} onClose={()=>{
+                setAttachCompanyModalVisible(false)
+            }} companies={companies} attachedCompany={attachedCompany} setAttachedCompany={setAttachedCompany}/>
         </SafeAreaView>
     )
 }
