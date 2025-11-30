@@ -20,7 +20,7 @@ export const resourceService = {
         return data;
     },
 
-    async getAllByCollegeId(collegeId: string) {
+    async getAllByCollegeId(collegeId: string, searchValue?: string) {
         const {data, error} = await supabase
             .from('resources')
             .select(`
@@ -30,7 +30,7 @@ export const resourceService = {
                 files(*), 
                 resourcekeywords(*)
             `)
-            .eq('college_id', collegeId);
+            .eq('college_id', collegeId)
 
         if (error) {
             console.log("Error: ", error);

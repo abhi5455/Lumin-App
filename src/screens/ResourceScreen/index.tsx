@@ -118,6 +118,7 @@ export default function ResourceScreen() {
                     console.log("Error fetching alumni data: ", error);
                 })
                 .finally(() => {
+                    setSearchValue('')
                     setIsLoading(false);
                 })
         }
