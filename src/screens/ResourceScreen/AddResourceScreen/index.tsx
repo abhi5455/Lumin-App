@@ -1,13 +1,15 @@
 import {ChevronDown, ChevronLeft, PlusIcon, X} from "lucide-react-native";
-import {ScrollView, StatusBar, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {ActivityIndicator, ScrollView, StatusBar, Text, TextInput, TouchableOpacity, View} from "react-native";
 import {useAppNavigation} from "../../../common/navigationHelper.ts";
 import {SafeAreaView} from "react-native-safe-area-context";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import AddTagModal from "./components/AddTagModal.tsx";
 import {ICompany} from "../../../types/typeCompany.ts";
 import AttachCompanyModal from "./components/AttachCompanyModal.tsx";
 import {companyService} from "../../../services/companyService.ts";
 import {getUserProfile} from "../../../lib/userStorage.ts";
+import Toast from "react-native-toast-message";
+import {resourceService} from "../../../services/resourceService.ts";
 
 export default function AddResourceScreen() {
     const navigation = useAppNavigation();
@@ -18,6 +20,7 @@ export default function AddResourceScreen() {
     const [attachedCompany, setAttachedCompany] = useState<ICompany | null>(null);
     const [attachCompanyModalVisible, setAttachCompanyModalVisible] = useState(false);
     const [companies, setCompanies] = useState<ICompany[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         StatusBar.setBarStyle('light-content')
@@ -111,7 +114,7 @@ export default function AddResourceScreen() {
                         </View>
 
                         {/*Company*/}
-                        <TouchableOpacity className="relative flex flex-col gap-2 mb-4 mt-2" onPress={()=>{
+                        <TouchableOpacity className="relative flex flex-col gap-2 mb-4 mt-2" onPress={() => {
                             setAttachCompanyModalVisible(true)
                         }}>
                             <View
@@ -141,8 +144,51 @@ export default function AddResourceScreen() {
                         <TouchableOpacity
                             className="flex-1 bg-primary py-4 rounded-2xl items-center justify-center"
                             onPress={() => {
+                                if (title.trim() === "" || content.trim() === "") {
+                                    Toast.show({
+                                        type: 'error',
+                                        text1: 'Incomplete Data',
+                                        text2: 'Please fill in all required fields(title and content).'
+                                    });
+                                    return;
+                                }
+                                setIsLoading(true);
+                                setTags(prev => attachedCompany ? [...prev, attachedCompany.name] : [...prev]);
+                                const userProfile = getUserProfile();
+                                resourceService.create({
+                                    uploaded_by_student_id: userProfile?.id || '',
+                                    college_id: userProfile?.college_id || '',
+                                    title: title.trim(),
+                                    content: content.trim(),
+                                    is_verified: true,
+                                    company_id: attachedCompany ? attachedCompany.id : null,
+                                    keywords: [attachedCompany?.name , ...tags],
+                                }).then(() => {
+                                    setIsLoading(false);
+                                    Toast.show({
+                                        type: 'success',
+                                        text1: 'Resource Created',
+                                        text2: 'Your contribution has been added successfully.'
+                                    });
+                                    navigation.goBack();
+                                }).catch((error) => {
+                                    setIsLoading(false);
+                                    setTags(prev => attachedCompany ? prev.filter(t => t !== attachedCompany.name) : prev);
+                                    console.log("Error creating resource: ", error);
+                                    console.log("Payload: ", error.message)
+                                    Toast.show({
+                                        type: 'error',
+                                        text1: 'Resource Creation Failed',
+                                        text2: error.message || 'An error occurred while creating the resource.'
+                                    });
+                                })
+
                             }}>
-                            <Text className="text-white font-poppinsMedium text-lg">Create</Text>
+                            {!isLoading ?
+                                <Text className="text-white font-poppinsMedium text-lg">Create</Text>
+                                :
+                                <ActivityIndicator color={'#FFF'} size={25} className={''}/>
+                            }
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -153,7 +199,7 @@ export default function AddResourceScreen() {
                              setTagModalVisible(false)
                          }}
                          setTags={setTags}/>
-            <AttachCompanyModal visible={attachCompanyModalVisible} onClose={()=>{
+            <AttachCompanyModal visible={attachCompanyModalVisible} onClose={() => {
                 setAttachCompanyModalVisible(false)
             }} companies={companies} attachedCompany={attachedCompany} setAttachedCompany={setAttachedCompany}/>
         </SafeAreaView>

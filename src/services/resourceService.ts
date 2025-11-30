@@ -11,7 +11,8 @@ export const resourceService = {
                 college:college_id(*), 
                 files(*), 
                 resourcekeywords(*)
-            `);
+            `)
+            .order('created_at', { ascending: false });
 
         if (error) {
             console.log("Error: ", error);
@@ -31,6 +32,7 @@ export const resourceService = {
                 resourcekeywords(*)
             `)
             .eq('college_id', collegeId)
+            .order('created_at', { ascending: false });
 
         if (error) {
             console.log("Error: ", error);
@@ -50,7 +52,8 @@ export const resourceService = {
                 resourcekeywords(*)
             `)
             .eq('college_id', collegeId)
-            .eq('company_id', companyId);
+            .eq('company_id', companyId)
+            .order('created_at', { ascending: false });
 
         if (error) {
             console.log("Error: ", error);
@@ -69,7 +72,8 @@ export const resourceService = {
                 files(*), 
                 resourcekeywords(*)
             `)
-            .eq('uploaded_by_student_id', studentId);
+            .eq('uploaded_by_student_id', studentId)
+            .order('created_at', { ascending: false });
 
         if (error) {
             console.log("Error: ", error);
@@ -117,10 +121,10 @@ export const resourceService = {
         // Creating resource keywords
         if (keywords && keywords.length > 0) {
             const resourceKeywords = keywords.map((kw) => {
-                const {id, created_at, ...keywordData} = kw; // Omit id and created_at
+                // const {id, created_at, ...keywordData} = kw; // Omit id and created_at
                 return {
                     resource_id: data.id,
-                    ...keywordData
+                    keyword: kw
                 };
             });
 

@@ -6,6 +6,7 @@ export const studentService = {
         const {data, error} =
             await supabase.from('student')
                 .select(`*, college(*), department(*), rstudentcompany(*, company(*)), studenteducation(*)`)
+                .order('created_at', { ascending: false });
 
         if (error) {
             console.log("Error: ", error);
@@ -18,7 +19,8 @@ export const studentService = {
         const {data, error} =
             await supabase.from('student')
                 .select(`*, college(*), department(*), rstudentcompany(*, company(*)), studenteducation(*)`)
-                .eq('college_id', collegeId);
+                .eq('college_id', collegeId)
+                .order('created_at', { ascending: false });
 
         if (error) {
             console.log("Error: ", error);
@@ -32,7 +34,8 @@ export const studentService = {
             await supabase.from('student')
                 .select(`*, college(*), department(*), rstudentcompany(*, company(*)), studenteducation(*)`)
                 .eq('college_id', collegeId)
-                .eq('status', 'alumni');
+                .eq('status', 'alumni')
+                .order('created_at', { ascending: false });
 
         if (error) {
             console.log("Error: ", error);

@@ -14,7 +14,8 @@ export const companyService = {
                     *,
                     recruitmentrounds(*)
                 )
-            `);
+            `)
+                .order('created_at', {ascending: false});
 
         if (error) {
             console.log("Error: ", error);
@@ -38,7 +39,8 @@ export const companyService = {
                         recruitmentrounds(*)
                     )
                 `)
-                .eq('college_id', collegeId);
+                .eq('college_id', collegeId)
+                .order('created_at', { ascending: false });
 
         if (error) {
             console.log("Error: ", error);

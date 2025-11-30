@@ -5,7 +5,8 @@ export const collegeService = {
     async getAll() {
         const {data, error} =
             await supabase.from('college')
-                .select('*');
+                .select('*')
+                .order('created_at', { ascending: false });
 
         if (error) {
             console.log("Error: ", error);
