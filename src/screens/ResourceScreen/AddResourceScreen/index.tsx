@@ -152,6 +152,14 @@ export default function AddResourceScreen() {
                                     });
                                     return;
                                 }
+                                if (tags.length === 0) {
+                                    Toast.show({
+                                        type: 'error',
+                                        text1: 'No Tags Added',
+                                        text2: 'Please add at least one tag to the resource.'
+                                    });
+                                    return;
+                                }
                                 setIsLoading(true);
                                 setTags(prev => attachedCompany ? [...prev, attachedCompany.name] : [...prev]);
                                 const userProfile = getUserProfile();
@@ -162,7 +170,7 @@ export default function AddResourceScreen() {
                                     content: content.trim(),
                                     is_verified: true,
                                     company_id: attachedCompany ? attachedCompany.id : null,
-                                    keywords: [attachedCompany?.name , ...tags],
+                                    keywords: attachedCompany ? [attachedCompany?.name, ...tags] : tags,
                                 }).then(() => {
                                     setIsLoading(false);
                                     Toast.show({

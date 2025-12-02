@@ -28,6 +28,7 @@ export default function ResourceScreen() {
     const isFirstLoad = useRef(true);
     const [companies, setCompanies] = useState<ICompany[]>([]);
     const [searchValue, setSearchValue] = useState('');
+    const [triggerRefetch, setTriggerRefetch] = useState(0);
 
     useFocusEffect(
         useCallback(() => {
@@ -71,11 +72,11 @@ export default function ResourceScreen() {
                 .catch(error => {
                     console.log("Error fetching companies: ", error);
                 })
-        }, [])
+        }, [triggerRefetch])
     );
 
     useEffect(() => {
-        if(selectedFilter === 0) {
+        if (selectedFilter === 0) {
             // All
             const userProfile: IStudent = getUserProfile()
             resourceService.getAllByCollegeId(userProfile?.college_id || '')
@@ -88,11 +89,9 @@ export default function ResourceScreen() {
                 .finally(() => {
                     setIsLoading(false);
                 })
-        }
-        else if(selectedFilter === 1) {
+        } else if (selectedFilter === 1) {
             setSearchValue('Experiences');
-        }
-        else {
+        } else {
             const userProfile: IStudent = getUserProfile()
             console.log("Selected Company ID: ", selectedFilter, String(selectedFilter));
             resourceService.getAllByCollegeNCompanyId(userProfile?.college_id || '', String(selectedFilter))
@@ -194,7 +193,8 @@ export default function ResourceScreen() {
                                 </View>
                                 : resources.map((item, index) => (
                                     <View key={index}>
-                                        <ResourceCard resourceItem={item} type={type}/>
+                                        <ResourceCard resourceItem={item} type={type}
+                                                      setTriggerRefetch={setTriggerRefetch}/>
                                     </View>
                                 ))
                             :

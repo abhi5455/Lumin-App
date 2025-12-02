@@ -165,12 +165,14 @@ export default function ProfileScreen() {
                 <ScrollView className="bg-white flex-1 rounded-t-[30px] px-4 flex py-4">
                     <View className="flex flex-col justify-center items-center gap-2 mb-2">
                         <View className="flex items-center justify-center bg-primary rounded-full h-20 w-20">
-                            <Text className="text-white font-poppinsMedium text-lg">{userProfile?.name.split(" ")?.map(n => n[0].toUpperCase()).join('')}</Text>
+                            <Text
+                                className="text-white font-poppinsMedium text-lg">{userProfile?.name.split(" ")?.map(n => n[0].toUpperCase()).join('')}</Text>
                         </View>
                         <View className="flex flex-col justify-center items-center">
                             <Text className="font-poppinsMedium text-[18px]">{userProfile?.name}</Text>
                             {userProfile?.status === 'alumni' ?
-                                <Text className="font-poppinsLight text-gray-600 text-center">{currentCompany?.position} at
+                                <Text
+                                    className="font-poppinsLight text-gray-600 text-center">{currentCompany?.position} at
                                     {currentCompany?.company?.name}</Text>
                                 :
                                 <Text className="font-poppinsLight text-gray-600 text-center">Student at
@@ -209,11 +211,13 @@ export default function ProfileScreen() {
                                onClose={() => {
                                    setIsConfirmationModalVisible(false)
                                }}
+                               title={`Are you sure you want to ${`\n`}sign out?`}
                                action={() => {
                                    setIsConfirmationModalVisible(false)
                                    clearUserProfile()
                                    navigation.navigate("SplashScreen");
-                               }}/>
+                               }}
+                               loading={false}/>
         </SafeAreaView>
     )
 }

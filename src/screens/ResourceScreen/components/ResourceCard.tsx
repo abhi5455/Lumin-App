@@ -1,28 +1,33 @@
-import {Text, TouchableOpacity, View} from "react-native";
-import {EllipsisVertical} from "lucide-react-native";
+import {StatusBar, Text, TouchableOpacity, View} from "react-native";
+import {EllipsisVertical, Pencil, Trash2} from "lucide-react-native";
 import {IResource} from "../../../types/type_resource.ts";
 import {formatDistanceToNow} from "date-fns";
 import {useAppNavigation} from "../../../common/navigationHelper.ts";
-
-export interface IResourceItem {
-    id: number;
-    name: string;
-    batch: string;
-    timeAgo: string;
-    tags: string[];
-    title: string;
-    content: string;
-}
+import {Menu} from "react-native-material-menu";
+import {useEffect, useState} from "react";
+import {getUserProfile} from "../../../lib/userStorage.ts";
+import ConfirmationModal from "../../ProfileScreen/ConfirmationModal.tsx";
+import {resourceService} from "../../../services/resourceService.ts";
+import Toast from "react-native-toast-message";
 
 interface ResourceCardProps {
     resourceItem: IResource;
-    type: string
+    type: string;
+    setTriggerRefetch: () => void;
 }
 
-export function ResourceCard({resourceItem, type}: ResourceCardProps) {
+export function ResourceCard({resourceItem, type, setTriggerRefetch}: ResourceCardProps) {
     const navigation = useAppNavigation();
     const [isMenuVisible, setIsMenuVisible] = useState(false);
+    const [deleting, setDeleting] = useState(false);
+    const [deleteConfirmModalVisible, setDeleteConfirmModalVisible] = useState(false);
     const userProfile = getUserProfile();
+
+    useEffect(() => {
+        StatusBar.setBarStyle('light-content')
+        StatusBar.setBackgroundColor(deleteConfirmModalVisible ? '#01584f' : '#00b19f')
+    }, [deleteConfirmModalVisible])
+
 
     return (
         <View
@@ -49,11 +54,44 @@ export function ResourceCard({resourceItem, type}: ResourceCardProps) {
                     </View>
                 </TouchableOpacity>
                 <View className={`flex flex-col items-end gap-2 ${type !== "myContributions" && "mt-1"}`}>
-                    {type === "myContributions" &&
-                        <TouchableOpacity>
-                            <EllipsisVertical size={18} color={"#374151"}/>
-                        </TouchableOpacity>
-                    }
+                    {/*{type === "myContributions" &&*/}
+                    <View>
+                        <Menu
+                            visible={isMenuVisible}
+                            anchor={
+                                <TouchableOpacity onPress={() => setIsMenuVisible(true)}>
+                                    <EllipsisVertical size={18} color={"#374151"}/>
+                                </TouchableOpacity>
+                            }
+                            onRequestClose={() => setIsMenuVisible(false)}
+                            style={{borderRadius: 7}}
+                        >
+                            <View className="flex flex-col min-h-fit pl-1 pr-2 py-1 rounded-xl">
+                                <TouchableOpacity onPress={() => {
+                                    setIsMenuVisible(false);
+                                }} className="px-3 py-2 max-h-10">
+                                    <View className="flex flex-row items-center justify-start gap-2">
+                                        <Pencil size={14} color={"#374151"}/>
+                                        <Text className="font-poppins text-black text-[15px]">
+                                            Edit
+                                        </Text>
+                                    </View>
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={() => {
+                                    setIsMenuVisible(false);
+                                    setDeleteConfirmModalVisible(true);
+                                }} className="px-3 py-2 max-h-10">
+                                    <View className="flex flex-row items-center justify-start gap-2 text-red-600">
+                                        <Trash2 size={14} color={"#dc2626"}/>
+                                        <Text className="font-poppins text-black text-[15px]">
+                                            Delete
+                                        </Text>
+                                    </View>
+                                </TouchableOpacity>
+                            </View>
+                        </Menu>
+                    </View>
+                    {/*}*/}
                     <Text
                         className="font-poppins text-gray-500 text-[13px]">{formatDistanceToNow(new Date(resourceItem?.created_at || ''), {addSuffix: true})}</Text>
                 </View>
@@ -69,6 +107,34 @@ export function ResourceCard({resourceItem, type}: ResourceCardProps) {
                 <Text className="font-poppins text-[17px]">{resourceItem?.title}</Text>
                 <Text className="font-poppinsLight text-gray-700 mt-1 text-[15px]">{resourceItem?.content}</Text>
             </View>
+
+            <ConfirmationModal visible={deleteConfirmModalVisible}
+                               onClose={() => setDeleteConfirmModalVisible(false)}
+                // title={`This will completely remove the post. Are you sure you want to delete it?`}
+                               title={`You're about to permanently delete this post. Do you want to continue?`}
+                               action={() => {
+                                   setDeleting(true);
+                                   resourceService.delete(resourceItem.id)
+                                       .then(() => {
+                                           setTriggerRefetch(prev => prev + 1);
+                                           Toast.show({
+                                               type: 'success',
+                                               text1: 'Resource deleted successfully',
+                                           });
+                                       })
+                                       .catch((error) => {
+                                           Toast.show({
+                                               type: 'error',
+                                               text1: 'Failed to delete resource',
+                                               text2: error.message,
+                                           });
+                                       })
+                                       .finally(() => {
+                                           setDeleting(false);
+                                           setDeleteConfirmModalVisible(false);
+                                       });
+                               }}
+                               loading={deleting}/>
         </View>
     );
 }
