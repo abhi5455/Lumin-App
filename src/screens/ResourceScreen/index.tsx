@@ -76,6 +76,9 @@ export default function ResourceScreen() {
     );
 
     useEffect(() => {
+        if(type === 'myContributions')
+            return;
+
         if (selectedFilter === 0) {
             // All
             const userProfile: IStudent = getUserProfile()
