@@ -10,7 +10,8 @@ export const resourceService = {
                 student:uploaded_by_student_id(*), 
                 college:college_id(*), 
                 files(*), 
-                resourcekeywords(*)
+                resourcekeywords(*),
+                company:company_id(*)
             `)
             .order('created_at', { ascending: false });
 
@@ -29,7 +30,8 @@ export const resourceService = {
                 student:uploaded_by_student_id(*), 
                 college:college_id(*), 
                 files(*), 
-                resourcekeywords(*)
+                resourcekeywords(*),
+                company:company_id(*)
             `)
             .eq('college_id', collegeId)
             .order('created_at', { ascending: false });
@@ -49,7 +51,8 @@ export const resourceService = {
                 student:uploaded_by_student_id(*), 
                 college:college_id(*), 
                 files(*), 
-                resourcekeywords(*)
+                resourcekeywords(*),
+                company:company_id(*)
             `)
             .eq('college_id', collegeId)
             .eq('company_id', companyId)
@@ -70,7 +73,8 @@ export const resourceService = {
                 student:uploaded_by_student_id(*), 
                 college:college_id(*), 
                 files(*), 
-                resourcekeywords(*)
+                resourcekeywords(*),
+                company:company_id(*)
             `)
             .eq('uploaded_by_student_id', studentId)
             .order('created_at', { ascending: false });
@@ -90,7 +94,8 @@ export const resourceService = {
                 student:uploaded_by_student_id(*), 
                 college:college_id(*), 
                 files(*), 
-                resourcekeywords(*)
+                resourcekeywords(*),
+                company:company_id(*)
             `)
             .eq('id', id)
             .single();
@@ -184,10 +189,9 @@ export const resourceService = {
 
         if (keywords && keywords.length > 0) {
             const resourceKeywords = keywords.map((kw) => {
-                const {id, created_at, ...keywordData} = kw; // Omit id and created_at
                 return {
-                    resource_id: resource.id,
-                    ...keywordData
+                    resource_id: data.id,
+                    keyword: kw
                 };
             });
 

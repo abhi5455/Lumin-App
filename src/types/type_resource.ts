@@ -1,3 +1,6 @@
+import {ICompany} from "./typeCompany.ts";
+import {IStudent} from "./type_student.ts";
+
 export interface IResource {
     id: string;
     title: string;
@@ -6,7 +9,6 @@ export interface IResource {
     created_at: string;
     updated_at: string;
     files: any[]; // need to be edited
-
     company_id: string | null;
     college_id: string;
 
@@ -23,35 +25,7 @@ export interface IResource {
         resource_id: string;
         created_at: string;
     }[];
-
-    student: {
-        id: string;
-        name: string;
-        admission_number: string;
-        admission_year: number;
-        graduate_year: number;
-        status: string;
-
-        email: string;
-        phone: string | null;
-
-        auth_email: string;
-        college_id: string;
-        department_id: string;
-
-        image_url: string | null;
-        github_url: string | null;
-        linkedin_url: string | null;
-        twitter_url: string | null;
-        portfolio_url: string | null;
-
-        about: string | null;
-
-        created_at: string;
-        updated_at: string;
-
-        password: string | null;
-    };
-
+    student: IStudent;
     uploaded_by_student_id: string;
+    company: ICompany | null;
 }

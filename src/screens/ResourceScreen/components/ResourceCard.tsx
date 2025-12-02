@@ -54,44 +54,51 @@ export function ResourceCard({resourceItem, type, setTriggerRefetch}: ResourceCa
                     </View>
                 </TouchableOpacity>
                 <View className={`flex flex-col items-end gap-2 ${type !== "myContributions" && "mt-1"}`}>
-                    {/*{type === "myContributions" &&*/}
-                    <View>
-                        <Menu
-                            visible={isMenuVisible}
-                            anchor={
-                                <TouchableOpacity onPress={() => setIsMenuVisible(true)}>
-                                    <EllipsisVertical size={18} color={"#374151"}/>
-                                </TouchableOpacity>
-                            }
-                            onRequestClose={() => setIsMenuVisible(false)}
-                            style={{borderRadius: 7}}
-                        >
-                            <View className="flex flex-col min-h-fit pl-1 pr-2 py-1 rounded-xl">
-                                <TouchableOpacity onPress={() => {
-                                    setIsMenuVisible(false);
-                                }} className="px-3 py-2 max-h-10">
-                                    <View className="flex flex-row items-center justify-start gap-2">
-                                        <Pencil size={14} color={"#374151"}/>
-                                        <Text className="font-poppins text-black text-[15px]">
-                                            Edit
-                                        </Text>
-                                    </View>
-                                </TouchableOpacity>
-                                <TouchableOpacity onPress={() => {
-                                    setIsMenuVisible(false);
-                                    setDeleteConfirmModalVisible(true);
-                                }} className="px-3 py-2 max-h-10">
-                                    <View className="flex flex-row items-center justify-start gap-2 text-red-600">
-                                        <Trash2 size={14} color={"#dc2626"}/>
-                                        <Text className="font-poppins text-black text-[15px]">
-                                            Delete
-                                        </Text>
-                                    </View>
-                                </TouchableOpacity>
-                            </View>
-                        </Menu>
-                    </View>
-                    {/*}*/}
+                    {type === "myContributions" &&
+                        <View>
+                            <Menu
+                                visible={isMenuVisible}
+                                anchor={
+                                    <TouchableOpacity onPress={() => setIsMenuVisible(true)}>
+                                        <EllipsisVertical size={18} color={"#374151"}/>
+                                    </TouchableOpacity>
+                                }
+                                onRequestClose={() => setIsMenuVisible(false)}
+                                style={{borderRadius: 7}}
+                            >
+                                <View className="flex flex-col min-h-fit pl-1 pr-2 py-1 rounded-xl">
+                                    <TouchableOpacity onPress={() => {
+                                        setIsMenuVisible(false);
+                                        navigation.navigate("SectionNavigator", {
+                                            screen: "AddResourceScreen",
+                                            params: {
+                                                type: "edit",
+                                                resourceItem: resourceItem,
+                                            }
+                                        })
+                                    }} className="px-3 py-2 max-h-10">
+                                        <View className="flex flex-row items-center justify-start gap-2">
+                                            <Pencil size={14} color={"#374151"}/>
+                                            <Text className="font-poppins text-black text-[15px]">
+                                                Edit
+                                            </Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress={() => {
+                                        setIsMenuVisible(false);
+                                        setDeleteConfirmModalVisible(true);
+                                    }} className="px-3 py-2 max-h-10">
+                                        <View className="flex flex-row items-center justify-start gap-2 text-red-600">
+                                            <Trash2 size={14} color={"#dc2626"}/>
+                                            <Text className="font-poppins text-black text-[15px]">
+                                                Delete
+                                            </Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                </View>
+                            </Menu>
+                        </View>
+                    }
                     <Text
                         className="font-poppins text-gray-500 text-[13px]">{formatDistanceToNow(new Date(resourceItem?.created_at || ''), {addSuffix: true})}</Text>
                 </View>

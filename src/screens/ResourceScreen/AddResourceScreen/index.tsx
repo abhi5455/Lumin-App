@@ -10,14 +10,23 @@ import {companyService} from "../../../services/companyService.ts";
 import {getUserProfile} from "../../../lib/userStorage.ts";
 import Toast from "react-native-toast-message";
 import {resourceService} from "../../../services/resourceService.ts";
+import {RouteProp, useRoute} from "@react-navigation/core";
+import {IResource} from "../../../types/type_resource.ts";
+
+interface IAddResourceScreen {
+    type?: "add" | "edit";
+    resourceItem?: IResource;
+}
 
 export default function AddResourceScreen() {
+    const route = useRoute<RouteProp<{ AddResourceScreen: IAddResourceScreen }, 'AddResourceScreen'>>();
+    const {type, resourceItem} = route?.params ?? "add";
     const navigation = useAppNavigation();
-    const [title, setTitle] = useState("");
-    const [content, setContent] = useState("");
-    const [tags, setTags] = useState<string[]>([]);
+    const [title, setTitle] = useState(resourceItem ? resourceItem.title : "");
+    const [content, setContent] = useState(resourceItem ? resourceItem.content : "");
+    const [tags, setTags] = useState<string[]>(resourceItem ? resourceItem.company_id ? resourceItem?.resourcekeywords.slice(1).map(item => item?.keyword) : resourceItem?.resourcekeywords.map(item => item?.keyword) : []);
     const [tagModalVisible, setTagModalVisible] = useState(false);
-    const [attachedCompany, setAttachedCompany] = useState<ICompany | null>(null);
+    const [attachedCompany, setAttachedCompany] = useState<ICompany | null>(resourceItem && resourceItem.company ? resourceItem.company : null);
     const [attachCompanyModalVisible, setAttachCompanyModalVisible] = useState(false);
     const [companies, setCompanies] = useState<ICompany[]>([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -44,7 +53,8 @@ export default function AddResourceScreen() {
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                     <ChevronLeft size={25} color={"#FFFFFF"}/>
                 </TouchableOpacity>
-                <Text className="font-poppinsLight text-white text-2xl">Add New Resource</Text>
+                <Text
+                    className="font-poppinsLight text-white text-2xl">{type === "edit" ? "Edit Resource" : "Add New Resource"}</Text>
             </View>
 
             <View className="bg-primary flex-1">
@@ -163,37 +173,70 @@ export default function AddResourceScreen() {
                                 setIsLoading(true);
                                 setTags(prev => attachedCompany ? [...prev, attachedCompany.name] : [...prev]);
                                 const userProfile = getUserProfile();
-                                resourceService.create({
-                                    uploaded_by_student_id: userProfile?.id || '',
-                                    college_id: userProfile?.college_id || '',
-                                    title: title.trim(),
-                                    content: content.trim(),
-                                    is_verified: true,
-                                    company_id: attachedCompany ? attachedCompany.id : null,
-                                    keywords: attachedCompany ? [attachedCompany?.name, ...tags] : tags,
-                                }).then(() => {
-                                    setIsLoading(false);
-                                    Toast.show({
-                                        type: 'success',
-                                        text1: 'Resource Created',
-                                        text2: 'Your contribution has been added successfully.'
-                                    });
-                                    navigation.goBack();
-                                }).catch((error) => {
-                                    setIsLoading(false);
-                                    setTags(prev => attachedCompany ? prev.filter(t => t !== attachedCompany.name) : prev);
-                                    console.log("Error creating resource: ", error);
-                                    console.log("Payload: ", error.message)
-                                    Toast.show({
-                                        type: 'error',
-                                        text1: 'Resource Creation Failed',
-                                        text2: error.message || 'An error occurred while creating the resource.'
-                                    });
-                                })
+                                if (type === "edit" && resourceItem) {
+                                    resourceService.update({
+                                        id: resourceItem.id,
+                                        created_at: resourceItem.created_at,
+                                        uploaded_by_student_id: userProfile?.id || '',
+                                        college_id: userProfile?.college_id || '',
+                                        title: title.trim(),
+                                        content: content.trim(),
+                                        is_verified: true,
+                                        company_id: attachedCompany ? attachedCompany.id : null,
+                                        keywords: attachedCompany ? [attachedCompany?.name, ...tags] : tags,
+                                    }).then(() => {
+                                        setIsLoading(false);
+                                        Toast.show({
+                                            type: 'success',
+                                            text1: 'Resource Updated',
+                                            text2: 'Your contribution has been updated successfully.'
+                                        });
+                                        navigation.goBack();
+                                    }).catch((error) => {
+                                        setIsLoading(false);
+                                        setTags(prev => attachedCompany ? prev.filter(t => t !== attachedCompany.name) : prev);
+                                        console.log("Error editing resource: ", error);
+                                        console.log("Payload: ", error.message)
+                                        Toast.show({
+                                            type: 'error',
+                                            text1: 'Resource Updation Failed',
+                                            text2: error.message || 'An error occurred while updating the resource.'
+                                        });
+                                    })
+                                } else {
+                                    resourceService.create({
+                                        uploaded_by_student_id: userProfile?.id || '',
+                                        college_id: userProfile?.college_id || '',
+                                        title: title.trim(),
+                                        content: content.trim(),
+                                        is_verified: true,
+                                        company_id: attachedCompany ? attachedCompany.id : null,
+                                        keywords: attachedCompany ? [attachedCompany?.name, ...tags] : tags,
+                                    }).then(() => {
+                                        setIsLoading(false);
+                                        Toast.show({
+                                            type: 'success',
+                                            text1: 'Resource Created',
+                                            text2: 'Your contribution has been added successfully.'
+                                        });
+                                        navigation.goBack();
+                                    }).catch((error) => {
+                                        setIsLoading(false);
+                                        setTags(prev => attachedCompany ? prev.filter(t => t !== attachedCompany.name) : prev);
+                                        console.log("Error creating resource: ", error);
+                                        console.log("Payload: ", error.message)
+                                        Toast.show({
+                                            type: 'error',
+                                            text1: 'Resource Creation Failed',
+                                            text2: error.message || 'An error occurred while creating the resource.'
+                                        });
+                                    })
+                                }
 
                             }}>
                             {!isLoading ?
-                                <Text className="text-white font-poppinsMedium text-lg">Create</Text>
+                                <Text
+                                    className="text-white font-poppinsMedium text-lg">{type === "edit" ? "Save" : "Create"}</Text>
                                 :
                                 <ActivityIndicator color={'#FFF'} size={25} className={''}/>
                             }

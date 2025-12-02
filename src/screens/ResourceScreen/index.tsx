@@ -222,6 +222,9 @@ export default function ResourceScreen() {
                             }} onPress={() => {
                             navigation.navigate("SectionNavigator", {
                                 screen: "AddResourceScreen",
+                                params: {
+                                    type: "add"
+                                }
                             })
                         }}>
                             <PlusIcon size={20} color={'#FFFFFF'}/>
