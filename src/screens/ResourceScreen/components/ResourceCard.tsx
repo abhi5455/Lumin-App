@@ -20,8 +20,9 @@ interface ResourceCardProps {
 }
 
 export function ResourceCard({resourceItem, type}: ResourceCardProps) {
-    const navigation = useAppNavigation()
-    console.log("Type ", type)
+    const navigation = useAppNavigation();
+    const [isMenuVisible, setIsMenuVisible] = useState(false);
+    const userProfile = getUserProfile();
 
     return (
         <View
@@ -32,7 +33,7 @@ export function ResourceCard({resourceItem, type}: ResourceCardProps) {
                         screen: "AlumniDetailsScreen",
                         params: {
                             alumnusId: resourceItem?.student?.id,
-                            type: "alumnus",
+                            type: userProfile.id === resourceItem?.student?.id ? "myProfile" : "alumnus",
                         }
                     })
                 }}>
