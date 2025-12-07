@@ -54,7 +54,14 @@ export default function AlumniDetailsScreen() {
                         className="font-poppinsLight text-white text-2xl">{type === "myProfile" ? "My Profile" : "Alumnus Details"}</Text>
                 </View>
                 {type === "myProfile" &&
-                    <TouchableOpacity className="mt-[2px]">
+                    <TouchableOpacity className="mt-[2px]" onPress={()=>{
+                        navigation.navigate("SectionNavigator", {
+                            screen: "EditProfileScreen",
+                            params: {
+                                alumnusData: alumnus
+                            }
+                        })
+                    }}>
                         <Edit3 size={20} color={"#FFFFFF"} strokeWidth={"1.7px"}/>
                     </TouchableOpacity>
                 }
