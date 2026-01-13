@@ -29,6 +29,8 @@ export default function CompaniesScreen() {
         setFilterOptions(filters);
     }
 
+    const prevFilterOptionsRef = useRef(filterOptions);
+
     useEffect(() => {
         const handler = setTimeout(() => {
             setDebouncedSearchValue(searchValue);
@@ -50,6 +52,12 @@ export default function CompaniesScreen() {
                 setIsLoading(true)
                 isFirstLoad.current = false
             }
+
+            if (JSON.stringify(prevFilterOptionsRef.current) !== JSON.stringify(filterOptions)) {
+                setIsLoading(true);
+                prevFilterOptionsRef.current = filterOptions;
+            }
+
             const userProfile: IStudent = getUserProfile()
             companyService.getAllByCollegeId(userProfile?.college_id || '', filterOptions, debouncedSearchValue)
                 .then(data => {
@@ -92,6 +100,16 @@ export default function CompaniesScreen() {
                             />
                         </View>
                         <TouchableOpacity onPress={() => setFilterModalVisible(true)}>
+                            {filterOptions && Object.entries(filterOptions).length > 0 &&
+                                <View
+                                    className="bg-red-600 rounded-full absolute top-[-7px] right-[-7px] h-5 w-5 flex justify-center items-center z-10">
+                                    <Text className="font-poppinsMedium text-white text-xs">
+                                        {Object.entries(filterOptions).reduce((acc, [, items]) => {
+                                            return acc + items.length;
+                                        }, 0)}
+                                    </Text>
+                                </View>
+                            }
                             <Funnel size={22} color={"#999"} strokeWidth={'1.8px'}/>
                         </TouchableOpacity>
                     </View>
