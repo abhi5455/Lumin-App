@@ -161,7 +161,7 @@ export const resourceService = {
         return data;
     },
 
-    async getAllByStudentId(studentId: string) {
+    async getAllByStudentId(studentId: string, searchValue?: string) {
         const {data, error} = await supabase
             .from('resources')
             .select(`
@@ -179,6 +179,24 @@ export const resourceService = {
             console.log("Error: ", error);
             throw error;
         }
+
+        if (searchValue && searchValue.trim() !== '') {
+            const searchLower = searchValue.trim().toLowerCase();
+            return data.filter(item => {
+                const titleMatch = item.title?.toLowerCase().includes(searchLower);
+
+                // Student Name starts With
+                const authorMatch = item.student?.name?.toLowerCase().startsWith(searchLower);
+
+                // Keywords starts With
+                const keywordMatch = item.resourcekeywords?.some((k: any) =>
+                    k.keyword?.toLowerCase().startsWith(searchLower)
+                );
+
+                return titleMatch || authorMatch || keywordMatch;
+            });
+        }
+
         return data;
     },
 

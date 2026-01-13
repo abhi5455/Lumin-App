@@ -87,8 +87,22 @@ export default function ResourceScreen() {
     );
 
     useEffect(() => {
-        if(type === 'myContributions')
+        if(type === 'myContributions'){
+            const userProfile: IStudent = getUserProfile()
+            resourceService.getAllByStudentId(userProfile?.id || '', debouncedSearchValue)
+                .then(data => {
+                    console.log("Resource, ", data)
+                    setResources(data)
+                })
+                .catch(error => {
+                    console.log("Error fetching alumni data: ", error);
+                })
+                .finally(() => {
+                    setSelectedFilter(0)
+                    setIsLoading(false);
+                })
             return;
+        }
 
         if (selectedFilter === 0) {
             // All
