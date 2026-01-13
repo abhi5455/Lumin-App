@@ -37,17 +37,19 @@ export const studentService = {
 
 async getAllAlumniByCollegeId(collegeId: string, filters?: AlumniFilters, searchValue?: string) {
     let departmentPart = 'department(*)';
-    let companyPart = 'rstudentcompany(*, company(*))';
+    // Always fetch full company history for display
+    const companyDataPart = 'rstudentcompany(*, company(*))';
 
     if (filters?.Departments && filters.Departments.length > 0) {
         departmentPart = 'department!inner(*)';
     }
 
-    if (filters?.Companies && filters.Companies.length > 0) {
-        companyPart = 'rstudentcompany!inner(company!inner(*))';
-    }
+    let selectQuery = `*, college(*), ${departmentPart}, ${companyDataPart}, studenteducation(*)`;
 
-    const selectQuery = `*, college(*), ${departmentPart}, ${companyPart}, studenteducation(*)`;
+    // If filtering by company, add an aliased inner join to filter parents without restricting children in the main response
+    if (filters?.Companies && filters.Companies.length > 0) {
+        selectQuery += `, filtered_companies:rstudentcompany!inner(company!inner(name))`;
+    }
 
     let query = supabase
         .from('student')
@@ -69,9 +71,9 @@ async getAllAlumniByCollegeId(collegeId: string, filters?: AlumniFilters, search
         query = query.in('department.code', filters.Departments);
     }
 
-    // Company filter (filtering on related company data)
+    // Company filter (filtering using the alias)
     if (filters?.Companies && filters.Companies.length > 0) {
-        query = query.in('rstudentcompany.company.name', filters.Companies);
+        query = query.in('filtered_companies.company.name', filters.Companies);
     }
 
     if(searchValue && searchValue.trim() !== "") {
