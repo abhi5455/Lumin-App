@@ -1,5 +1,5 @@
 import {Text, TouchableOpacity, View} from "react-native";
-import {ArrowUpRight, ChevronUpCircle, CircleArrowOutUpRight, ExpandIcon, Maximize, MailIcon} from "lucide-react-native";
+import {ArrowUpRight, MailIcon} from "lucide-react-native";
 import {useAppNavigation} from "../../../common/navigationHelper.ts";
 import {IStudent} from "../../../types/type_student.ts";
 import {openURL} from "../../../lib/openUrl.ts";
