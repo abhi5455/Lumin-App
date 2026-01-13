@@ -94,23 +94,28 @@ export const resourceService = {
         `)
             .eq('college_id', collegeId);
 
-        // Apply search filter across title, student name, and keywords
-        if (searchValue && searchValue.trim() !== '') {
-            const q = `%${searchValue.trim()}%`;
-
-            // Combine all search conditions in a single .or() call
-            query = query.or(
-                `title.ilike.${q},` +
-                `student.name.ilike.${q},` +
-                `resourcekeywords.keyword.ilike.${q}`
-            );
-        }
-
         const {data, error} = await query.order('created_at', { ascending: false });
 
         if (error) {
             console.log("Error: ", error);
             throw error;
+        }
+
+        if (searchValue && searchValue.trim() !== '') {
+            const searchLower = searchValue.trim().toLowerCase();
+            return data.filter(item => {
+                const titleMatch = item.title?.toLowerCase().includes(searchLower);
+
+                // Student Name starts With
+                const authorMatch = item.student?.name?.toLowerCase().startsWith(searchLower);
+
+                // Keywords starts With
+                const keywordMatch = item.resourcekeywords?.some((k: any) =>
+                    k.keyword?.toLowerCase().startsWith(searchLower)
+                );
+
+                return titleMatch || authorMatch || keywordMatch;
+            });
         }
 
         return data;
@@ -130,40 +135,30 @@ export const resourceService = {
             .eq('college_id', collegeId)
             .eq('company_id', companyId);
 
-        if (searchValue && searchValue.trim() !== '') {
-            const q = `%${searchValue}%`
-            query = query.or(
-                `title.ilike.${q},student.name.ilike.${q}`
-            )
-        }
-
         const {data, error} = await query.order('created_at', { ascending: false });
         if (error) {
             console.log("Error: ", error);
             throw error;
         }
 
-        return data;
+        if (searchValue && searchValue.trim() !== '') {
+            const searchLower = searchValue.trim().toLowerCase();
+            return data.filter(item => {
+                const titleMatch = item.title?.toLowerCase().includes(searchLower);
 
-        // const {data, error} = await supabase
-        //     .from('resources')
-        //     .select(`
-        //         *,
-        //         student:uploaded_by_student_id(*),
-        //         college:college_id(*),
-        //         files(*),
-        //         resourcekeywords(*),
-        //         company:company_id(*)
-        //     `)
-        //     .eq('college_id', collegeId)
-        //     .eq('company_id', companyId)
-        //     .order('created_at', { ascending: false });
-        //
-        // if (error) {
-        //     console.log("Error: ", error);
-        //     throw error;
-        // }
-        // return data;
+                // Student Name starts With
+                const authorMatch = item.student?.name?.toLowerCase().startsWith(searchLower);
+
+                // Keywords starts With
+                const keywordMatch = item.resourcekeywords?.some((k: any) =>
+                    k.keyword?.toLowerCase().startsWith(searchLower)
+                );
+
+                return titleMatch || authorMatch || keywordMatch;
+            });
+        }
+
+        return data;
     },
 
     async getAllByStudentId(studentId: string) {
