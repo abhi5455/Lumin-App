@@ -87,6 +87,7 @@ export default function ResourceScreen() {
     );
 
     useEffect(() => {
+        setIsLoading(true)
         if(type === 'myContributions'){
             const userProfile: IStudent = getUserProfile()
             resourceService.getAllByStudentId(userProfile?.id || '', debouncedSearchValue)
@@ -104,8 +105,8 @@ export default function ResourceScreen() {
             return;
         }
 
-        if (selectedFilter === 0) {
-            // All
+        if (selectedFilter === 0 || selectedFilter === 1) {
+            // All or Experiences
             const userProfile: IStudent = getUserProfile()
             resourceService.getAllByCollegeId(userProfile?.college_id || '', debouncedSearchValue)
                 .then(data => {
@@ -117,8 +118,6 @@ export default function ResourceScreen() {
                 .finally(() => {
                     setIsLoading(false);
                 })
-        } else if (selectedFilter === 1) {
-            setSearchValue('Experiences');
         } else {
             const userProfile: IStudent = getUserProfile()
             console.log("Selected Company ID: ", selectedFilter, String(selectedFilter));
@@ -130,7 +129,6 @@ export default function ResourceScreen() {
                     console.log("Error fetching alumni data: ", error);
                 })
                 .finally(() => {
-                    setSearchValue('')
                     setIsLoading(false);
                 })
         }
@@ -187,13 +185,19 @@ export default function ResourceScreen() {
                             >
                                 <TouchableOpacity
                                     className={`${selectedFilter === 0 ? 'bg-primary/10' : 'bg-gray-100'} py-1 rounded-xl px-3 self-baseline`}
-                                    onPress={() => setSelectedFilter(0)}>
+                                    onPress={() => {
+                                        setSelectedFilter(0);
+                                        setSearchValue('');
+                                    }}>
                                     <Text
                                         className={`${selectedFilter === 0 ? 'text-[#006a63]' : 'text-black/80'} font-poppins text-[13px]`}>All</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                     className={`${selectedFilter === 1 ? 'bg-primary/10' : 'bg-gray-100'} py-1 rounded-xl px-3 self-baseline`}
-                                    onPress={() => setSelectedFilter(1)}>
+                                    onPress={() => {
+                                        setSelectedFilter(1);
+                                        setSearchValue('Experience');
+                                    }}>
                                     <Text
                                         className={`${selectedFilter === 1 ? 'text-[#006a63]' : 'text-black/80'} font-poppins text-[13px]`}>Experiences</Text>
                                 </TouchableOpacity>
