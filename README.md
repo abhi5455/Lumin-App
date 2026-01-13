@@ -11,7 +11,7 @@ In many colleges, students navigate placement season with incomplete data. They 
 Placement data exists, but it’s scattered and rarely actionable. Most students end up preparing blindly, relying on rumors rather than records.
 
 ## ✅ The Solution
-Lumin centralizes aLumin details, recruited company data, average salary packages, and placement history. It transforms raw data into **visibility into real outcomes**, not assumptions.
+Lumin centralizes Alumin details, recruited company data, average salary packages, and placement history. It transforms raw data into **visibility into real outcomes**, not assumptions.
 
 ---
 
