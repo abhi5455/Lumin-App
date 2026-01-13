@@ -148,6 +148,7 @@ export default function CompaniesScreen() {
                 onApplyFilters={onApplyFilters}
                 departments={departments}
                 type={'companies'}
+                activeFilters={filterOptions}
             />
         </SafeAreaView>
     )

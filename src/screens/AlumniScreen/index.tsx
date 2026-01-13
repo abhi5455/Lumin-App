@@ -168,6 +168,7 @@ export default function AlumniScreen() {
                 onApplyFilters={onApplyFilters}
                 companies={companies}
                 departments={departments}
+                activeFilters={filterOptions}
             />
         </SafeAreaView>
     )

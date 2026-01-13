@@ -11,23 +11,11 @@ interface FilterModalProps {
     onApplyFilters: (filters: any) => void;
     companies?: ICompany[];
     departments?: IDepartment[];
+    activeFilters?: any;
 }
 
 const CompanyFilterOptions = {
-    // Department: [
-    //     {id: 1, label: "B.Tech - CSE", selected: false},
-    //     {id: 2, label: "B.Tech - ECE", selected: false},
-    //     {id: 3, label: "B.Tech - ME", selected: false},
-    //     {id: 4, label: "B.Tech - Civil", selected: false},
-    //     {id: 5, label: "B.Tech - RAI", selected: false},
-    //     {id: 6, label: "B.Tech - EEE", selected: false},
-    //     {id: 7, label: "MCA", selected: false},
-    //     {id: 8, label: "M.Tech - CSE", selected: false},
-    //     {id: 9, label: "M.Tech - ECE", selected: false},
-    //     {id: 10, label: "M.Tech - ME", selected: false},
-    //     {id: 11, label: "M.Tech - Civil", selected: false},
-    //     {id: 12, label: "M.Tech - EEE", selected: false},
-    // ],
+    // Department: [ ... ], // Populated dynamically
     Packages: [
         {id: 1, label: "1-5 LPA", selected: false},
         {id: 2, label: "5-10 LPA", selected: false},
@@ -68,21 +56,6 @@ const alumniFilterOptions = {
         {id: 7, label: "2019", selected: false},
 
     ],
-    // Degrees: [
-    //     {id: 1, label: "B.Tech - CSE", selected: false},
-    //     {id: 2, label: "B.Tech - ECE", selected: false},
-    //     {id: 3, label: "B.Tech - ME", selected: false},
-    //     {id: 4, label: "MCA", selected: false},
-    //     {id: 5, label: "M.Tech - CSE", selected: false},
-    // ],
-    // Companies: [
-    //     {id: 1, label: "Google", selected: false},
-    //     {id: 2, label: "Microsoft", selected: false},
-    //     {id: 3, label: "Amazon", selected: false},
-    //     {id: 4, label: "Infosys", selected: false},
-    //     {id: 5, label: "TCS", selected: false},
-    //     {id: 6, label: "Wipro", selected: false},
-    // ],
 };
 
 export default function AlumniNCompanyFilterModal({
@@ -92,43 +65,58 @@ export default function AlumniNCompanyFilterModal({
                                                       type,
                                                       onApplyFilters,
                                                       companies,
-                                                      departments
+                                                      departments,
+                                                      activeFilters
                                                   }: FilterModalProps) {
     const [filterOptions, setFilterOptions] = useState<typeof filterOptions>(type === "alumni" ? alumniFilterOptions : CompanyFilterOptions);
     const [selectedGroup, setSelectedGroup] = useState<string | null>(type === "alumni" ? Object.keys(alumniFilterOptions)[0] : Object.keys(CompanyFilterOptions)[0]);
 
     useEffect(() => {
-        console.log("Companies: from filter", companies);
+        // Helper to check if an item is selected based on activeFilters
+        const isSelected = (groupName: string, label: string) => {
+            return activeFilters?.[groupName]?.includes(label) || false;
+        };
+
         if (type === "alumni") {
             const merged = {
-                ...alumniFilterOptions,
+                GraduationYears: alumniFilterOptions.GraduationYears.map(item => ({
+                    ...item,
+                    selected: isSelected("GraduationYears", item.label)
+                })),
+                Departments: departments?.map((d: any) => ({
+                    id: d.id,
+                    label: d.code,
+                    selected: isSelected("Departments", d.code)
+                })) || [],
                 Companies: companies?.map((c: any) => ({
                     id: c.id,
                     label: c.name,
-                    selected: false,
-                })),
-                Departments: departments?.map((d: any) => ({
-                    id: d.id,
-                    label: d.code,
-                    selected: false,
-                }))
+                    selected: isSelected("Companies", c.name)
+                })) || [],
             };
-
             setFilterOptions(merged);
-        }
-        else{
+        } else {
+            // Company options
             const merged = {
-                ...CompanyFilterOptions,
+                Packages: CompanyFilterOptions.Packages.map(item => ({
+                    ...item,
+                    selected: isSelected("Packages", item.label)
+                })),
+                RecruitedYears: CompanyFilterOptions.RecruitedYears.map(item => ({
+                    ...item,
+                    selected: isSelected("RecruitedYears", item.label)
+                })),
                 Departments: departments?.map((d: any) => ({
                     id: d.id,
                     label: d.code,
-                    selected: false,
-                })),
-            }
-
+                    selected: isSelected("Departments", d.code)
+                })) || [],
+            };
             setFilterOptions(merged);
         }
-    }, [companies, departments]);
+    }, [companies, departments, activeFilters, type]);
+
+    // ... render return ...
 
     return (
         <Modal
