@@ -1,28 +1,33 @@
 import {Modal, View, Text, TouchableOpacity, ScrollView, TouchableWithoutFeedback} from "react-native";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import {ICompany} from "../../../types/typeCompany.ts";
+import {IDepartment} from "../../../types/type_college.ts";
 
 interface FilterModalProps {
     visible: boolean;
     title?: string;
     onClose: () => void;
     type: "alumni" | "companies";
+    onApplyFilters: (filters: any) => void;
+    companies?: ICompany[];
+    departments?: IDepartment[];
 }
 
 const CompanyFilterOptions = {
-    Department: [
-        {id: 1, label: "B.Tech - CSE", selected: false},
-        {id: 2, label: "B.Tech - ECE", selected: false},
-        {id: 3, label: "B.Tech - ME", selected: false},
-        {id: 4, label: "B.Tech - Civil", selected: false},
-        {id: 5, label: "B.Tech - RAI", selected: false},
-        {id: 6, label: "B.Tech - EEE", selected: false},
-        {id: 7, label: "MCA", selected: false},
-        {id: 8, label: "M.Tech - CSE", selected: false},
-        {id: 9, label: "M.Tech - ECE", selected: false},
-        {id: 10, label: "M.Tech - ME", selected: false},
-        {id: 11, label: "M.Tech - Civil", selected: false},
-        {id: 12, label: "M.Tech - EEE", selected: false},
-    ],
+    // Department: [
+    //     {id: 1, label: "B.Tech - CSE", selected: false},
+    //     {id: 2, label: "B.Tech - ECE", selected: false},
+    //     {id: 3, label: "B.Tech - ME", selected: false},
+    //     {id: 4, label: "B.Tech - Civil", selected: false},
+    //     {id: 5, label: "B.Tech - RAI", selected: false},
+    //     {id: 6, label: "B.Tech - EEE", selected: false},
+    //     {id: 7, label: "MCA", selected: false},
+    //     {id: 8, label: "M.Tech - CSE", selected: false},
+    //     {id: 9, label: "M.Tech - ECE", selected: false},
+    //     {id: 10, label: "M.Tech - ME", selected: false},
+    //     {id: 11, label: "M.Tech - Civil", selected: false},
+    //     {id: 12, label: "M.Tech - EEE", selected: false},
+    // ],
     Package: [
         {id: 1, label: "1-5 LPA", selected: false},
         {id: 2, label: "5-10 LPA", selected: false},
@@ -60,27 +65,70 @@ const alumniFilterOptions = {
         {id: 4, label: "2022", selected: false},
         {id: 5, label: "2021", selected: false},
         {id: 6, label: "2020", selected: false},
+        {id: 7, label: "2019", selected: false},
+
     ],
-    Degrees: [
-        {id: 1, label: "B.Tech - CSE", selected: false},
-        {id: 2, label: "B.Tech - ECE", selected: false},
-        {id: 3, label: "B.Tech - ME", selected: false},
-        {id: 4, label: "MCA", selected: false},
-        {id: 5, label: "M.Tech - CSE", selected: false},
-    ],
-    Companies: [
-        {id: 1, label: "Google", selected: false},
-        {id: 2, label: "Microsoft", selected: false},
-        {id: 3, label: "Amazon", selected: false},
-        {id: 4, label: "Infosys", selected: false},
-        {id: 5, label: "TCS", selected: false},
-        {id: 6, label: "Wipro", selected: false},
-    ],
+    // Degrees: [
+    //     {id: 1, label: "B.Tech - CSE", selected: false},
+    //     {id: 2, label: "B.Tech - ECE", selected: false},
+    //     {id: 3, label: "B.Tech - ME", selected: false},
+    //     {id: 4, label: "MCA", selected: false},
+    //     {id: 5, label: "M.Tech - CSE", selected: false},
+    // ],
+    // Companies: [
+    //     {id: 1, label: "Google", selected: false},
+    //     {id: 2, label: "Microsoft", selected: false},
+    //     {id: 3, label: "Amazon", selected: false},
+    //     {id: 4, label: "Infosys", selected: false},
+    //     {id: 5, label: "TCS", selected: false},
+    //     {id: 6, label: "Wipro", selected: false},
+    // ],
 };
 
-export default function AlumniNCompanyFilterModal({visible, title, onClose, type}: FilterModalProps) {
+export default function AlumniNCompanyFilterModal({
+                                                      visible,
+                                                      title,
+                                                      onClose,
+                                                      type,
+                                                      onApplyFilters,
+                                                      companies,
+                                                      departments
+                                                  }: FilterModalProps) {
     const [filterOptions, setFilterOptions] = useState<typeof filterOptions>(type === "alumni" ? alumniFilterOptions : CompanyFilterOptions);
     const [selectedGroup, setSelectedGroup] = useState<string | null>(type === "alumni" ? Object.keys(alumniFilterOptions)[0] : Object.keys(CompanyFilterOptions)[0]);
+
+    useEffect(() => {
+        console.log("Companies: from filter", companies);
+        if (type === "alumni") {
+            const merged = {
+                ...alumniFilterOptions,
+                Companies: companies?.map((c: any) => ({
+                    id: c.id,
+                    label: c.name,
+                    selected: false,
+                })),
+                Departments: departments?.map((d: any) => ({
+                    id: d.id,
+                    label: d.code,
+                    selected: false,
+                }))
+            };
+
+            setFilterOptions(merged);
+        }
+        else{
+            const merged = {
+                ...CompanyFilterOptions,
+                Departments: departments?.map((d: any) => ({
+                    id: d.id,
+                    label: d.code,
+                    selected: false,
+                })),
+            }
+
+            setFilterOptions(merged);
+        }
+    }, [companies, departments]);
 
     return (
         <Modal
@@ -123,11 +171,17 @@ export default function AlumniNCompanyFilterModal({visible, title, onClose, type
                                                     className={`${selectedGroup === groupName ? 'bg-[#006a63]' : 'bg-gray-50'} w-2 h-full rounded-full`}/>
                                                 <Text
                                                     className={`font-poppins ${selectedGroup === groupName ? 'text-[#006a63]' : 'text-black'} text-[15px] py-1`}>{groupName}</Text>
+                                                <View
+                                                    className="bg-red-600 rounded-full h-5 w-5 flex justify-center items-center z-10">
+                                                    <Text className="font-poppinsMedium text-white text-xs">
+                                                        {filterOptions[groupName].filter(item => item.selected).length}
+                                                    </Text>
+                                                </View>
                                             </TouchableOpacity>
                                         ))}
                                     </View>
                                 </ScrollView>
-                                <ScrollView className="px-3 my-2">
+                                <ScrollView className="px-3 my-2 mr-4">
                                     {selectedGroup && filterOptions[selectedGroup]?.map((item, index) => (
                                         <TouchableOpacity className="flex flex-row items-center my-3 px-3"
                                                           key={index}
@@ -171,6 +225,15 @@ export default function AlumniNCompanyFilterModal({visible, title, onClose, type
                                 <TouchableOpacity
                                     className="flex-1 bg-primary py-3 rounded-2xl items-center justify-center"
                                     onPress={() => {
+                                        const selectedFilters: any = {};
+                                        Object.entries(filterOptions).forEach(([groupName, items]) => {
+                                            const selected = items.filter(item => item.selected).map(item => item.label);
+                                            if (selected.length > 0) {
+                                                selectedFilters[groupName] = selected;
+                                            }
+                                        });
+
+                                        onApplyFilters(selectedFilters);
                                         onClose();
                                     }}>
                                     <Text className="text-white font-poppinsMedium text-lg">Apply Filters</Text>

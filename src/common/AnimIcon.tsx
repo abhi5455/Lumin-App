@@ -16,8 +16,8 @@ const AnimIcon: FC<props> = ({focused, color, children}) => {
     const focusedValue = useSharedValue(1);
     useEffect(() => {
         if (focused) {
-            focusedValue.value = withSpring(0.5, {duration: 200}, () => {
-                focusedValue.value = withSpring(1, {duration: 200});
+            focusedValue.value = withSpring(0.7, {duration: 250}, () => {
+                focusedValue.value = withSpring(1, {duration: 250});
             });
         }
     }),

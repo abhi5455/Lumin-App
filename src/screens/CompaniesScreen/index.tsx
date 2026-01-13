@@ -10,12 +10,34 @@ import NoDataAvailSticker from "../../assets/svg/NoDataAvail.svg"
 import {ICompany} from "../../types/typeCompany.ts";
 import {getUserProfile} from "../../lib/userStorage.ts";
 import {IStudent} from "../../types/type_student.ts";
+import {IDepartment} from "../../types/type_college.ts";
+import {collegeService} from "../../services/collegeService.ts";
 
 export default function CompaniesScreen() {
     const [filterModalVisible, setFilterModalVisible] = useState(false);
     const [companyList, setCompanyList] = useState<ICompany[]>([])
     const [isLoading, setIsLoading] = useState(false);
-    const isFirstLoad = useRef(true)
+    const isFirstLoad = useRef(true);
+
+    const [filterOptions, setFilterOptions] = useState<typeof filterOptions>();
+    const [companies, setCompanies] = useState<ICompany[]>([]);
+    const [departments, setDepartments] = useState<IDepartment[]>([]);
+    const [searchValue, setSearchValue] = useState("");
+    const [debouncedSearchValue, setDebouncedSearchValue] = useState(searchValue);
+
+    function onApplyFilters(filters: any) {
+        setFilterOptions(filters);
+    }
+
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            setDebouncedSearchValue(searchValue);
+        }, 400);
+
+        return () => {
+            clearTimeout(handler);
+        };
+    }, [searchValue]);
 
     useEffect(() => {
         StatusBar.setBarStyle('light-content')
@@ -29,7 +51,7 @@ export default function CompaniesScreen() {
                 isFirstLoad.current = false
             }
             const userProfile: IStudent = getUserProfile()
-            companyService.getAllByCollegeId(userProfile?.college_id || '')
+            companyService.getAllByCollegeId(userProfile?.college_id || '', filterOptions, debouncedSearchValue)
                 .then(data => {
                     setCompanyList(data || [])
                 })
@@ -39,7 +61,15 @@ export default function CompaniesScreen() {
                 .finally(() => {
                     setIsLoading(false);
                 })
-        }, [])
+
+            collegeService.getAllDepartmentsByCollegeId(userProfile?.college_id || '')
+                .then(data => {
+                    setDepartments(data || [])
+                })
+                .catch(error => {
+                    console.log("Error fetching departments: ", error);
+                });
+        }, [filterOptions, debouncedSearchValue])
     );
 
     return (
@@ -57,6 +87,8 @@ export default function CompaniesScreen() {
                             <TextInput
                                 placeholder={"Search Company"} className="text-black flex-1"
                                 placeholderTextColor={"#999999"}
+                                onChangeText={(text) => setSearchValue(text)}
+                                value={searchValue}
                             />
                         </View>
                         <TouchableOpacity onPress={() => setFilterModalVisible(true)}>
@@ -95,6 +127,8 @@ export default function CompaniesScreen() {
                 onClose={() => {
                     setFilterModalVisible(false)
                 }}
+                onApplyFilters={onApplyFilters}
+                departments={departments}
                 type={'companies'}
             />
         </SafeAreaView>

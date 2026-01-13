@@ -29,6 +29,20 @@ export const collegeService = {
         return data;
     },
 
+    async getAllDepartmentsByCollegeId(collegeId: string) {
+        const {data, error} =
+            await supabase.from('department')
+                .select('*')
+                .eq('college_id', collegeId)
+                .order('created_at', { ascending: false });
+
+        if (error) {
+            console.log("Error: ", error);
+            throw error
+        }
+        return data;
+    },
+
     async create(college: Omit<ICollege, 'id' | 'created_at'>) {
         const {data, error} =
             await supabase.from('college')

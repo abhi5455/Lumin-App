@@ -22,29 +22,102 @@ export const resourceService = {
         return data;
     },
 
+    // async getAllByCollegeId(collegeId: string, searchValue?: string) {
+    //     console.log("Fetching resources for collegeId: ", collegeId, " with searchValue: ", searchValue);
+    //     let query = supabase
+    //         .from('resources')
+    //         .select(`
+    //             *,
+    //             student:uploaded_by_student_id(*),
+    //             college:college_id(*),
+    //             files(*),
+    //             resourcekeywords(*),
+    //             company:company_id(*)
+    //         `)
+    //         .eq('college_id', collegeId);
+    //
+    //     //Apply search filter I need alike on title and student.name
+    //     if (searchValue && searchValue.trim() !== '') {
+    //         const q = `%${searchValue.trim()}%`
+    //
+    //         // OR: resource title
+    //         query = query.or(`title.ilike.${q}`)
+    //
+    //         // OR: author name (student table)
+    //         query = query.or(`name.ilike.${q}`, { foreignTable: 'student' })
+    //
+    //         // OR: resource keywords
+    //         query = query.or(`keyword.ilike.${q}`, { foreignTable: 'resourcekeywords' })
+    //     }
+    //
+    //
+    //
+    //     const {data, error} = await query.order('created_at', { ascending: false });
+    //     if (error) {
+    //         console.log("Error: ", error);
+    //         throw error;
+    //     }
+    //
+    //     return data;
+    //
+    //     // const {data, error} = await supabase
+    //     //     .from('resources')
+    //     //     .select(`
+    //     //         *,
+    //     //         student:uploaded_by_student_id(*),
+    //     //         college:college_id(*),
+    //     //         files(*),
+    //     //         resourcekeywords(*),
+    //     //         company:company_id(*)
+    //     //     `)
+    //     //     .eq('college_id', collegeId)
+    //     //     .order('created_at', { ascending: false });
+    //     //
+    //     // if (error) {
+    //     //     console.log("Error: ", error);
+    //     //     throw error;
+    //     // }
+    //     // return data;
+    // },
+
     async getAllByCollegeId(collegeId: string, searchValue?: string) {
-        const {data, error} = await supabase
+        console.log("Fetching resources for collegeId: ", collegeId, " with searchValue: ", searchValue);
+        let query = supabase
             .from('resources')
-            .select(`
-                *, 
-                student:uploaded_by_student_id(*), 
-                college:college_id(*), 
-                files(*), 
-                resourcekeywords(*),
-                company:company_id(*)
-            `)
-            .eq('college_id', collegeId)
-            .order('created_at', { ascending: false });
+            .select(` 
+            *,  
+            student:uploaded_by_student_id(*),  
+            college:college_id(*),  
+            files(*),  
+            resourcekeywords(*), 
+            company:company_id(*) 
+        `)
+            .eq('college_id', collegeId);
+
+        // Apply search filter across title, student name, and keywords
+        if (searchValue && searchValue.trim() !== '') {
+            const q = `%${searchValue.trim()}%`;
+
+            // Combine all search conditions in a single .or() call
+            query = query.or(
+                `title.ilike.${q},` +
+                `student.name.ilike.${q},` +
+                `resourcekeywords.keyword.ilike.${q}`
+            );
+        }
+
+        const {data, error} = await query.order('created_at', { ascending: false });
 
         if (error) {
             console.log("Error: ", error);
             throw error;
         }
+
         return data;
     },
 
-    async getAllByCollegeNCompanyId(collegeId: string, companyId: string) {
-        const {data, error} = await supabase
+    async getAllByCollegeNCompanyId(collegeId: string, companyId: string, searchValue?: string) {
+        let query = supabase
             .from('resources')
             .select(`
                 *, 
@@ -55,14 +128,42 @@ export const resourceService = {
                 company:company_id(*)
             `)
             .eq('college_id', collegeId)
-            .eq('company_id', companyId)
-            .order('created_at', { ascending: false });
+            .eq('company_id', companyId);
 
+        if (searchValue && searchValue.trim() !== '') {
+            const q = `%${searchValue}%`
+            query = query.or(
+                `title.ilike.${q},student.name.ilike.${q}`
+            )
+        }
+
+        const {data, error} = await query.order('created_at', { ascending: false });
         if (error) {
             console.log("Error: ", error);
             throw error;
         }
+
         return data;
+
+        // const {data, error} = await supabase
+        //     .from('resources')
+        //     .select(`
+        //         *,
+        //         student:uploaded_by_student_id(*),
+        //         college:college_id(*),
+        //         files(*),
+        //         resourcekeywords(*),
+        //         company:company_id(*)
+        //     `)
+        //     .eq('college_id', collegeId)
+        //     .eq('company_id', companyId)
+        //     .order('created_at', { ascending: false });
+        //
+        // if (error) {
+        //     console.log("Error: ", error);
+        //     throw error;
+        // }
+        // return data;
     },
 
     async getAllByStudentId(studentId: string) {

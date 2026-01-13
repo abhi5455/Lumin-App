@@ -61,6 +61,7 @@ export default function EditProfileScreen() {
                 </View>
 
                 <TouchableOpacity className="mt-[2px]" onPress={() => {
+                    console.log("Aluni Data ", alumnus)
                 }}>
                     {/*<Text className="font-poppinsLight text-white text-xl">save</Text>*/}
                     <SaveIcon size={20} color={"#FFFFFF"} strokeWidth={"1.7px"}/>

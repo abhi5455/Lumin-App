@@ -1,6 +1,12 @@
 import {supabase} from "../lib/supabaseClient.ts";
 import {IStudent} from "../types/type_student.ts";
 
+interface AlumniFilters {
+    GraduationYears?: string[];
+    Departments?: string[];
+    Companies?: string[];
+}
+
 export const studentService = {
     async getAll() {
         const {data, error} =
@@ -29,20 +35,68 @@ export const studentService = {
         return data;
     },
 
-    async getAllAlumniByCollegeId(collegeId: string) {
-        const {data, error} =
-            await supabase.from('student')
-                .select(`*, college(*), department(*), rstudentcompany(*, company(*)), studenteducation(*)`)
-                .eq('college_id', collegeId)
-                .eq('status', 'alumni')
-                .order('created_at', { ascending: false });
+async getAllAlumniByCollegeId(collegeId: string, filters?: AlumniFilters, searchValue?: string) {
+    let query = supabase
+        .from('student')
+        .select(`*, college(*), department(*), rstudentcompany(*, company(*)), studenteducation(*)`)
+        .eq('college_id', collegeId)
+        .eq('status', 'alumni');
 
-        if (error) {
-            console.log("Error: ", error);
-            throw error
-        }
-        return data;
-    },
+    // Apply Graduation Year filter
+    if (filters?.GraduationYears && filters.GraduationYears.length > 0) {
+        query = query.in('graduate_year', filters.GraduationYears);
+    }
+
+    // Apply Degree filter
+    if (filters?.Departments && filters.Departments.length > 0) {
+        // const departmentMapping: Record<string, string> = {
+        //     "B.Tech - CSE": "CSE",
+        //     "B.Tech - ECE": "ECE",
+        //     "B.Tech - ME": "ME",
+        //     "MCA": "MCA",
+        //     "M.Tech - CSE": "M.Tech CSE",
+        // };
+
+        const mappedDepartments = filters.Departments
+            .map(degree => degree.code || degree);
+
+        // If filtering by department name
+        query = query.in('department.name', mappedDepartments);
+    }
+
+    // Apply Company filter (filtering on related company data)
+    if (filters?.Companies && filters.Companies.length > 0) {
+        query = query.in('rstudentcompany.company.name', filters.Companies);
+    }
+
+    if(searchValue && searchValue.trim() !== "") {
+        const searchTerm = `%${searchValue.trim().toLowerCase()}%`;
+        query = query.or(
+            `name.ilike.${searchTerm},admission_number.ilike.${searchTerm}`
+        );
+    }
+
+    query = query.order('created_at', { ascending: false });
+
+    const { data, error } = await query;
+
+    if (error) {
+        console.log("Error: ", error);
+        throw error;
+    }
+
+    // Post-process filtering for nested relations if needed
+    if (data && filters?.Companies && filters.Companies.length > 0) {
+        return data.filter(student =>
+            student.rstudentcompany?.some((sc: any) =>
+                filters.Companies!.includes(sc.company?.name)
+            )
+        );
+    }
+    console.log("Filtered Alumni Data: ", data);
+
+    return data;
+},
 
     async getById(id: string) {
         const {data, error} =

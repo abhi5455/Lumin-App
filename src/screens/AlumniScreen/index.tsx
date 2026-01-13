@@ -10,8 +10,12 @@ import {useFocusEffect} from "@react-navigation/native";
 import NoDataAvailSticker from "../../assets/svg/NoDataAvail.svg";
 import {getUserProfile} from "../../lib/userStorage.ts";
 import {RouteProp, useRoute} from "@react-navigation/core";
+import {companyService} from "../../services/companyService.ts";
+import {ICompany} from "../../types/typeCompany.ts";
+import {collegeService} from "../../services/collegeService.ts";
+import {IDepartment} from "../../types/type_college.ts";
 
-interface IAlumniScreenProps{
+interface IAlumniScreenProps {
     collegeId: string
 }
 
@@ -21,21 +25,49 @@ export default function AlumniScreen() {
     const [filterModalVisible, setFilterModalVisible] = useState(false);
     const [alumniList, setAlumniList] = useState<IStudent[]>([]);
     const [isLoading, setIsLoading] = useState(false);
-    const isFirstLoad = useRef(true)
+    const isFirstLoad = useRef(true);
+    const [filterOptions, setFilterOptions] = useState<typeof filterOptions>();
+    const [companies, setCompanies] = useState<ICompany[]>([]);
+    const [departments, setDepartments] = useState<IDepartment[]>([]);
+    const [searchValue, setSearchValue] = useState("");
+    const [debouncedSearchValue, setDebouncedSearchValue] = useState(searchValue);
+
+    function onApplyFilters(filters: any) {
+        setFilterOptions(filters);
+    }
+
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            setDebouncedSearchValue(searchValue);
+        }, 400);
+
+        return () => {
+            clearTimeout(handler);
+        };
+    }, [searchValue]);
 
     useEffect(() => {
         StatusBar.setBarStyle('light-content')
         StatusBar.setBackgroundColor(filterModalVisible ? '#01584f' : '#00b19f')
     }, [filterModalVisible])
 
+    const prevFilterOptionsRef = useRef(filterOptions);
+
     useFocusEffect(
         useCallback(() => {
+            console.log("Fetching alumni data with filters: ", filterOptions);
             if (isFirstLoad.current) {
                 setIsLoading(true)
                 isFirstLoad.current = false
             }
+
+            if (JSON.stringify(prevFilterOptionsRef.current) !== JSON.stringify(filterOptions)) {
+                setIsLoading(true);
+                prevFilterOptionsRef.current = filterOptions;
+            }
+
             const userProfile: IStudent = getUserProfile()
-            studentService.getAllAlumniByCollegeId(userProfile?.college_id || collegeId)
+            studentService.getAllAlumniByCollegeId(userProfile?.college_id || collegeId, filterOptions, debouncedSearchValue)
                 .then(data => {
                     setAlumniList(data || [])
                 })
@@ -45,8 +77,28 @@ export default function AlumniScreen() {
                 .finally(() => {
                     setIsLoading(false);
                 })
-        }, [])
+
+            console.log("Search ", searchValue)
+
+            companyService.getAllByCollegeId(userProfile?.college_id || '')
+                .then(data => {
+                    setCompanies(data || [])
+                })
+                .catch(error => {
+                    console.log("Error fetching companies: ", error);
+                })
+
+            collegeService.getAllDepartmentsByCollegeId(userProfile?.college_id || '')
+                .then(data => {
+                    setDepartments(data || [])
+                })
+                .catch(error => {
+                    console.log("Error fetching departments: ", error);
+                });
+        }, [filterOptions, debouncedSearchValue])
     );
+
+    console.log("Companies, ", companies);
 
     return (
         <SafeAreaView className="flex-1">
@@ -58,14 +110,26 @@ export default function AlumniScreen() {
                 <View className="bg-white flex-1 rounded-t-[30px] px-5">
                     <View className="flex flex-row justify-between items-center my-4 gap-4">
                         <View
-                            className="flex-1 flex flex-row justify-start items-center border border-gray-300 rounded-xl pr-4 pl-3 py-1 gap-1.5">
-                            <Search size={20} color={"#999999"}/>
+                            className="flex-1 flex flex-row justify-start items-center border border-gray-300 rounded-xl pr-4 pl-3 py-[2px] gap-1.5">
+                            <Search size={18} color={"#999999"}/>
                             <TextInput
-                                placeholder={"Search Alumni"} className="text-black flex-1"
+                                placeholder={"Search Alumni"} className="text-black flex-1 font-poppins -mb-1"
                                 placeholderTextColor={"#999999"}
+                                value={searchValue}
+                                onChangeText={setSearchValue}
                             />
                         </View>
                         <TouchableOpacity onPress={() => setFilterModalVisible(true)}>
+                            {filterOptions && Object.entries(filterOptions).length > 0 &&
+                                <View
+                                    className="bg-red-600 rounded-full absolute top-[-7px] right-[-7px] h-5 w-5 flex justify-center items-center z-10">
+                                    <Text className="font-poppinsMedium text-white text-xs">
+                                        {Object.entries(filterOptions).reduce((acc, [, items]) => {
+                                            return acc + items.length;
+                                        }, 0)}
+                                    </Text>
+                                </View>
+                            }
                             <Funnel size={22} color={"#999"} strokeWidth={'1.8px'}/>
                         </TouchableOpacity>
                     </View>
@@ -80,10 +144,10 @@ export default function AlumniScreen() {
                                     </Text>
                                 </View>
                                 : alumniList.map((alumnus, index) => (
-                                <View key={index} className="mb-5">
-                                    <AlumniCard alumnus={alumnus}/>
-                                </View>
-                            ))
+                                    <View key={index} className="mb-5">
+                                        <AlumniCard alumnus={alumnus}/>
+                                    </View>
+                                ))
                             :
                             <View>
                                 <ActivityIndicator size={28} color="#00b19f" className="mt-8"/>
@@ -101,6 +165,9 @@ export default function AlumniScreen() {
                     setFilterModalVisible(false)
                 }}
                 type={'alumni'}
+                onApplyFilters={onApplyFilters}
+                companies={companies}
+                departments={departments}
             />
         </SafeAreaView>
     )

@@ -1,3 +1,5 @@
+import {IDepartment} from "./type_college.ts";
+
 export interface IStudent {
     id: string;
     name: string;
@@ -35,14 +37,6 @@ export interface ICollege {
     name: string;
     about: string;
     location: string;
-    created_at: string;
-}
-
-export interface IDepartment {
-    id: string;
-    code: string;
-    name: string;
-    college_id: string;
     created_at: string;
 }
 

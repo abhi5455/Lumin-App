@@ -29,6 +29,17 @@ export default function ResourceScreen() {
     const [companies, setCompanies] = useState<ICompany[]>([]);
     const [searchValue, setSearchValue] = useState('');
     const [triggerRefetch, setTriggerRefetch] = useState(0);
+    const [debouncedSearchValue, setDebouncedSearchValue] = useState(searchValue);
+
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            setDebouncedSearchValue(searchValue);
+        }, 400);
+
+        return () => {
+            clearTimeout(handler);
+        };
+    }, [searchValue]);
 
     useFocusEffect(
         useCallback(() => {
@@ -82,7 +93,7 @@ export default function ResourceScreen() {
         if (selectedFilter === 0) {
             // All
             const userProfile: IStudent = getUserProfile()
-            resourceService.getAllByCollegeId(userProfile?.college_id || '')
+            resourceService.getAllByCollegeId(userProfile?.college_id || '', debouncedSearchValue)
                 .then(data => {
                     setResources(data)
                 })
@@ -97,7 +108,7 @@ export default function ResourceScreen() {
         } else {
             const userProfile: IStudent = getUserProfile()
             console.log("Selected Company ID: ", selectedFilter, String(selectedFilter));
-            resourceService.getAllByCollegeNCompanyId(userProfile?.college_id || '', String(selectedFilter))
+            resourceService.getAllByCollegeNCompanyId(userProfile?.college_id || '', String(selectedFilter), debouncedSearchValue)
                 .then(data => {
                     setResources(data)
                 })
@@ -109,7 +120,7 @@ export default function ResourceScreen() {
                     setIsLoading(false);
                 })
         }
-    }, [selectedFilter]);
+    }, [selectedFilter, debouncedSearchValue]);
 
     return (
         <SafeAreaView className="flex-1">
