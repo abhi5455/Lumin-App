@@ -1,6 +1,6 @@
 import {Text, TouchableOpacity, View} from "react-native";
 import MailIcon from "../../../assets/svg/appIcons/mailIcon.svg";
-import {ChevronUpCircle} from "lucide-react-native";
+import {ChevronUpCircle, CircleArrowOutUpRight, ExpandIcon, Maximize} from "lucide-react-native";
 import {useAppNavigation} from "../../../common/navigationHelper.ts";
 import {IStudent} from "../../../types/type_student.ts";
 import {openURL} from "../../../lib/openUrl.ts";
@@ -49,7 +49,7 @@ export default function AlumniCard({alumnus}: { alumnus: IStudent }) {
             </View>
             <View className="flex flex-row gap-2">
                 <TouchableOpacity
-                    className="flex flex-1 flex-row justify-center items-center gap-2 mt-4 bg-primary py-2 rounded-xl"
+                    className="flex flex-1 flex-row justify-center items-center gap-2 mt-4 bg-primary py-[4px] rounded-[9px]"
                     onPress={() => {
                         navigation.navigate("SectionNavigator", {
                             screen: "AlumniDetailsScreen",
@@ -60,11 +60,11 @@ export default function AlumniCard({alumnus}: { alumnus: IStudent }) {
                             }
                         })
                     }}>
-                    <ChevronUpCircle size={20} color={"#FFF"}/>
-                    <Text className="text-white font-poppinsMedium text-[14px]">View</Text>
+                    <ExpandIcon size={20} color={"#FFF"} strokeWidth={1.9}/>
+                    <Text className="text-white font-poppinsMedium text-[14px] mt-[2px] ml-[2px]">View</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                    className="flex flex-1 flex-row justify-center items-center gap-2 mt-4 border border-gray-300 py-2 rounded-xl"
+                    className="flex flex-1 flex-row justify-center items-center gap-2 mt-4 border border-gray-300 py-[4px] rounded-[9px]"
                     onPress={() => {
                         if (alumnus?.email) {
                             openURL(`mailto:${alumnus?.email}`)
@@ -79,7 +79,7 @@ export default function AlumniCard({alumnus}: { alumnus: IStudent }) {
                         }
                     }}>
                     <MailIcon/>
-                    <Text className="text-gray-700 font-poppinsMedium text-[14px]">Message</Text>
+                    <Text className="text-gray-700 font-poppinsMedium text-[14px] mt-[2px] ml-[2px]">Message</Text>
                 </TouchableOpacity>
             </View>
         </View>
