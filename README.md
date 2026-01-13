@@ -7,10 +7,10 @@ In many colleges, students navigate placement season with incomplete data. They 
 
 ---
 
-## 💡 The Problem
+## 🔍 The Problem
 Placement data exists, but it’s scattered and rarely actionable. Most students end up preparing blindly, relying on rumors rather than records.
 
-## ✅ The Solution
+## 💡 The Solution
 Lumin centralizes Alumin details, recruited company data, average salary packages, and placement history. It transforms raw data into **visibility into real outcomes**, not assumptions.
 
 ---
@@ -38,12 +38,11 @@ Lumin centralizes Alumin details, recruited company data, average salary package
 - **Framework:** React Native & TypeScript
 - **Styling:** NativeWind (Tailwind CSS)
 - **Backend:** Supabase
-- **Architecture:** Scalable & Modular
 
 ---
 
 ## Experience Lumin
 Ready to transform the placement experience?
 
-**Try this app by using the apk in the google drive link: 
+**Try this app by using the apk in the google drive link:** 
 https://drive.google.com/drive/folders/1plvQ-pelUM0-mNcRpNQJqj6Fgz0lCUAS?usp=drive_link
