@@ -46,3 +46,8 @@ Ready to transform the placement experience?
 
 **Try this app by using the apk in the google drive link:** 
 https://drive.google.com/drive/folders/1plvQ-pelUM0-mNcRpNQJqj6Fgz0lCUAS?usp=drive_link
+
+**Login Credentials**<br>
+*Admission No* **:** DCE2016001<br>
+*Password* **:** Test@123
+
