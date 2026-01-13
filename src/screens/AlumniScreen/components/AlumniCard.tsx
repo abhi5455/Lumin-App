@@ -1,6 +1,5 @@
 import {Text, TouchableOpacity, View} from "react-native";
-import MailIcon from "../../../assets/svg/appIcons/mailIcon.svg";
-import {ChevronUpCircle, CircleArrowOutUpRight, ExpandIcon, Maximize} from "lucide-react-native";
+import {ArrowUpRight, ChevronUpCircle, CircleArrowOutUpRight, ExpandIcon, Maximize, MailIcon} from "lucide-react-native";
 import {useAppNavigation} from "../../../common/navigationHelper.ts";
 import {IStudent} from "../../../types/type_student.ts";
 import {openURL} from "../../../lib/openUrl.ts";
@@ -49,7 +48,7 @@ export default function AlumniCard({alumnus}: { alumnus: IStudent }) {
             </View>
             <View className="flex flex-row gap-2">
                 <TouchableOpacity
-                    className="flex flex-1 flex-row justify-center items-center gap-2 mt-4 bg-primary py-[4px] rounded-[9px]"
+                    className="flex flex-1 flex-row-reverse justify-center items-center gap-1 mt-4 bg-primary py-[4px] rounded-[9px]"
                     onPress={() => {
                         navigation.navigate("SectionNavigator", {
                             screen: "AlumniDetailsScreen",
@@ -60,8 +59,8 @@ export default function AlumniCard({alumnus}: { alumnus: IStudent }) {
                             }
                         })
                     }}>
-                    <ExpandIcon size={20} color={"#FFF"} strokeWidth={1.9}/>
-                    <Text className="text-white font-poppinsMedium text-[14px] mt-[2px] ml-[2px]">View</Text>
+                    <ArrowUpRight size={19} color={"#FFF"} strokeWidth={1.9}/>
+                    <Text className="text-white font-poppinsMedium text-[14px] mt-[2px] ml-[px]">View</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     className="flex flex-1 flex-row justify-center items-center gap-2 mt-4 border border-gray-300 py-[4px] rounded-[9px]"
@@ -78,7 +77,7 @@ export default function AlumniCard({alumnus}: { alumnus: IStudent }) {
                             )
                         }
                     }}>
-                    <MailIcon/>
+                    <MailIcon size={19} color={"#374151"} strokeWidth={1.9}/>
                     <Text className="text-gray-700 font-poppinsMedium text-[14px] mt-[2px] ml-[2px]">Message</Text>
                 </TouchableOpacity>
             </View>
