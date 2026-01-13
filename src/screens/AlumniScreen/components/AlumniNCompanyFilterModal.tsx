@@ -28,7 +28,7 @@ const CompanyFilterOptions = {
     //     {id: 11, label: "M.Tech - Civil", selected: false},
     //     {id: 12, label: "M.Tech - EEE", selected: false},
     // ],
-    Package: [
+    Packages: [
         {id: 1, label: "1-5 LPA", selected: false},
         {id: 2, label: "5-10 LPA", selected: false},
         {id: 3, label: "10-15 LPA", selected: false},
@@ -37,7 +37,7 @@ const CompanyFilterOptions = {
         {id: 6, label: "30-50 LPA", selected: false},
         {id: 7, label: "50+ LPA", selected: false},
     ],
-    RecruitedYear: [
+    RecruitedYears: [
         {id: 1, label: "2025", selected: false},
         {id: 2, label: "2024", selected: false},
         {id: 3, label: "2023", selected: false},

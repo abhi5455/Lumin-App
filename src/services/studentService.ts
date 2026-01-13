@@ -36,35 +36,40 @@ export const studentService = {
     },
 
 async getAllAlumniByCollegeId(collegeId: string, filters?: AlumniFilters, searchValue?: string) {
+    let departmentPart = 'department(*)';
+    let companyPart = 'rstudentcompany(*, company(*))';
+
+    if (filters?.Departments && filters.Departments.length > 0) {
+        departmentPart = 'department!inner(*)';
+    }
+
+    if (filters?.Companies && filters.Companies.length > 0) {
+        companyPart = 'rstudentcompany!inner(company!inner(*))';
+    }
+
+    const selectQuery = `*, college(*), ${departmentPart}, ${companyPart}, studenteducation(*)`;
+
     let query = supabase
         .from('student')
-        .select(`*, college(*), department(*), rstudentcompany(*, company(*)), studenteducation(*)`)
+        .select(selectQuery)
         .eq('college_id', collegeId)
         .eq('status', 'alumni');
 
-    // Apply Graduation Year filter
+    // Graduation Year filter
     if (filters?.GraduationYears && filters.GraduationYears.length > 0) {
-        query = query.in('graduate_year', filters.GraduationYears);
+        const years = filters.GraduationYears.map(y => parseInt(y)).filter(n => !isNaN(n));
+        if (years.length > 0) {
+            query = query.in('graduate_year', years);
+        }
     }
 
-    // Apply Degree filter
+    // Degree filter
     if (filters?.Departments && filters.Departments.length > 0) {
-        // const departmentMapping: Record<string, string> = {
-        //     "B.Tech - CSE": "CSE",
-        //     "B.Tech - ECE": "ECE",
-        //     "B.Tech - ME": "ME",
-        //     "MCA": "MCA",
-        //     "M.Tech - CSE": "M.Tech CSE",
-        // };
-
-        const mappedDepartments = filters.Departments
-            .map(degree => degree.code || degree);
-
-        // If filtering by department name
-        query = query.in('department.name', mappedDepartments);
+        // The modal passes department codes (e.g., "CSE", "ECE")
+        query = query.in('department.code', filters.Departments);
     }
 
-    // Apply Company filter (filtering on related company data)
+    // Company filter (filtering on related company data)
     if (filters?.Companies && filters.Companies.length > 0) {
         query = query.in('rstudentcompany.company.name', filters.Companies);
     }
@@ -84,16 +89,6 @@ async getAllAlumniByCollegeId(collegeId: string, filters?: AlumniFilters, search
         console.log("Error: ", error);
         throw error;
     }
-
-    // Post-process filtering for nested relations if needed
-    if (data && filters?.Companies && filters.Companies.length > 0) {
-        return data.filter(student =>
-            student.rstudentcompany?.some((sc: any) =>
-                filters.Companies!.includes(sc.company?.name)
-            )
-        );
-    }
-    console.log("Filtered Alumni Data: ", data);
 
     return data;
 },
@@ -173,7 +168,7 @@ async function createStudentWithAuth(studentData, collegeId) {
     } = studentData;
 
     try {
-        // Step 1: Get department ID
+        // Get department ID
         const { data: department, error: deptError } = await supabase
             .from('department')
             .select('id')
@@ -185,11 +180,11 @@ async function createStudentWithAuth(studentData, collegeId) {
             throw new Error(`Department ${department_code} not found`);
         }
 
-        // Step 2: Generate internal auth email
+        // Generate internal auth email
         const authEmail = `${admission_number}@auth.dce.internal`;
         const temporaryPassword = "Test@123";
 
-        // Step 3: Create auth user
+        // Create auth user
         const { data: authUser, error: authError } = await supabase.auth.admin.createUser({
             email: authEmail, // Internal auth email
             password: temporaryPassword,
@@ -207,7 +202,7 @@ async function createStudentWithAuth(studentData, collegeId) {
             throw new Error(`Auth user creation failed: ${authError.message}`);
         }
 
-        // Step 4: Insert into Student table
+        // Insert into Student table
         const { data: student, error: studentError } = await supabase
             .from('student')
             .insert({
@@ -230,12 +225,12 @@ async function createStudentWithAuth(studentData, collegeId) {
             .single();
 
         if (studentError) {
-            // Rollback: delete auth user if student creation fails
+            // delete auth user if student creation fails
             await supabase.auth.admin.deleteUser(authUser.user.id);
             throw new Error(`Student record creation failed: ${studentError.message}`);
         }
 
-        console.log(`✅ Created student: ${admission_number} (${name})`);
+        console.log(`Created student: ${admission_number} (${name})`);
 
         return {
             success: true,
@@ -248,7 +243,7 @@ async function createStudentWithAuth(studentData, collegeId) {
         };
 
     } catch (error) {
-        console.error(`❌ Error creating student ${admission_number}:`, error.message);
+        console.error(`Error creating student ${admission_number}:`, error.message);
         return {
             success: false,
             error: error.message
@@ -256,9 +251,7 @@ async function createStudentWithAuth(studentData, collegeId) {
     }
 }
 
-/**
- * Batch create multiple students
- */
+//  Batch create multiple students
 async function batchCreateStudents(studentsData, collegeId) {
     const results = [];
     const credentials = [];
@@ -275,12 +268,10 @@ async function batchCreateStudents(studentsData, collegeId) {
             });
         }
 
-        // Small delay to avoid rate limits
         await new Promise(resolve => setTimeout(resolve, 100));
     }
 
     return { results, credentials };
 }
 
-// Export functions
 export { createStudentWithAuth, batchCreateStudents };
