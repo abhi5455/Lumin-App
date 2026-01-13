@@ -15,7 +15,6 @@ interface FilterModalProps {
 }
 
 const CompanyFilterOptions = {
-    // Department: [ ... ], // Populated dynamically
     Packages: [
         {id: 1, label: "1-5 LPA", selected: false},
         {id: 2, label: "5-10 LPA", selected: false},
