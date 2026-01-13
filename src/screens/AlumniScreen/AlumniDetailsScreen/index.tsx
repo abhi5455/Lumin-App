@@ -55,12 +55,21 @@ export default function AlumniDetailsScreen() {
                 </View>
                 {type === "myProfile" &&
                     <TouchableOpacity className="mt-[2px]" onPress={()=>{
-                        navigation.navigate("SectionNavigator", {
-                            screen: "EditProfileScreen",
-                            params: {
-                                alumnusData: alumnus
+                        Toast.show({
+                                type: "info",
+                                text1: "Can't Edit Profile!",
+                                text2: "This is a test user. You cannot edit the profile.",
+                                position: "top"
                             }
-                        })
+                        )
+
+                        //TODO
+                        // navigation.navigate("SectionNavigator", {
+                        //     screen: "EditProfileScreen",
+                        //     params: {
+                        //         alumnusData: alumnus
+                        //     }
+                        // })
                     }}>
                         <Edit3 size={20} color={"#FFFFFF"} strokeWidth={"1.7px"}/>
                     </TouchableOpacity>
