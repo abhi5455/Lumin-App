@@ -38,8 +38,6 @@ Lumin solves these problems by creating a single source of truth for all placeme
   <img width="200" height="700" alt="LuminImg6" src="https://github.com/user-attachments/assets/c5ddd2b8-d5cc-4288-af6d-26dbd1d5e021" />
 </div>
 
-> **Setup**: Create a `screenshots` folder in the repository root and add app screenshots
-
 ---
 
 ## ✨ Core Features
