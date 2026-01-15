@@ -29,7 +29,7 @@ Lumin solves these problems by creating a single source of truth for all placeme
 ### Screenshots
 
 <div align="center">
-  <img src="/src/assets/demoImages/LuminImg1.jpeg" alt="FlashScreen" width="250"/>
+  <img src="./src/assets/demoImages/LuminImg1.jpeg" alt="FlashScreen" width="250"/>
   <img src="/src/assets/demoImages/LuminImg2.jpeg" alt="Alumni Network" width="250"/>
   <img src="/src/assets/demoImages/LuminImg3.jpeg" alt="Alumni Details" width="250"/>
   <img src="/src/assets/demoImages/LuminImg4.jpeg" alt="Company Insights" width="250"/>
