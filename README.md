@@ -29,13 +29,13 @@ Lumin solves these problems by creating a single source of truth for all placeme
 ### Screenshots
 
 <div align="center">
-  <img src="./src/assets/demoImages/LuminImg1.jpeg" alt="FlashScreen" width="250"/>
-  <img src="/src/assets/png/InstitutionBuilding.png" alt="Alumni Network" width="250"/>
-  <img src="/src/assets/demoImages/LuminImg3.jpeg" alt="Alumni Details" width="250"/>
-  <img src="/src/assets/demoImages/LuminImg4.jpeg" alt="Company Insights" width="250"/>
-  <img src="/src/assets/demoImages/LuminImg5.jpeg" alt="Company Details" width="250"/>
-  <img src="/src/assets/demoImages/LuminImg7.jpeg" alt="Resources" width="250"/>
-  <img src="/src/assets/demoImages/LuminImg6.jpeg" alt="User Profile" width="250"/>
+  <img src="./src/assets/demoImages/LuminImg1.png" alt="FlashScreen" width="250"/>
+  <img src="/src/assets/demoImages/LuminImg2.png" alt="Alumni Network" width="250"/>
+  <img src="/src/assets/demoImages/LuminImg3.png" alt="Alumni Details" width="250"/>
+  <img src="/src/assets/demoImages/LuminImg4.png" alt="Company Insights" width="250"/>
+  <img src="/src/assets/demoImages/LuminImg5.png" alt="Company Details" width="250"/>
+  <img src="/src/assets/demoImages/LuminImg7.png" alt="Resources" width="250"/>
+  <img src="/src/assets/demoImages/LuminImg6.png" alt="User Profile" width="250"/>
 </div>
 
 > **Setup**: Create a `screenshots` folder in the repository root and add app screenshots
