@@ -1,4 +1,4 @@
-import {Dimensions, FlatList, Text, View} from "react-native";
+import {ActivityIndicator, Dimensions, FlatList, Text, View} from "react-native";
 import {BarChart, PieChart} from "react-native-chart-kit";
 import {
     BarChart3Icon,
@@ -9,26 +9,35 @@ import {
     TrendingUp,
 } from "lucide-react-native";
 import {ICompany} from "../../../types/typeCompany.ts";
-
-const departmentData = [
-    {name: "CSE", value: 89, color: "#14b8a6"}, // Main teal
-    {name: "RAI", value: 67, color: "#0d9488"}, // Darker teal
-    {name: "ECE", value: 45, color: "#0f766e"}, // Deep teal
-    {name: "ME", value: 33, color: "#115e59"}, // Very dark teal
-    {name: "CE", value: 28, color: "#5eead4"}, // Light teal
-    {name: "EEE", value: 35, color: "#2dd4bf"}, // Medium light teal
-]
-
-const yearlyPlacements = [
-    {year: "2020", placed: 14},
-    {year: "2021", placed: 5},
-    {year: "2022", placed: 9},
-    {year: "2023", placed: 20},
-    {year: "2024", placed: 23},
-];
+import {useEffect, useState} from "react";
+import {companyService} from "../../../services/companyService.ts";
 
 export default function Analytics({company}: { company: ICompany }) {
     const screenWidth = Dimensions.get("window").width;
+    const [yearlyPlacements, setYearlyPlacements] = useState<{ year: string, placed: number }[]>([]);
+    const [departmentDistribution, setDepartmentDistribution] = useState<{ name: string, value: number, color: string }[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchData() {
+            setLoading(true);
+            const yearlyData = await companyService.getYearlyPlacements(company.id);
+            if (yearlyData) {
+                setYearlyPlacements(yearlyData);
+            }
+
+            const departmentData = await companyService.getDepartmentDistribution(company.id);
+            if (departmentData) {
+                setDepartmentDistribution(departmentData);
+            }
+
+            setLoading(false);
+        }
+
+        fetchData();
+    }, [company.id]);
+
+
     const barData = {
         labels: yearlyPlacements.map(item => item.year),
         datasets: [
@@ -65,6 +74,14 @@ export default function Analytics({company}: { company: ICompany }) {
         },
     ]
 
+    if (loading) {
+        return(
+        <View>
+            <ActivityIndicator size={28} color="#00b19f" className="mt-8"/>
+        </View>
+        )
+    }
+
     return (
         <View className="flex flex-col justify-center px-5 mt-5 gap-4">
             <View
@@ -80,7 +97,7 @@ export default function Analytics({company}: { company: ICompany }) {
                     </View>
                 </View>
                 <PieChart
-                    data={departmentData}
+                    data={departmentDistribution}
                     width={screenWidth - 20}
                     height={220}
                     chartConfig={{
