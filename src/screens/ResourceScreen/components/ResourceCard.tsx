@@ -120,7 +120,7 @@ export function ResourceCard({resourceItem, type, setTriggerRefetch}: ResourceCa
                     }
                 })
             }}
-            disabled={!isTruncated}>
+            disabled={userProfile.id === resourceItem?.student?.id ? false : !isTruncated}>
                 <Text className="font-poppins text-[17px]">{resourceItem?.title}</Text>
                 <Text className="font-poppinsLight text-gray-700 mt-1 text-[15px]"
                       numberOfLines={measured ? 11 : undefined}
