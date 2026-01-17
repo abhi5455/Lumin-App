@@ -29,7 +29,8 @@ Lumin solves these problems by creating a single source of truth for all placeme
 ### Screenshots
 
 <div align="left">
-  <img width="250" alt="LuminImg1" src="https://github.com/user-attachments/assets/2fc13085-a614-4082-a049-203526c658d7" />
+
+[//]: # (  <img width="250" alt="LuminImg1" src="https://github.com/user-attachments/assets/2fc13085-a614-4082-a049-203526c658d7" />)
   <img width="250" alt="LuminImg2" src="https://github.com/user-attachments/assets/fd4f3289-8e7f-487f-ba75-93cfd929dfb4" />
   <img width="250" alt="LuminImg3" src="https://github.com/user-attachments/assets/f96d1b8e-3901-4e45-b53a-3835cf1dfa11" />
   <img width="250" alt="LuminImg4" src="https://github.com/user-attachments/assets/0d7f8082-9755-4747-844d-8d15a1e5da9c" />
