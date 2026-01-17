@@ -146,7 +146,6 @@ export function ResourceCard({resourceItem, type, setTriggerRefetch}: ResourceCa
                 }
             </TouchableOpacity>
 
-            {console.log("RESOURCE ITEM FILES:", resourceItem)}
             {resourceItem?.files && resourceItem?.files?.length > 0 && resourceItem.files.map((file, fileIndex) => (
                 <TouchableOpacity
                     className="flex flex-row gap-2 self-start bg-gray-100 border-gray-300 border-0 py-1.5 rounded-xl max-w-fit px-3"
