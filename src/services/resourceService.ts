@@ -13,7 +13,7 @@ export const resourceService = {
                 resourcekeywords(*),
                 company:company_id(*)
             `)
-            .order('created_at', { ascending: false });
+            .order('created_at', {ascending: false});
 
         if (error) {
             console.log("Error: ", error);
@@ -94,7 +94,7 @@ export const resourceService = {
         `)
             .eq('college_id', collegeId);
 
-        const {data, error} = await query.order('created_at', { ascending: false });
+        const {data, error} = await query.order('created_at', {ascending: false});
 
         if (error) {
             console.log("Error: ", error);
@@ -135,7 +135,7 @@ export const resourceService = {
             .eq('college_id', collegeId)
             .eq('company_id', companyId);
 
-        const {data, error} = await query.order('created_at', { ascending: false });
+        const {data, error} = await query.order('created_at', {ascending: false});
         if (error) {
             console.log("Error: ", error);
             throw error;
@@ -173,7 +173,7 @@ export const resourceService = {
                 company:company_id(*)
             `)
             .eq('uploaded_by_student_id', studentId)
-            .order('created_at', { ascending: false });
+            .order('created_at', {ascending: false});
 
         if (error) {
             console.log("Error: ", error);
@@ -286,7 +286,10 @@ export const resourceService = {
 
         const {data, error} = await supabase
             .from('resources')
-            .update(resourceData)
+            .update({
+                ...resourceData,
+                updated_at: new Date().toISOString()
+            })
             .eq('id', resource.id)
             .select()
             .single();

@@ -140,7 +140,7 @@ export function ResourceDetailsScreen() {
                                 </TouchableOpacity>
                                 <View className={`flex flex-col items-end gap-2 "mt-1"}`}>
                                     <Text
-                                        className="font-poppins text-gray-500 text-[13px]">{formatDistanceToNow(new Date(resourceData?.created_at || ''), {addSuffix: true})}</Text>
+                                        className="font-poppins text-gray-500 text-[13px]">{formatDistanceToNow(new Date(new Date(resourceData?.updated_at || '').getTime() + 5.5 * 60 * 60 * 1000), { addSuffix: true })}</Text>
                                 </View>
                             </View>
                             <View className="flex flex-row flex-wrap justify-start items-center gap-2">

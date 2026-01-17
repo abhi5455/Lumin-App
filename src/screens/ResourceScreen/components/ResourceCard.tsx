@@ -102,7 +102,7 @@ export function ResourceCard({resourceItem, type, setTriggerRefetch}: ResourceCa
                         </View>
                     }
                     <Text
-                        className="font-poppins text-gray-500 text-[13px]">{formatDistanceToNow(new Date(resourceItem?.created_at || ''), {addSuffix: true})}</Text>
+                        className="font-poppins text-gray-500 text-[13px]">{formatDistanceToNow(new Date(new Date(resourceItem?.updated_at || '').getTime() + 5.5 * 60 * 60 * 1000), { addSuffix: true })}</Text>
                 </View>
             </View>
             <View className="flex flex-row flex-wrap justify-start items-center gap-2">
