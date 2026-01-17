@@ -8,7 +8,14 @@ export interface IResource {
     is_verified: boolean;
     created_at: string;
     updated_at: string;
-    files: any[]; // need to be edited
+    files: {
+        created_at: string
+        file_name: string
+        file_type: string
+        file_url: string
+        id: string
+        resource_id: string
+    }[];
     company_id: string | null;
     college_id: string;
 

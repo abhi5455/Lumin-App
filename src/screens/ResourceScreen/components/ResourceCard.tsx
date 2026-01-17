@@ -1,5 +1,5 @@
 import {StatusBar, Text, TouchableOpacity, View} from "react-native";
-import {EllipsisVertical, Pencil, Trash2} from "lucide-react-native";
+import {EllipsisVertical, FileText, ImageIcon, Pencil, Trash2} from "lucide-react-native";
 import {IResource} from "../../../types/type_resource.ts";
 import {formatDistanceToNow} from "date-fns";
 import {useAppNavigation} from "../../../common/navigationHelper.ts";
@@ -112,7 +112,7 @@ export function ResourceCard({resourceItem, type, setTriggerRefetch}: ResourceCa
                     </View>
                 ))}
             </View>
-            <TouchableOpacity className="" onPress={()=>{
+            <TouchableOpacity className="" onPress={() => {
                 navigation.navigate("SectionNavigator", {
                     screen: "ResourceDetailsScreen",
                     params: {
@@ -120,7 +120,7 @@ export function ResourceCard({resourceItem, type, setTriggerRefetch}: ResourceCa
                     }
                 })
             }}
-            disabled={userProfile.id === resourceItem?.student?.id ? false : !isTruncated}>
+                              disabled={userProfile.id === resourceItem?.student?.id ? false : !isTruncated}>
                 <Text className="font-poppins text-[17px]">{resourceItem?.title}</Text>
                 <Text className="font-poppinsLight text-gray-700 mt-1 text-[15px]"
                       numberOfLines={measured ? 11 : undefined}
@@ -133,7 +133,7 @@ export function ResourceCard({resourceItem, type, setTriggerRefetch}: ResourceCa
                     {resourceItem?.content}
                 </Text>
                 {isTruncated &&
-                    <TouchableOpacity onPress={()=>{
+                    <TouchableOpacity onPress={() => {
                         navigation.navigate("SectionNavigator", {
                             screen: "ResourceDetailsScreen",
                             params: {
@@ -145,6 +145,23 @@ export function ResourceCard({resourceItem, type, setTriggerRefetch}: ResourceCa
                     </TouchableOpacity>
                 }
             </TouchableOpacity>
+
+            {console.log("RESOURCE ITEM FILES:", resourceItem)}
+            {resourceItem?.files && resourceItem?.files?.length > 0 && resourceItem.files.map((file, fileIndex) => (
+                <TouchableOpacity
+                    className="flex flex-row gap-2 self-start bg-gray-100 border-gray-300 border-0 py-1.5 rounded-xl max-w-fit px-3"
+                    key={file?.id}>
+                    {file?.file_type === "image" ?
+                        <ImageIcon size={17} color={"#4b5563"}/>
+                        : <FileText size={17} color={"#4b5563"}/>
+                    }
+                    <Text className="text-gray-600 font-poppins text-[13px]">{file?.file_name}</Text>
+                </TouchableOpacity>
+            ))}
+            {/*<View className="flex flex-row gap-2 self-start bg-[#DAA520]/10 border-[#DAA520]/40 border-0 py-1.5 rounded-xl max-w-fit px-3">*/}
+            {/*    <FileText size={17} color={"#DAA520"}/>*/}
+            {/*    <Text className="text-[#DAA520] font-poppins text-[13px]">test1.pdf</Text>*/}
+            {/*</View>*/}
 
             <ConfirmationModal visible={deleteConfirmModalVisible}
                                onClose={() => setDeleteConfirmModalVisible(false)}
