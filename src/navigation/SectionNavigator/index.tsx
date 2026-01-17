@@ -5,6 +5,7 @@ import AddResourceScreen from "../../screens/ResourceScreen/AddResourceScreen";
 import StaticSupportScreen from "../../screens/StaticSupportScreen";
 import ResourceScreen from "../../screens/ResourceScreen";
 import EditProfileScreen from "../../screens/ProfileScreen/EditProfileScreen";
+import {ResourceDetailsScreen} from "../../screens/ResourceScreen/ResourceDetailsScreen";
 
 export default function SectionNavigator() {
     const Stack = createNativeStackNavigator()
@@ -44,6 +45,12 @@ export default function SectionNavigator() {
                 name="EditProfileScreen"
                 options={{headerShown: false, gestureEnabled: false}}
                 component={EditProfileScreen}
+            />
+
+            <Stack.Screen
+                name="ResourceDetailsScreen"
+                options={{headerShown: false, gestureEnabled: false}}
+                component={ResourceDetailsScreen}
             />
         </Stack.Navigator>
     )

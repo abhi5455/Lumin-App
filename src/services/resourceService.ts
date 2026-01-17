@@ -282,6 +282,7 @@ export const resourceService = {
 
     async update(resource: Omit<IResource, 'updated_at'>) {
         const {keywords, files, ...resourceData} = resource;
+        console.log("Updating resource with data: ", resourceData);
 
         const {data, error} = await supabase
             .from('resources')

@@ -28,6 +28,8 @@ export function ResourceCard({resourceItem, type, setTriggerRefetch}: ResourceCa
         StatusBar.setBackgroundColor(deleteConfirmModalVisible ? '#01584f' : '#00b19f')
     }, [deleteConfirmModalVisible])
 
+    const [isTruncated, setIsTruncated] = useState(false);
+    const [measured, setMeasured] = useState(false);
 
     return (
         <View
@@ -110,10 +112,39 @@ export function ResourceCard({resourceItem, type, setTriggerRefetch}: ResourceCa
                     </View>
                 ))}
             </View>
-            <View className="mt-[-2px]a">
+            <TouchableOpacity className="" onPress={()=>{
+                navigation.navigate("SectionNavigator", {
+                    screen: "ResourceDetailsScreen",
+                    params: {
+                        resourceItem: resourceItem,
+                    }
+                })
+            }}
+            disabled={!isTruncated}>
                 <Text className="font-poppins text-[17px]">{resourceItem?.title}</Text>
-                <Text className="font-poppinsLight text-gray-700 mt-1 text-[15px]">{resourceItem?.content}</Text>
-            </View>
+                <Text className="font-poppinsLight text-gray-700 mt-1 text-[15px]"
+                      numberOfLines={measured ? 11 : undefined}
+                      onTextLayout={(e) => {
+                          if (!measured) {
+                              setIsTruncated(e.nativeEvent.lines.length > 11);
+                              setMeasured(true);
+                          }
+                      }}>
+                    {resourceItem?.content}
+                </Text>
+                {isTruncated &&
+                    <TouchableOpacity onPress={()=>{
+                        navigation.navigate("SectionNavigator", {
+                            screen: "ResourceDetailsScreen",
+                            params: {
+                                resourceItem: resourceItem,
+                            }
+                        })
+                    }}>
+                        <Text className="font-poppins text-gray-800 text-[15px]">Read More...</Text>
+                    </TouchableOpacity>
+                }
+            </TouchableOpacity>
 
             <ConfirmationModal visible={deleteConfirmModalVisible}
                                onClose={() => setDeleteConfirmModalVisible(false)}
