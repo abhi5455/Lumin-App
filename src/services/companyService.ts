@@ -134,4 +134,67 @@ export const companyService = {
         }
         return data;
     },
+
+    async getYearlyPlacements(companyId: string) {
+        const {data, error} = await supabase
+            .from('rstudentcompany')
+            .select('start_year, student_id')
+            .eq('company_id', companyId);
+
+        if (error) {
+            console.error('Error fetching yearly placements:', error);
+            return null;
+        }
+
+        const yearlyCounts = data.reduce((acc, placement) => {
+            const year = placement.start_year;
+            acc[year] = (acc[year] || 0) + 1;
+            return acc;
+        }, {} as Record<number, number>);
+
+        const yearlyPlacements = Object.entries(yearlyCounts).map(([year, count]) => ({
+            year,
+            placed: count,
+        }));
+
+        return yearlyPlacements;
+    },
+
+    async getDepartmentDistribution(companyId: string) {
+        const {data, error} = await supabase
+            .from('rstudentcompany')
+            .select('student(department(name))')
+            .eq('company_id', companyId);
+
+        if (error) {
+            console.error('Error fetching department distribution:', error);
+            return null;
+        }
+
+        const departmentCounts = data.reduce((acc, item) => {
+            const departmentName = item.student?.department?.name;
+            if (departmentName) {
+                acc[departmentName] = (acc[departmentName] || 0) + 1;
+            }
+            return acc;
+        }, {} as Record<string, number>);
+
+        const departmentDistribution = Object.entries(departmentCounts).map(([name, value]) => ({
+            name: name.split(' ').map(word => word[0]).filter(char=> char === char.toUpperCase()).join(''),
+            value,
+        }));
+
+        departmentDistribution.sort((a,b) => a.value - b.value);
+
+        const colors = ['#14b8a6', '#0d9488', '#0f766e', '#115e59', '#5eead4', '#2dd4bf'];
+
+        const deptDistributionWithColors = departmentDistribution.map((dept, i) => {
+            return {
+                ...dept,
+                color: colors[i % colors.length]
+            };
+        })
+
+        return deptDistributionWithColors;
+    }
 }
