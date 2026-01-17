@@ -28,17 +28,16 @@ Lumin solves these problems by creating a single source of truth for all placeme
 
 ### Screenshots
 
-<div align="center">
-  <img src="./src/assets/demoImages/LuminImg1.png" alt="FlashScreen" width="250"/>
-  <img src="/src/assets/demoImages/LuminImg2.png" alt="Alumni Network" width="250"/>
-  <img src="/src/assets/demoImages/LuminImg3.png" alt="Alumni Details" width="250"/>
-  <img src="/src/assets/demoImages/LuminImg4.png" alt="Company Insights" width="250"/>
-  <img src="/src/assets/demoImages/LuminImg5.png" alt="Company Details" width="250"/>
-  <img src="/src/assets/demoImages/LuminImg7.png" alt="Resources" width="250"/>
-  <img src="/src/assets/demoImages/LuminImg6.png" alt="User Profile" width="250"/>
+<div align="left">
+  <img width="300" alt="LuminImg1" src="https://github.com/user-attachments/assets/2fc13085-a614-4082-a049-203526c658d7" />
+  <img width="300" alt="LuminImg2" src="https://github.com/user-attachments/assets/fd4f3289-8e7f-487f-ba75-93cfd929dfb4" />
+  <img width="300" alt="LuminImg3" src="https://github.com/user-attachments/assets/f96d1b8e-3901-4e45-b53a-3835cf1dfa11" />
+  <img width="300" alt="LuminImg4" src="https://github.com/user-attachments/assets/0d7f8082-9755-4747-844d-8d15a1e5da9c" />
+  <img width="300" alt="LuminImg5" src="https://github.com/user-attachments/assets/21fbfd3c-e3bb-4935-a73e-8db2f4b252f1" />
+  <img width="300" alt="LuminImg6" src="https://github.com/user-attachments/assets/e867bcef-c909-4f24-ab90-cf9c0ccb556c" />
+  <img width="300" alt="LuminImg7" src="https://github.com/user-attachments/assets/788ce09e-a7d8-4564-af7f-5634c2670ead" />
+  <img width="300" alt="LuminImg8" src="https://github.com/user-attachments/assets/fb3f1a4d-545b-49a2-9d53-0710af3ffb60" />
 </div>
-
-> **Setup**: Create a `screenshots` folder in the repository root and add app screenshots
 
 ---
 
