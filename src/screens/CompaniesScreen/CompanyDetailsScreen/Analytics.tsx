@@ -52,7 +52,7 @@ export default function Analytics({company}: { company: ICompany }) {
             id: "1",
             icon: TrendingUp,
             label: "Total Hires",
-            value: company?.total_hires,
+            value: yearlyPlacements.reduce((sum, item) => sum + item.placed, 0),
         },
         {
             id: "2",
