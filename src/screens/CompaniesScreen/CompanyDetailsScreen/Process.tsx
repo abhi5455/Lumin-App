@@ -1,5 +1,5 @@
 import {Text, View} from "react-native";
-import {Wrench} from "lucide-react-native";
+import {BarChart3Icon, Wrench} from "lucide-react-native";
 import {ICompany} from "../../../types/typeCompany.ts";
 
 const recruitmentProcesses = [
@@ -31,16 +31,15 @@ export default function Process({company}: { company: ICompany }) {
     return (
         <>
             <View
-                className="flex flex-col justify-center gap-2 border-[1px] bg-gray-100/35 border-[#006a63]/50 rounded-xl p-2 mx-5 mt-5">
-                <View className="flex flex-row items-center gap-3">
+                className="flex flex-col justify-center gap-2.5 border-[1px] bg-gray-100/35 border-[#006a63]/50 rounded-xl p-2 mx-5 mt-5">
+                <View className="flex flex-row items-start w-full gap-4 mt-2">
                     <View
-                        className="flex justify-center items-center self-start mt-2 ml-2 bg-primary/10 w-12 h-12 rounded-full">
+                        className="flex justify-center items-center self-start ml-2 bg-primary/10 w-[45px] h-[45px] rounded-full">
                         <Wrench size={19} color={"#006a63"}/>
                     </View>
-                    <View className="flex-1">
-                        <Text className="font-poppinsMedium text-lg">
-                            Recruitment Process
-                        </Text>
+                    <View className="">
+                        <Text className="font-poppinsMedium text-lg">Recruitment Process</Text>
+                        <Text className="font-poppinsLight text-gray-600 text-[13px]">From application to offer</Text>
                     </View>
                 </View>
                 {(!company?.recruitmentprocess[0] || (!company?.recruitmentprocess[0]?.process_description && !company?.recruitmentprocess[0]?.recruitmentrounds)) ?
@@ -51,7 +50,7 @@ export default function Process({company}: { company: ICompany }) {
                     <>
                         <Text
                             className="text-black/80 text-[15px] font-poppins indent-8 text-justify px-3 mb-4 leading-6">
-                            {'\u2003'}{'\u2003'}{'\u2003'}{company?.recruitmentprocess[0]?.process_description}
+                            {company?.recruitmentprocess[0]?.process_description}
                         </Text>
 
                         <View className="flex flex-col items-center gap-3 mb-5">
