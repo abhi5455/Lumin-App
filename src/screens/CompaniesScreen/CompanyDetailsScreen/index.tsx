@@ -140,7 +140,7 @@ export default function CompanyDetailsScreen() {
                                     <TouchableOpacity
                                         className="flex justify-center items-center bg-[#f0f6fc]/50  w-12 h-12 rounded-lg border-[1px] border-[#6b7280]/30"
                                         onPress={() => {
-                                            if (!company?.glassdoor_url) {
+                                            if (company?.glassdoor_url) {
                                                 openURL(company?.glassdoor_url)
                                             } else {
                                                 Toast.show({
@@ -158,7 +158,7 @@ export default function CompanyDetailsScreen() {
                                     <TouchableOpacity
                                         className="flex flex-1 flex-row justify-center items-center gap-2 mt-4 bg-primary py-2 rounded-xl"
                                         onPress={() => {
-                                            if (!company?.glassdoor_url) {
+                                            if (company?.glassdoor_url) {
                                                 openURL(company?.glassdoor_url)
                                             } else {
                                                 Toast.show({
