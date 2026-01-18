@@ -31,9 +31,22 @@ export function ResourceCard({resourceItem, type, setTriggerRefetch}: ResourceCa
 
     const [isTruncated, setIsTruncated] = useState(false);
     const [measured, setMeasured] = useState(false);
-    //
-    // const [downloading, setDownloading] = useState(false);
-    // const [progress, setProgress] = useState(0);
+
+    const [downloadStates, setDownloadStates] = useState({});
+
+    const setDownloading = (fileId, isDownloading) => {
+        setDownloadStates(prev => ({
+            ...prev,
+            [fileId]: { ...prev[fileId], downloading: isDownloading }
+        }));
+    };
+
+    const setProgress = (fileId, progress) => {
+        setDownloadStates(prev => ({
+            ...prev,
+            [fileId]: { ...prev[fileId], progress }
+        }));
+    };
 
     return (
         <View
@@ -152,30 +165,36 @@ export function ResourceCard({resourceItem, type, setTriggerRefetch}: ResourceCa
 
             <View className="flex flex-row flex-wrap justify-start items-center gap-2">
                 {resourceItem?.files && resourceItem?.files?.length > 0 && resourceItem.files.map((file, fileIndex) => {
-                    const [downloading, setDownloading] = useState(false);
-                    const [progress, setProgress] = useState(0);
+                    const fileState = downloadStates[file?.id] || { downloading: false, progress: 0 };
 
                     return (
-                    <TouchableOpacity
-                        className="flex flex-row gap-2 self-start bg-gray-100 border-gray-300 border-0 py-1.5 rounded-xl max-w-fit px-3"
-                        key={file?.id}
-                        onPress={() => {
-                            downloadFile('https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf', file?.file_name, setDownloading, setProgress, file?.file_type);
-                        }}>
-                        {file?.file_type === "image" ?
-                            <ImageIcon size={17} color={"#4b5563"}/>
-                            : <FileText size={17} color={"#4b5563"}/>
-                        }
-                        {downloading ?
-                            <View className="flex flex-row gap-2">
-                                <ActivityIndicator size={15} color="#4b5563" className="mb-1"/>
-                                <Text className="text-gray-600 font-poppins text-[13px]">{progress}%</Text>
-                            </View>
-                            :
-                            <Text className="text-gray-600 font-poppins text-[13px]">{file?.file_name}</Text>
-                        }
-                    </TouchableOpacity>
-                )})}
+                        <TouchableOpacity
+                            className="flex flex-row gap-2 self-start bg-gray-100 border-gray-300 border-0 py-1.5 rounded-xl max-w-fit px-3"
+                            key={file?.id}
+                            onPress={() => {
+                                downloadFile(
+                                    'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+                                    file?.file_name,
+                                    (val) => setDownloading(file?.id, val),
+                                    (val) => setProgress(file?.id, val),
+                                    file?.file_type
+                                );
+                            }}>
+                            {file?.file_type === "image" ?
+                                <ImageIcon size={17} color={"#4b5563"}/>
+                                : <FileText size={17} color={"#4b5563"}/>
+                            }
+                            {fileState.downloading ?
+                                <View className="flex flex-row gap-2">
+                                    <ActivityIndicator size={15} color="#4b5563" className="mb-1"/>
+                                    <Text className="text-gray-600 font-poppins text-[13px]">{fileState.progress}%</Text>
+                                </View>
+                                :
+                                <Text className="text-gray-600 font-poppins text-[13px]">{file?.file_name}</Text>
+                            }
+                        </TouchableOpacity>
+                    );
+                })}
             </View>
             {/*<View className="flex flex-row gap-2 self-start bg-[#DAA520]/10 border-[#DAA520]/40 border-0 py-1.5 rounded-xl max-w-fit px-3">*/}
             {/*    <FileText size={17} color={"#DAA520"}/>*/}
