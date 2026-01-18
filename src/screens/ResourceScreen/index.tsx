@@ -1,4 +1,4 @@
-import {ActivityIndicator, ScrollView, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {ActivityIndicator, ScrollView, StatusBar, Text, TextInput, TouchableOpacity, View} from "react-native";
 import {SafeAreaView} from "react-native-safe-area-context";
 import {ChevronLeft, PlusIcon, Search} from "lucide-react-native";
 import {useCallback, useEffect, useRef, useState} from "react";
@@ -133,6 +133,13 @@ export default function ResourceScreen() {
                 })
         }
     }, [selectedFilter, debouncedSearchValue]);
+
+    useFocusEffect(
+        useCallback(() => {
+            StatusBar.setBarStyle('light-content')
+            StatusBar.setBackgroundColor('#00b19f')
+        }, [])
+    );
 
     return (
         <SafeAreaView className="flex-1">

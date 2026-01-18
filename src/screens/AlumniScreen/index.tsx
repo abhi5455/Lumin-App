@@ -46,10 +46,12 @@ export default function AlumniScreen() {
         };
     }, [searchValue]);
 
-    useEffect(() => {
-        StatusBar.setBarStyle('light-content')
-        StatusBar.setBackgroundColor(filterModalVisible ? '#01584f' : '#00b19f')
-    }, [filterModalVisible])
+    useFocusEffect(
+        useCallback(() => {
+            StatusBar.setBarStyle('light-content')
+            StatusBar.setBackgroundColor(filterModalVisible ? '#01584f' : '#00b19f')
+        }, [filterModalVisible])
+    );
 
     const prevFilterOptionsRef = useRef(filterOptions);
 

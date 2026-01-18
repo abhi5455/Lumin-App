@@ -41,6 +41,13 @@ export default function SplashScreen() {
         }, [navigation])
     );
 
+    useFocusEffect(
+        useCallback(() => {
+            StatusBar.setBarStyle('dark-content')
+            StatusBar.setBackgroundColor('#FFFFFF')
+        }, [])
+    );
+
     return (
         <>
             <StatusBar barStyle={"dark-content"} backgroundColor="#ffffff"/>

@@ -147,10 +147,12 @@ export default function ProfileScreen() {
 
     const [isInstitutionModalVisible, setIsInstitutionModalVisible] = useState(false);
 
-    useEffect(() => {
-        StatusBar.setBarStyle('light-content')
-        StatusBar.setBackgroundColor(isInstitutionModalVisible || isConfirmationModalVisible ? '#01584f' : '#00b19f')
-    }, [isInstitutionModalVisible, isConfirmationModalVisible])
+    useFocusEffect(
+        useCallback(() => {
+            StatusBar.setBarStyle('light-content')
+            StatusBar.setBackgroundColor(isInstitutionModalVisible || isConfirmationModalVisible ? '#01584f' : '#00b19f')
+        }, [isInstitutionModalVisible, isConfirmationModalVisible])
+    );
 
     return (
         <SafeAreaView className="flex-1">
