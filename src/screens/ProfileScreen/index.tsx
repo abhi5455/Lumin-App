@@ -172,8 +172,7 @@ export default function ProfileScreen() {
                             <Text className="font-poppinsMedium text-[18px]">{userProfile?.name}</Text>
                             {userProfile?.status === 'alumni' ?
                                 <Text
-                                    className="font-poppinsLight text-gray-600 text-center">{currentCompany?.position} at
-                                    {currentCompany?.company?.name}</Text>
+                                    className="font-poppinsLight text-gray-600 text-center">{currentCompany?.position} at {currentCompany?.company?.name}</Text>
                                 :
                                 <Text className="font-poppinsLight text-gray-600 text-center">Student at
                                     {userProfile?.college?.name}</Text>
