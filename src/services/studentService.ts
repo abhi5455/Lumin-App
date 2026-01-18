@@ -12,7 +12,7 @@ export const studentService = {
         const {data, error} =
             await supabase.from('student')
                 .select(`*, college(*), department(*), rstudentcompany(*, company(*)), studenteducation(*)`)
-                .order('created_at', { ascending: false });
+                .order('created_at', {ascending: false});
 
         if (error) {
             console.log("Error: ", error);
@@ -26,7 +26,7 @@ export const studentService = {
             await supabase.from('student')
                 .select(`*, college(*), department(*), rstudentcompany(*, company(*)), studenteducation(*)`)
                 .eq('college_id', collegeId)
-                .order('created_at', { ascending: false });
+                .order('created_at', {ascending: false});
 
         if (error) {
             console.log("Error: ", error);
@@ -35,65 +35,65 @@ export const studentService = {
         return data;
     },
 
-async getAllAlumniByCollegeId(collegeId: string, filters?: AlumniFilters, searchValue?: string) {
-    let departmentPart = 'department(*)';
-    // Always fetch full company history for display
-    const companyDataPart = 'rstudentcompany(*, company(*))';
+    async getAllAlumniByCollegeId(collegeId: string, filters?: AlumniFilters, searchValue?: string) {
+        let departmentPart = 'department(*)';
+        // Always fetch full company history for display
+        const companyDataPart = 'rstudentcompany(*, company(*))';
 
-    if (filters?.Departments && filters.Departments.length > 0) {
-        departmentPart = 'department!inner(*)';
-    }
-
-    let selectQuery = `*, college(*), ${departmentPart}, ${companyDataPart}, studenteducation(*)`;
-
-    // If filtering by company, add an aliased inner join to filter parents without restricting children in the main response
-    if (filters?.Companies && filters.Companies.length > 0) {
-        selectQuery += `, filtered_companies:rstudentcompany!inner(company!inner(name))`;
-    }
-
-    let query = supabase
-        .from('student')
-        .select(selectQuery)
-        .eq('college_id', collegeId)
-        .eq('status', 'alumni');
-
-    // Graduation Year filter
-    if (filters?.GraduationYears && filters.GraduationYears.length > 0) {
-        const years = filters.GraduationYears.map(y => parseInt(y)).filter(n => !isNaN(n));
-        if (years.length > 0) {
-            query = query.in('graduate_year', years);
+        if (filters?.Departments && filters.Departments.length > 0) {
+            departmentPart = 'department!inner(*)';
         }
-    }
 
-    // Degree filter
-    if (filters?.Departments && filters.Departments.length > 0) {
-        // The modal passes department codes (e.g., "CSE", "ECE")
-        query = query.in('department.code', filters.Departments);
-    }
+        let selectQuery = `*, college(*), ${departmentPart}, ${companyDataPart}, studenteducation(*)`;
 
-    // Company filter (filtering using the alias)
-    if (filters?.Companies && filters.Companies.length > 0) {
-        query = query.in('filtered_companies.company.name', filters.Companies);
-    }
+        // If filtering by company, add an aliased inner join to filter parents without restricting children in the main response
+        if (filters?.Companies && filters.Companies.length > 0) {
+            selectQuery += `, filtered_companies:rstudentcompany!inner(company!inner(name))`;
+        }
 
-    if(searchValue && searchValue.trim() !== "") {
-        const searchTerm = `%${searchValue.trim().toLowerCase()}%`;
-        query = query.or(
-            `name.ilike.${searchTerm},admission_number.ilike.${searchTerm}`
-        );
-    }
+        let query = supabase
+            .from('student')
+            .select(selectQuery)
+            .eq('college_id', collegeId)
+            .eq('status', 'alumni');
 
-    query = query.order('created_at', { ascending: false });
+        // Graduation Year filter
+        if (filters?.GraduationYears && filters.GraduationYears.length > 0) {
+            const years = filters.GraduationYears.map(y => parseInt(y)).filter(n => !isNaN(n));
+            if (years.length > 0) {
+                query = query.in('graduate_year', years);
+            }
+        }
 
-    const { data, error } = await query;
+        // Degree filter
+        if (filters?.Departments && filters.Departments.length > 0) {
+            // The modal passes department codes (e.g., "CSE", "ECE")
+            query = query.in('department.code', filters.Departments);
+        }
 
-    if (error) {
-        console.log("Error: ", error);
-        throw error;
-    }
+        // Company filter (filtering using the alias)
+        if (filters?.Companies && filters.Companies.length > 0) {
+            query = query.in('filtered_companies.company.name', filters.Companies);
+        }
 
-    return data;
-},
+        if (searchValue && searchValue.trim() !== "") {
+            const searchTerm = `%${searchValue.trim().toLowerCase()}%`;
+            query = query.or(
+                `name.ilike.${searchTerm},admission_number.ilike.${searchTerm}`
+            );
+        }
+
+        query = query.order('created_at', {ascending: false});
+
+        const {data, error} = await query;
+
+        if (error) {
+            console.log("Error: ", error);
+            throw error;
+        }
+
+        return data;
+    },
 
     async getById(id: string) {
         const {data, error} =
@@ -153,7 +153,6 @@ async getAllAlumniByCollegeId(collegeId: string, filters?: AlumniFilters, search
 }
 
 
-
 async function createStudentWithAuth(studentData, collegeId) {
     const {
         admission_number,
@@ -171,7 +170,7 @@ async function createStudentWithAuth(studentData, collegeId) {
 
     try {
         // Get department ID
-        const { data: department, error: deptError } = await supabase
+        const {data: department, error: deptError} = await supabase
             .from('department')
             .select('id')
             .eq('code', department_code)
@@ -187,7 +186,7 @@ async function createStudentWithAuth(studentData, collegeId) {
         const temporaryPassword = "Test@123";
 
         // Create auth user
-        const { data: authUser, error: authError } = await supabase.auth.admin.createUser({
+        const {data: authUser, error: authError} = await supabase.auth.admin.createUser({
             email: authEmail, // Internal auth email
             password: temporaryPassword,
             email_confirm: true, // Auto-confirm
@@ -205,7 +204,7 @@ async function createStudentWithAuth(studentData, collegeId) {
         }
 
         // Insert into Student table
-        const { data: student, error: studentError } = await supabase
+        const {data: student, error: studentError} = await supabase
             .from('student')
             .insert({
                 id: authUser.user.id, // Same UUID as auth.users
@@ -273,7 +272,7 @@ async function batchCreateStudents(studentsData, collegeId) {
         await new Promise(resolve => setTimeout(resolve, 100));
     }
 
-    return { results, credentials };
+    return {results, credentials};
 }
 
-export { createStudentWithAuth, batchCreateStudents };
+export {createStudentWithAuth, batchCreateStudents};
