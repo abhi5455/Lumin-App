@@ -19,6 +19,7 @@ import {clearUserProfile, getUserProfile} from "../../lib/userStorage.ts";
 import {useFocusEffect} from "@react-navigation/native";
 import ConfirmationModal from "./ConfirmationModal.tsx";
 import {IStudent} from "../../types/type_student.ts";
+import Toast from "react-native-toast-message";
 
 export default function ProfileScreen() {
     const navigation = useAppNavigation()
@@ -59,7 +60,15 @@ export default function ProfileScreen() {
             title: "Change Password",
             subtitle: "Update your account credentials",
             icon: <Lock size={20} color={"#006a63"}/>,
-            action: () => console.log("Navigate to Change Password"),
+            action: () => {
+                Toast.show({
+                        type: "info",
+                        text1: "Can't Change Password!",
+                        text2: "This is a test user. You cannot change password.",
+                        position: "top"
+                    }
+                )
+            },
         },
         // {
         //     title: "Create Alumni",
