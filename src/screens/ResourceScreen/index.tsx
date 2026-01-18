@@ -137,9 +137,9 @@ export default function ResourceScreen() {
     return (
         <SafeAreaView className="flex-1">
             <View className="flex flex-row justify-between items-center gap-4 bg-primary h-[65px] px-5 pr-8">
-                <View className="flex flex-row items-center gap-4 bg-primary h-[65px]">
+                <View className="flex flex-row items-center gap-1 bg-primary h-[65px]">
                     {(type && type === "myContributions") &&
-                        <TouchableOpacity onPress={() => navigation.goBack()}>
+                        <TouchableOpacity onPress={() => navigation.goBack()} className="py-2 pr-3">
                             <ChevronLeft size={25} color={"#FFFFFF"}/>
                         </TouchableOpacity>
                     }
