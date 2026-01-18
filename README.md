@@ -25,6 +25,12 @@ Lumin solves these problems by creating a single source of truth for all placeme
 
 ### Try the App
 **[Download Lumin APK from Google Drive](https://drive.google.com/drive/folders/1plvQ-pelUM0-mNcRpNQJqj6Fgz0lCUAS?usp=drive_link)**
+#### 🔑 Demo Credentials
+```text
+Admission Number: DCE2022001
+Password: Test@123
+```
+
 
 ### Screenshots
 
@@ -215,5 +221,9 @@ Contributions are welcome! To contribute:
 
 - **Repository**: [github.com/abhi5455/Lumin-App](https://github.com/abhi5455/Lumin-App)
 - **APK Download**: [Google Drive](https://drive.google.com/drive/folders/1plvQ-pelUM0-mNcRpNQJqj6Fgz0lCUAS?usp=drive_link)
-
+#### 🔑 Demo Credentials
+```text
+Admission Number: DCE2022001
+Password: Test@123
+```
 ---
