@@ -13,7 +13,7 @@ export const resourceService = {
                 resourcekeywords(*),
                 company:company_id(*)
             `)
-            .order('created_at', {ascending: false});
+            .order('updated_at', {ascending: false});
 
         if (error) {
             console.log("Error: ", error);
@@ -92,7 +92,8 @@ export const resourceService = {
             resourcekeywords(*), 
             company:company_id(*) 
         `)
-            .eq('college_id', collegeId);
+            .eq('college_id', collegeId)
+            .order('updated_at', {ascending: false});
 
         const {data, error} = await query.order('created_at', {ascending: false});
 
@@ -133,7 +134,8 @@ export const resourceService = {
                 company:company_id(*)
             `)
             .eq('college_id', collegeId)
-            .eq('company_id', companyId);
+            .eq('company_id', companyId)
+            .order('updated_at', {ascending: false});
 
         const {data, error} = await query.order('created_at', {ascending: false});
         if (error) {
@@ -173,7 +175,7 @@ export const resourceService = {
                 company:company_id(*)
             `)
             .eq('uploaded_by_student_id', studentId)
-            .order('created_at', {ascending: false});
+            .order('updated_at', {ascending: false});
 
         if (error) {
             console.log("Error: ", error);
