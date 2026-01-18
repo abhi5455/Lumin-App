@@ -1,4 +1,4 @@
-import {ActivityIndicator, StatusBar, Text, TouchableOpacity, View} from "react-native";
+import {ActivityIndicator, ScrollView, StatusBar, Text, TouchableOpacity, View} from "react-native";
 import {ChevronLeft, EllipsisVertical, Pencil, Trash2} from "lucide-react-native";
 import {IResource} from "../../../types/type_resource.ts";
 import {formatDistanceToNow} from "date-fns";
@@ -112,7 +112,7 @@ export function ResourceDetailsScreen() {
             </View>
 
             <View className="bg-primary flex-1">
-                <View className="bg-white flex-1 rounded-t-[30px]">
+                <ScrollView className="bg-white flex-1 rounded-t-[30px]">
                     {!isLoading ?
                         <View
                             className="flex flex-col justify-start gap-2.5 border-b-[1px] border-gray-100 pb-4 mb-4 mx-4 mt-5">
@@ -162,7 +162,7 @@ export function ResourceDetailsScreen() {
                             <ActivityIndicator size={30} color="#00b19f" className="mt-[4vh]"/>
                         </View>
                     }
-                </View>
+                </ScrollView>
             </View>
             <ConfirmationModal visible={deleteConfirmModalVisible}
                                onClose={() => setDeleteConfirmModalVisible(false)}
