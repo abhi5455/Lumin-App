@@ -1,4 +1,4 @@
-import {StatusBar, Text, TouchableOpacity, View} from "react-native";
+import {StatusBar, Text, TouchableOpacity, View, ActivityIndicator} from "react-native";
 import {EllipsisVertical, FileText, ImageIcon, Pencil, Trash2} from "lucide-react-native";
 import {IResource} from "../../../types/type_resource.ts";
 import {formatDistanceToNow} from "date-fns";
@@ -9,6 +9,7 @@ import {getUserProfile} from "../../../lib/userStorage.ts";
 import ConfirmationModal from "../../ProfileScreen/ConfirmationModal.tsx";
 import {resourceService} from "../../../services/resourceService.ts";
 import Toast from "react-native-toast-message";
+import {downloadFile} from "../../../lib/downloadMedia.ts";
 
 interface ResourceCardProps {
     resourceItem: IResource;
@@ -30,6 +31,9 @@ export function ResourceCard({resourceItem, type, setTriggerRefetch}: ResourceCa
 
     const [isTruncated, setIsTruncated] = useState(false);
     const [measured, setMeasured] = useState(false);
+    //
+    // const [downloading, setDownloading] = useState(false);
+    // const [progress, setProgress] = useState(0);
 
     return (
         <View
@@ -102,7 +106,7 @@ export function ResourceCard({resourceItem, type, setTriggerRefetch}: ResourceCa
                         </View>
                     }
                     <Text
-                        className="font-poppins text-gray-500 text-[13px]">{formatDistanceToNow(new Date(new Date(resourceItem?.updated_at || '').getTime() + 5.5 * 60 * 60 * 1000), { addSuffix: true })}</Text>
+                        className="font-poppins text-gray-500 text-[13px]">{formatDistanceToNow(new Date(new Date(resourceItem?.updated_at || '').getTime() + 5.5 * 60 * 60 * 1000), {addSuffix: true})}</Text>
                 </View>
             </View>
             <View className="flex flex-row flex-wrap justify-start items-center gap-2">
@@ -146,17 +150,33 @@ export function ResourceCard({resourceItem, type, setTriggerRefetch}: ResourceCa
                 }
             </TouchableOpacity>
 
-            {resourceItem?.files && resourceItem?.files?.length > 0 && resourceItem.files.map((file, fileIndex) => (
-                <TouchableOpacity
-                    className="flex flex-row gap-2 self-start bg-gray-100 border-gray-300 border-0 py-1.5 rounded-xl max-w-fit px-3"
-                    key={file?.id}>
-                    {file?.file_type === "image" ?
-                        <ImageIcon size={17} color={"#4b5563"}/>
-                        : <FileText size={17} color={"#4b5563"}/>
-                    }
-                    <Text className="text-gray-600 font-poppins text-[13px]">{file?.file_name}</Text>
-                </TouchableOpacity>
-            ))}
+            <View className="flex flex-row flex-wrap justify-start items-center gap-2">
+                {resourceItem?.files && resourceItem?.files?.length > 0 && resourceItem.files.map((file, fileIndex) => {
+                    const [downloading, setDownloading] = useState(false);
+                    const [progress, setProgress] = useState(0);
+
+                    return (
+                    <TouchableOpacity
+                        className="flex flex-row gap-2 self-start bg-gray-100 border-gray-300 border-0 py-1.5 rounded-xl max-w-fit px-3"
+                        key={file?.id}
+                        onPress={() => {
+                            downloadFile('https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf', file?.file_name, setDownloading, setProgress, file?.file_type);
+                        }}>
+                        {file?.file_type === "image" ?
+                            <ImageIcon size={17} color={"#4b5563"}/>
+                            : <FileText size={17} color={"#4b5563"}/>
+                        }
+                        {downloading ?
+                            <View className="flex flex-row gap-2">
+                                <ActivityIndicator size={15} color="#4b5563" className="mb-1"/>
+                                <Text className="text-gray-600 font-poppins text-[13px]">{progress}%</Text>
+                            </View>
+                            :
+                            <Text className="text-gray-600 font-poppins text-[13px]">{file?.file_name}</Text>
+                        }
+                    </TouchableOpacity>
+                )})}
+            </View>
             {/*<View className="flex flex-row gap-2 self-start bg-[#DAA520]/10 border-[#DAA520]/40 border-0 py-1.5 rounded-xl max-w-fit px-3">*/}
             {/*    <FileText size={17} color={"#DAA520"}/>*/}
             {/*    <Text className="text-[#DAA520] font-poppins text-[13px]">test1.pdf</Text>*/}
