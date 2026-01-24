@@ -255,7 +255,44 @@ async function uploadMultipleFiles(options = {}) {
     }
 }
 
-// Simple usage wrapper
+
+async function uploadPickedFile(file: any) {
+    const filePath = file.fileCopyUri || file.uri;
+    const cleanPath = filePath.replace('file://', '');
+    const base64Data = await ReactNativeBlobUtil.fs.readFile(cleanPath, 'base64');
+    const arrayBuffer = Uint8Array.from(atob(base64Data), c => c.charCodeAt(0));
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${Date.now()}.${fileExt}`;
+    const {data, error} = await supabase.storage
+        .from('resource_uploads')
+        .upload(fileName, arrayBuffer, {
+            contentType: file.type,
+            upsert: false,
+        });
+
+    if (error) {
+        throw error;
+    }
+
+    const {data: urlData} = supabase.storage
+        .from('resource_uploads')
+        .getPublicUrl(data.path);
+
+    return {file_name: fileName, file_type: file.type, file_url: urlData.publicUrl}
+}
+
+async function handleMultipleFileUploads(files: any[]) {
+    const uploadPromises = files.map(uploadPickedFile);
+    try {
+        const fileRecords = await Promise.all(uploadPromises);
+        console.log('Uploaded files ', fileRecords);
+        return fileRecords
+    } catch (error) {
+        console.error('Error uploading files:', error);
+        throw new Error('An error occurred while uploading files.');
+    }
+}
+
 async function handleFileUpload(options = {}) {
     try {
         const result = await uploadFileToSupabase(options);
@@ -271,5 +308,7 @@ export {
     uploadFileToSupabase,
     uploadSpecificFileType,
     uploadMultipleFiles,
-    handleFileUpload
+    handleFileUpload,
+    uploadPickedFile,
+    handleMultipleFileUploads
 };

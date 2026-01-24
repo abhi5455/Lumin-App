@@ -12,6 +12,11 @@ import Toast from "react-native-toast-message";
 import {resourceService} from "../../../services/resourceService.ts";
 import {RouteProp, useRoute} from "@react-navigation/core";
 import {IResource} from "../../../types/type_resource.ts";
+import {pick, types} from "@react-native-documents/picker";
+import {handleMultipleFileUploads} from "../../../lib/uploadMedia.ts";
+import {decode} from "base-64";
+
+global.atob = decode;
 
 interface IAddResourceScreen {
     type?: "add" | "edit";
@@ -30,6 +35,8 @@ export default function AddResourceScreen() {
     const [attachCompanyModalVisible, setAttachCompanyModalVisible] = useState(false);
     const [companies, setCompanies] = useState<ICompany[]>([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [selectedFiles, setSelectedFiles] = useState<any[]>([]);
+    const [uploading, setUploading] = useState(false);
 
     useEffect(() => {
         StatusBar.setBarStyle('light-content')
@@ -46,6 +53,36 @@ export default function AddResourceScreen() {
                 console.log("Error fetching companies: ", error);
             })
     }, []);
+
+    const handleFilePick = async () => {
+        if (selectedFiles.length >= 3) {
+            Toast.show({
+                type: 'error',
+                text1: 'Maximum Files Reached',
+                text2: 'You can only attach up to 3 files.'
+            });
+            return;
+        }
+        try {
+            const result = await pick({
+                type: [types.allFiles],
+                allowMultiSelection: true,
+                copyTo: 'cachesDirectory',
+            });
+            const newFiles = [...selectedFiles, ...result];
+            if (newFiles.length > 3) {
+                Toast.show({
+                    type: 'error',
+                    text1: 'Maximum Files Exceeded',
+                    text2: `You can only select up to 3 files in total. You have already selected ${selectedFiles.length}.`
+                });
+                return;
+            }
+            setSelectedFiles(newFiles);
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
     return (
         <SafeAreaView className="flex-1">
@@ -98,11 +135,11 @@ export default function AddResourceScreen() {
                                 <View className="flex flex-row justify-start items-center gap-3 flex-wrap mt-5">
                                     {tags?.map((tag, index) => (
                                         <View
-                                            className="flex flex-row justify-start items-center bg-primary/10 gap-1 rounded-xl py-2 px-4"
+                                            className="flex flex-row justify-start items-center bg-primary/10 gap-1 rounded-xl py-2 px-4 border-[1px] border-[#006a63]/40"
                                             key={index}>
                                             <TouchableOpacity onPress={() => {
                                                 setTags(prev => prev.filter(t => t !== tag))
-                                            }}>
+                                            }} disabled={isLoading}>
                                                 <X size={16} color={'rgb(0 0 0 / 0.65)'}/>
                                             </TouchableOpacity>
                                             <Text
@@ -114,7 +151,8 @@ export default function AddResourceScreen() {
                                             className="flex flex-row justify-start items-center gap-1 border border-dashed border-gray-300 rounded-xl py-2 px-4"
                                             onPress={() => {
                                                 setTagModalVisible(true)
-                                            }}>
+                                            }}
+                                            disabled={isLoading}>
                                             <PlusIcon size={20}/>
                                             <Text className="text-black font-poppinsMedium text-md">Add New</Text>
                                         </TouchableOpacity>
@@ -126,7 +164,7 @@ export default function AddResourceScreen() {
                         {/*Company*/}
                         <TouchableOpacity className="relative flex flex-col gap-2 mb-4 mt-2" onPress={() => {
                             setAttachCompanyModalVisible(true)
-                        }}>
+                        }} disabled={isLoading}>
                             <View
                                 className="relative flex flex-col items-start border border-gray-300 rounded-xl px-4 py-2 pb-3 gap-4">
                                 <Text
@@ -149,11 +187,45 @@ export default function AddResourceScreen() {
                                 }
                             </View>
                         </TouchableOpacity>
+
+                        {/* Attachments */}
+                        <View className="relative flex flex-col gap-2 mb-4 mt-1">
+                            <View
+                                className="relative flex flex-col items-start border border-gray-300 rounded-xl px-4 py-2 pb-3 gap-4">
+                                <Text
+                                    className={`absolute top-[-10px] left-[7px] z-50 px-1 bg-white text-gray-300 font-poppinsMedium text-md ml-2`}>Attachments {selectedFiles?.length}/3</Text>
+                                <View className="flex flex-row justify-start items-center gap-3 flex-wrap mt-5">
+                                    {selectedFiles?.map((file, index) => (
+                                        <View
+                                            className="flex flex-row justify-start items-center bg-primary/10 gap-1 rounded-xl py-2 px-4 border-[1px] border-[#006a63]/40"
+                                            key={index}>
+                                            <TouchableOpacity onPress={() => {
+                                                setSelectedFiles(prev => prev.filter((_, i) => i !== index))
+                                            }}
+                                                              disabled={isLoading}>
+                                                <X size={16} color={'rgb(0 0 0 / 0.65)'}/>
+                                            </TouchableOpacity>
+                                            <Text
+                                                className="text-[#006a63] font-poppinsMedium text-md ml-1">{file.name}</Text>
+                                        </View>
+                                    ))}
+                                    {selectedFiles.length < 3 &&
+                                        <TouchableOpacity
+                                            className="flex flex-row justify-start items-center gap-1 border border-dashed border-gray-300 rounded-xl py-2 px-4"
+                                            onPress={handleFilePick}
+                                            disabled={isLoading}>
+                                            <PlusIcon size={20}/>
+                                            <Text className="text-black font-poppinsMedium text-md">Attach Files</Text>
+                                        </TouchableOpacity>
+                                    }
+                                </View>
+                            </View>
+                        </View>
                     </ScrollView>
                     <View className="flex flex-row justify-center items-center gap-3 px-4 pt-3">
                         <TouchableOpacity
                             className="flex-1 bg-primary py-4 rounded-2xl items-center justify-center"
-                            onPress={() => {
+                            onPress={async () => {
                                 if (title.trim() === "" || content.trim() === "") {
                                     Toast.show({
                                         type: 'error',
@@ -171,6 +243,26 @@ export default function AddResourceScreen() {
                                     return;
                                 }
                                 setIsLoading(true);
+                                setUploading(true);
+
+                                let fileRecords = []
+
+                                if (selectedFiles.length > 0) {
+                                    try {
+                                        const uploadedFiles = await handleMultipleFileUploads(selectedFiles);
+                                        fileRecords = uploadedFiles
+                                    } catch (e) {
+                                        Toast.show({
+                                            type: 'error',
+                                            text1: 'Upload Failed',
+                                            text2: 'An error occurred while uploading files.'
+                                        });
+                                        setIsLoading(false);
+                                        setUploading(false);
+                                        return;
+                                    }
+                                }
+
                                 setTags(prev => attachedCompany ? [...prev, attachedCompany.name] : [...prev]);
                                 const userProfile = getUserProfile();
                                 if (type === "edit" && resourceItem) {
@@ -184,8 +276,10 @@ export default function AddResourceScreen() {
                                         is_verified: true,
                                         company_id: attachedCompany ? attachedCompany.id : null,
                                         keywords: attachedCompany ? [attachedCompany?.name, ...tags] : tags,
+                                        files: fileRecords,
                                     }).then(() => {
                                         setIsLoading(false);
+                                        setUploading(false);
                                         Toast.show({
                                             type: 'success',
                                             text1: 'Resource Updated',
@@ -194,6 +288,7 @@ export default function AddResourceScreen() {
                                         navigation.goBack();
                                     }).catch((error) => {
                                         setIsLoading(false);
+                                        setUploading(false);
                                         setTags(prev => attachedCompany ? prev.filter(t => t !== attachedCompany.name) : prev);
                                         console.log("Error editing resource: ", error);
                                         console.log("Payload: ", error.message)
@@ -212,8 +307,10 @@ export default function AddResourceScreen() {
                                         is_verified: true,
                                         company_id: attachedCompany ? attachedCompany.id : null,
                                         keywords: attachedCompany ? [attachedCompany?.name, ...tags] : tags,
+                                        files: fileRecords,
                                     }).then(() => {
                                         setIsLoading(false);
+                                        setUploading(false);
                                         Toast.show({
                                             type: 'success',
                                             text1: 'Resource Created',
@@ -222,6 +319,7 @@ export default function AddResourceScreen() {
                                         navigation.goBack();
                                     }).catch((error) => {
                                         setIsLoading(false);
+                                        setUploading(false);
                                         setTags(prev => attachedCompany ? prev.filter(t => t !== attachedCompany.name) : prev);
                                         console.log("Error creating resource: ", error);
                                         console.log("Payload: ", error.message)
@@ -234,7 +332,7 @@ export default function AddResourceScreen() {
                                 }
 
                             }}>
-                            {!isLoading ?
+                            {(!isLoading && !uploading) ?
                                 <Text
                                     className="text-white font-poppinsMedium text-lg">{type === "edit" ? "Save" : "Create"}</Text>
                                 :

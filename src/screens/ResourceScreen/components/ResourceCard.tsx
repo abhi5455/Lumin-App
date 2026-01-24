@@ -173,7 +173,7 @@ export function ResourceCard({resourceItem, type, setTriggerRefetch}: ResourceCa
                             key={file?.id}
                             onPress={() => {
                                 downloadFile(
-                                    'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+                                    file?.file_url,
                                     file?.file_name,
                                     (val) => setDownloading(file?.id, val),
                                     (val) => setProgress(file?.id, val),
