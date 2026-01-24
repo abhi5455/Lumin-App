@@ -304,11 +304,42 @@ async function handleFileUpload(options = {}) {
     }
 }
 
+async function deleteFileFromBucket(
+    fileUrl: string,
+    bucketName = 'resource_uploads'
+) {
+    try {
+        if (!fileUrl) return;
+        const splitToken = `/object/public/${bucketName}/`;
+        const path = fileUrl.split(splitToken)[1];
+
+        if (!path) {
+            throw new Error('Invalid Supabase file URL');
+        }
+
+        const { error } = await supabase.storage
+            .from(bucketName)
+            .remove([path]);
+
+        if (error) {
+            console.error('Supabase delete error:', error);
+            throw error;
+        }
+
+        console.log('File deleted from bucket:', path);
+        return true;
+    } catch (err) {
+        console.error('Failed to delete file:', err);
+        throw err;
+    }
+}
+
 export {
     uploadFileToSupabase,
     uploadSpecificFileType,
     uploadMultipleFiles,
     handleFileUpload,
     uploadPickedFile,
-    handleMultipleFileUploads
+    handleMultipleFileUploads,
+    deleteFileFromBucket
 };

@@ -38,6 +38,8 @@ export default function AddResourceScreen() {
     const [selectedFiles, setSelectedFiles] = useState<any[]>([]);
     const [uploading, setUploading] = useState(false);
 
+    const [alreadyUploadedFiles, setAlreadyUploadedFiles] = useState(resourceItem ? resourceItem?.files : [])
+
     useEffect(() => {
         StatusBar.setBarStyle('light-content')
         StatusBar.setBackgroundColor(tagModalVisible ? '#01584f' : '#00b19f')
@@ -85,8 +87,8 @@ export default function AddResourceScreen() {
     };
 
     return (
-        <SafeAreaView className="flex-1">
-            <View className="flex flex-row items-center gap-1 bg-primary h-[65px] px-5">
+        <SafeAreaView className="relative flex-1">
+            <View className="flex flex-row items-center gap-1 bg-primary h-[65px] px-5 z-40">
                 <TouchableOpacity onPress={() => navigation.goBack()} className="py-2 pr-3">
                     <ChevronLeft size={25} color={"#FFFFFF"}/>
                 </TouchableOpacity>
@@ -96,7 +98,7 @@ export default function AddResourceScreen() {
 
             <View className="bg-primary flex-1">
                 <View className="bg-white flex-1 justify-between rounded-t-[30px] py-5 px-5">
-                    <ScrollView className="flex flex-col">
+                    <ScrollView className="flex flex-col z-30">
                         {/*Title*/}
                         <View
                             className="relative flex flex-row justify-start items-center border border-gray-300 rounded-xl px-4 mb-5 mt-3">
@@ -195,9 +197,24 @@ export default function AddResourceScreen() {
                                 <Text
                                     className={`absolute top-[-10px] left-[7px] z-50 px-1 bg-white text-gray-300 font-poppinsMedium text-md ml-2`}>Attachments {selectedFiles?.length}/3</Text>
                                 <View className="flex flex-row justify-start items-center gap-3 flex-wrap mt-5">
-                                    {selectedFiles?.map((file, index) => (
+                                    {type === "edit" && alreadyUploadedFiles.length > 0 && alreadyUploadedFiles?.map((file, index) => (
                                         <View
                                             className="flex flex-row justify-start items-center bg-primary/10 gap-1 rounded-xl py-2 px-4 border-[1px] border-[#006a63]/40"
+                                            key={index}>
+                                            <TouchableOpacity onPress={() => {
+                                                setAlreadyUploadedFiles(prev => prev.filter((_, i) => i !== index))
+                                            }}
+                                                              disabled={isLoading}>
+                                                <X size={16} color={'rgb(0 0 0 / 0.65)'}/>
+                                            </TouchableOpacity>
+                                            <Text
+                                                className="text-[#006a63] font-poppinsMedium text-md ml-1">{file.file_name}</Text>
+                                        </View>
+                                    ))}
+
+                                    {selectedFiles?.map((file, index) => (
+                                        <View
+                                            className="flex flex-row flex-wrap break-words justify-start items-center bg-primary/10 gap-1 rounded-xl py-2 px-4 border-[1px] border-[#006a63]/40"
                                             key={index}>
                                             <TouchableOpacity onPress={() => {
                                                 setSelectedFiles(prev => prev.filter((_, i) => i !== index))
@@ -209,7 +226,8 @@ export default function AddResourceScreen() {
                                                 className="text-[#006a63] font-poppinsMedium text-md ml-1">{file.name}</Text>
                                         </View>
                                     ))}
-                                    {selectedFiles.length < 3 &&
+                                    {((type === "edit" && alreadyUploadedFiles.length + selectedFiles.length < 3) ||
+                                            (type === "add" && selectedFiles.length < 3)) &&
                                         <TouchableOpacity
                                             className="flex flex-row justify-start items-center gap-1 border border-dashed border-gray-300 rounded-xl py-2 px-4"
                                             onPress={handleFilePick}
@@ -222,7 +240,7 @@ export default function AddResourceScreen() {
                             </View>
                         </View>
                     </ScrollView>
-                    <View className="flex flex-row justify-center items-center gap-3 px-4 pt-3">
+                    <View className="flex flex-row justify-center items-center gap-3 px-4 pt-3 z-50">
                         <TouchableOpacity
                             className="flex-1 bg-primary py-4 rounded-2xl items-center justify-center"
                             onPress={async () => {
@@ -277,7 +295,8 @@ export default function AddResourceScreen() {
                                         company_id: attachedCompany ? attachedCompany.id : null,
                                         keywords: attachedCompany ? [attachedCompany?.name, ...tags] : tags,
                                         files: fileRecords,
-                                    }).then(() => {
+                                    }, resourceItem?.files, alreadyUploadedFiles
+                                        ).then(() => {
                                         setIsLoading(false);
                                         setUploading(false);
                                         Toast.show({
@@ -342,6 +361,11 @@ export default function AddResourceScreen() {
                     </View>
                 </View>
             </View>
+
+
+            {/*<View className="absolute top-0 left-0 h-full w-full bg-black/30 z-40">*/}
+
+            {/*</View>*/}
 
             <AddTagModal visible={tagModalVisible}
                          onClose={() => {

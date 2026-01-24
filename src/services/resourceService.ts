@@ -1,5 +1,6 @@
 import {supabase} from "../lib/supabaseClient.ts";
-import {IResource} from "../types/type_resource.ts";
+import {IFile, IResource} from "../types/type_resource.ts";
+import {deleteFileFromBucket} from "../lib/uploadMedia.ts";
 
 export const resourceService = {
     async getAll() {
@@ -282,9 +283,8 @@ export const resourceService = {
         return data;
     },
 
-    async update(resource: Omit<IResource, 'updated_at'>) {
+    async update(resource: Omit<IResource, 'updated_at'>, initialAttachedFiles: IFile[], currentAttachedFiles: IFile[]) {
         const {keywords, files, ...resourceData} = resource;
-        console.log("Updating resource with data: ", resourceData);
 
         const {data, error} = await supabase
             .from('resources')
@@ -326,10 +326,28 @@ export const resourceService = {
         }
 
         // Delete old files and insert new ones
+        const removedFiles = initialAttachedFiles.filter(initialFile=>(
+            !currentAttachedFiles.some(
+                file=> file.id === initialFile.id
+            )
+        ))
+
+        const removedFileIds = removedFiles.map(file=> file.id)
         await supabase
             .from('files')
             .delete()
-            .eq('resource_id', resource.id);
+            .in('id', removedFileIds);
+        // await supabase
+        //     .from('files')
+        //     .delete()
+        //     .eq('resource_id', resource.id);
+
+        //Removing files from bucket
+        await Promise.all(
+            removedFiles.map(file =>
+                deleteFileFromBucket(file.file_url)
+            )
+        );
 
         if (files && files.length > 0) {
             const resourceFiles = files.map((file) => {

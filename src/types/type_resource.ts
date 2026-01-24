@@ -8,14 +8,7 @@ export interface IResource {
     is_verified: boolean;
     created_at: string;
     updated_at: string;
-    files: {
-        created_at: string
-        file_name: string
-        file_type: string
-        file_url: string
-        id: string
-        resource_id: string
-    }[];
+    files: IFile[];
     company_id: string | null;
     college_id: string;
 
@@ -35,4 +28,14 @@ export interface IResource {
     student: IStudent;
     uploaded_by_student_id: string;
     company: ICompany | null;
+}
+
+export interface IFile{
+    created_at: string
+    file_name: string
+    file_type: string
+    file_url: string
+    id: string
+    resource_id: string
+
 }
