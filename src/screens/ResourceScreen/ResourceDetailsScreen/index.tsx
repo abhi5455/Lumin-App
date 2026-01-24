@@ -175,7 +175,7 @@ export function ResourceDetailsScreen() {
                             </View>
 
                             <View className="flex flex-row flex-wrap justify-start items-center gap-2">
-                                {resourceItem?.files && resourceItem?.files?.length > 0 && resourceItem.files.map((file, fileIndex) => {
+                                {resourceData?.files && resourceData?.files?.length > 0 && resourceData.files.map((file, fileIndex) => {
                                     const fileState = downloadStates[file?.id] || { downloading: false, progress: 0 };
 
                                     return (
